@@ -55,7 +55,7 @@ def line_plot(bigg_list, color=None, out="test.pdf"):
 
     # get the real colour for each leaves (need to +1)
     color_l=[]
-    dcorrd_l=[]
+    dcorrd_l=[] # unused after update
     for n, line in enumerate(zip(Z1["color_list"], Z1["icoord"])):
         x, y=line
         if n==0:
@@ -69,13 +69,10 @@ def line_plot(bigg_list, color=None, out="test.pdf"):
         color_l.append(x)
         dcorrd_l.append(y[1])
 
-    dcorrd_l_new=[]
-    for x in Z1["leaves"]:
-        dcorrd_l_new.append(dcorrd_l[x])
 
     print(len(bigg_list_new), len(color_l), len(dcorrd_l))
 
-    ax2=fig.add_axes([0.25,0.09,0.6,0.85]) # adjust the ax to fit figure
+    ax2=fig.add_axes([0.25,0.09,0.65,0.85]) # adjust the ax to fit figure
     for n,i in enumerate(bigg_list_new):
         i.get_exon(start)
         for exon in i.exon:
