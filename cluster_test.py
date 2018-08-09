@@ -22,9 +22,8 @@ class ClusterTest(unittest.TestCase):
         self.assertEquals(len(self.bigg), 323)
 
     def test_cluster(self):
-        sample = self.bigg[0:50]
+        sample = self.bigg[0:10]
         D=cal_distance(sample)
-        plot_cluster(D)
 
 
     def tearDown(self):

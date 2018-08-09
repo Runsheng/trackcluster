@@ -17,10 +17,12 @@ import scipy
 import pylab
 import scipy.cluster.hierarchy as sch
 
+from utils import parmap
+
 # NCLS is a quick method to find pyrange intersection
 
 
-def cal_distance(bigg_list):
+def cal_distance(bigg_list, core=40):
     """
     speed record:
     50: 177 s
@@ -46,11 +48,28 @@ def cal_distance(bigg_list):
     # use the first one as gene_start
     gene_start=bigg_list[0].chromStart
     # thr order of the bigg_list is used as key to fetch the element further
-    for i, bigg_one in enumerate(bigg_list):
-        for j, bigg_two in enumerate(bigg_list):
-            D[i, j]=bigg_one.bedtool_cal_distance(bigg_two, gene_start)
 
-    with open("d.csv", "w") as fw:
+    # get an pos combination
+    ij_list=[]
+    for i in range(len(bigg_list)):
+        for j in range(1, len(bigg_list)):
+            ij_list.append((i,j))
+
+
+    def run_one(n):
+        i,j=n
+        distance=bigg_list[i].bedtool_cal_distance(bigg_list[j], gene_start)
+        return distance
+
+    dis_l=parmap(run_one, ij_list, core)
+
+    for n, distance in zip(ij_list, dis_l):
+        i,j=n
+        D[i,j]=distance
+        D[j,i]=distance
+
+
+    with open("./test/d.csv", "w") as fw:
         for i in D:
             str_l=[str(x) for x in i]
             fw.write(",".join(str_l))
@@ -59,6 +78,11 @@ def cal_distance(bigg_list):
 
 
 def plot_cluster(D):
+    """
+    test only
+    :param D:
+    :return:
+    """
     fig = pylab.figure(figsize=(8, 8))
     Y = sch.linkage(D, method='centroid')
     Z1 = sch.dendrogram(Y, orientation='left')
