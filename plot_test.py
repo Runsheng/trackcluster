@@ -22,8 +22,8 @@ class PlotTest(unittest.TestCase):
         self.assertEquals(len(self.bigg),323)
 
     def test_plot(self):
-        sample=self.bigg[0:20]
-        line_plot(sample, out="./test/f1.pdf")
+        sample=self.bigg[0:310]
+        line_plot(sample, out="./test/bb.pdf")
 
     def tearDown(self):
         self.bigg=None

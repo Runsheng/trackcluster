@@ -68,7 +68,6 @@ def cal_distance(bigg_list, core=40):
         D[i,j]=distance
         D[j,i]=distance
 
-
     with open("./test/d.csv", "w") as fw:
         for i in D:
             str_l=[str(x) for x in i]
@@ -77,7 +76,13 @@ def cal_distance(bigg_list, core=40):
     return D
 
 
-def plot_cluster(D):
+def filter_bigg(bigg_list):
+    pass
+
+
+
+
+def __plot_cluster(D):
     """
     test only
     :param D:
@@ -90,12 +95,3 @@ def plot_cluster(D):
     fig.savefig("dend.pdf")
 
 
-def cal_distance2(bigg_list):
-    """
-    :param bigg_list:
-    :return:
-    """
-    for n, i in enumerate(bigg_list):
-        if n==0: # use fist one to align the gene tracks
-            start=i.chromStart
-    pass

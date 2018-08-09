@@ -146,7 +146,7 @@ class bigGenePred(object):
             interval_set=interval_set.union(set_one)
         self.interval_set=interval_set
 
-    def cal_distance(self, other_bgp, gene_start):
+    def __cal_distance(self, other_bgp, gene_start):
         """
         for pairwise compare
         compare the distance of this bgp with other bgp in same gene
