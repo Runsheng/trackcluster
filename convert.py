@@ -9,6 +9,7 @@ The processing functions used to change the format of tracks
 
 # self import
 from track import bigGenePred
+from gff import GFF
 
 # third part import
 from pysam import AlignmentFile
@@ -111,32 +112,70 @@ def cigar_count(cigar_tuple):
     return cigaryield
 
 
+#### another function
+
+def gff_to_bigGenePred(gff):
+    """
+    Note gff is 1 start and bigGenePred is 0
+    :param gff: a GFF class with only one gene inside
+    :return:
+    """
+    # may need to return multiple bigg
+    bigg_list=[]
+
+    if gff.transcript_d is None:
+        gff.transcript_format()
+
+    for key in gff.transcript_d.keys():
+        bigg = bigGenePred()
+
+        gene=gff.transcript_to_gene[key]
+
+        for n, record in enumerate(gff.transcript_d[key]):
+            #use the first line to get basic infor
+            if n==0:
+                # rename the values
+                bigg.chrom = record.seqid
+                bigg.name = key
+                bigg.strand = record.frame
+
+                # give colour to reverse and forward strand
+                bigg.reserved = [64, 224, 208] if bigg.strand=="+" else [250, 128, 114]
+                bigg.name2 = key
+
+                # the unchanged fields
+                # bigg.core= 1000
+                # bigg.reserved=255,128,0
+                # bigg.cdsStartStat="none"
+                # bigg.cdsEndStat="none"
+
+                bigg.ttype = "isoform_anno"
+                bigg.geneName = gene
+                # bigg.geneName2=""
+                # bigg.geneType="none"
+                # bigg.thickStart=0
+                # bigg.thickEnd=0
+                bigg.chromStart = record.start-1
+
+            bigg.chromStarts.append(record.start-bigg.chromStart-1)
+            bigg.blockSizes.append(record.end-record.start)
+
+        # use the last end as end
+        bigg.chromEnd = record.end
+
+        try:
+            assert len(bigg.blockSizes) == len(bigg.chromStarts)
+        except AssertionError:
+            print len(bigg.blockSizes), len(bigg.chromStarts)
+        bigg.blockCount = len(bigg.blockSizes)
+        bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)]
+
+        bigg_list.append(bigg)
+
+    return bigg_list
+
+
 if __name__ == "__main__":
-    def test_cigar_count():
-        cigar_tuple = [(4, 95), (0, 28), (2, 1), (0, 14), (2, 2), (0, 5), (2, 1),
-                       (0, 17), (2, 2), (0, 16), (1, 1), (0, 4), (1, 1), (0, 10),
-                       (2, 1), (0, 18), (2, 1), (0, 4), (2, 1), (0, 43), (2, 2),
-                       (0, 14), (1, 1), (0, 13), (2, 1), (0, 6), (1, 1), (0, 21),
-                       (1, 1), (0, 1), (1, 1), (0, 3), (2, 1), (0, 6), (2, 2),
-                       (0, 1), (2, 1), (0, 4), (3, 836), (0, 20), (1, 1),
-                       (0, 14), (1, 2), (0, 1), (1, 1), (0, 12), (2, 1), (0, 1),
-                       (2, 1), (0, 14), (2, 1), (0, 19), (1, 1), (0, 18), (3, 740),
-                       (0, 12), (2, 2), (0, 31), (2, 1), (0, 14), (1, 1), (0, 33),
-                       (2, 1), (0, 2), (2, 1), (0, 18), (1, 3), (0, 33), (2, 2),
-                       (0, 11), (1, 3), (0, 7), (2, 1), (0, 5), (2, 3), (0, 28),
-                       (1, 1), (0, 4), (2, 2), (0, 11), (1, 1), (0, 2), (2, 1),
-                       (0, 32), (1, 1), (0, 2), (2, 2), (0, 1), (2, 2), (0, 10),
-                       (1, 1), (0, 12), (2, 1), (0, 4), (3, 3399), (0, 1), (2, 2),
-                       (0, 35), (2, 2), (0, 7), (1, 2), (0, 17), (1, 2), (0, 18),
-                       (1, 2), (0, 1), (1, 2), (0, 14), (1, 1), (0, 15), (2, 3),
-                       (0, 5), (3, 248), (0, 17), (1, 3), (0, 12), (1, 1), (0, 4),
-                       (2, 1), (0, 19), (2, 1), (0, 9), (2, 2), (0, 13), (1, 5), (0, 8),
-                       (1, 1), (0, 10), (2, 2), (0, 7), (1, 3), (0, 2), (2, 1), (0, 3),
-                       (2, 1), (0, 6), (1, 1), (0, 6), (1, 1), (0, 7), (4, 15)]
-
-        print(cigar_count(cigar_tuple))
-
-
 
     def test_sam_to_bigGenePred():
         samfile = AlignmentFile("aln_s.bam")

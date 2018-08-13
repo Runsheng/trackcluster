@@ -12,14 +12,12 @@ The input is a list of
 from track import bigGenePred
 
 # third part import
-from ncls import NCLS
 import scipy
 import pylab
 import scipy.cluster.hierarchy as sch
 
 from utils import parmap
 
-# NCLS is a quick method to find pyrange intersection
 
 
 def cal_distance(bigg_list, core=40):
@@ -55,16 +53,15 @@ def cal_distance(bigg_list, core=40):
         for j in range(1, len(bigg_list)):
             ij_list.append((i,j))
 
-
     def run_one(n):
         i,j=n
         distance=bigg_list[i].bedtool_cal_distance(bigg_list[j], gene_start)
-        return distance
+        return (i,j,distance) # need to store i,j as the order may change in the parmap
 
     dis_l=parmap(run_one, ij_list, core)
 
-    for n, distance in zip(ij_list, dis_l):
-        i,j=n
+    for pack in dis_l:
+        i,j,distance=pack
         D[i,j]=distance
         D[j,i]=distance
 
@@ -77,9 +74,12 @@ def cal_distance(bigg_list, core=40):
 
 
 def filter_bigg(bigg_list):
+    """
+    may need to pre-filter the bigg_list using the current gff based gene model
+    cutoff selection:
+    intersection < 20bp?
+    """
     pass
-
-
 
 
 def __plot_cluster(D):
