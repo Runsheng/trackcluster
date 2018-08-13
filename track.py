@@ -6,6 +6,7 @@
 
 from pybedtools import BedTool
 
+
 class bigGenePred(object):
     """
     A data class for bigGenePred
@@ -45,8 +46,8 @@ class bigGenePred(object):
         self.thickEnd=0
         self.reserved=[255,128,0]
         self.blockCount=0
-        self.blockSizes=[0]
-        self.chromStarts=[0]
+        self.blockSizes=[]
+        self.chromStarts=[]
         self.name2=""
         self.cdsStartStat="none"
         self.cdsEndStat="none"
@@ -61,7 +62,9 @@ class bigGenePred(object):
         self.intron=None
         self.interval_set=None
         self.gene_start=None
-        self.BedTool=None
+        self.ExonBedTool=None
+        self.IntronBedTool=None
+        self.exonlen=0
 
     def to_list(self):
         data_l=[self.chrom,
@@ -99,7 +102,6 @@ class bigGenePred(object):
 
     def __str__(self):
         return self.to_str()
-
 
     def from_string(self, string_bed):
         """
@@ -170,12 +172,16 @@ class bigGenePred(object):
         line_exon=[]
         line_intron=[]
 
+        len_count=0
+
         for x, y in zip(self.chromStarts, self.blockSizes):
             line_one=(x+offset, x+offset+y)
             line_exon.append(line_one)
+            len_count+=y
 
         self.exon=line_exon
-        
+        self.exonlen=len_count
+
         for n, pair in enumerate(line_exon):
             start, end=pair
             if n==0:
@@ -203,31 +209,37 @@ class bigGenePred(object):
 
         bed_str="\n".join(line_str)
 
-        self.BedTool=BedTool(bed_str, from_string=True)
+        self.ExonBedTool=BedTool(bed_str, from_string=True)
 
-    def bedtool_cal_distance(self, other_bgp, gene_start):
-        if self.BedTool is None:
+        for intron in self.intron:
+            start, end= intron
+            str_one_intron="\t".join(["2", str(start), str(end)])
+            line_str.append(str_one_intron)
+
+        bed_str_intron="\n".join(line_str)
+        self.IntronBedTool=BedTool(bed_str, from_string=True)
+
+
+    def bedtool_cal_distance(self, other_bgp, gene_start, intronweight=0.5):
+        if self.ExonBedTool is None:
             self.to_bedtool(gene_start)
-        if other_bgp.BedTool is None:
+        if other_bgp.ExonBedTool is None:
             other_bgp.to_bedtool(gene_start)
 
-        jaccard=self.BedTool.jaccard(other_bgp.BedTool)
+        jaccard_exon=self.ExonBedTool.jaccard(other_bgp.ExonBedTool)
+        jaccard_intron=self.IntronBedTool.jaccard(other_bgp.IntronBedTool)
 
-        return jaccard["union-intersection"]-jaccard["intersection"]
+        differ_exon= jaccard_exon["union-intersection"]-jaccard_exon["intersection"]
+        differ_intron= jaccard_intron["union-intersection"]-jaccard_intron["intersection"]
 
+        return differ_exon+differ_intron*intronweight
 
+        #return 1-(float(jaccard["intersection"])/float(jaccard["union-intersection"]))
 
-if __name__=="__main__":
-    from itertools import islice
-    aa=bigGenePred()
-    bb=bigGenePred()
+        #use the shorter one as the ratio
+        #min_len=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
+        #print self.exonlen, min_len, 1-(float(jaccard["intersection"])/min_len)
+        #return 1-(float(jaccard["intersection"])/min_len)
 
-    f=open("./test/bigg.bed", "r")
-    head = list(islice(f, 2))
-
-    print("##############")
-    aa.from_string(head[0])
-
-    print aa.to_str()
-
-    print aa.to_interval_set()
+class GFF(object):
+    pass

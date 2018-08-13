@@ -13,7 +13,7 @@ import multiprocessing
 
 def parmap(f, X, nprocs=multiprocessing.cpu_count()):
     """
-    a function to use mutip map inside a function
+    a function to use muti map inside a function
     modified from stackoverflow, 3288595
     :param f:
     :param X:
