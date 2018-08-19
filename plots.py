@@ -22,6 +22,12 @@ from scipy.cluster.hierarchy import linkage, dendrogram, to_tree
 from scipy.spatial.distance import pdist
 import operator
 
+# static
+# set colour for the dendrogram
+brew_11 = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd","#5e4fa2"]
+
+
+
 def plot_tree(bigg_list, out="test.pdf", pos=None):
 
     bigg_list_bk=deepcopy(bigg_list)
@@ -86,10 +92,10 @@ def plot_tree(bigg_list, out="test.pdf", pos=None):
     ax = plt.gca()
     for node_id, (x, y) in id_to_coord.iteritems():
         if not node_list[node_id].is_leaf():
-            ax.plot(y, x, 'ro')
-            ax.annotate(str(node_id), (y, x), xytext=(0, -8),
-                        textcoords='offset points',
-                        va='top', ha='center')
+            ax.plot(x=y, y=x)
+            #ax.annotate(str(node_id), (y, x), xytext=(0, -8),
+            #            textcoords='offset points',
+            #            va='top', ha='center')
         # add the lines to the x
         else:
             pass
@@ -102,21 +108,22 @@ def plot_tree(bigg_list, out="test.pdf", pos=None):
     return dend
 
 
-def line_plot(bigg_list, out="test.pdf"):
+def line_plot(bigg_list, out="./test/test.pdf", filter=False,
+              intronweight=0.5,by="ratio_short", core=40, color=None):
     """
     :param bigg_list: a list contain multiple bigGenePred class
     :return:
     """
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 
-    D=cal_distance(bigg_list)
+    D=cal_distance(bigg_list,filter,intronweight,by,core)
 
     # init a figure size
     bigg=bigg_list[0]
 
     start=bigg.chromStart
     bigg.get_exon(start)
-    width=(bigg.chromEnd-start)/400.0 # 100 bp=1 inch width
+    width=(bigg.chromEnd-start)/100.0 # 100 bp=1 inch width
     height=(len(bigg_list))/5.0+2  # 1 gene 0.2 inch height
     fig=plt.figure(figsize=(width,height))
 
@@ -126,7 +133,12 @@ def line_plot(bigg_list, out="test.pdf"):
     ax1 = fig.add_axes([0.02, 0.09, 0.2, 0.91]) # set region
 
     Y = sch.linkage(D, method='single')
-    Z1 = sch.dendrogram(Y, orientation='left')
+
+    if color is None:
+        color=brew_11
+    sch.set_link_color_palette(color)
+
+    Z1 = sch.dendrogram(Y, orientation='left', color_threshold=1.21, above_threshold_color='#8c510a')
 
     def flatten(l):
         return [item for sublist in l for item in sublist]
@@ -135,23 +147,25 @@ def line_plot(bigg_list, out="test.pdf"):
     y_list = flatten(Z1['dcoord'])
 
     color_xy_list = []
-    for bigg in Z1["color_list"]:
-        color_xy_list.extend(bigg * 4)
+    for bigg_color in Z1["color_list"]:
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+
 
     leave_cords = [x for x,y in zip(x_list, y_list) if y == 0]
     leave_color=[c for y, c in zip(y_list, color_xy_list) if y==0]
-
     # in the dendogram data structure,
     # leave ids are listed in ascending order according to their x-coordinate
     order = np.argsort([x for x in leave_cords])
     id_cord = [leave_cords[idx] for idx in order]  # <- main data structure
     id_color = [leave_color[idx] for idx in order]
 
-
-    #id_to_coord = dict(zip(Z1['leaves'], [leave_coords[idx] for idx in order]))
-
     #ax1.set_xticks([])
     ax1.set_yticks([])
+    ax1.margins(0,0)
+
 
     # second, the track for gene models
 
@@ -161,6 +175,12 @@ def line_plot(bigg_list, out="test.pdf"):
         bigg_list_new.append(bigg_list[x])
 
     ax2=fig.add_axes([0.225,0.09,0.65,0.91]) # adjust the ax to fit figure
+    ax2.set_yticks([])
+    ax2.set_ylim(min(id_cord)-1, max(id_cord)+1)
+    ax2.margins(0, 0)
+    #ax2.set_ylim(top=ymax+5)
+
+
     for n,bigg in enumerate(bigg_list_new):
         bigg.get_exon(start)
         for exon in bigg.exon:
@@ -170,7 +190,7 @@ def line_plot(bigg_list, out="test.pdf"):
             if bigg.ttype == "nanopore_read":
                 plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=4, colors=id_color[n])
             else:
-                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=4, colors="#756bb1")
+                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=5, colors="black")
 
         for intron in bigg.intron:
             x_start, x_end = intron
@@ -179,9 +199,119 @@ def line_plot(bigg_list, out="test.pdf"):
             else:
                 plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=1, colors=id_color[n])
 
-
-    #plt.ylim(ymin=-5)
-    plt.margins(0, 0)
+    ax2.margins(0, 0)
     ax2.set_yticks([])
+
     plt.savefig(out)
-    #plt.show()
+
+
+def line_plot_merge(bigg_list, out="./test/test.pdf", filter=False,
+              intronweight=0.5,by="ratio_short", core=40, color=None):
+    """
+    :param bigg_list: a list contain multiple bigGenePred class
+    :return:
+    """
+    bigg_list.sort(key=operator.attrgetter("chromStart"))
+
+    D,keep=cal_distance(bigg_list,filter,intronweight,by,core)
+
+    # init a figure size
+    bigg=bigg_list[0]
+
+    start=bigg.chromStart
+    bigg.get_exon(start)
+    width=(bigg.chromEnd-start)/100.0 # 100 bp=1 inch width
+    height=(len(bigg_list))/5.0+2  # 1 gene 0.2 inch height
+    fig=plt.figure(figsize=(width,height))
+
+    print(width, height)
+
+    #### first the dendrogram
+    ax1 = fig.add_axes([0.02, 0.09, 0.2, 0.91]) # set region
+
+    Y = sch.linkage(D, method='single')
+
+    if color is None:
+        color=brew_11
+    sch.set_link_color_palette(color)
+
+    Z1 = sch.dendrogram(Y, orientation='left', color_threshold=1.21, above_threshold_color='#8c510a')
+
+    def _plot_tree(P, pos=None):
+        icoord = scipy.array(P['icoord'])
+        dcoord = scipy.array(P['dcoord'])
+        color_list = scipy.array(P['color_list'])
+        ymin, ymax = icoord.min(), icoord.max()
+        xmin, xmax = dcoord.min(), dcoord.max()
+        if pos:
+            icoord = icoord[pos]
+            dcoord = dcoord[pos]
+            color_list = color_list[pos]
+        for ys, xs, color in zip(icoord, dcoord, color_list):
+            plt.plot(xs, ys, color)
+    #_plot_tree(Z1)
+
+    ax1.set_xticks([])
+    ax1.set_yticks([])
+    ax1.margins(0,0)
+
+
+    def flatten(l):
+        return [item for sublist in l for item in sublist]
+
+    x_list = flatten(Z1['icoord'])
+    y_list = flatten(Z1['dcoord'])
+
+    color_xy_list = []
+    for bigg_color in Z1["color_list"]:
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+        color_xy_list.append(bigg_color)
+
+
+    leave_cords = [x for x,y in zip(x_list, y_list) if y == 0]
+    leave_color=[c for y, c in zip(y_list, color_xy_list) if y==0]
+    # in the dendogram data structure,
+    # leave ids are listed in ascending order according to their x-coordinate
+    order = np.argsort([x for x in leave_cords])
+    id_cord = [leave_cords[idx] for idx in order]  # <- main data structure
+    id_color = [leave_color[idx] for idx in order]
+
+
+    # second, the track for gene models
+
+    # get the order of the gene models in dendrogram
+    bigg_list_new=[]
+    for x in Z1["leaves"]:
+        bigg_list_new.append(bigg_list[x])
+
+    ax2=fig.add_axes([0.225,0.09,0.65,0.91]) # adjust the ax to fit figure
+    ax2.set_yticks([])
+    ax2.set_ylim(min(id_cord)-1, max(id_cord)+1)
+    ax2.margins(0, 0)
+    #ax2.set_ylim(top=ymax+5)
+
+
+    for n,bigg in enumerate(bigg_list_new):
+        bigg.get_exon(start)
+        for exon in bigg.exon:
+            x_start, x_end = exon
+            # debug
+            #print n, x_start, x_end
+            if bigg.ttype == "nanopore_read":
+                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=4, colors=id_color[n])
+            else:
+                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=5, colors="black")
+
+        for intron in bigg.intron:
+            x_start, x_end = intron
+            if bigg.ttype == "nanopore_read":
+                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=1, colors=id_color[n], linestyles="dotted")
+            else:
+                plt.hlines(y=id_cord[n],  xmin=x_start, xmax=x_end, linewidth=1, colors=id_color[n])
+
+    ax2.margins(0, 0)
+    ax2.set_yticks([])
+
+    plt.savefig(out)

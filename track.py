@@ -4,7 +4,12 @@
 # @Author  : Runsheng     
 # @File    : track.py
 
+# third part import
 from pybedtools import BedTool
+# self-import, may need to transfer ssw to package
+from ssw import ssw_wrapper
+
+
 
 
 class bigGenePred(object):
@@ -40,7 +45,7 @@ class bigGenePred(object):
         self.chromStart=0
         self.chromEnd=0
         self.name=""
-        self.core= 1000
+        self.score= 0
         self.strand="+"
         self.thickStart=0
         self.thickEnd=0
@@ -65,13 +70,16 @@ class bigGenePred(object):
         self.ExonBedTool=None
         self.IntronBedTool=None
         self.exonlen=0
+        self.intronlen=0
+
+        self.seq=None
 
     def to_list(self):
         data_l=[self.chrom,
                 self.chromStart,
                 self.chromEnd,
                 self.name,
-                self.core,
+                self.score,
                 self.strand,
                 self.thickStart,
                 self.thickEnd,
@@ -114,7 +122,7 @@ class bigGenePred(object):
         self.chromStart=int(string_l[1])
         self.chromEnd=int(string_l[2])
         self.name=string_l[3]
-        self.core=int(string_l[4])
+        self.score=int(string_l[4])
         self.strand=string_l[5]
         self.thickStart=int(string_l[6])
         self.thickEnd=int(string_l[7])
@@ -193,6 +201,12 @@ class bigGenePred(object):
             start_p, end_p=pair
 
         self.intron=line_intron
+        len_intron=0
+        for x,y in self.intron:
+            len_intron+=(y-x)
+        self.intronlen=len_intron
+
+
 
     def to_bedtool(self, gene_start):
         """
@@ -201,6 +215,7 @@ class bigGenePred(object):
         """
         if self.exon is None:
             self.get_exon(gene_start)
+        # for exon
         line_str=[]
         for exon in self.exon:
             start, end=exon
@@ -208,38 +223,103 @@ class bigGenePred(object):
             line_str.append(str_one)
 
         bed_str="\n".join(line_str)
-
         self.ExonBedTool=BedTool(bed_str, from_string=True)
 
+        # re init the list for intron
+        line_str=[]
         for intron in self.intron:
             start, end= intron
             str_one_intron="\t".join(["2", str(start), str(end)])
             line_str.append(str_one_intron)
 
-        bed_str_intron="\n".join(line_str)
+        bed_str="\n".join(line_str)
         self.IntronBedTool=BedTool(bed_str, from_string=True)
 
 
-    def bedtool_cal_distance(self, other_bgp, gene_start, intronweight=0.5):
+    def bedtool_cal_distance_exon(self, other_bgp, gene_start, by="length_short"):
+        """
+
+        :param other_bgp:
+        :param gene_start:
+        :param by: could be "ratio", "length", "ratio_short", "length_short"
+        :return: dis-similarity matrix
+        """
         if self.ExonBedTool is None:
             self.to_bedtool(gene_start)
         if other_bgp.ExonBedTool is None:
             other_bgp.to_bedtool(gene_start)
 
-        jaccard_exon=self.ExonBedTool.jaccard(other_bgp.ExonBedTool)
-        jaccard_intron=self.IntronBedTool.jaccard(other_bgp.IntronBedTool)
+        jaccard=self.ExonBedTool.jaccard(other_bgp.ExonBedTool)
+        min_length=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
 
-        differ_exon= jaccard_exon["union-intersection"]-jaccard_exon["intersection"]
-        differ_intron= jaccard_intron["union-intersection"]-jaccard_intron["intersection"]
+        if by=="ratio":
+            similar= jaccard["jaccard"] # equals float(jaccard["intersection"])/jaccard["union-intersection"]
+            return 1-similar
 
-        return differ_exon+differ_intron*intronweight
+        elif by=="length":
+            return jaccard["union-intersection"]-jaccard["intersection"]
 
-        #return 1-(float(jaccard["intersection"])/float(jaccard["union-intersection"]))
+        elif by=="ratio_short":
+            return 1-float(jaccard["intersection"])/min_length
 
-        #use the shorter one as the ratio
-        #min_len=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
-        #print self.exonlen, min_len, 1-(float(jaccard["intersection"])/min_len)
-        #return 1-(float(jaccard["intersection"])/min_len)
+        elif by=="length_short":
+            return min_length-jaccard["intersection"]
 
-class GFF(object):
-    pass
+
+    def bedtool_cal_distance_intron(self, other_bgp, gene_start, by="length_short"):
+        """
+        :param other_bgp:
+        :param gene_start:
+        :param by: could be "ratio", "length", "ratio_short", "length_short"
+        :return: dis-similarity matrix
+        """
+        if self.IntronBedTool is None:
+            self.to_bedtool(gene_start)
+        if other_bgp.IntronBedTool is None:
+            other_bgp.to_bedtool(gene_start)
+
+        jaccard=self.IntronBedTool.jaccard(other_bgp.IntronBedTool)
+        min_length=self.intronlen if self.intronlen-other_bgp.intronlen<=0 else other_bgp.intronlen
+
+        if by=="ratio":
+            if min_length==0:
+                return 1
+            else:
+                return 1-float(jaccard["intersection"])/jaccard["union-intersection"]
+
+        elif by=="length":
+            return jaccard["union-intersection"]-jaccard["intersection"]
+
+        elif by=="ratio_short":
+            # intron could be 0
+            if min_length==0:
+                return 0
+            else:
+                return 1-float(jaccard["intersection"])/min_length
+
+        elif by=="length_short":
+            #print(self.IntronBedTool, other_bgp.intronlen, min_length)
+            return min_length-jaccard["intersection"]
+
+
+    def bind_seq(self, seqdic):
+        """
+        seqdic: A biopython seqdic that contains the sequence
+        """
+
+        self.seq= str(seqdic[self.name].seq)
+
+
+    def score_sl(self, seq1="CUCAAACUUGGGUAAUUAAACCG"):
+        """
+        use current best ssw aligner parameter
+        write the ssw align score to score first 23 nt and write to score
+        default seq1 is SL1 sequence for nematodes
+        """
+        seq2=self.seq[:23]
+        aln = ssw_wrapper(seq1, seq2, 2, 2, 3, 1)
+
+        self.score=aln.score
+
+
+

@@ -24,11 +24,13 @@ class PlotTest(unittest.TestCase):
         self.bigg=bigg
 
     def test_IO(self):
-        self.assertEquals(len(self.bigg),339)
+        self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg[0:]
-        line_plot(sample, out="./test/bb.pdf")
+        sample=self.bigg[-17:]
+        line_plot_merge(sample, out="./test/bb.pdf",
+                  intronweight=0.2,
+                  by="ratio_short", core=40)
 
     def test_plot_tree(self):
         pass

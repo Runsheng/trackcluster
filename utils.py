@@ -4,11 +4,22 @@
 # @Author  : Runsheng     
 # @File    : utils.py
 
-import subprocess
-import signal  # only used for the exe function
 import time
 from functools import wraps
 import multiprocessing
+import os
+import pybedtools
+
+
+def set_tmp():
+    """
+    set the the tmp dir to the mem
+    """
+    aa=os.popen("echo $XDG_RUNTIME_DIR")
+    dirpath=aa.read().strip()
+    pybedtools.set_tempdir(dirpath)
+
+    return dirpath
 
 
 def parmap(f, X, nprocs=multiprocessing.cpu_count()):

@@ -30,14 +30,13 @@ def sam_to_bigGenePred(record, samfile):
     bigg.name = record.query_name
     bigg.strand = "-" if record.is_reverse else "+"
 
-    # give colour to reverse and forward strand
+    # give colour to reverse and forward strand, though unused in ucsc
     bigg.reserved = [64, 224, 208] if record.is_reverse else [250, 128, 114]
 
     bigg.name2 = record.query_name
 
     # the unchanged fields
     # bigg.core= 1000
-    # bigg.reserved=255,128,0
     # bigg.cdsStartStat="none"
     # bigg.cdsEndStat="none"
 
