@@ -116,7 +116,12 @@ def line_plot(bigg_list, out="./test/test.pdf", filter=False,
     """
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 
-    D=cal_distance(bigg_list,filter,intronweight,by,core)
+    if by=="ratio_all":
+        by1="ratio"
+        by2="ratio_short"
+
+    D, bigg_list_new=cal_distance(bigg_list,filter,intronweight,by1,core)
+
 
     # init a figure size
     bigg=bigg_list[0]
@@ -221,7 +226,7 @@ def line_plot_merge(bigg_list, out="./test/test.pdf", filter=False,
     start=bigg.chromStart
     bigg.get_exon(start)
     width=(bigg.chromEnd-start)/100.0 # 100 bp=1 inch width
-    height=(len(bigg_list))/5.0+2  # 1 gene 0.2 inch height
+    height=(len(keep))/5.0+2  # 1 gene 0.2 inch height
     fig=plt.figure(figsize=(width,height))
 
     print(width, height)

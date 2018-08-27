@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
 class PlotTest(unittest.TestCase):
     def setUp(self):
         bigg=[]
-        with open("./test/unc52.bed") as f:
+        with open("./test/unc52_sw.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -27,9 +27,9 @@ class PlotTest(unittest.TestCase):
         self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg[-17:]
-        line_plot_merge(sample, out="./test/bb.pdf",
-                  intronweight=0.2,
+        sample=self.bigg[0:]
+        line_plot_merge(sample, out="./test/bb.pdf",filter=True,
+                  intronweight=0.5,
                   by="ratio_short", core=40)
 
     def test_plot_tree(self):

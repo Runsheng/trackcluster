@@ -5,7 +5,7 @@
 # @File    : ssw.py
 
 
-from LR_toolkit.ssw.ssw_wrap import Aligner
+from ssw.ssw_wrap import Aligner
 
 
 def ssw_wrapper(seq1, seq2, match=2, mismatch=2,

@@ -11,7 +11,7 @@ from unittest import skip
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         bigg = []
-        with open("./test/unc52_gff.bed") as f:
+        with open("./test/unc52_sw.bed") as f:
             for line_one in f.readlines():
                 bigg_one = bigGenePred()
                 bigg_one.from_string(line_one)
@@ -23,11 +23,12 @@ class ClusterTest(unittest.TestCase):
         #self.assertEquals(len(self.bigg), 323)
 
     def test_cluster(self):
-        sample = self.bigg[0:]
-        D,keep=cal_distance(sample, filter=True,intronweight=0.5,by="ratio_short", core=40)
+        sample = self.bigg[30:80]
+        D,bigg_list=cal_distance(sample, filter=True,intronweight=0.5,by="ratio", core=40)
         #print(D)
         #keep=filter_D(D, sample)
-        print keep
+        print len(bigg_list)
+
 
     def tearDown(self):
         self.bigg = None

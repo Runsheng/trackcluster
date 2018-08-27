@@ -6,9 +6,6 @@
 
 # third part import
 from pybedtools import BedTool
-# self-import, may need to transfer ssw to package
-from ssw import ssw_wrapper
-
 
 
 
@@ -236,6 +233,28 @@ class bigGenePred(object):
         self.IntronBedTool=BedTool(bed_str, from_string=True)
 
 
+    @staticmethod
+    def bedtool_cal_distance(bed1, bed2, min_length, by="length_short"):
+
+        jaccard=bed1.jaccard(bed2)
+
+        if by=="ratio":
+            similar= jaccard["jaccard"] # equals float(jaccard["intersection"])/jaccard["union-intersection"]
+            return 1-similar
+
+        elif by=="length":
+            return jaccard["union-intersection"]-jaccard["intersection"]
+
+        elif by=="ratio_short":
+            # intron could be 0
+            if min_length==0:
+                return 0
+            else:
+                return 1-float(jaccard["intersection"])/min_length
+
+        elif by=="length_short":
+            return min_length-jaccard["intersection"]
+
     def bedtool_cal_distance_exon(self, other_bgp, gene_start, by="length_short"):
         """
 
@@ -248,23 +267,12 @@ class bigGenePred(object):
             self.to_bedtool(gene_start)
         if other_bgp.ExonBedTool is None:
             other_bgp.to_bedtool(gene_start)
-
-        jaccard=self.ExonBedTool.jaccard(other_bgp.ExonBedTool)
+        bed1=self.ExonBedTool
+        bed2=other_bgp.ExonBedTool
         min_length=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
 
-        if by=="ratio":
-            similar= jaccard["jaccard"] # equals float(jaccard["intersection"])/jaccard["union-intersection"]
-            return 1-similar
-
-        elif by=="length":
-            return jaccard["union-intersection"]-jaccard["intersection"]
-
-        elif by=="ratio_short":
-            return 1-float(jaccard["intersection"])/min_length
-
-        elif by=="length_short":
-            return min_length-jaccard["intersection"]
-
+        distance=self.bedtool_cal_distance(bed1, bed2, min_length, by)
+        return distance
 
     def bedtool_cal_distance_intron(self, other_bgp, gene_start, by="length_short"):
         """
@@ -278,47 +286,37 @@ class bigGenePred(object):
         if other_bgp.IntronBedTool is None:
             other_bgp.to_bedtool(gene_start)
 
-        jaccard=self.IntronBedTool.jaccard(other_bgp.IntronBedTool)
+        bed1=self.IntronBedTool
+        bed2=other_bgp.IntronBedTool
         min_length=self.intronlen if self.intronlen-other_bgp.intronlen<=0 else other_bgp.intronlen
 
-        if by=="ratio":
-            if min_length==0:
-                return 1
-            else:
-                return 1-float(jaccard["intersection"])/jaccard["union-intersection"]
-
-        elif by=="length":
-            return jaccard["union-intersection"]-jaccard["intersection"]
-
-        elif by=="ratio_short":
-            # intron could be 0
-            if min_length==0:
-                return 0
-            else:
-                return 1-float(jaccard["intersection"])/min_length
-
-        elif by=="length_short":
-            #print(self.IntronBedTool, other_bgp.intronlen, min_length)
-            return min_length-jaccard["intersection"]
+        distance=self.bedtool_cal_distance(bed1, bed2, min_length, by)
+        return distance
 
 
     def bind_seq(self, seqdic):
         """
-        seqdic: A biopython seqdic that contains the sequence
+        To bind the sequence of the bigg, can used to call sl or cds frame
+        :param: seqdic: A biopython seqdic that contains the sequence
         """
-
         self.seq= str(seqdic[self.name].seq)
 
+    def orf_find(self, refdic):
+        """
+        :param: refdic: the reference genome
+        """
 
-    def score_sl(self, seq1="CUCAAACUUGGGUAAUUAAACCG"):
+        pass
+
+    def __score_sl(self, seq1="CUCAAACUUGGGUAAUUAAACCG"):
         """
         use current best ssw aligner parameter
         write the ssw align score to score first 23 nt and write to score
-        default seq1 is SL1 sequence for nematodes
+        :param: default seq1 is SL1 sequence for nematodes
         """
+        pass
         seq2=self.seq[:23]
-        aln = ssw_wrapper(seq1, seq2, 2, 2, 3, 1)
-
+        #aln = ssw_wrapper(seq1, seq2, 2, 2, 3, 1)
         self.score=aln.score
 
 
