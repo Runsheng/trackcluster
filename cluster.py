@@ -19,8 +19,25 @@ import scipy.cluster.hierarchy as sch
 from utils import parmap, set_tmp
 from pybedtools import cleanup
 
+def getij(bigg_list):
+    ij_list=[]
+    for i in range(len(bigg_list)):
+        for j in range(1, len(bigg_list)):
+            ij_list.append((i,j))
+    return ij_list
 
-def cal_distance(bigg_list,filter=False,intronweight=0.5,by="ratio_short", core=40):
+def select_list(D, bigg_list, keep):
+    # re_order D and bigg_list
+    D=D[keep,:]
+    D=D[:,keep]
+    bigg_list_new=[]
+    for i in keep:
+        bigg_list_new.append(bigg_list[i])
+
+    return D, bigg_list_new
+
+
+def cal_distance(bigg_list, intronweight=0.5,by="ratio_short", core=40 ):
     """
     speed record:
     50: 177 s
@@ -52,10 +69,7 @@ def cal_distance(bigg_list,filter=False,intronweight=0.5,by="ratio_short", core=
     # thr order of the bigg_list is used as key to fetch the element further
 
     # get an pos combination
-    ij_list=[]
-    for i in range(len(bigg_list)):
-        for j in range(1, len(bigg_list)):
-            ij_list.append((i,j))
+    ij_list=getij(bigg_list)
 
     def run_one(n):
         i,j=n
@@ -78,9 +92,16 @@ def cal_distance(bigg_list,filter=False,intronweight=0.5,by="ratio_short", core=
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
     # debug:
-    #print(D_exon)
-    #print(D_intron)
-    #print(D)
+    print("D_exon",D_exon)
+    print("D_intron", D_intron)
+    print("D",D)
+
+    cleanup(remove_all=True)
+
+    return D
+
+    # hard code a cutoff to filter a gene with only a small exon inside this region
+    cutoff_max=0.95
 
     # add a filter function for D, if the distance between exon is 0, merge the small one with
     # unless need to parer the intronD and exonD seperatedly, or else the filter should be outer function
@@ -94,24 +115,49 @@ def cal_distance(bigg_list,filter=False,intronweight=0.5,by="ratio_short", core=
     for i in keep:
         bigg_list_new.append(bigg_list[i])
 
-    with open("./test/d.csv", "w") as fw:
-        for i in D:
-            str_l=[str(x) for x in i]
-            fw.write(",".join(str_l))
-            fw.write("\n")
-    cleanup(remove_all=True)
 
+def write_D(D, bigg_list_new, outfile):
+    bigg_name=[x.name for x in bigg_list_new]
+
+    if outfile is None:
+        pass
+    else:
+        with open(outfile, "w") as fw:
+            fw.write(",".join(bigg_name))
+            fw.write("\n")
+            for i in D:
+                str_l=[str(x) for x in i]
+                fw.write(",".join(str_l))
+                fw.write("\n")
+
+
+def prefilter_smallexon(D, bigg_list, cutoff=0.95):
+    """
+    only accept the D and bigg_list using exon only
+    cal_distance(bigg_list, filter=False,intronweight=0,by="ratio", core=40, outfile="./test/d.csv"):
+
+    :param D:
+    :param bigg_list:
+    :return: keep
+    """
+    drop=set()
+    fullset=set(range(len(D)))
+
+    for i in range(len(D)):
+        if D[i,].mean()>cutoff:
+            drop.add(i)
+
+    keep=sorted(list(fullset-drop))
+
+    D, bigg_list_new=select_list(D, bigg_list, keep)
     return D, bigg_list_new
 
 
 def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
 
     """
-    may need to pre-filter the bigg_list using the current gff based gene model
     cutoff selection:
-    intersection < 20bp?
-    sum differ in exon and intron when using the "_short" method is < 10 bp
-
+    learn from unc52, <0.025 in ratio_short
     return: index of the matrix that can be retained
     """
     if cutoff=="auto":
@@ -123,55 +169,45 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     # hard code a cutoff for sw score of SL
     sw_score=11
 
-
     fullset=set(range(len(D)))
     drop=set()
 
     for bigg in bigg_list:
         bigg.get_exon()
 
+
     # same list
-    ij_list=[]
-    for i in range(len(bigg_list)):
-        for j in range(1, len(bigg_list)):
-            ij_list.append((i,j))
+    ij_list=getij(bigg_list)
 
     for i,j in ij_list:
         if D[i,j]<cutoff:
-            # debug
-            #print i,j
-
             if i==j:
                 pass
             else:
                 if by=="ratio":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen:
                         drop.add(i)
+                        bigg_list[j].subread.append(bigg_list[i])
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen:
                         drop.add(j)
+                        bigg_list[i].subread.append(bigg_list[j])
+
                 if by=="ratio_short":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen and bigg_list[i].score<sw_score:
                         drop.add(i)
+                        bigg_list[j].subread.append(bigg_list[i])
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen and bigg_list[j].score<sw_score:
                         drop.add(j)
+                        bigg_list[i].subread.append(bigg_list[j])
     keep=sorted(list(fullset-drop))
-    # debug
+
+    #### debug
     print(len(fullset), len(drop), len(keep))
     print(keep)
-    return keep
 
+    # re_order D and bigg_list
+    D, bigg_list_new=select_list(D, bigg_list, keep)
 
-
-def __plot_cluster(D):
-    """
-    test only
-    :param D:
-    :return:
-    """
-    fig = pylab.figure(figsize=(8, 8))
-    Y = sch.linkage(D, method='centroid')
-    Z1 = sch.dendrogram(Y, orientation='left')
-    print Z1["leaves"]
-    fig.savefig("dend.pdf")
+    return D, bigg_list_new
 
 
