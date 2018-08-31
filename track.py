@@ -6,7 +6,6 @@
 
 # third part import
 from pybedtools import BedTool
-#from pyranges.pyranges import PyRanges
 
 
 def get_start_end(list2):
@@ -215,88 +214,6 @@ class bigGenePred(object):
 
         # debug:
         #print("exon", self.exon)
-
-
-    def to_pyrange(self, gene_start):
-        """
-        convert the exon region to the pyrange object
-        :param gene_start:
-        :return:
-        """
-        if self.exon is None:
-            self.get_exon(gene_start)
-
-        # for exon
-        exon_start, exon_end=get_start_end(self.exon)
-        # debug
-        #print "exon", exon_start, exon_end
-        #print exon_start
-        self.ExonPyrange=pyRanges(seqnames="1", strands="+", starts=exon_start, ends=exon_end)
-
-        # for intron
-        intron_start, intron_end=get_start_end(self.intron)
-        self.IntronPyrange=PyRanges(seqnames="1", strands="+", starts=intron_start, ends=intron_end)
-
-    @staticmethod
-    def pyrange_cal_distance(bed1, bed2, min_length, by="ratio"):
-        """
-        only support "ratio" and "ratio_short" model
-        :param bed1:
-        :param bed2:
-        :param min_length:
-        :param by:
-        :return:
-        """
-        try:
-            jaccard=bed1.jaccard(bed2)
-        except ValueError: # unmature method, the jaccard will give a empty df but not the jaccard dict
-            jaccard={"intersection":0,
-                     "jaccard":0}
-
-        if by=="ratio":
-            # intron could be 0
-            if min_length==0:
-                return 0
-            else:
-                similar= jaccard["jaccard"] # equals float(jaccard["intersection"])/jaccard["union-intersection"]
-                return 1-similar
-
-        elif by=="ratio_short":
-            # intron could be 0
-            if min_length==0:
-                return 0
-            else:
-                return 1-float(jaccard["intersection"])/min_length
-
-    def pyrange_cal_distance_exon(self, other_bgp, gene_start, by="ratio"):
-        if self.ExonPyrange is None:
-            self.to_pyrange(gene_start)
-        if other_bgp.ExonPyrange is None:
-            other_bgp.to_pyrange(gene_start)
-        bed1=self.ExonPyrange
-        bed2=other_bgp.ExonPyrange
-        # debug
-        #print(bed1)
-        #print(bed2)
-
-        min_length=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
-
-        distance=self.pyrange_cal_distance(bed1, bed2, min_length, by)
-        return distance
-
-    def pyrange_cal_distance_intron(self, other_bgp, gene_start, by="length_short"):
-
-        if self.IntronPyrange is None:
-            self.to_pyrange(gene_start)
-        if other_bgp.IntronPyrange is None:
-            other_bgp.to_pyrange(gene_start)
-
-        bed1 = self.IntronPyrange
-        bed2 = other_bgp.IntronPyrange
-        min_length = self.intronlen if self.intronlen - other_bgp.intronlen <= 0 else other_bgp.intronlen
-
-        distance = self.pyrange_cal_distance(bed1, bed2, min_length, by)
-        return distance
 
     def to_bedtool(self, gene_start):
         """
