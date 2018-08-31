@@ -27,10 +27,12 @@ class PlotTest(unittest.TestCase):
         self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg[0:]
-        line_plot_merge(sample, out="./test/bb.pdf",filter=True,
+        sample=self.bigg[0:40]
+        line_plot_merge(sample, out="./test/bb.pdf",
+                  biggout="./test/test.bed",
+                  Dout="./test/d.csv",
                   intronweight=0.5,
-                  by="ratio_short", core=40)
+                  by="ratio_all", core=40)
 
     def test_plot_tree(self):
         pass

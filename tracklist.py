@@ -57,8 +57,6 @@ def write_bigg(bigg_list, out="bigg_new.bed"):
 
     bigg_str=[]
     for bigg_one in bigg_list:
-        score=sw_dic[bigg_one.name]
-        bigg_one.score=score
         bigg_str.append(bigg_one.to_str())
 
     with open(out, "w") as fw:

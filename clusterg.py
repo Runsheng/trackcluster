@@ -18,7 +18,6 @@ import scipy.cluster.hierarchy as sch
 import operator
 
 from utils import parmap, set_tmp
-from pybedtools import cleanup
 
 
 def flow_cluster(bigg_list, by="ratio_all", intronweight=0.5, core=40):
@@ -33,15 +32,15 @@ def flow_cluster(bigg_list, by="ratio_all", intronweight=0.5, core=40):
         by2=by
 
     # hard code first filter for intron ll
-    D0, bigg_list_by0=cal_distance(bigg_list,intronweight=0, by="ratio", core=core)
-    _, bigg_l1=prefilter_smallexon(D0, bigg_list_by0) # using default cutoff 0.95
+    D0=cal_distance(bigg_list,intronweight=0, by="ratio", core=core)
+    _, bigg_l1=prefilter_smallexon(D0, bigg_list) # using default cutoff 0.95
 
     # can be change filters
-    D1, bigg_list_by1=cal_distance(bigg_l1, intronweight=intronweight, by=by1, core=core)
-    _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1) # using default cutoff 0.95
+    D1=cal_distance(bigg_l1, intronweight=intronweight, by=by1, core=core)
+    _, bigg_l2=filter_D(D1, bigg_l1, by=by1) # using default cutoff 0.95
 
-    D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2, core=core)
-    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.95
+    D2=cal_distance(bigg_l2, intronweight=intronweight, by=by2, core=core)
+    D_remain, bigg_l3=filter_D(D2, bigg_l2, by=by2) # using default cutoff 0.95
 
     return D_remain, bigg_l3
 
@@ -90,14 +89,13 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
     :return: D: distance matrix
     """
     set_tmp()
-    bigg_list.sort(key=operator.attrgetter("chromStart"))
 
     length=len(bigg_list)
     D_exon=scipy.zeros([length, length])
     D_intron=scipy.zeros([length, length])
 
     # use the first one as gene_start
-    gene_start= 0 #bigg_list[0].chromStart
+    gene_start=bigg_list[0].chromStart
     # thr order of the bigg_list is used as key to fetch the element further
 
     # get an pos combination
@@ -105,9 +103,9 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
 
     def run_one(n):
         i,j=n
-        distance_exon=bigg_list[i].bedtool_cal_distance_exon(bigg_list[j], gene_start, by)
+        distance_exon=bigg_list[i].pyrange_cal_distance_exon(bigg_list[j], gene_start, by)
         if intronweight != 0:
-            distance_intron=bigg_list[i].bedtool_cal_distance_intron(bigg_list[j], gene_start, by)
+            distance_intron=bigg_list[i].pyrange_cal_distance_intron(bigg_list[j], gene_start, by)
         else:
             distance_intron=0
         return (i,j,distance_exon, distance_intron) # need to store i,j as the order may change in the parmap
@@ -128,8 +126,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
     #print("D_intron", D_intron)
     #print("D",D)
 
-    #cleanup(remove_all=True)
-    return D, bigg_list
+    return D
 
 
 def write_D(D, bigg_list_new, outfile="./test/d.csv"):

@@ -143,7 +143,7 @@ def gff_to_bigGenePred(gff):
                 bigg.name2 = key
 
                 # the unchanged fields
-                # bigg.core= 1000
+                bigg.score= 100 # give a high score
                 # bigg.reserved=255,128,0
                 # bigg.cdsStartStat="none"
                 # bigg.cdsEndStat="none"
