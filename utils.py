@@ -7,8 +7,44 @@
 import time
 from functools import wraps
 import multiprocessing
+import subprocess
+import signal
 import os
+import sys
 import pybedtools
+
+
+
+def wrapper_bedtools_jaccard(bedfile1, bedfile2):
+
+    cmd="bedtools jaccard -a {bedfile1} -b {bedfile2}".format(bedfile1=bedfile1, bedfile2=bedfile2)
+    out=myexe(cmd)
+
+    foo=out.split("\n")[1].split("\t")
+
+    jaccard={"intersection":float(foo[0]),
+             "union-intersection":float(foo[1]),
+             "jaccard":float(foo[2]),
+             "n_intersections":float(foo[3])}
+    return jaccard
+
+def myexe(cmd, timeout=0):
+    """
+    a simple wrap of the shell
+    mainly used to run the bwa mem mapping and samtool orders
+    """
+    def setupAlarm():
+        signal.signal(signal.SIGALRM, alarmHandler)
+        signal.alarm(timeout)
+
+    def alarmHandler(signum, frame):
+        sys.exit(1)
+
+    proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
+                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
+    out, err=proc.communicate()
+    #print(err, proc.returncode)
+    return out
 
 
 def set_tmp():

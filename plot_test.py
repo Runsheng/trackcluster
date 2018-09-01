@@ -28,11 +28,13 @@ class PlotTest(unittest.TestCase):
 
     def test_plot(self):
         sample=self.bigg[0:40]
+        for i in sample:
+            i.to_bedfile()
         line_plot_merge(sample, out="./test/bb.pdf",
                   biggout="./test/test.bed",
                   Dout="./test/d.csv",
                   intronweight=0.5,
-                  by="ratio_all", core=40)
+                  by="ratio_all", core=1)
 
     def test_plot_tree(self):
         pass

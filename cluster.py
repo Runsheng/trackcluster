@@ -92,6 +92,9 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
     set_tmp()
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 
+    for i in bigg_list:
+        i.to_bedfile()
+
     length=len(bigg_list)
     D_exon=scipy.zeros([length, length])
     D_intron=scipy.zeros([length, length])
@@ -105,21 +108,28 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
 
     def run_one(n):
         i,j=n
-        distance_exon=bigg_list[i].bedtool_cal_distance_exon(bigg_list[j], gene_start, by)
+        distance_exon=bigg_list[i].bedfile_cal_distance_exon(bigg_list[j], gene_start, by)
         if intronweight != 0:
-            distance_intron=bigg_list[i].bedtool_cal_distance_intron(bigg_list[j], gene_start, by)
+            distance_intron=bigg_list[i].bedfile_cal_distance_intron(bigg_list[j], gene_start, by)
         else:
             distance_intron=0
         return (i,j,distance_exon, distance_intron) # need to store i,j as the order may change in the parmap
 
-    dis_l=parmap(run_one, ij_list, core)
-
-    for pack in dis_l:
-        i,j,distance_exon, distance_intron=pack
+    for k in ij_list:
+        i, j, distance_exon, distance_intron=run_one(k)
         D_exon[i,j]=distance_exon
         D_exon[j,i]=distance_exon
         D_intron[j,i]=distance_intron
         D_intron[i,j]=distance_intron
+
+    #dis_l=parmap(run_one, ij_list, core)
+
+    #for pack in dis_l:
+    #    i,j,distance_exon, distance_intron=pack
+    #    D_exon[i,j]=distance_exon
+    #    D_exon[j,i]=distance_exon
+    #    D_intron[j,i]=distance_intron
+    #    D_intron[i,j]=distance_intron
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
