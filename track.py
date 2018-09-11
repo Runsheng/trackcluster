@@ -7,6 +7,7 @@
 # third part import
 from pybedtools import BedTool
 from utils import set_tmp, wrapper_bedtools_jaccard
+import os
 
 dirpath=set_tmp()
 
@@ -15,6 +16,7 @@ def get_start_end(list2):
     end = [x[1] for x in list2]
 
     return start, end
+
 
 class bigGenePred(object):
     """
@@ -217,39 +219,47 @@ class bigGenePred(object):
         # debug:
         #print("exon", self.exon)
 
-    def to_bedfile(self, gene_start=None, dirpath=dirpath):
-
+    def to_bedfile(self, gene_start=None, dirpath=dirpath, rewrite=False):
         exon_file=dirpath+"/"+self.name+"_exon.bed"
         intron_file=dirpath+"/"+self.name+"_intron.bed"
 
-        if gene_start is None:
-            gene_start=self.chromStart
-        if self.exon is None:
-            self.get_exon(gene_start)
+        has_file= os.path.isfile(exon_file) and os.path.isfile(intron_file)
 
-        # for exon
-        line_str = []
-        for exon in self.exon:
-            start, end = exon
-            str_one = "\t".join([self.chrom, str(start), str(end)])
-            line_str.append(str_one)
+        if has_file and rewrite==False:
+            self.exon_file=exon_file
+            self.intron_file=intron_file
 
-        bed_str = "\n".join(line_str)
-        with open(exon_file, "w") as fw:
-            fw.write(bed_str)
-        self.exon_file=exon_file
+        else:
+            if gene_start is None:
+                gene_start=0 # seems not affect the speed of bedtools
+            if self.exon is None:
+                self.get_exon(gene_start)
 
-        # re init the list for intron
-        line_str = []
-        for intron in self.intron:
-            start, end = intron
-            str_one_intron = "\t".join([self.chrom, str(start), str(end)])
-            line_str.append(str_one_intron)
+            # for exon
+            line_str = []
+            for exon in self.exon:
+                start, end = exon
+                str_one = "\t".join([self.chrom, str(start), str(end)])
+                line_str.append(str_one)
 
-        bed_str = "\n".join(line_str)
-        with open(intron_file, "w") as fw:
-            fw.write(bed_str)
-        self.intron_file=intron_file
+            bed_str = "\n".join(line_str)
+            with open(exon_file, "w") as fw:
+                fw.write(bed_str)
+            self.exon_file=exon_file
+
+            # re init the list for intron
+            line_str = []
+            for intron in self.intron:
+                start, end = intron
+                str_one_intron = "\t".join([self.chrom, str(start), str(end)])
+                line_str.append(str_one_intron)
+
+            bed_str = "\n".join(line_str)
+            with open(intron_file, "w") as fw:
+                fw.write(bed_str)
+            self.intron_file=intron_file
+
+
 
     @staticmethod
     def bedfile_cal_distance(bedfile1, bedfile2, min_length, by="ratio"):
@@ -425,6 +435,12 @@ class bigGenePred(object):
 
     def write_subread(self):
         self.name2=",".join(self.subread)
+
+    def get_subread_from_str(self):
+        if "," in self.name2:
+            self.subread=self.name2.split(",")
+        elif self.name2=="none":
+            self.subread=[]
 
     def __score_sl(self, seq1="CUCAAACUUGGGUAAUUAAACCG"):
         """

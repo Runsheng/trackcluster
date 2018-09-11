@@ -12,7 +12,14 @@ import signal
 import os
 import sys
 import pybedtools
+from collections import OrderedDict
 
+
+def count_file(thefile):
+    count = 0
+    for line in open(thefile).xreadlines(  ):
+        count += 1
+    return count
 
 
 def wrapper_bedtools_jaccard(bedfile1, bedfile2):
@@ -27,6 +34,90 @@ def wrapper_bedtools_jaccard(bedfile1, bedfile2):
              "jaccard":float(foo[2]),
              "n_intersections":float(foo[3])}
     return jaccard
+
+
+def get_name_from_bedfile(bedfile1):
+    return bedfile1.split("_")[0].split("/")[-1]
+
+
+def wrapper_bedtools_intersection_muti(bigg_list1, bigg_list2, use="exon", core=40):
+
+    pair_list = []
+
+    for i in bigg_list1:
+        pair_list.append((i, bigg_list2))
+
+    def run_one(pair):
+        bigg_one, bigg_list=pair
+        return wrapper_bedtools_intersect(bigg_one, bigg_list, use)
+
+    out_l = parmap(run_one, pair_list, core)
+    # flatten the result
+    #out=[]
+    #for i in out_l:
+    #    for j in i:
+    #        out.append(j)
+    return out_l
+
+def wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
+
+    # generate the bedfile
+    bigg_one.to_bedfile()
+    for i in bigg_list:
+        i.to_bedfile()
+
+    if use== "exon":
+        bedfile1=bigg_one.exon_file
+        bedfile_list=[x.exon_file for x in bigg_list]
+    elif use== "intron":
+        # intron could be 0
+        if count_file(bigg_one.intron_file)==0:
+            return []
+        else:
+            bedfile1=bigg_one.intron_file
+            bedfile_list=[x.intron_file for x in bigg_list]
+
+    bedfile_str=" ".join(bedfile_list)
+
+    cmd="bedtools intersect -wa -wb -a {bedfile1} -b {bedfile2} -filenames".format(bedfile1=bedfile1, bedfile2=bedfile_str)
+
+    out=myexe(cmd)
+    #print cmd
+    out_l=out.strip().split("\n")
+
+    i_d=[]
+    name_bed1=get_name_from_bedfile(bedfile1)
+    target_intersection=OrderedDict()
+
+    for i in bedfile_list:
+        name_bed2=get_name_from_bedfile(i)
+        target_intersection[name_bed2]=0
+
+    if out_l[0]!="":
+        for line in out_l:
+            line_l=line.split("\t")
+            #print line_l
+            if len(line_l)==7:
+                _,q_start,q_end,t_name,_,t_start,t_end=line_l
+                intersection=min(int(q_end), int(t_end))-max(int(q_start), int(t_start))
+                name_bed2=get_name_from_bedfile(t_name)
+                target_intersection[name_bed2]+=intersection
+            # bedtools -filenames do not show the name of bed2 if bed2 is only one file
+            elif len(line_l)==6: # just one in bed2
+                _,q_start,q_end,_,t_start,t_end=line_l
+                intersection=min(int(q_end), int(t_end))-max(int(q_start), int(t_start))
+                name_bed2=get_name_from_bedfile(bedfile_list[0])
+                target_intersection[name_bed2]+=intersection
+
+    else: # all intersection is 0
+        pass
+
+    for name_bed2,intersection in target_intersection.items():
+        i_d.append((name_bed1, name_bed2, intersection))
+    return i_d
+
+
+
 
 def myexe(cmd, timeout=0):
     """

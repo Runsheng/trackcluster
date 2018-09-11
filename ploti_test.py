@@ -1,7 +1,7 @@
 import unittest
 
 from track import bigGenePred
-from plots import *
+from plotsi import *
 
 class MyTestCase(unittest.TestCase):
     def test_something(self):
@@ -10,27 +10,28 @@ class MyTestCase(unittest.TestCase):
 
 class PlotTest(unittest.TestCase):
     def setUp(self):
-        bigg=[]
+        bigg_nano=[]
         with open("./test/unc52_sw.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
-                bigg.append(bigg_one)
+                bigg_nano.append(bigg_one)
+        bigg_gff=[]
         with open("./test/unc52_gff.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
-                bigg.append(bigg_one)
-        self.bigg=bigg
+                bigg_gff.append(bigg_one)
+        self.bigg_nano=bigg_nano
+        self.bigg_gff=bigg_gff
 
     def test_IO(self):
         self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg[0:]
-        for i in sample:
-            i.to_bedfile()
-        line_plot_merge(sample, out="./test/bb.pdf",
+        sample=self.bigg_nano[0:10]
+        line_plot_merge(sample, self.bigg_gff,
+                        out="./test/bb.pdf",
                   biggout="./test/test.bed",
                   Dout="./test/d.csv",
                   intronweight=0.5,

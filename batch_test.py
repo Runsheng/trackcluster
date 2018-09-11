@@ -12,8 +12,10 @@ import os
 import unittest
 from tracklist import read_bigg, write_bigg
 from track import bigGenePred
-from plots import line_plot_merge
+from plotsi import line_plot_merge
 from collections import OrderedDict
+from utils import count_file
+
 
 def process_one(key):
     gff_file = "./" + key + "/" + key + "_gff.bed"
@@ -27,32 +29,30 @@ def process_one(key):
     if os.path.isfile(biggout):  # already processed
         return 0
 
-    bigg = []
-    with open(gff_file) as f:
-        for line_one in f.readlines():
-            bigg_one = bigGenePred()
-            bigg_one.from_string(line_one)
-            bigg.append(bigg_one)
-    with open(nano_file) as f:
-        for line_one in f.readlines():
-            bigg_one = bigGenePred()
-            bigg_one.from_string(line_one)
-            bigg.append(bigg_one)
 
-    line_plot_merge(bigg, out=figout,
+    bigg_nano=[]
+    with open(nano_file, "r") as f:
+        for line_one in f.readlines():
+            bigg_one=bigGenePred()
+            bigg_one.from_string(line_one)
+            bigg_nano.append(bigg_one)
+    bigg_gff=[]
+    with open(gff_file, "r") as f:
+        for line_one in f.readlines():
+            bigg_one=bigGenePred()
+            bigg_one.from_string(line_one)
+            bigg_gff.append(bigg_one)
+
+
+    line_plot_merge(bigg_nano, bigg_gff,
+                    out=figout,
                     biggout=biggout,
                     Dout=Dout,
                     intronweight=0.5,
                     by="ratio_all", core=40)
+
     return 1
 
-
-
-def count_file(thefile):
-    count = 0
-    for line in open(thefile).xreadlines(  ):
-        count += 1
-    return count
 
 
 def get_len(key):
@@ -99,5 +99,6 @@ if __name__ == '__main__':
         else:
             try:
                 process_one(key)
-            except Exception:
-                pass
+            except Exception as e:
+                 #print e
+                 pass

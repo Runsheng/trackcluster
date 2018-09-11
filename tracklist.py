@@ -10,7 +10,7 @@ Functions to handel the IO of bigg list
 
 # self import
 from track import bigGenePred
-
+from collections import OrderedDict
 
 def add_sw(bigg_file, sw_file, out="bigg_sw.bed"):
     """
@@ -61,3 +61,39 @@ def write_bigg(bigg_list, out="bigg_new.bed"):
 
     with open(out, "w") as fw:
         fw.write("\n".join(bigg_str))
+
+def list_to_dic(bigg_list):
+
+    bigg_dic=OrderedDict()
+
+    for i in bigg_list:
+        bigg_dic[i.name]=i
+    return bigg_dic
+
+
+
+def bigg_count(bigg_list):
+    """
+    parser the output of cluster, get the count for each isoform
+    :param bigg_list:
+    :return:
+    """
+    # store sub-read name and number
+    name_dic=OrderedDict()
+
+    for bigg in bigg_list:
+        bigg.get_subread_from_str()
+        if len(bigg.subread)>0:
+            for name in bigg.subread:
+                try:
+                    name_dic[name]+=1
+                except NameError:
+                    name_dic[name]=1
+
+    return name_dic
+
+
+
+
+
+

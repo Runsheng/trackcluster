@@ -17,13 +17,12 @@ import pylab
 import scipy.cluster.hierarchy as sch
 import operator
 
-from utils import parmap, set_tmp
-from pybedtools import cleanup
+from utils import parmap, set_tmp, wrapper_bedtools_intersect, wrapper_bedtools_intersection_muti
 
 
-def flow_cluster(bigg_list, by="ratio_all", intronweight=0.5, core=40):
+def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5, core=40):
 
-    bigg_list.sort(key=operator.attrgetter("chromStart"))
+    bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
     if by=="ratio_all":
         by1="ratio"
@@ -32,17 +31,18 @@ def flow_cluster(bigg_list, by="ratio_all", intronweight=0.5, core=40):
         by1=by
         by2=by
 
-    # hard code first filter for intron ll
-    D0, bigg_list_by0=cal_distance(bigg_list,intronweight=0, by="ratio", core=core)
-    _, bigg_l1=prefilter_smallexon(D0, bigg_list_by0) # using default cutoff 0.95
+    # hard code first filter of overalpping of 50 bp
+    bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50, core=core) # using default cutoff 0.95
+    bigg_list=bigg_l1+bigg_gff
 
     # can be change filters
-    D1, bigg_list_by1=cal_distance(bigg_l1, intronweight=intronweight, by=by1, core=core)
+    D1, bigg_list_by1=cal_distance(bigg_list, intronweight=intronweight, by=by1, core=core)
     _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1) # using default cutoff 0.95
 
     D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2, core=core)
     D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.95
 
+    print(len(bigg_list), len(bigg_l2), len(bigg_l3))
     return D_remain, bigg_l3
 
 
@@ -55,35 +55,23 @@ def getij(bigg_list):
     return ij_list
 
 
-def select_list(D, bigg_list, keep):
+def select_list(bigg_list, keep):
     # re_order D and bigg_list
-    D=D[keep,:]
-    D=D[:,keep]
     bigg_list_new=[]
     for i in keep:
         bigg_list_new.append(bigg_list[i])
 
-    return D, bigg_list_new
+    return bigg_list_new
+
+def select_D(D, keep):
+    D=D[keep,:]
+    D=D[:,keep]
+
+    return D
 
 
-def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
+def cal_distance(bigg_list, intronweight=0.5, by="ratio", core=40):
     """
-    speed record:
-    50: 177 s
-    10: 0.452 s
-    after update:
-    50: 6s
-    10: 0.2s
-    100: 65S
-    323:
-
-    after bedtools:
-    5:0.237
-    10: 1.340
-    50: 26S
-    100: 97S
-    323: 938s
-
     :param bigg_list:
     :param intronweight: if 0, do not cal the intron to save time
     :param by: used to cal the distance between two bigg object, can be "ratio", "ratio_short", "length", "length_short"
@@ -94,6 +82,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
 
     for i in bigg_list:
         i.to_bedfile()
+        i.get_exon()
 
     length=len(bigg_list)
     D_exon=scipy.zeros([length, length])
@@ -103,26 +92,68 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio_short", core=40):
     gene_start= 0 #bigg_list[0].chromStart
     # thr order of the bigg_list is used as key to fetch the element further
 
-    # get an pos combination
+    # get an pos combination and the name of bigg for each i
     ij_list=getij(bigg_list)
+    pos_dic={}
+    for n, bigg in enumerate(bigg_list):
+        bigg.get_exon()
+        bigg.to_bedfile()
+        pos_dic[bigg.name]=n
 
-    def run_one(n):
-        i,j=n
-        distance_exon=bigg_list[i].bedfile_cal_distance_exon(bigg_list[j], gene_start, by)
-        if intronweight != 0:
-            distance_intron=bigg_list[i].bedfile_cal_distance_intron(bigg_list[j], gene_start, by)
-        else:
-            distance_intron=0
-        return (i,j,distance_exon, distance_intron) # need to store i,j as the order may change in the parmap
+    #par_list=[]
+    #for n, bigg_n in enumerate(bigg_list):
+    #    if n<len(bigg_list):
+    #        bigg_rest=bigg_list[n+1:]
+    #        par_list.append(bigg_n, bigg_rest)
 
-    dis_l=parmap(run_one, ij_list, core)
+    exon_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="exon", core=40)
+    intron_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="intron", core=40)
 
-    for pack in dis_l:
-        i,j,distance_exon, distance_intron=pack
-        D_exon[i,j]=distance_exon
-        D_exon[j,i]=distance_exon
-        D_intron[j,i]=distance_intron
-        D_intron[i,j]=distance_intron
+    for one in exon_l:
+        for two in one:
+            name_bed1, name_bed2, intersection=two
+            i=pos_dic[name_bed1]
+            j=pos_dic[name_bed2]
+            min_length = min(bigg_list[i].exonlen, bigg_list[j].exonlen)
+            union=bigg_list[i].exonlen+bigg_list[j].exonlen-intersection
+
+            if by == "ratio":
+                # intron could be 0
+                if min_length == 0:
+                    D_exon[i,j]=0
+                else:
+                    similar = float(intersection) / union
+                    D_exon[i,j]=1 - similar
+
+            elif by == "ratio_short":
+                # intron could be 0
+                if min_length == 0:
+                    D_exon[i,j]=0
+                else:
+                    D_exon[i,j]=1 - float(intersection) / min_length
+
+        for one in intron_l:
+            for two in one:
+                name_bed1, name_bed2, intersection = two
+                i = pos_dic[name_bed1]
+                j = pos_dic[name_bed2]
+                min_length = min(bigg_list[i].intronlen, bigg_list[j].intronlen)
+                union = bigg_list[i].intronlen + bigg_list[j].intronlen - intersection
+
+                if by == "ratio":
+                    # intron could be 0
+                    if min_length == 0:
+                        D_intron[i, j] = 0
+                    else:
+                        similar = float(intersection) / union
+                        D_intron[i, j] = 1 - similar
+
+                elif by == "ratio_short":
+                    # intron could be 0
+                    if min_length == 0:
+                        D_intron[i, j] = 0
+                    else:
+                        D_intron[i, j] = 1 - float(intersection) / min_length
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
@@ -150,30 +181,31 @@ def write_D(D, bigg_list_new, outfile="./test/d.csv"):
                 fw.write("\n")
 
 
-def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=0.90):
+def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=30, core=40):
     """
     only accept the D and bigg_list using exon only
     cal_distance(bigg_list, filter=False,intronweight=0,by="ratio", core=40, outfile="./test/d.csv"):
 
     :param D:
     :param bigg_list:
+    :param cutoff: at least 50bp intersction with current annotation
     :return: keep
     """
     drop=set()
-    fullset=set(range(len(D)))
+    fullset=set(range(len(bigg_list)))
 
-    for i in bigg_list:
-        for j in bigg_list_gff:
-            todo
+    out_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list_gff, use="exon", core=core)
 
-    for i in range(len(D)):
-        if D[i,].mean()>=cutoff:
-            drop.add(i)
+    for n, intersection_list in enumerate(out_l):
+        numbers=[x[2] for x in intersection_list]
+        if max(numbers)<=cutoff:
+            drop.add(n)
 
     keep=sorted(list(fullset-drop))
 
-    D, bigg_list_new=select_list(D, bigg_list, keep)
-    return D, bigg_list_new
+    bigg_list_new=select_list(bigg_list, keep)
+    return bigg_list_new
+
 
 
 def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
@@ -185,7 +217,7 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     """
     if cutoff=="auto":
         if by=="ratio" or by=="ratio_short":
-            cutoff=0.025
+            cutoff=0.01
         if by=="length" or by=="length_short":
             cutoff=100
 
@@ -238,7 +270,8 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     #print(keep)
 
     # re_order D and bigg_list
-    D, bigg_list_new=select_list(D, bigg_list, keep)
+    bigg_list_new=select_list(bigg_list, keep)
+    D=select_D(D, keep)
 
     return D, bigg_list_new
 
