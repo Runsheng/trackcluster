@@ -27,7 +27,8 @@ class PlotTest(unittest.TestCase):
 
     def test_IO(self):
         sample=self.bigg[0]
-        sample.to_bedfile()
+        sample.to_bedstr()
+        print sample.exon_str
 
     def test_cal_distance(self):
 

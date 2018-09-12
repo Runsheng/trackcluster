@@ -8,7 +8,7 @@
 from utils import set_tmp, wrapper_bedtools_jaccard
 import os
 
-dirpath=set_tmp()
+dirp=set_tmp()
 
 def get_start_end(list2):
     start = [x[0] for x in list2]
@@ -40,7 +40,7 @@ class bigGenePred(object):
     int[blockCount] exonFrames; "Exon frame {0,1,2}, or -1 if no frame for exon"
     string type; "Transcript type"
     string geneName; "Primary identifier for gene"
-    string geneName2; "Alternative/human readable gene name"
+    string geneName2; "Alternative/human readable gene name, used to store sample information such as stage or group"
     string geneType; "Gene type"
     )
 
@@ -72,8 +72,8 @@ class bigGenePred(object):
         self.intron=None
         self.interval_set=None
         self.gene_start=None
-        self.ExonBedTool=None
-        self.IntronBedTool=None
+        self.exon_str=None
+        self.intron_str=None
         self.exonlen=0
         self.intronlen=0
 
@@ -218,7 +218,35 @@ class bigGenePred(object):
         # debug:
         #print("exon", self.exon)
 
-    def to_bedfile(self, gene_start=None, dirpath=dirpath, rewrite=False):
+    def to_bedstr(self, gene_start=None):
+        """
+        convert the exon region to BedTool object
+        :return:
+        """
+        if self.exon is None:
+            self.get_exon(gene_start)
+        # for exon
+        line_str = []
+        for exon in self.exon:
+            start, end = exon
+            str_one = "\t".join([self.chrom, str(start), str(end), self.name])
+            line_str.append(str_one)
+
+        bed_str = "\n".join(line_str)
+        self.exon_str=bed_str
+
+        # re init the list for intron
+        line_str = []
+        for intron in self.intron:
+            start, end = intron
+            str_one_intron = "\t".join([self.chrom, str(start), str(end), self.name])
+            line_str.append(str_one_intron)
+
+        bed_str = "\n".join(line_str)
+        self.intron_str=bed_str
+
+    def to_bedfile(self, gene_start=None, dirpath=dirp, rewrite=False):
+
         exon_file=dirpath+"/"+self.name+"_exon.bed"
         intron_file=dirpath+"/"+self.name+"_intron.bed"
 
@@ -231,34 +259,16 @@ class bigGenePred(object):
         else:
             if gene_start is None:
                 gene_start=0 # seems not affect the speed of bedtools
-            if self.exon is None:
-                self.get_exon(gene_start)
+            if self.exon_str is None:
+                self.to_bedstr(gene_start)
 
-            # for exon
-            line_str = []
-            for exon in self.exon:
-                start, end = exon
-                str_one = "\t".join([self.chrom, str(start), str(end)])
-                line_str.append(str_one)
-
-            bed_str = "\n".join(line_str)
             with open(exon_file, "w") as fw:
-                fw.write(bed_str)
+                fw.write(self.exon_str)
             self.exon_file=exon_file
 
-            # re init the list for intron
-            line_str = []
-            for intron in self.intron:
-                start, end = intron
-                str_one_intron = "\t".join([self.chrom, str(start), str(end)])
-                line_str.append(str_one_intron)
-
-            bed_str = "\n".join(line_str)
             with open(intron_file, "w") as fw:
-                fw.write(bed_str)
+                fw.write(self.intron_str)
             self.intron_file=intron_file
-
-
 
     @staticmethod
     def bedfile_cal_distance(bedfile1, bedfile2, min_length, by="ratio"):
@@ -325,33 +335,6 @@ class bigGenePred(object):
         return distance
 
 
-
-    def to_bedstr(self, gene_start):
-        """
-        convert the exon region to BedTool object
-        :return:
-        """
-        if self.exon is None:
-            self.get_exon(gene_start)
-        # for exon
-        line_str=[]
-        for exon in self.exon:
-            start, end=exon
-            str_one="\t".join(["1", str(start), str(end)])
-            line_str.append(str_one)
-
-        bed_str="\n".join(line_str)
-
-        # re init the list for intron
-        line_str=[]
-        for intron in self.intron:
-            start, end= intron
-            str_one_intron="\t".join(["2", str(start), str(end)])
-            line_str.append(str_one_intron)
-
-        bed_str="\n".join(line_str)
-
-
     def bind_seq(self, seqdic):
         """
         To bind the sequence of the bigg, can used to call sl or cds frame
@@ -366,7 +349,7 @@ class bigGenePred(object):
         """
         pass
 
-    def store_subread(self):
+    def write_subread(self):
         """
         subread is generated in clustering
         :return:

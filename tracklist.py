@@ -71,6 +71,22 @@ def list_to_dic(bigg_list):
     return bigg_dic
 
 
+def bigglist_to_bedfile(bigg_list,prefix, dir):
+    out_exon=dir+"/{prefix}_exon.bed".format(prefix=prefix)
+    out_intron=dir+"/{prefix}_intron.bed".format(prefix=prefix)
+
+    f_exon=open(out_exon, "w")
+    f_intron=open(out_intron, "w")
+
+    for bigg in bigg_list:
+        bigg.to_bedstr(gene_start=0)
+
+        f_exon.write(bigg.exon_str)
+        f_exon.write("\n")
+        f_intron.write(bigg.intron_str)
+        f_intron.write("\n")
+
+
 
 def bigg_count(bigg_list):
     """

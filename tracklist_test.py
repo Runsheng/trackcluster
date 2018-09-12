@@ -20,6 +20,5 @@ class TracklistTest(unittest.TestCase):
         add_sw(self.biggfile, self.swfile, out="./test/unc52_sw.bed")
 
 
-
     def tearDown(self):
         pass

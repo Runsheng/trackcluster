@@ -46,6 +46,7 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5, core=40)
     return D_remain, bigg_l3
 
 
+
 def getij(bigg_list):
     ij_list=[]
     for i in range(len(bigg_list)):
@@ -105,8 +106,8 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio", core=40):
     #        bigg_rest=bigg_list[n+1:]
     #        par_list.append(bigg_n, bigg_rest)
 
-    exon_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="exon", core=core)
-    intron_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="intron", core=core)
+    exon_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="exon", core=40)
+    intron_l=wrapper_bedtools_intersection_muti(bigg_list, bigg_list, use="intron", core=40)
 
     for one in exon_l:
         for two in one:

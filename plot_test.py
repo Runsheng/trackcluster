@@ -26,10 +26,10 @@ class PlotTest(unittest.TestCase):
         self.bigg_gff=bigg_gff
 
     def test_IO(self):
-        self.assertEquals(len(self.bigg_nano),323)
+        self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg_nano[0:]
+        sample=self.bigg_nano[0:10]
         line_plot_merge(sample, self.bigg_gff,
                         out="./test/bb.pdf",
                   biggout="./test/test.bed",
@@ -44,6 +44,7 @@ class PlotTest(unittest.TestCase):
 
     def tearDown(self):
         self.bigg_nano=None
+        self.bigg_gff=None
 
 
 if __name__ == '__main__':

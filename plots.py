@@ -10,13 +10,19 @@ Plotting function for gene track
 # self import
 from track import bigGenePred
 # third part import
-
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import scipy
+import pylab
 import numpy as np
 import scipy.cluster.hierarchy as sch
 from clusteri import flow_cluster, write_D
 from tracklist import write_bigg
 
+from copy import deepcopy
+from scipy.cluster.hierarchy import linkage, dendrogram, to_tree
+from scipy.spatial.distance import pdist
+import operator
 
 # static
 # set colour for the dendrogram
@@ -33,7 +39,7 @@ def line_plot_merge(bigg_nano,
                     Dout="./test/d.csv",
                     color=None):
     """
-    :param bigg_nano: a list contain multiple bigGenePred class
+    :param bigg_list: a list contain multiple bigGenePred class
     :return:
     """
     D,bigg_list_by2=flow_cluster(bigg_nano,bigg_gff, by, intronweight=intronweight, core=core )
