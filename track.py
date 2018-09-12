@@ -5,7 +5,6 @@
 # @File    : track.py
 
 # third part import
-from pybedtools import BedTool
 from utils import set_tmp, wrapper_bedtools_jaccard
 import os
 
@@ -327,7 +326,7 @@ class bigGenePred(object):
 
 
 
-    def to_bedtool(self, gene_start):
+    def to_bedstr(self, gene_start):
         """
         convert the exon region to BedTool object
         :return:
@@ -342,7 +341,6 @@ class bigGenePred(object):
             line_str.append(str_one)
 
         bed_str="\n".join(line_str)
-        self.ExonBedTool=BedTool(bed_str, from_string=True)
 
         # re init the list for intron
         line_str=[]
@@ -352,71 +350,6 @@ class bigGenePred(object):
             line_str.append(str_one_intron)
 
         bed_str="\n".join(line_str)
-        self.IntronBedTool=BedTool(bed_str, from_string=True)
-
-    @staticmethod
-    def bedtool_cal_distance(bed1, bed2, min_length, by="ratio"):
-
-        jaccard=bed1.jaccard(bed2)
-
-        if by=="ratio":
-            # intron could be 0
-            if min_length==0:
-                return 0
-            else:
-                similar= jaccard["jaccard"] # equals float(jaccard["intersection"])/jaccard["union-intersection"]
-                return 1-similar
-
-        elif by=="length":
-            return jaccard["union-intersection"]-jaccard["intersection"]
-
-        elif by=="ratio_short":
-            # intron could be 0
-            if min_length==0:
-                return 0
-            else:
-                return 1-float(jaccard["intersection"])/min_length
-
-        elif by=="length_short":
-            return min_length-jaccard["intersection"]
-
-    def bedtool_cal_distance_exon(self, other_bgp, gene_start, by="length_short"):
-        """
-
-        :param other_bgp:
-        :param gene_start:
-        :param by: could be "ratio", "length", "ratio_short", "length_short"
-        :return: dis-similarity matrix
-        """
-        if self.ExonBedTool is None:
-            self.to_bedtool(gene_start)
-        if other_bgp.ExonBedTool is None:
-            other_bgp.to_bedtool(gene_start)
-        bed1=self.ExonBedTool
-        bed2=other_bgp.ExonBedTool
-        min_length=self.exonlen if self.exonlen-other_bgp.exonlen<=0 else other_bgp.exonlen
-
-        distance=self.bedtool_cal_distance(bed1, bed2, min_length, by)
-        return distance
-
-    def bedtool_cal_distance_intron(self, other_bgp, gene_start, by="length_short"):
-        """
-        :param other_bgp:
-        :param gene_start:
-        :param by: could be "ratio", "length", "ratio_short", "length_short"
-        :return: dis-similarity matrix
-        """
-        if self.IntronBedTool is None:
-            self.to_bedtool(gene_start)
-        if other_bgp.IntronBedTool is None:
-            other_bgp.to_bedtool(gene_start)
-
-        bed1=self.IntronBedTool
-        bed2=other_bgp.IntronBedTool
-        min_length=self.intronlen if self.intronlen-other_bgp.intronlen<=0 else other_bgp.intronlen
-
-        distance=self.bedtool_cal_distance(bed1, bed2, min_length, by)
-        return distance
 
 
     def bind_seq(self, seqdic):
