@@ -43,7 +43,7 @@ class PlotTest(unittest.TestCase):
         #plot_tree(sample, out="./test/aa.pdf")
 
     def tearDown(self):
-        self.bigg=None
+        self.bigg_nano=None
 
 
 if __name__ == '__main__':

@@ -433,7 +433,11 @@ class bigGenePred(object):
         """
         pass
 
-    def write_subread(self):
+    def store_subread(self):
+        """
+        subread is generated in clustering
+        :return:
+        """
         self.name2=",".join(self.subread)
 
     def get_subread_from_str(self):
