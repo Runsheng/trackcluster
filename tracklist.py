@@ -11,9 +11,8 @@ Functions to handel the IO of bigg list
 # self import
 from track import bigGenePred
 from collections import OrderedDict
-from utils import myexe, set_tmp
+from utils import myexe, set_tmp, del_files
 import pandas
-import os
 
 
 def add_sw(bigg_file, sw_file, out="bigg_sw.bed"):
@@ -103,8 +102,6 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
 
 
 
-
-
 def get_file_prefix(filepath):
     return filepath.split("/")[-1].split(".")[0]
 
@@ -141,13 +138,9 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     _=myexe(cmd)
 
     ### cleanup
-    try:
-        os.remove(bedfile1)
-        os.remove(bedfile2)
-        os.remove(bedfile1+"_s")
-        os.remove(bedfile2+"_s")
-    except OSError as e:
-        print e
+    bed1s=bedfile1+"_s"
+    bed2s=bedfile2+"_s"
+    del_files([bedfile1, bedfile2, bed1s, bed2s])
 
     return outfile
 

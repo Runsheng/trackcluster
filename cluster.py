@@ -13,10 +13,9 @@ from track import bigGenePred
 
 # third part import
 import scipy
-import os
 import operator
 from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary
-from utils import parmap, set_tmp
+from utils import del_files
 
 
 def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
@@ -116,14 +115,7 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
             bigg_list_new.append(bigg)
 
     ### clean up
-    try:
-        os.remove(exonfile)
-        os.remove(nano_exon)
-        os.remove(nano_intron)
-        os.remove(gff_exon)
-        os.remove(gff_intron)
-    except OSError:
-        pass
+    del_files([exonfile, nano_intron, gff_intron])
 
     return bigg_list_new
 
@@ -216,11 +208,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
     # cleanup
-    try:
-        os.remove(exon_out)
-        os.remove(intron_out)
-    except OSError:
-        pass
+    del_files([exon_out, intron_out, file_exon, file_intron])
 
     # debug:
     #print("D_exon",D_exon)
@@ -247,7 +235,6 @@ def write_D(D, bigg_list_new, outfile="./test/d.csv"):
                 fw.write("\n")
 
 
-
 def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
 
     """
@@ -257,7 +244,7 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     """
     if cutoff=="auto":
         if by=="ratio" or by=="ratio_short":
-            cutoff=0.05
+            cutoff=0.01
         if by=="length" or by=="length_short":
             cutoff=100
 
@@ -284,18 +271,18 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
                 if by=="ratio":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen:
                         drop.add(i)
-                        bigg_list[j].subread.append(bigg_list[i].name)
+                        bigg_list[j].subread.add(bigg_list[i].name)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen:
                         drop.add(j)
-                        bigg_list[i].subread.append(bigg_list[j].name)
+                        bigg_list[i].subread.add(bigg_list[j].name)
 
                 if by=="ratio_short":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen and bigg_list[i].score<sw_score:
                         drop.add(i)
-                        bigg_list[j].subread.append(bigg_list[i].name)
+                        bigg_list[j].subread.add(bigg_list[i].name)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen and bigg_list[j].score<sw_score:
                         drop.add(j)
-                        bigg_list[i].subread.append(bigg_list[j].name)
+                        bigg_list[i].subread.add(bigg_list[j].name)
 
     keep=fullset-drop
     # change the default score of gene, no need to add

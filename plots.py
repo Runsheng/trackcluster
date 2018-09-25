@@ -24,10 +24,25 @@ from scipy.cluster.hierarchy import linkage, dendrogram, to_tree
 from scipy.spatial.distance import pdist
 import operator
 
+import pandas
+
 # static
 # set colour for the dendrogram
 brew_11 = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd","#5e4fa2"]
 
+
+
+def flow_plot_count():
+    pass
+
+
+def plot_simple(D_file,bigg_file, by="coverage"):
+    """
+    from the Distance matrix and the bigg file, re draw the plot
+    :param D_file: 
+    :return: 
+    """
+    pass
 
 
 def line_plot_merge(bigg_nano,
@@ -48,9 +63,8 @@ def line_plot_merge(bigg_nano,
     # init a figure size
     bigg=bigg_gff[0]
 
-    start=bigg.chromStart
     bigg.get_exon(0)
-    width=(bigg.chromEnd-start)/100.0 # 100 bp=1 inch width
+    width=(bigg.chromEnd-bigg.chromStart)/100.0 # 100 bp=1 inch width
     height=(len(bigg_list_by2))/5.0+2  # 1 gene 0.2 inch height
     fig=plt.figure(figsize=(width,height))
 
@@ -110,7 +124,7 @@ def line_plot_merge(bigg_nano,
 
 
     for n,bigg in enumerate(bigg_list_new):
-        bigg.get_exon(start)
+        bigg.get_exon()
         for exon in bigg.exon:
             x_start, x_end = exon
             # debug
@@ -136,3 +150,5 @@ def line_plot_merge(bigg_nano,
     for bigg in bigg_list_new:
         bigg.write_subread()
     write_bigg(bigg_list_new, out=biggout)
+
+    return bigg_list_new

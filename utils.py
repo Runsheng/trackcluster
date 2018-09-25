@@ -148,6 +148,14 @@ def set_tmp(wkdir=None):
     else:
         return wkdir
 
+
+def del_files(filename_l):
+    for filename in filename_l:
+        try:
+            os.remove(filename)
+        except OSError:
+            pass
+
 def parmap(f, X, nprocs=multiprocessing.cpu_count()):
     """
     a function to use muti map inside a function
