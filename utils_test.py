@@ -17,14 +17,10 @@ class PlotTest(unittest.TestCase):
         self.bedfile_list=["/run/user/1002/ZC101.2a.1_exon.bed",
                            "/run/user/1002/ZC101.2a.1_intron.bed"]
 
-    def test_IO(self):
-        out=wrapper_bedtools_jaccard(self.bedfile1, self.bedfile2)
-        print out
+    def test_set_wkdir(self):
+        WKDIR="~"
+        def printx():
+            print("wkdir")
 
-    def test_inter(self):
-        out=wrapper_bedtools_intersect(self.bedfile1, self.bedfile_list)
-        print out
-
-
-
+        printx()
 
