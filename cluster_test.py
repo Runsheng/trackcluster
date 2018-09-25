@@ -4,7 +4,7 @@
 # @Author  : Runsheng     
 # @File    : cluster_test.py
 
-from clusteri import *
+from cluster import *
 import unittest
 from unittest import skip
 
@@ -27,33 +27,30 @@ class ClusterTest(unittest.TestCase):
         self.bigg_gff=bigg_gff
         self.bigg=bigg_nano+bigg_gff
 
-        for i in self.bigg:
-            i.to_bedfile(rewrite=False)
 
 
     def test_IO(self):
         pass
         #self.assertEquals(len(self.bigg), 323)
 
+
+    def test_padas_summary(self):
+        bb=pandas_summary("./test/exon_inter.bed")
+        print(len(bb))
+
     def test_prefilter(self):
-        bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=50, core=40)
+        bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=100)
         print len(self.bigg_nano), len(bigg_list_new)
 
 
-    def test_muti_wrapper(self):
-        pair_list=[]
+    def test_cal_distance(self):
+        D,_=cal_distance(self.bigg)
+        print D
 
-        for i in self.bigg_nano:
-            pair_list.append((i, self.bigg_gff))
+    def test_flow(self):
+       D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.2)
+       write_D(D, bigg_list, "./test/d.csv")
 
-        #print wrapper_bedtools_intersection_muti(pair_list, use="exon", core=40)
-
-    def test_cluster(self):
-        sample = self.bigg[0:]
-        D,bigg_list=cal_distance(sample,intronweight=0.5,by="ratio", core=40)
-        print(D)
-        #keep=filter_D(D, sample)
-        #print len(bigg_list)
 
 
     def tearDown(self):

@@ -115,14 +115,17 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
         if bigg.name in keep_name:
             bigg_list_new.append(bigg)
 
+    ### clean up
+    try:
+        os.remove(exonfile)
+        os.remove(nano_exon)
+        os.remove(nano_intron)
+        os.remove(gff_exon)
+        os.remove(gff_intron)
+    except OSError:
+        pass
+
     return bigg_list_new
-
-
-
-def dict_to_D(bigg_list, intersection_dic):
-
-    ijlist=None
-
 
 
 def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
@@ -212,12 +215,20 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
+    # cleanup
+    try:
+        os.remove(exon_out)
+        os.remove(intron_out)
+    except OSError:
+        pass
+
     # debug:
     #print("D_exon",D_exon)
     #print("D_intron", D_intron)
     #print("D",D)
 
     #cleanup(remove_all=True)
+
     return D, bigg_list
 
 

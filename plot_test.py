@@ -1,7 +1,7 @@
 import unittest
 
 from track import bigGenePred
-from plotsi import *
+from plots import *
 
 class MyTestCase(unittest.TestCase):
     def test_something(self):
@@ -29,13 +29,13 @@ class PlotTest(unittest.TestCase):
         self.assertEquals(len(self.bigg),340)
 
     def test_plot(self):
-        sample=self.bigg_nano[0:10]
+        sample=self.bigg_nano[0:]
         line_plot_merge(sample, self.bigg_gff,
                         out="./test/bb.pdf",
                   biggout="./test/test.bed",
                   Dout="./test/d.csv",
                   intronweight=0.5,
-                  by="ratio_all", core=40)
+                  by="ratio_all")
 
     def test_plot_tree(self):
         pass

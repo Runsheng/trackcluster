@@ -5,7 +5,7 @@
 # @File    : track.py
 
 # third part import
-from utils import set_tmp, wrapper_bedtools_jaccard
+from utils import set_tmp
 import os
 
 dirp=set_tmp()
