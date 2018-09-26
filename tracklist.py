@@ -144,6 +144,11 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
 
     return outfile
 
+def count_file(thefile):
+    count = 0
+    for line in open(thefile).xreadlines(  ):
+        count += 1
+    return count
 
 def pandas_summary(bed8file):
     """
@@ -151,8 +156,10 @@ def pandas_summary(bed8file):
     :param bed8file:
     :return: the dict with (read1, read2): intersection
     """
-    df=pandas.read_csv(bed8file, sep="\t", header=None)
+    if count_file(bed8file)==0:
+        return {}
 
+    df=pandas.read_csv(bed8file, sep="\t", header=None)
     df["start_max"] = df[[1, 5]].max(axis=1)
     df["end_min"] = df[[2, 6]].min(axis=1)
     df["sub"] = df["end_min"] - df["start_max"]
@@ -172,7 +179,7 @@ def pandas_summary(bed8file):
     return intersection_dic
 
 
-def bigg_count(bigg_list):
+def bigg_count_write(bigg_list, out=None):
     """
     parser the output of cluster, get the count for each isoform
     :param bigg_list:
@@ -185,12 +192,24 @@ def bigg_count(bigg_list):
         bigg.get_subread_from_str()
         if len(bigg.subread)>0:
             for name in bigg.subread:
-                try:
-                    name_dic[name]+=1
-                except NameError:
-                    name_dic[name]=1
+                if "-" in name: # judge if it is a read or a isoform
+                    try:
+                        name_dic[name]+=1
+                    except KeyError:
+                        name_dic[name]=1
 
-    return name_dic
+    for bigg in bigg_list:
+        coverage=0
+        for name in bigg.subread:
+            if "-" in name:
+                coverage+=1.0/name_dic[name]
+
+        bigg.coverage=coverage
+        bigg.write_coverage()
+
+    # debug
+    #print name_dic
+    write_bigg(bigg_list,out)
 
 
 

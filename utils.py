@@ -117,7 +117,7 @@ def __wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
     return i_d
 
 
-def myexe(cmd, timeout=0):
+def myexe(cmd, timeout=100):
     """
     a simple wrap of the shell
     mainly used to run the bwa mem mapping and samtool orders

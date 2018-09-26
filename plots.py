@@ -10,35 +10,23 @@ Plotting function for gene track
 # self import
 from track import bigGenePred
 # third part import
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import scipy
-import pylab
 import numpy as np
 import scipy.cluster.hierarchy as sch
 from cluster import flow_cluster, write_D
-from tracklist import write_bigg
+from tracklist import bigg_count_write
 
-from copy import deepcopy
-from scipy.cluster.hierarchy import linkage, dendrogram, to_tree
-from scipy.spatial.distance import pdist
-import operator
-
-import pandas
 
 # static
 # set colour for the dendrogram
 brew_11 = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd","#5e4fa2"]
 
-
-
-def flow_plot_count():
-    pass
-
-
 def plot_simple(D_file,bigg_file, by="coverage"):
     """
     from the Distance matrix and the bigg file, re draw the plot
+    todo: leave to R code
     :param D_file: 
     :return: 
     """
@@ -116,6 +104,16 @@ def line_plot_merge(bigg_nano,
     for x in Z1["leaves"]:
         bigg_list_new.append(bigg_list_by2[x])
 
+    #####
+    ### save nessary files
+    for bigg in bigg_list_new:
+        bigg.write_subread()
+
+    # write the subreads and coverage for each isoforms
+    # make sure the coverage have been in each bigg
+    bigg_count_write(bigg_list_new, out=biggout)
+
+    ##### draw ccc
     ax2=fig.add_axes([0.225,0.09,0.65,0.91]) # adjust the ax to fit figure
     ax2.set_yticks([])
     ax2.set_ylim(min(id_cord)-1, max(id_cord)+1)
@@ -125,6 +123,13 @@ def line_plot_merge(bigg_nano,
 
     for n,bigg in enumerate(bigg_list_new):
         bigg.get_exon()
+
+        # add name and coverage
+        plt.text(x=bigg.chromEnd+200, y=id_cord[n],
+                 s=bigg.name+"|"+str(round(bigg.coverage,2))
+                 )
+
+        ####
         for exon in bigg.exon:
             x_start, x_end = exon
             # debug
@@ -146,9 +151,6 @@ def line_plot_merge(bigg_nano,
 
     plt.savefig(out)
 
-    ### save nessary files
-    for bigg in bigg_list_new:
-        bigg.write_subread()
-    write_bigg(bigg_list_new, out=biggout)
+
 
     return bigg_list_new

@@ -34,7 +34,7 @@ class bigGenePred(object):
     int blockCount; "Number of blocks"
     int[blockCount] blockSizes; "Comma separated list of block sizes"
     int[blockCount] chromStarts; "Start positions relative to chromStart"
-    string name2; "Alternative/human readable name, |store subreads"
+    string name2; "Alternative/human readable name, |store subreads or coverage"
     string cdsStartStat; "Status of CDS start annotation (none, unknown, incomplete, or complete)"
     string cdsEndStat; "Status of CDS end annotation (none, unknown, incomplete, or complete)"
     int[blockCount] exonFrames; "Exon frame {0,1,2}, or -1 if no frame for exon"
@@ -82,6 +82,7 @@ class bigGenePred(object):
 
         self.seq=None
         self.subread=set() # use to store the reads contained inside the
+        self.coverage=0
 
     def to_list(self):
         data_l=[self.chrom,
@@ -246,6 +247,8 @@ class bigGenePred(object):
         self.intron_str=bed_str
 
 
+
+
     def bind_seq(self, seqdic):
         """
         To bind the sequence of the bigg, can used to call sl or cds frame
@@ -266,6 +269,13 @@ class bigGenePred(object):
         :return:
         """
         self.name2=",".join(list(self.subread))
+
+    def write_coverage(self):
+        """
+        can only be run when coverage are caculated in bigglist
+        :return:
+        """
+        self.name2=",".join(list(self.subread))+",|"+str(self.coverage)
 
     def get_subread_from_str(self):
         if "," in self.name2:

@@ -243,9 +243,11 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     return: index of the matrix that can be retained
     """
     if cutoff=="auto":
-        if by=="ratio" or by=="ratio_short":
-            cutoff=0.01
-        if by=="length" or by=="length_short":
+        if by=="ratio":
+            cutoff=0.025
+        elif by=="ratio_short":
+            cutoff=0.001
+        elif by=="length" or by=="length_short":
             cutoff=100
 
     # hard code a cutoff for sw score of SL
