@@ -265,21 +265,29 @@ class bigGenePred(object):
 
     def write_subread(self):
         """
-        subread is generated in clustering
+        subread is generated in clustering, using cluster.py
         :return:
         """
         self.name2=",".join(list(self.subread))
 
     def write_coverage(self):
         """
-        can only be run when coverage are caculated in bigglist
+        can only be run when coverage are calculated in tracklist
         :return:
         """
         self.name2=",".join(list(self.subread))+",|"+str(self.coverage)
 
+    def get_coverage_from_str(self):
+        """
+        reverse the write_coverage
+        :return:
+        """
+        if "|" in self.name2:
+            self.coverage=float(self.name2.split("|")[1])
+
     def get_subread_from_str(self):
         if "," in self.name2:
-            self.subread=set(self.name2.split(","))
+            self.subread=set(self.name2.split("|")[0].split(","))
         elif self.name2=="none":
             self.subread=set()
 

@@ -274,17 +274,22 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen:
                         drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
+                        bigg_list[j].subread.union(bigg_list[i].subread)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
+                        bigg_list[i].subread.union(bigg_list[j].subread)
+                        # to add a subread add here
 
                 if by=="ratio_short":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen and bigg_list[i].score<sw_score:
                         drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
+                        bigg_list[j].subread.union(bigg_list[i].subread)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen and bigg_list[j].score<sw_score:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
+                        bigg_list[i].subread.union(bigg_list[j].subread)
 
     keep=fullset-drop
     # change the default score of gene, no need to add
