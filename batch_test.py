@@ -12,7 +12,7 @@ import os
 import unittest
 from tracklist import read_bigg, write_bigg
 from track import bigGenePred
-from plotsi import line_plot_merge
+from plots import line_plot_merge
 from collections import OrderedDict
 from utils import count_file
 
@@ -53,6 +53,50 @@ def process_one(key):
 
     return 1
 
+
+import random
+random.seed(1234)
+def process_one_subsample(key, batchsize=500):
+    # print key
+    gff_file = "./" + key + "/" + key + "_gff.bed"
+    nano_file = "./" + key + "/" + key + "_nano.bed"
+    figout = "./" + key + "/" + key + "_coverage.pdf"
+    biggout = "./" + key + "/" + key + "_simple_coverage.bed"
+    Dout = "./" + key + "/" + key + "_simple_coverage.csv"
+
+    if os.stat(nano_file).st_size == 0:  # no bigg nano file
+        return 0
+    if os.path.isfile(biggout):  # already processed
+        return 0
+
+    bigg_nano_raw = read_bigg(nano_file)
+
+    bigg_nano = []
+
+    if len(bigg_nano_raw) > batchsize:  # if > 500. subsample to 500
+        full = range(0, len(bigg_nano_raw))
+        sliced = random.sample(full, 500)
+        for i in sliced:
+            bigg_nano.append(bigg_nano_raw[i])
+
+    else:
+        bigg_nano = bigg_nano_raw
+
+    print key, "length of nano number", len(bigg_nano_raw), len(bigg_nano)
+
+    bigg_gff = read_bigg(gff_file)
+
+    try:
+        line_plot_merge(bigg_nano, bigg_gff,
+                        out=figout,
+                        biggout=biggout,
+                        Dout=Dout,
+                        intronweight=0.5,
+                        by="ratio_all")
+    except Exception:
+        pass
+
+    return 1
 
 
 def get_len(key):

@@ -5,7 +5,7 @@
 # @File    : track.py
 
 # third part import
-from utils import set_tmp
+from utils import set_tmp, chr_select, reverse_complement
 import os
 
 dirp=set_tmp()
@@ -83,6 +83,9 @@ class bigGenePred(object):
         self.seq=None
         self.subread=set() # use to store the reads contained inside the
         self.coverage=0
+
+        ###
+        self.seq_chro=None
 
     def to_list(self):
         data_l=[self.chrom,
@@ -184,6 +187,12 @@ class bigGenePred(object):
         return distance
 
     def get_exon(self, gene_start=None):
+        """
+        note the 0 and 1 based sys, [0:100) is the regions
+        contain the 0 , but do not contain 100
+        :param gene_start:
+        :return:
+        """
         gene_start=0 if gene_start is None else gene_start
         offset=self.chromStart-gene_start
 
@@ -205,7 +214,7 @@ class bigGenePred(object):
             if n==0:
                 pass
             else:
-                line_intron.append((end_p+1, start-1))
+                line_intron.append((end_p, start))
             if n==len(line_exon):
                 break
             start_p, end_p=pair
@@ -247,9 +256,7 @@ class bigGenePred(object):
         self.intron_str=bed_str
 
 
-
-
-    def bind_seq(self, seqdic):
+    def bind_readseq(self, seqdic):
         """
         To bind the sequence of the bigg, can used to call sl or cds frame
         :param: seqdic: A biopython seqdic that contains the sequence
@@ -257,11 +264,71 @@ class bigGenePred(object):
         self.seq= str(seqdic[self.name].seq)
 
 
-    def orf_find(self, refdic):
+    def bind_chroseq(self, refdic, gap=0, intron=False):
+        """
+        the gap=0 and intron=False will output CDS seq
+        gap>0 would not work with intron=True
+        grp>0 and intron=False woll output exon seq seperated by "N"
+        :param: refdic: the reference genome
+        """
+        # need self.exon, self.strand
+        # need to note that the chr_select is 0 based
+        # while the exon in bigg is 1 based
+        if self.exon is None:
+            self.get_exon()
+
+        seq_l=[]
+        for n,exon_one in enumerate(self.exon):
+            chro=self.chrom
+            start, end=exon_one
+            _,seq=chr_select(refdic, chro, start,end)
+            seq_l.append(seq.upper()) # upper case for exon
+            if intron is False and n<len(self.exon)-1:
+                seq_l.append(gap*"N")
+            if intron and n<len(self.intron):
+                intron_one=self.intron[n]
+                start_i, end_i=intron_one
+                _, seq_intron=chr_select(refdic, chro, start_i, end_i)
+                seq_l.append(seq_intron.lower()) # lower case for intron
+        seq_raw="".join(seq_l)
+        if self.strand=="+":
+            seq_out=seq_raw
+        else:
+            seq_out=reverse_complement(seq_raw)
+
+        self.seq_chro="".join(seq_out)
+
+
+    def orf_find(self):
         """
         :param: refdic: the reference genome
         """
-        pass
+        # need self.seq_chro
+        if self.seq_chro is None:
+            return None
+        else:
+            pass
+
+    def find_orfs_with_trans(self, trans_table=1, min_protein_length=10):
+        if self.seq_chro is None:
+            return None
+        else:
+            from Bio.Seq import Seq
+            from Bio.Alphabet import generic_dna
+            seq=Seq(self.seq_chro, generic_dna)
+
+            seq0=seq.translate(table=1)
+            seq1=seq[1:].translate(table=1)
+            seq2=seq[2:].translate(table=1)
+            print str(seq0)
+            print "======================================"
+            print str(seq1)
+            print "======================================"
+            print str(seq2)
+
+            answer=[seq0, seq1, seq2]
+
+        return answer
 
     def write_subread(self):
         """
@@ -301,6 +368,8 @@ class bigGenePred(object):
         seq2=self.seq[:23]
         #aln = ssw_wrapper(seq1, seq2, 2, 2, 3, 1)
         #self.score = aln.score
+
+
 
 
 

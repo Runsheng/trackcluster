@@ -1,5 +1,5 @@
 # This is a fork of SSW library. And only the python wrapper is retained. 
-### The build-in python wrapper for SSW library is forked from pyDNA package [https://github.com/a-slide/pyDNA]
+### The build-in python wrapper for SSW library is forked and modified from pyDNA package [https://github.com/a-slide/pyDNA]
 ### Please refer to [https://github.com/mengyao/Complete-Striped-Smith-Waterman-Library] for details.
 
 

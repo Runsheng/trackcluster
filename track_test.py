@@ -8,7 +8,7 @@
 import unittest
 
 from track import *
-
+from utils import fasta2dic
 
 class PlotTest(unittest.TestCase):
     def setUp(self):
@@ -34,5 +34,36 @@ class PlotTest(unittest.TestCase):
 
         bed1, bed2=self.bigg[0:2]
         #print(bed1.bedfile_cal_distance_exon(bed2))
-        print(bed1.bedfile_cal_distance_intron(bed2))
+        #print(bed1.bedfile_cal_distance_intron(bed2))
+        pass
+
+
+    def test_bindseq(self):
+        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10.fa")
+        bigg_one=self.bigg[-1]
+
+        bigg_one.bind_chroseq(ref_dict, gap=100, intron=True)
+        print bigg_one.seq_chro
+        print bigg_one
+
+
+    def __test_orfs(self):
+        """
+        can only run with ce10 ref
+        """
+        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10.fa")
+        bigg_one=self.bigg[30]
+        bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
+        print bigg_one.seq_chro
+        ans=bigg_one.find_orfs_with_trans()
+
+        print ans
+        print bigg_one
+
+    def test_orf(self):
+        pass
+
+
+
+
 

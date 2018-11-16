@@ -17,6 +17,7 @@ from pysam import AlignmentFile
 
 def sam_to_bigGenePred(record, samfile):
     """
+    sam is 0 based and bigg is 0 based
 
     :param record:
     :param samfile: the opened Alignment file from pysam
@@ -157,7 +158,7 @@ def gff_to_bigGenePred(gff):
                 bigg.chromStart = record.start-1
 
             bigg.chromStarts.append(record.start-bigg.chromStart-1)
-            bigg.blockSizes.append(record.end-record.start)
+            bigg.blockSizes.append(record.end-record.start+1) # [1,2] is len2
 
         # use the last end as end
         bigg.chromEnd = record.end

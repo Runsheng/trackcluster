@@ -17,7 +17,7 @@ import pandas
 
 def add_sw(bigg_file, sw_file, out="bigg_sw.bed"):
     """
-    To add the
+    To add the splicing leader mapping score
     :param bigg_list:
     :return:
     """
@@ -101,7 +101,6 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     return (out_exon, out_intron)
 
 
-
 def get_file_prefix(filepath):
     return filepath.split("/")[-1].split(".")[0]
 
@@ -144,11 +143,13 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
 
     return outfile
 
+
 def count_file(thefile):
     count = 0
     for line in open(thefile).xreadlines(  ):
         count += 1
     return count
+
 
 def pandas_summary(bed8file):
     """
@@ -177,6 +178,29 @@ def pandas_summary(bed8file):
     intersection_dic=aa.to_dict()["sub"]
 
     return intersection_dic
+
+
+def boundary_correct(isoform_list, read_list):
+    """
+    use the subread information to correct the isoforms
+    """
+    read_dic=list_to_dic(read_list)
+
+    for isoform in isoform_list:
+        isoform.get_exon()
+        isoform.get_coverage_from_str()
+        isoform.get_subread_from_str()
+
+        for name in isoform.subread:
+            read=read_dic[name]
+            read.get_exon()
+            for pair in read.exon:
+                exon_s,exon_e=pair
+
+        ## assume that the read have the same 3' as the isoform
+        ## map the last ones or the isoforms with equal length to correct the boundary
+
+
 
 
 def bigg_count_write(bigg_list, out=None):
