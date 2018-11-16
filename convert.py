@@ -136,7 +136,7 @@ def gff_to_bigGenePred(gff):
                 # rename the values
                 bigg.chrom = record.seqid
                 bigg.name = key
-                bigg.strand = record.frame
+                bigg.strand = record.strand
 
                 # give colour to reverse and forward strand
                 bigg.reserved = [64, 224, 208] if bigg.strand=="+" else [250, 128, 114]

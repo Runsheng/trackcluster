@@ -5,10 +5,10 @@
 # @File    : track.py
 
 # third part import
-from utils import set_tmp, wrapper_bedtools_jaccard
+from utils import set_tmp
 import os
 
-dirpath=set_tmp()
+dirp=set_tmp()
 
 def get_start_end(list2):
     start = [x[0] for x in list2]
@@ -34,13 +34,13 @@ class bigGenePred(object):
     int blockCount; "Number of blocks"
     int[blockCount] blockSizes; "Comma separated list of block sizes"
     int[blockCount] chromStarts; "Start positions relative to chromStart"
-    string name2; "Alternative/human readable name"
+    string name2; "Alternative/human readable name, |store subreads or coverage"
     string cdsStartStat; "Status of CDS start annotation (none, unknown, incomplete, or complete)"
     string cdsEndStat; "Status of CDS end annotation (none, unknown, incomplete, or complete)"
     int[blockCount] exonFrames; "Exon frame {0,1,2}, or -1 if no frame for exon"
     string type; "Transcript type"
     string geneName; "Primary identifier for gene"
-    string geneName2; "Alternative/human readable gene name"
+    string geneName2; "Alternative/human readable gene name, |used to store sample information such as stage or group"
     string geneType; "Gene type"
     )
 
@@ -72,8 +72,8 @@ class bigGenePred(object):
         self.intron=None
         self.interval_set=None
         self.gene_start=None
-        self.ExonBedTool=None
-        self.IntronBedTool=None
+        self.exon_str=None
+        self.intron_str=None
         self.exonlen=0
         self.intronlen=0
 
@@ -81,7 +81,8 @@ class bigGenePred(object):
         self.intron_file=None
 
         self.seq=None
-        self.subread=[] # use to store the reads contained inside the
+        self.subread=set() # use to store the reads contained inside the
+        self.coverage=0
 
     def to_list(self):
         data_l=[self.chrom,
@@ -183,7 +184,7 @@ class bigGenePred(object):
         return distance
 
     def get_exon(self, gene_start=None):
-        gene_start=self.chromStart if gene_start is None else gene_start
+        gene_start=0 if gene_start is None else gene_start
         offset=self.chromStart-gene_start
 
         line_exon=[]
@@ -218,115 +219,7 @@ class bigGenePred(object):
         # debug:
         #print("exon", self.exon)
 
-    def to_bedfile(self, gene_start=None, dirpath=dirpath, rewrite=False):
-        exon_file=dirpath+"/"+self.name+"_exon.bed"
-        intron_file=dirpath+"/"+self.name+"_intron.bed"
-
-        has_file= os.path.isfile(exon_file) and os.path.isfile(intron_file)
-
-        if has_file and rewrite==False:
-            self.exon_file=exon_file
-            self.intron_file=intron_file
-
-        else:
-            if gene_start is None:
-                gene_start=0 # seems not affect the speed of bedtools
-            if self.exon is None:
-                self.get_exon(gene_start)
-
-            # for exon
-            line_str = []
-            for exon in self.exon:
-                start, end = exon
-                str_one = "\t".join([self.chrom, str(start), str(end)])
-                line_str.append(str_one)
-
-            bed_str = "\n".join(line_str)
-            with open(exon_file, "w") as fw:
-                fw.write(bed_str)
-            self.exon_file=exon_file
-
-            # re init the list for intron
-            line_str = []
-            for intron in self.intron:
-                start, end = intron
-                str_one_intron = "\t".join([self.chrom, str(start), str(end)])
-                line_str.append(str_one_intron)
-
-            bed_str = "\n".join(line_str)
-            with open(intron_file, "w") as fw:
-                fw.write(bed_str)
-            self.intron_file=intron_file
-
-
-
-    @staticmethod
-    def bedfile_cal_distance(bedfile1, bedfile2, min_length, by="ratio"):
-
-        jaccard =wrapper_bedtools_jaccard(bedfile1, bedfile2)
-
-        if by == "ratio":
-            # intron could be 0
-            if min_length == 0:
-                return 0
-            else:
-                similar = jaccard["jaccard"]  # equals float(jaccard["intersection"])/jaccard["union-intersection"]
-                return 1 - similar
-
-        elif by == "length":
-            return jaccard["union-intersection"] - jaccard["intersection"]
-
-        elif by == "ratio_short":
-            # intron could be 0
-            if min_length == 0:
-                return 0
-            else:
-                return 1 - float(jaccard["intersection"]) / min_length
-
-        elif by == "length_short":
-            return min_length - jaccard["intersection"]
-
-    def bedfile_cal_distance_exon(self, other_bgp, gene_start=None, by="ratio"):
-        """
-
-        :param other_bgp:
-        :param gene_start:
-        :param by: could be "ratio", "length", "ratio_short", "length_short"
-        :return: dis-similarity matrix
-        """
-        if self.exon_file is None:
-            self.to_bedfile(gene_start)
-        if other_bgp.exon_file is None:
-            other_bgp.to_bedfile(gene_start)
-        bed1 = self.exon_file
-        bed2 = other_bgp.exon_file
-        min_length = self.exonlen if self.exonlen - other_bgp.exonlen <= 0 else other_bgp.exonlen
-
-        distance = self.bedfile_cal_distance(bed1, bed2, min_length, by)
-        return distance
-
-    def bedfile_cal_distance_intron(self, other_bgp, gene_start=None, by="ratio"):
-        """
-        :param other_bgp:
-        :param gene_start:
-        :param by: could be "ratio", "length", "ratio_short", "length_short"
-        :return: dis-similarity matrix
-        """
-        if self.intron_file is None:
-            self.to_bedfile(gene_start)
-        if other_bgp.intron_file is None:
-            other_bgp.to_bedfile(gene_start)
-
-        bed1 = self.intron_file
-        bed2 = other_bgp.intron_file
-        min_length = self.intronlen if self.intronlen - other_bgp.intronlen <= 0 else other_bgp.intronlen
-
-        distance = self.bedfile_cal_distance(bed1, bed2, min_length, by)
-        return distance
-
-
-
-    def to_bedstr(self, gene_start):
+    def to_bedstr(self, gene_start=None):
         """
         convert the exon region to BedTool object
         :return:
@@ -334,22 +227,26 @@ class bigGenePred(object):
         if self.exon is None:
             self.get_exon(gene_start)
         # for exon
-        line_str=[]
+        line_str = []
         for exon in self.exon:
-            start, end=exon
-            str_one="\t".join(["1", str(start), str(end)])
+            start, end = exon
+            str_one = "\t".join([self.chrom, str(start), str(end), self.name])
             line_str.append(str_one)
 
-        bed_str="\n".join(line_str)
+        bed_str = "\n".join(line_str)
+        self.exon_str=bed_str
 
         # re init the list for intron
-        line_str=[]
+        line_str = []
         for intron in self.intron:
-            start, end= intron
-            str_one_intron="\t".join(["2", str(start), str(end)])
+            start, end = intron
+            str_one_intron = "\t".join([self.chrom, str(start), str(end), self.name])
             line_str.append(str_one_intron)
 
-        bed_str="\n".join(line_str)
+        bed_str = "\n".join(line_str)
+        self.intron_str=bed_str
+
+
 
 
     def bind_seq(self, seqdic):
@@ -366,18 +263,33 @@ class bigGenePred(object):
         """
         pass
 
-    def store_subread(self):
+    def write_subread(self):
         """
-        subread is generated in clustering
+        subread is generated in clustering, using cluster.py
         :return:
         """
-        self.name2=",".join(self.subread)
+        self.name2=",".join(list(self.subread))
+
+    def write_coverage(self):
+        """
+        can only be run when coverage are calculated in tracklist
+        :return:
+        """
+        self.name2=",".join(list(self.subread))+",|"+str(self.coverage)
+
+    def get_coverage_from_str(self):
+        """
+        reverse the write_coverage
+        :return:
+        """
+        if "|" in self.name2:
+            self.coverage=float(self.name2.split("|")[1])
 
     def get_subread_from_str(self):
         if "," in self.name2:
-            self.subread=self.name2.split(",")
+            self.subread=set(self.name2.split("|")[0].split(","))
         elif self.name2=="none":
-            self.subread=[]
+            self.subread=set()
 
     def __score_sl(self, seq1="CUCAAACUUGGGUAAUUAAACCG"):
         """

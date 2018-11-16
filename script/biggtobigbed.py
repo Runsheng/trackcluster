@@ -3,6 +3,9 @@
 # @Time    : 9/3/2018 10:55 AM
 # @Author  : Runsheng     
 # @File    : biggtobigbed.py
+"""
+todo:Hard-coded path is not used for package!
+"""
 
 import os
 import argparse

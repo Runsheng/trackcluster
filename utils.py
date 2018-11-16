@@ -11,9 +11,8 @@ import subprocess
 import signal
 import os
 import sys
-import pybedtools
 from collections import OrderedDict
-
+import functools
 
 def count_file(thefile):
     count = 0
@@ -22,7 +21,11 @@ def count_file(thefile):
     return count
 
 
-def wrapper_bedtools_jaccard(bedfile1, bedfile2):
+def get_name_from_bedfile(bedfile1):
+    return bedfile1.split("_")[0].split("/")[-1]
+
+
+def __wrapper_bedtools_jaccard(bedfile1, bedfile2):
 
     cmd="bedtools jaccard -a {bedfile1} -b {bedfile2}".format(bedfile1=bedfile1, bedfile2=bedfile2)
     out=myexe(cmd)
@@ -36,11 +39,7 @@ def wrapper_bedtools_jaccard(bedfile1, bedfile2):
     return jaccard
 
 
-def get_name_from_bedfile(bedfile1):
-    return bedfile1.split("_")[0].split("/")[-1]
-
-
-def wrapper_bedtools_intersection_muti(bigg_list1, bigg_list2, use="exon", core=40):
+def __wrapper_bedtools_intersection_muti(bigg_list1, bigg_list2, use="exon", core=40):
 
     pair_list = []
 
@@ -49,7 +48,7 @@ def wrapper_bedtools_intersection_muti(bigg_list1, bigg_list2, use="exon", core=
 
     def run_one(pair):
         bigg_one, bigg_list=pair
-        return wrapper_bedtools_intersect(bigg_one, bigg_list, use)
+        return __wrapper_bedtools_intersect(bigg_one, bigg_list, use)
 
     out_l = parmap(run_one, pair_list, core)
     # flatten the result
@@ -59,7 +58,8 @@ def wrapper_bedtools_intersection_muti(bigg_list1, bigg_list2, use="exon", core=
     #        out.append(j)
     return out_l
 
-def wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
+
+def __wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
 
     # generate the bedfile
     bigg_one.to_bedfile()
@@ -79,7 +79,7 @@ def wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
 
     bedfile_str=" ".join(bedfile_list)
 
-    cmd="bedtools intersect -wa -wb -a {bedfile1} -b {bedfile2} -filenames".format(bedfile1=bedfile1, bedfile2=bedfile_str)
+    cmd="bedtools intersect -wa -wb -a {bedfile1} -b {bedfile2}".format(bedfile1=bedfile1, bedfile2=bedfile_str)
 
     out=myexe(cmd)
     #print cmd
@@ -117,9 +117,7 @@ def wrapper_bedtools_intersect(bigg_one, bigg_list, use="exon"):
     return i_d
 
 
-
-
-def myexe(cmd, timeout=0):
+def myexe(cmd, timeout=100):
     """
     a simple wrap of the shell
     mainly used to run the bwa mem mapping and samtool orders
@@ -138,16 +136,25 @@ def myexe(cmd, timeout=0):
     return out
 
 
-def set_tmp():
+def set_tmp(wkdir=None):
     """
     set the the tmp dir to the mem
     """
-    aa=os.popen("echo $XDG_RUNTIME_DIR")
-    dirpath=aa.read().strip()
-    pybedtools.set_tempdir(dirpath)
+    if wkdir is None:
+        aa=os.popen("echo $XDG_RUNTIME_DIR")
+        dirpath=aa.read().strip()
+        #pybedtools.set_tempdir(dirpath)
+        return dirpath
+    else:
+        return wkdir
 
-    return dirpath
 
+def del_files(filename_l):
+    for filename in filename_l:
+        try:
+            os.remove(filename)
+        except OSError:
+            pass
 
 def parmap(f, X, nprocs=multiprocessing.cpu_count()):
     """

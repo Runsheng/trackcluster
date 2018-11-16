@@ -15,7 +15,7 @@ class GffConvertTest(unittest.TestCase):
     def test_convert(self):
         bigg_list= gff_to_bigGenePred(self.gff)
 
-        with open("/home/zhaolab1/data/nanorna/trackall/ce10_gff.bed", "w") as fw:
+        with open("/home/zhaolab1/data/nanorna/trackall_new/ce10_gff.bed", "w") as fw:
             for bigg in bigg_list:
                 fw.write(bigg.to_str())
                 fw.write("\n")
