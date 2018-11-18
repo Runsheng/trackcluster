@@ -14,7 +14,7 @@ from track import bigGenePred
 # third part import
 import scipy
 import operator
-from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary
+from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readnum_bigg
 from utils import del_files
 
 
@@ -40,7 +40,30 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
     D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2)
     D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.95
 
-    print(len(bigg_list), len(bigg_l2), len(bigg_l3))
+    # add sanity check
+    # the bigg_l3 subreads number together with read number+ bigg_l3=bigg_ll
+    bigg_l3_subread=add_subread_bigg(bigg_l3)
+
+    subread_3=set()
+    for bigg in bigg_l3:
+        subread_3=subread_3.union(bigg.subread)
+    subread_2=set()
+    for bigg in bigg_l2:
+        subread_2=subread_2.union(bigg.subread)
+
+
+    name_l1=set([x.name for x in bigg_list_by1])
+    name_l2=set([x.name for x in bigg_l2])
+    name_l3=set([x.name for x in bigg_l3])
+
+    missed_2=name_l1-subread_2-name_l2
+    missed_3=(name_l2-subread_3)-name_l3
+
+    print len(missed_3), len(missed_2)
+    print missed_2
+    print missed_3-missed_2
+    #### sanity check over
+
     return D_remain, bigg_l3
 
 
@@ -256,6 +279,7 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     fullset=set(range(len(D)))
     drop=set()
 
+
     for bigg in bigg_list:
         bigg.get_exon()
 
@@ -272,40 +296,66 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
             else:
                 if by=="ratio":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen:
-                        drop.add(i)
+                        #drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
-                        bigg_list[j].subread.union(bigg_list[i].subread)
+                        bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
-                        bigg_list[i].subread.union(bigg_list[j].subread)
+                        bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
                         # to add a subread add here
-
                 if by=="ratio_short":
                     if bigg_list[i].exonlen<=bigg_list[j].exonlen and bigg_list[i].score<sw_score:
-                        drop.add(i)
+                        #drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
-                        bigg_list[j].subread.union(bigg_list[i].subread)
+                        bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen and bigg_list[j].score<sw_score:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
-                        bigg_list[i].subread.union(bigg_list[j].subread)
+                        bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
 
     keep=fullset-drop
     # change the default score of gene, no need to add
     for n, bigg in enumerate(bigg_list):
         if bigg.ttype!="nanopore_read":
             keep.add(n)
-    keep=sorted(list(keep))
 
-
-    #### debug
-    #print(len(fullset), len(drop), len(keep))
-    #print(keep)
 
     # re_order D and bigg_list
-    bigg_list_new=select_list(bigg_list, keep)
-    D=select_D(D, keep)
+    bigg_list_new=select_list(bigg_list, sorted(list(keep)))
+
+
+    #----------------------------------------#
+    #### sanity check for missed ones
+    ## collect the missed ones
+    pos_dic=get_pos_dic(bigg_list)
+    subread=set()
+    for bigg in bigg_list:
+        subread=subread.union(bigg.subread)
+
+    name_begin=set([x.name for x in bigg_list])
+    name_new=set([x.name for x in bigg_list_new])
+
+    missed_name=name_begin-name_new-subread
+    print missed_name
+    print "inside"
+    print len(name_begin),len(name_new|subread)
+
+    missed_num=set()
+    for k in missed_name:
+        missed_num.add(pos_dic[k])
+
+    keep=keep.union(missed_num)
+
+    keepl=sorted(list(keep))
+    bigg_list_new=select_list(bigg_list, keepl)
+
+    name_last=set([x.name for x in bigg_list_new])
+    print "name_last {}".format(len(name_last))
+
+    D=select_D(D, keepl)
+    #### end of sanity check
+
 
     return D, bigg_list_new
 
