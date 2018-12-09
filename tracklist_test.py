@@ -23,6 +23,20 @@ class TracklistTest(unittest.TestCase):
         pass
         #add_sw(self.biggfile, self.swfile, out="./test/unc52_sw.bed")
 
+    def test_add_subread_bigg(self):
+        self.bigg_list=read_bigg(self.biggfile)
+        bigg_add=self.bigg_list+self.bigg_list+self.bigg_list
+        bigg_added=add_subread_bigg(bigg_add)
+
+        print len(self.bigg_list)==len(bigg_added)
+
+        for i,j in zip(self.bigg_list, bigg_added):
+            if i.name==j.name:
+                pass
+            else:
+                print "Not equal in", i, j
+
+
 
     def test_tobedfile(self):
         dir="./test"
@@ -37,6 +51,8 @@ class TracklistTest(unittest.TestCase):
         out=wrapper_bedtools_intersect2(bed1, bed1, "./test/exon_inter.bed")
         print out
 
+    def test_bigglist_add(self):
+        pass
 
     def tearDown(self):
         pass

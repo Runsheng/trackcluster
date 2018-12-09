@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 # @Time    : 8/24/2018 1:32 PM
 # @Author  : Runsheng     
 # @File    : tracklist.py
@@ -12,6 +12,7 @@ Functions to handel the IO of bigg list
 from track import bigGenePred
 from collections import OrderedDict
 from utils import myexe, set_tmp, del_files
+from random import randint
 import pandas
 
 
@@ -77,6 +78,8 @@ def list_to_dic(bigg_list):
 
 
 def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
+    surfix=str(randint(100, 999))
+
 
     bigg0=bigg_list[0]
     if prefix is None:
@@ -84,8 +87,8 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     if dir is None:
         dir=set_tmp()
 
-    out_exon=dir+"/{prefix}_exon.bed".format(prefix=prefix)
-    out_intron=dir+"/{prefix}_intron.bed".format(prefix=prefix)
+    out_exon=dir+"/{prefix}_{surfix}_exon.bed".format(prefix=prefix, surfix=surfix)
+    out_intron=dir+"/{prefix}_{surfix}_intron.bed".format(prefix=prefix, surfix=surfix)
 
     f_exon=open(out_exon, "w")
     f_intron=open(out_intron, "w")
@@ -102,7 +105,7 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
 
 
 def get_file_prefix(filepath):
-    return filepath.split("/")[-1].split(".")[0]
+    return filepath.split("/")[-1].split("_")[0]
 
 
 def get_file_location(filepath):
@@ -161,17 +164,14 @@ def pandas_summary(bed8file):
         return {}
 
     df=pandas.read_csv(bed8file, sep="\t", header=None)
+
+    df.drop_duplicates()
     df["start_max"] = df[[1, 5]].max(axis=1)
     df["end_min"] = df[[2, 6]].min(axis=1)
     df["sub"] = df["end_min"] - df["start_max"]
 
     dfs = df[[3, 7, "sub"]]
-    # debug
-    #dfs.to_csv("aa.csv")
-    #print dfs
-    #print(len(df))
     dfs.drop_duplicates(subset=[3,7])
-    #print(len(df))
     groupdfs = dfs.groupby([3, 7])
     aa = groupdfs.sum()
 
@@ -201,6 +201,72 @@ def boundary_correct(isoform_list, read_list):
         ## map the last ones or the isoforms with equal length to correct the boundary
 
 
+def add_subread_bigg(bigg_raw):
+    """
+    add two bigglist together, with its subread count
+    merge the reads containing in other reads' sub reads
+    :param bigg_list1:
+    :param bigg_list2:
+    :return:
+    """
+
+    nameset=set()
+    bigg_dic=OrderedDict()
+
+    # merge the subreads with same name
+    for bigg in bigg_raw:
+
+        if bigg.name not in nameset:
+            bigg_dic[bigg.name]=bigg
+            nameset.add(bigg.name)
+        else:
+            subread_1=bigg_dic[bigg.name].subread
+            subread_2=bigg.subread
+            bigg_dic[bigg.name].subread=subread_1.union(subread_2)
+
+    return bigg_dic.values()
+
+
+def merge_subread_bigg(bigg_raw):
+    """
+    sanity check for the read number
+    :param bigg_raw:
+    :return:
+    """
+
+    drop=set()
+    names=[x.name for x in bigg_raw]
+    subreads=set()
+    for bigg in bigg_raw:
+        subreads=subreads.union(bigg.subread)
+    for name in names:
+        if name in subreads:
+            print name
+
+    print sorted(names)
+
+    #bigg_dic=bigg
+    for bigg in bigg_raw:
+        pass
+
+
+def get_readall_bigg(bigg_list):
+    """
+    sum up the read names in the bigglist, include the sub read and names
+    :param bigg_list:
+    :return:
+    """
+
+    name_set=set()
+
+    name_isoform=set([x.name for x in bigg_list])
+    subread=set()
+    for bigg in bigg_list:
+        subread=subread.union(bigg.subread)
+
+    name_set=name_isoform.union(subread)
+
+    return name_set
 
 
 def bigg_count_write(bigg_list, out=None):

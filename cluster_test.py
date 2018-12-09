@@ -5,6 +5,7 @@
 # @File    : cluster_test.py
 
 from cluster import *
+from tracklist import *
 import unittest
 from unittest import skip
 
@@ -42,13 +43,23 @@ class ClusterTest(unittest.TestCase):
         bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=100)
         print len(self.bigg_nano), len(bigg_list_new)
 
-
     def test_cal_distance(self):
         D,_=cal_distance(self.bigg)
         print D
 
     def test_flow(self):
-       D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.2)
+       D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.5)
+       bigg_nano = add_subread_bigg(bigg_list)
+
+       ### save nessary files
+       for bigg in bigg_nano:
+           bigg.write_subread()
+
+       bigg_count_write(bigg_nano, out="./test/unc_52_simple_coverage.bed")
+
+
+    def test_flow_mutiple(self):
+       D, bigg_list=flow_cluster(self.bigg_nano[1:100], self.bigg_gff, by="ratio_all", intronweight=0.2)
        write_D(D, bigg_list, "./test/d.csv")
 
 

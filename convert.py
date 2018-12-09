@@ -185,3 +185,15 @@ if __name__ == "__main__":
         bigg = sam_to_bigGenePred(sample, samfile)
         print bigg.to_str()
         samfile.close()
+
+    def test_gff_to_bigGenePred():
+        gff = GFF("/home/zhaolab1/data/nanorna/ce10_ws266.gff")
+        bigg_list= gff_to_bigGenePred(gff)
+
+        with open("/home/zhaolab1/data/nanorna/ce10_gff.bed", "w") as fw:
+            for bigg in bigg_list:
+                fw.write(bigg.to_str())
+                fw.write("\n")
+
+
+    test_gff_to_bigGenePred()

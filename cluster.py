@@ -14,7 +14,7 @@ from track import bigGenePred
 # third part import
 import scipy
 import operator
-from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readnum_bigg
+from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 from utils import del_files
 
 
@@ -30,39 +30,24 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
         by2=by
 
     # hard code first filter of overalpping of 50 bp
-    bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50) # using default cutoff 0.95
-    bigg_list=bigg_l1+bigg_gff
+    #bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50) # using default cutoff 0.95
+    bigg_list=add_subread_bigg(bigg_gff+bigg_nano)
 
     # can be change filters
     D1, bigg_list_by1=cal_distance(bigg_list, intronweight=intronweight, by=by1)
     _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1) # using default cutoff 0.95
 
     D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2)
-    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.95
+    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.001
 
     # add sanity check
     # the bigg_l3 subreads number together with read number+ bigg_l3=bigg_ll
-    bigg_l3_subread=add_subread_bigg(bigg_l3)
 
-    subread_3=set()
-    for bigg in bigg_l3:
-        subread_3=subread_3.union(bigg.subread)
-    subread_2=set()
-    for bigg in bigg_l2:
-        subread_2=subread_2.union(bigg.subread)
+    #missed_2=get_readall_bigg(bigg_list_by1)-get_readall_bigg(bigg_l2)
+    #missed_3=get_readall_bigg(bigg_list_by2)-get_readall_bigg(bigg_l3)
 
+    print "flow cluster",len(bigg_list),  len(bigg_l2), len(bigg_l3)
 
-    name_l1=set([x.name for x in bigg_list_by1])
-    name_l2=set([x.name for x in bigg_l2])
-    name_l3=set([x.name for x in bigg_l3])
-
-    missed_2=name_l1-subread_2-name_l2
-    missed_3=(name_l2-subread_3)-name_l3
-
-    print len(missed_3), len(missed_2)
-    print missed_2
-    print missed_3-missed_2
-    #### sanity check over
 
     return D_remain, bigg_l3
 
@@ -114,8 +99,10 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
 
     # filter 1
     strand=bigg_list_gff[0].strand
-    #print strand
     bigg_list_strand=[x for x in bigg_list if x.strand==strand]
+
+    if len(bigg_list_strand)==0:
+        return None
 
     # filter 2
     nano_exon, nano_intron=bigglist_to_bedfile(bigg_list_strand)
@@ -123,9 +110,6 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
 
     exonfile=wrapper_bedtools_intersect2(nano_exon, gff_exon)
     out_d=pandas_summary(exonfile)
-    # debug
-    #print len(out_d)
-    #print out_d
     keep_name=set()
     for k, intersection in out_d.items():
         nano_name, gff_name=k
@@ -182,14 +166,15 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         j=pos_dic[name2]
         min_length = min(bigg_list[i].exonlen, bigg_list[j].exonlen)
         union = bigg_list[i].exonlen + bigg_list[j].exonlen - intersection
-        # debug
+        # debug insanity
         if union <=0:
             print "exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection
+        # debug over
 
         if by == "ratio":
-            # intron could be 0
+            # exon could be 0?
             if min_length == 0:
-                D_exon[i, j] = 0
+                D_exon[i, j] = 1
             else:
                 similar = float(intersection) / union
                 D_exon[i, j] = 1 - similar
@@ -197,10 +182,9 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         elif by == "ratio_short":
             # intron could be 0
             if min_length == 0:
-                D_exon[i, j] = 0
+                D_exon[i, j] = 1
             else:
                 D_exon[i, j] = 1 - float(intersection) / min_length
-
 
     for k, intersection in intron_i.items():
         name1, name2 = k
@@ -208,13 +192,16 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         j = pos_dic[name2]
         min_length = min(bigg_list[i].intronlen, bigg_list[j].intronlen)
         union = bigg_list[i].intronlen + bigg_list[j].intronlen - intersection
-        # debug
+
+        #### debug
         if union <=0:
-            print name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection
+            print "intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection
+        #### debug over
+
         if by == "ratio":
             # intron could be 0
             if min_length == 0:
-                D_intron[i, j] = 0
+                D_intron[i, j] = 1
             else:
                 #print union
                 similar = float(intersection) / union
@@ -223,12 +210,14 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         elif by == "ratio_short":
             # intron could be 0
             if min_length == 0:
-                D_intron[i, j] = 0
+                D_intron[i, j] = 1
             else:
                 D_intron[i, j] = 1 - float(intersection) / min_length
 
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
+
+
 
     # cleanup
     del_files([exon_out, intron_out, file_exon, file_intron])
@@ -258,7 +247,7 @@ def write_D(D, bigg_list_new, outfile="./test/d.csv"):
                 fw.write("\n")
 
 
-def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
+def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
 
     """
     cutoff selection:
@@ -269,7 +258,7 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
         if by=="ratio":
             cutoff=0.025
         elif by=="ratio_short":
-            cutoff=0.001
+            cutoff=0.001 # may need to add to 0.01
         elif by=="length" or by=="length_short":
             cutoff=100
 
@@ -279,9 +268,12 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     fullset=set(range(len(D)))
     drop=set()
 
+    # first
+    #print "first"
+    #print len(get_readall_bigg(bigg_list))
 
-    for bigg in bigg_list:
-        bigg.get_exon()
+    #for bigg in bigg_list:
+    #    bigg.get_exon()
 
 
     # same list
@@ -295,20 +287,42 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
                 pass
             else:
                 if by=="ratio":
-                    if bigg_list[i].exonlen<=bigg_list[j].exonlen:
-                        #drop.add(i)
+                    if bigg_list[i].exonlen<bigg_list[j].exonlen:
+                        drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
                         bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
+
+                    elif bigg_list[i].exonlen==bigg_list[j].exonlen:
+                        if i<j: # retain the later one
+                            drop.add(i)
+                            bigg_list[j].subread.add(bigg_list[i].name)
+                            bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
+                        else:
+                            drop.add(j)
+                            bigg_list[i].subread.add(bigg_list[j].name)
+                            bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
                         bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
                         # to add a subread add here
+
                 if by=="ratio_short":
-                    if bigg_list[i].exonlen<=bigg_list[j].exonlen and bigg_list[i].score<sw_score:
-                        #drop.add(i)
+                    if bigg_list[i].exonlen<bigg_list[j].exonlen and bigg_list[i].score<sw_score:
+                        drop.add(i)
                         bigg_list[j].subread.add(bigg_list[i].name)
                         bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
+
+                    elif bigg_list[i].exonlen==bigg_list[j].exonlen:
+                        if i<j: # retain the later one
+                            drop.add(i)
+                            bigg_list[j].subread.add(bigg_list[i].name)
+                            bigg_list[j].subread=bigg_list[j].subread.union(bigg_list[i].subread)
+                        else:
+                            drop.add(j)
+                            bigg_list[i].subread.add(bigg_list[j].name)
+                            bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
+
                     elif bigg_list[i].exonlen>bigg_list[j].exonlen and bigg_list[j].score<sw_score:
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
@@ -317,45 +331,40 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto"):
     keep=fullset-drop
     # change the default score of gene, no need to add
     for n, bigg in enumerate(bigg_list):
-        if bigg.ttype!="nanopore_read":
+        if bigg.ttype=="isoform_anno":
             keep.add(n)
 
 
     # re_order D and bigg_list
-    bigg_list_new=select_list(bigg_list, sorted(list(keep)))
+    keepl = sorted(list(keep))
+    bigg_list_new = select_list(bigg_list, keepl)
 
 
     #----------------------------------------#
     #### sanity check for missed ones
     ## collect the missed ones
     pos_dic=get_pos_dic(bigg_list)
-    subread=set()
-    for bigg in bigg_list:
-        subread=subread.union(bigg.subread)
+    missed_name=get_readall_bigg(bigg_list)-get_readall_bigg(bigg_list_new)
 
-    name_begin=set([x.name for x in bigg_list])
-    name_new=set([x.name for x in bigg_list_new])
+    #print missed_name
+    #print "inside"
+    #print len(get_readall_bigg(bigg_list_new))
+    if add_miss:
+        if len(missed_name)>0:
+            #print "{} missing bigg found, added back but may affect the isoforms".format(len(missed_name))
+            missed_num=set()
+            for k in missed_name:
+                missed_num.add(pos_dic[k])
 
-    missed_name=name_begin-name_new-subread
-    print missed_name
-    print "inside"
-    print len(name_begin),len(name_new|subread)
+            keep=keep.union(missed_num)
 
-    missed_num=set()
-    for k in missed_name:
-        missed_num.add(pos_dic[k])
+            keepl=sorted(list(keep))
+            bigg_list_new=select_list(bigg_list, keepl)
 
-    keep=keep.union(missed_num)
+            #### end of sanity check
 
-    keepl=sorted(list(keep))
-    bigg_list_new=select_list(bigg_list, keepl)
 
-    name_last=set([x.name for x in bigg_list_new])
-    print "name_last {}".format(len(name_last))
-
-    D=select_D(D, keepl)
-    #### end of sanity check
-
+    D = select_D(D, keepl)
 
     return D, bigg_list_new
 

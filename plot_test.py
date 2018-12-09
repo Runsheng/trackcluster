@@ -26,7 +26,7 @@ class PlotTest(unittest.TestCase):
         self.bigg_gff=bigg_gff
 
     def test_IO(self):
-        self.assertEquals(len(self.bigg),340)
+        self.assertEquals(len(self.gff),17)
 
     def test_plot(self):
         sample=self.bigg_nano[0:]
