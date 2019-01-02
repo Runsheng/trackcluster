@@ -37,7 +37,7 @@ def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None):
     bed2s=bedfile2+"_s"
     del_files([bedfile1, bedfile2, bed1s, bed2s])
 
-    return outfile\
+    return outfile
 
 
 
