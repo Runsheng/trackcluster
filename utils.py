@@ -55,7 +55,7 @@ def chr_select(record_dict, chro, start,end):
     return name,seq
 
 
-def myexe(cmd, timeout=100):
+def myexe(cmd, timeout=10):
     """
     a simple wrap of the shell
     mainly used to run the bwa mem mapping and samtool orders

@@ -172,7 +172,6 @@ class GFF(object):
         self.transcript_to_gene=transcript_to_gene
         self.transcript_d=transcript_d
 
-
     def gff_write(self, out, keys=None):
 
         def write_line():

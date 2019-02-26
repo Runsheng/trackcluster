@@ -80,7 +80,6 @@ def list_to_dic(bigg_list):
 def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     surfix=str(randint(100, 999))
 
-
     bigg0=bigg_list[0]
     if prefix is None:
         prefix=bigg0.name
@@ -178,27 +177,6 @@ def pandas_summary(bed8file):
     intersection_dic=aa.to_dict()["sub"]
 
     return intersection_dic
-
-
-def boundary_correct(isoform_list, read_list):
-    """
-    use the subread information to correct the isoforms
-    """
-    read_dic=list_to_dic(read_list)
-
-    for isoform in isoform_list:
-        isoform.get_exon()
-        isoform.get_coverage_from_str()
-        isoform.get_subread_from_str()
-
-        for name in isoform.subread:
-            read=read_dic[name]
-            read.get_exon()
-            for pair in read.exon:
-                exon_s,exon_e=pair
-
-        ## assume that the read have the same 3' as the isoform
-        ## map the last ones or the isoforms with equal length to correct the boundary
 
 
 def add_subread_bigg(bigg_raw):
@@ -300,6 +278,28 @@ def bigg_count_write(bigg_list, out=None):
     # debug
     #print name_dic
     write_bigg(bigg_list,out)
+
+
+def boundary_correct(isoform_list, read_list):
+    """
+    use the subread information to correct the isoforms
+    """
+    read_dic=list_to_dic(read_list)
+
+    for isoform in isoform_list:
+        isoform.get_exon()
+        isoform.get_coverage_from_str()
+        isoform.get_subread_from_str()
+
+        for name in isoform.subread:
+            read=read_dic[name]
+            read.get_exon()
+            for pair in read.exon:
+                exon_s,exon_e=pair
+
+        ## assume that the read have the same 3' as the isoform
+        ## map the last ones or the isoforms with equal length to correct the boundary
+
 
 
 

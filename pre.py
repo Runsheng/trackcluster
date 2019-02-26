@@ -11,6 +11,7 @@ from utils import del_files, myexe
 from tracklist import get_file_prefix, get_file_location, count_file
 import pandas
 
+
 def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None):
     """
     Using two bedfile to get the intsersection of pairs
@@ -38,7 +39,6 @@ def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None):
     del_files([bedfile1, bedfile2, bed1s, bed2s])
 
     return outfile
-
 
 
 def pandas_select(bed32file):

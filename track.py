@@ -84,6 +84,8 @@ class bigGenePred(object):
         self.subread=set() # use to store the reads contained inside the
         self.coverage=0
 
+        self.junction=[]
+
         ###
         self.seq_chro=None
 
@@ -118,7 +120,7 @@ class bigGenePred(object):
         data_l=self.to_list()
         str_l=[str(x) for x in data_l]
 
-        # ucsc compatiable chr name
+        # ucsc compatible chr name, only use for the Worm chr as I, II....
         return "chr"+"\t".join(str_l)
 
     def __str__(self):
@@ -255,14 +257,12 @@ class bigGenePred(object):
         bed_str = "\n".join(line_str)
         self.intron_str=bed_str
 
-
     def bind_readseq(self, seqdic):
         """
         To bind the sequence of the bigg, can used to call sl or cds frame
         :param: seqdic: A biopython seqdic that contains the sequence
         """
         self.seq= str(seqdic[self.name].seq)
-
 
     def bind_chroseq(self, refdic, gap=0, intron=False):
         """
@@ -297,7 +297,6 @@ class bigGenePred(object):
             seq_out=reverse_complement(seq_raw)
 
         self.seq_chro="".join(seq_out)
-
 
     def orf_find(self):
         """
@@ -368,6 +367,23 @@ class bigGenePred(object):
         seq2=self.seq[:23]
         #aln = ssw_wrapper(seq1, seq2, 2, 2, 3, 1)
         #self.score = aln.score
+
+    def get_junction(self):
+        if self.exon is None:
+            self.get_exon()
+
+        junction_l=[]
+        for exon in self.exon:
+            start,end=exon
+            junction_l.append(start)
+            junction_l.append(end)
+
+        junction_lf= junction_l[1:-1] if self.strand=="+" else (junction_l[1:-1])[::-1]
+
+
+        self.junction=junction_lf # rm the chromStart and chromEnd
+
+
 
 
 
