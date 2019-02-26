@@ -155,20 +155,20 @@ def gff_to_bigGenePred(gff):
                 # bigg.geneType="none"
                 # bigg.thickStart=0
                 # bigg.thickEnd=0
-                bigg.chromStart = record.start-1
+                bigg.chromStart = record.start-1 # gff is 1 based while bed is 0 based
 
             bigg.chromStarts.append(record.start-bigg.chromStart-1)
             bigg.blockSizes.append(record.end-record.start+1) # [1,2] is len2
 
         # use the last end as end
-        bigg.chromEnd = record.end
+        bigg.chromEnd = record.end-1
 
         try:
             assert len(bigg.blockSizes) == len(bigg.chromStarts)
         except AssertionError:
             print len(bigg.blockSizes), len(bigg.chromStarts)
         bigg.blockCount = len(bigg.blockSizes)
-        bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)]
+        bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)] # ignore frame
 
         bigg_list.append(bigg)
 

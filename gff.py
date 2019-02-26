@@ -11,6 +11,7 @@ GFF is a collection of one large gff file
 
 # standard library import
 from collections import namedtuple, OrderedDict
+from operator import attrgetter
 
 # set nametuple for gff class
 GFF_FIELD = ['seqid', 'source', 'type', 'start', 'end',
@@ -105,7 +106,7 @@ class GFF(object):
                 if line[0] != "#" and len(line) > 18: # ignore the # and small lines
                     self.gff_string_list.append(line)
 
-    def gene_format(self):
+    def gene_format(self, indicator="sequence_name"):
         """
         format the gff line to blocks,
         {gene name, [mRNAline, cdsline...]}
@@ -124,7 +125,7 @@ class GFF(object):
 
             if gff_type == "gene":
                 for attribute in attributes.split(";"):
-                    if "sequence_name" in attribute: # only for wormbase gff
+                    if indicator in attribute: # the key "sequence_name" only for wormbase gff
                         kk = attribute.split("=")[1]
                         gene_d[kk] = []
                         gene_d[kk].append(line)
@@ -144,30 +145,52 @@ class GFF(object):
         self.gene_d=gene_d
 
     def transcript_format(self, keys=None):
-        transcript_to_gene={}
-        transcript_d=OrderedDict()
+        transcript_to_gene={} # {mrna_name: genename}
+        transcript_d=OrderedDict() # {mrna_name: gff_line}
 
         if self.gene_d is None:
             self.gene_format()
 
-        if keys is None:
+        if keys is None: # if no chose ones, use all mrna
             keys=self.gene_d.keys()
+
 
         for k in keys:
             gff_list=self.gene_d[k]
 
+            # first test the type of the gene by test if CDS is in the gff_line
+            type_set=set([x.split("\t")[2] for x in gff_list])
+            is_protein_coding=True if "CDS" in type_set else False
+
             for line in gff_list:
                 record=parse_gff_line(line)
 
-                if record.type=="exon":
-                    transcript_name=record.attributes["Parent"].split(":")[1] # only for wormbase
-                    transcript_to_gene[transcript_name]=k
+                # exon can be used to record genes from non-coding genes
+                if is_protein_coding:
+                    if "UTR" in record.type or record.type=="CDS": # cds can have multiple parents
+                        parent_l= record.attributes["Parent"].split(",")
+                        for parent in parent_l:
+                            transcript_name=parent.split(":")[1] # only for wormbase
+                            transcript_to_gene[transcript_name]=k
+                        try:
+                            transcript_d[transcript_name].append(record)
+                        except KeyError:
+                            transcript_d[transcript_name]=[]
+                            transcript_d[transcript_name].append(record)
 
-                    try:
-                        transcript_d[transcript_name].append(record)
-                    except KeyError:
-                        transcript_d[transcript_name]=[]
-                        transcript_d[transcript_name].append(record)
+                else:
+                    if record.type=="exon":
+                        transcript_name=record.attributes["Parent"].split(":")[1] # only for wormbase
+                        transcript_to_gene[transcript_name]=k
+
+                        try:
+                            transcript_d[transcript_name].append(record)
+                        except KeyError:
+                            transcript_d[transcript_name]=[]
+                            transcript_d[transcript_name].append(record)
+
+        for k, v in transcript_d.items():
+            v.sort(key=attrgetter('start'))
 
         self.transcript_to_gene=transcript_to_gene
         self.transcript_d=transcript_d

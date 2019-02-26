@@ -13,6 +13,7 @@ class GFFTest(unittest.TestCase):
     def setUp(self):
         #self.gff = GFF("/home/zhaolab1/reference/ce10_ws266.gff")
         self.gff=GFF("./test/unc52.gff")
+
     def test_format_write(self):
         self.gff.gene_format()
         print(len(self.gff.gene_d.keys()))
@@ -24,12 +25,11 @@ class GFFTest(unittest.TestCase):
         print(parse_attributes("ID=Transcript:ZC101.2e;Parent=Gene:WBGene00006787;Name=ZC101.2e;wormpep=WP:CE18424;locus=unc-52"))
 
     def test_to_transcript(self):
-        pass
-        #self.gff.transcript_format()
-        #print len(self.gff.transcript_d), len(self.gff.transcript_to_gene)
-        #print(sorted(self.gff.transcript_to_gene.keys()))
-        #print(self.gff.transcript_d)
-        #print("Finish to_transcript test")
+        self.gff.transcript_format()
+        print len(self.gff.transcript_d), len(self.gff.transcript_to_gene)
+        print(sorted(self.gff.transcript_to_gene.keys()))
+        print(self.gff.transcript_d)
+        print("Finish to_transcript test")
 
 
     def tearDown(self):
