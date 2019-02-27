@@ -161,33 +161,38 @@ class GFF(object):
             # first test the type of the gene by test if CDS is in the gff_line
             type_set=set([x.split("\t")[2] for x in gff_list])
             is_protein_coding=True if "CDS" in type_set else False
+            exon_junction=set()
 
             for line in gff_list:
                 record=parse_gff_line(line)
 
+                if record.type == "exon":
+                    transcript_name = record.attributes["Parent"].split(":")[1]  # only for wormbase
+                    transcript_to_gene[transcript_name] = k
+
+                    try:
+                        transcript_d[transcript_name].append(record)
+                    except KeyError:
+                        transcript_d[transcript_name] = []
+                        transcript_d[transcript_name].append(record)
+
+                    exon_junction.add(record.start)
+                    exon_junction.add(record.end)
+
+            for line in gff_list:
                 # exon can be used to record genes from non-coding genes
-                if is_protein_coding:
-                    if "UTR" in record.type or record.type=="CDS": # cds can have multiple parents
+                if is_protein_coding: # need to add the not in exon cds to the key
+                    record=parse_gff_line(line)
+                    if record.type=="CDS" and (record.start not in exon_junction) and (record.end not in exon_junction): # cds can have multiple parents
                         parent_l= record.attributes["Parent"].split(",")
                         for parent in parent_l:
                             transcript_name=parent.split(":")[1] # only for wormbase
-                            transcript_to_gene[transcript_name]=k
-                        try:
-                            transcript_d[transcript_name].append(record)
-                        except KeyError:
-                            transcript_d[transcript_name]=[]
-                            transcript_d[transcript_name].append(record)
-
-                else:
-                    if record.type=="exon":
-                        transcript_name=record.attributes["Parent"].split(":")[1] # only for wormbase
-                        transcript_to_gene[transcript_name]=k
-
-                        try:
-                            transcript_d[transcript_name].append(record)
-                        except KeyError:
-                            transcript_d[transcript_name]=[]
-                            transcript_d[transcript_name].append(record)
+                            #transcript_to_gene[transcript_name]=k
+                            try:
+                                transcript_d[transcript_name].append(record)
+                            except KeyError:
+                                transcript_d[transcript_name]=[]
+                                transcript_d[transcript_name].append(record)
 
         for k, v in transcript_d.items():
             v.sort(key=attrgetter('start'))
