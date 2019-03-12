@@ -188,6 +188,27 @@ class bigGenePred(object):
 
         return distance
 
+    @staticmethod
+    def get_intron(line_exon):
+        line_intron=[]
+        for n, pair in enumerate(line_exon):
+            start, end=pair
+            if n==0:
+                pass
+            else:
+                line_intron.append((end_p, start))
+            if n==len(line_exon):
+                break
+            start_p, end_p=pair
+        return line_intron
+
+    @staticmethod
+    def get_exonlen(line_exon):
+        len_exon=0
+        for x,y in line_exon:
+            len_exon+=(y-x)
+        return len_exon
+
     def get_exon(self, gene_start=None):
         """
         note the 0 and 1 based sys, [0:100) is the regions
@@ -199,36 +220,42 @@ class bigGenePred(object):
         offset=self.chromStart-gene_start
 
         line_exon=[]
-        line_intron=[]
-
-        len_count=0
 
         for x, y in zip(self.chromStarts, self.blockSizes):
             line_one=(x+offset, x+offset+y)
             line_exon.append(line_one)
-            len_count+=y
 
         self.exon=line_exon
-        self.exonlen=len_count
+        self.exonlen=self.get_exonlen(line_exon)
 
-        for n, pair in enumerate(line_exon):
-            start, end=pair
-            if n==0:
-                pass
-            else:
-                line_intron.append((end_p, start))
-            if n==len(line_exon):
-                break
-            start_p, end_p=pair
-
-        self.intron=line_intron
-        len_intron=0
-        for x,y in self.intron:
-            len_intron+=(y-x)
-        self.intronlen=len_intron
+        self.intron=self.get_intron(line_exon)
+        self.intronlen=self.get_exonlen(self.intron)
 
         # debug:
         #print("exon", self.exon)
+
+    def exon_to_block(self, gene_start=None):
+        """
+        reverse of get_exon
+        :param gene_start:
+        :return:
+        """
+        gene_start=0 if gene_start is None else gene_start
+        offset=self.chromStart-gene_start
+
+        start_l=[]
+        block_l=[]
+
+        for pair in self.exon:
+            start, end=pair
+            chrom_start=start-offset
+            block_size=end-start
+
+            start_l.append(chrom_start)
+            block_l.append(block_size)
+
+        self.chromStarts=start_l
+        self.blockSizes=block_l
 
     def to_bedstr(self, gene_start=None):
         """
@@ -236,7 +263,7 @@ class bigGenePred(object):
         :return:
         """
         if self.exon is None:
-            self.get_exon(gene_start)
+            self.get_exon(gene_start, gene_start)
         # for exon
         line_str = []
         for exon in self.exon:
@@ -380,8 +407,42 @@ class bigGenePred(object):
 
         junction_lf= junction_l[1:-1] if self.strand=="+" else (junction_l[1:-1])[::-1]
 
-
         self.junction=junction_lf # rm the chromStart and chromEnd
+
+    def write_junction_to_exon(self):
+
+        if len(self.junction)%2!=0:
+            return None
+
+        line_exon=[]
+        start=self.chromStart
+        end=self.chromEnd
+
+        for n,i in enumerate(self.junction):
+            if n==0:
+                pair=(start, i)
+                line_exon.append(pair)
+
+            elif 0<n<len(self.junction)-1:
+                if n % 2==1:
+                    pair=(i, self.junction[n+1])
+                    line_exon.append(pair)
+
+            elif n==len(self.junction)-1: # last
+                pair=(i, end)
+                line_exon.append(pair)
+
+        self.exon=line_exon
+        self.exonlen=self.get_exonlen(line_exon)
+        self.intron=self.get_intron(line_exon)
+        self.intronlen=self.get_exonlen(self.intron)
+
+
+
+
+
+
+
 
 
 
