@@ -263,7 +263,7 @@ class bigGenePred(object):
         :return:
         """
         if self.exon is None:
-            self.get_exon(gene_start, gene_start)
+            self.get_exon(gene_start=gene_start)
         # for exon
         line_str = []
         for exon in self.exon:
@@ -375,12 +375,12 @@ class bigGenePred(object):
         reverse the write_coverage
         :return:
         """
-        if "|" in self.name2:
-            self.coverage=float(self.name2.split("|")[1])
+        if ",|" in self.name2:
+            self.coverage=float(self.name2.split(",|")[-1])
 
     def get_subread_from_str(self):
         if "," in self.name2:
-            self.subread=set(self.name2.split("|")[0].split(","))
+            self.subread=set(self.name2.split(",|")[0].split(","))
         elif self.name2=="none":
             self.subread=set()
 

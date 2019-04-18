@@ -7,10 +7,10 @@
 
 ### Reply on
 1. pysam to parser the bamfile to gene model
-3. bedtools for intersection
-4. scipy for hclust function
-5. matplotlib and pylab for plotting
+2. bedtools for intersection
 
 
 ## Optional
 1. UCSC kent source tree (for generating binary track)
+2. scipy for hclust function
+3. matplotlib and pylab for plotting

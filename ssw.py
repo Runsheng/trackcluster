@@ -6,6 +6,8 @@
 
 
 from ssw.ssw_wrap import Aligner
+# copy the library from primer_RFLP(runsheng, 2016 version)
+import re
 
 
 def ssw_wrapper(seq1, seq2, match=2, mismatch=2,
@@ -25,10 +27,6 @@ def ssw_wrapper(seq1, seq2, match=2, mismatch=2,
     aln = aligner.align(seq2)  # min_score=20, min_len=10)
 
     return aln
-
-
-# copy the library from primer_RFLP(runsheng, 2016 version)
-import re
 
 
 def consensus(query, ref, cigar_string, ref_shift=0):

@@ -68,7 +68,6 @@ def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", 
 
     #merge_subread_bigg(bigg_nano_new)
 
-
     return 1
 
 

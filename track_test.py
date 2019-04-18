@@ -10,7 +10,7 @@ import unittest
 from track import *
 from utils import fasta2dic
 
-class PlotTest(unittest.TestCase):
+class TrackTest(unittest.TestCase):
     def setUp(self):
         bigg=[]
         with open("./test/unc52_sw.bed") as f:
@@ -29,6 +29,44 @@ class PlotTest(unittest.TestCase):
         sample=self.bigg[0]
         sample.to_bedstr()
         print sample.exon_str
+
+    def test_get_exon(self):
+        sample = self.bigg[0]
+        if sample.name=="579ebc2e-86ca-469f-b68c-7262fc292c9d":
+            sample.get_exon()
+
+            print sample.exon==[(14627636, 14627786), (14627936, 14628112), (14628157, 14628269), (14628325, 14628427), (14628724, 14630134), (14649328, 14649363)]
+            print sample.intron==[(14627786, 14627936), (14628112, 14628157), (14628269, 14628325), (14628427, 14628724), (14630134, 14649328)]
+            print sample.exonlen==1985, sample.intronlen==19742
+        else:
+            print("Not run test_get_exon")
+
+    def test_write_junction_to_exon(self):
+        sample = self.bigg[0]
+        sample.get_junction()
+
+        # re-init
+        sample.exon=None
+        sample.intron=None
+        sample.exonlen=0
+        sample.intronlen=0
+
+        sample.write_junction_to_exon()
+        print sample.exonlen==1985, sample.intronlen==19742
+
+    def test_exon_to_block(self):
+        sample = self.bigg[0]
+        print sample.chromStarts, sample.blockSizes
+        sample.get_junction()
+
+        # re-init
+        sample.chromStarts=[]
+        sample.blockSizes=[]
+        print sample
+
+        sample.exon_to_block()
+        print(sample)
+
 
     def test_cal_distance(self):
 

@@ -8,7 +8,6 @@ from collections import OrderedDict
 import itertools
 
 
-
 def is_junction_equal(bigg0, bigg1, offset=10):
     """
 
@@ -51,6 +50,27 @@ def fuzzy_intersection(junction1, junction2, offset=10):
                 match_dic[i]=j
 
     return match_dic
+
+
+def boundary_correct(bigg_isoform, read_dic):
+    """
+    use the subread information to correct the isoform
+    """
+    bigg_isoform.get_exon()
+    bigg_isoform.get_junction()
+    bigg_isoform.get_coverage_from_str()
+    bigg_isoform.get_subread_from_str()
+
+    sub_list=[]
+    for name in bigg_isoform.subread:
+        read=read_dic[name]
+        read.get_junction()
+        sub_list.append(read)
+
+        ## assume that the read have the same 3' as the isoform
+        ## map the last ones or the isoforms with equal length to correct the boundary
+
+    # need to correct the start, end and junctions separately
 
 
 def has_new_junction(bigg0, list_ref, offset=10):
@@ -195,8 +215,6 @@ def find_nearest_ref(bigg0, list_ref, offset=10):
                     else: # all equal, then use previous one
                         pass
 
-    #print bigg0.name, missed_s, extra_s, group_miss_s, group_extra_s
-
     return list_ref[s_n]
 
 
@@ -298,7 +316,6 @@ def desc_to_text(desc):
 
 
 def flow_desc(bigg0, list_ref, offset=10):
-
     """
     write a 5 col tab to describe the exon and intron usage of the bigg and its nearest ref
 
@@ -307,11 +324,13 @@ def flow_desc(bigg0, list_ref, offset=10):
     :param offset:
     :return:
     """
-
     bigg_ref=find_nearest_ref(bigg0, list_ref, offset)
     miss_desc, extra_desc= desc_ei_by_boundary(bigg0, bigg_ref, offset)
     return [bigg0.name, bigg_ref.name, bigg_ref.geneName, desc_to_text(miss_desc), desc_to_text(extra_desc)]
 
+
 def flow_class4(bigg0, list_ref, offset=10):
     class4 = class_4(bigg0, list_ref, offset)
     return [bigg0.name, class4]
+
+

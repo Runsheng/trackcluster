@@ -280,25 +280,21 @@ def bigg_count_write(bigg_list, out=None):
     write_bigg(bigg_list,out)
 
 
-def boundary_correct(isoform_list, read_list):
+def group_bigg_by_gene(bigglist):
     """
-    use the subread information to correct the isoforms
+    used to make pre-dirs using the new functions
+    :param bigglist:
+    :return:
     """
-    read_dic=list_to_dic(read_list)
+    gene_bigg = OrderedDict()
 
-    for isoform in isoform_list:
-        isoform.get_exon()
-        isoform.get_coverage_from_str()
-        isoform.get_subread_from_str()
-
-        for name in isoform.subread:
-            read=read_dic[name]
-            read.get_exon()
-            for pair in read.exon:
-                exon_s,exon_e=pair
-
-        ## assume that the read have the same 3' as the isoform
-        ## map the last ones or the isoforms with equal length to correct the boundary
+    for bigg in bigglist:
+        try:
+            gene_bigg[bigg.geneName].append(bigg)
+        except KeyError:
+            gene_bigg[bigg.geneName] = []
+            gene_bigg[bigg.geneName].append(bigg)
+    return gene_bigg
 
 
 
