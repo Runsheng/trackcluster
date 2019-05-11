@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 fw=open(args.out, "w")
 
-gff = convert.GFF("/home/zhaolab1/data/nanorna/ce10_ws266.gff")
+gff = convert.GFF(args.gff)
 bigg_list = convert.gff_to_bigGenePred(gff)
 
 for bigg in bigg_list:
