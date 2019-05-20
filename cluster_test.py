@@ -29,6 +29,17 @@ class ClusterTest(unittest.TestCase):
         self.bigg=bigg_nano+bigg_gff
 
 
+    def test_correct_pandas(self):
+        gff_file="/home/zhaolab1/myapp/trackcluster/test/genes/AT2G02100/AT2G02100_gff.bed"
+        nano_file="/home/zhaolab1/myapp/trackcluster/test/genes/AT2G02100/AT2G02100_nano.bed"
+        gff=read_bigg(gff_file)
+        nano=read_bigg(nano_file)
+        D, bigg_list = flow_cluster(nano, gff, by="ratio_all", intronweight=0.5)
+
+        # passed with no warning
+        # wanring in the partian part
+
+
 
     def test_IO(self):
         pass
@@ -61,8 +72,6 @@ class ClusterTest(unittest.TestCase):
     def test_flow_mutiple(self):
        D, bigg_list=flow_cluster(self.bigg_nano[1:100], self.bigg_gff, by="ratio_all", intronweight=0.2)
        write_D(D, bigg_list, "./test/d.csv")
-
-
 
     def tearDown(self):
         self.bigg = None

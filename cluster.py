@@ -18,7 +18,7 @@ from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_s
 from utils import del_files
 
 
-def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
+def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweight=0.5):
 
     bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
@@ -29,16 +29,22 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
         by1=by
         by2=by
 
+    if cutoff=="auto":
+        cutoff1=0.025
+        cutoff2=0.001
+    else: # expect cutoff as a tuple (0.05, 0.01)
+        cutoff1, cutoff2= cutoff
+
     # hard code first filter of overalpping of 50 bp
     #bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50) # using default cutoff 0.95
     bigg_list=add_subread_bigg(bigg_gff+bigg_nano)
 
     # can be change filters
     D1, bigg_list_by1=cal_distance(bigg_list, intronweight=intronweight, by=by1)
-    _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1) # using default cutoff 0.95
+    _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1, cutoff=cutoff1)
 
     D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2)
-    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2) # using default cutoff 0.001
+    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2, cutoff=cutoff2)
 
     # add sanity check
     # the bigg_l3 subreads number together with read number+ bigg_l3=bigg_ll
@@ -47,7 +53,6 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", intronweight=0.5):
     #missed_3=get_readall_bigg(bigg_list_by2)-get_readall_bigg(bigg_l3)
 
     print "flow cluster",len(bigg_list),  len(bigg_l2), len(bigg_l3)
-
 
     return D_remain, bigg_l3
 
@@ -261,6 +266,9 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
             cutoff=0.001 # may need to add to 0.01
         elif by=="length" or by=="length_short":
             cutoff=100
+
+    else: # expect two numbers for the cutoff
+        cutoff=cutoff
 
     # hard code a cutoff for sw score of SL
     sw_score=11
