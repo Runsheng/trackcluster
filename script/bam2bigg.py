@@ -4,12 +4,13 @@
 from pysam import AlignmentFile
 import argparse
 import os,sys,inspect
-# self import
-from trackcluster import convert
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir)
+
+# self import
+from trackcluster import convert
 
 parser=argparse.ArgumentParser()
 parser.add_argument("-b", "--bamfile",
