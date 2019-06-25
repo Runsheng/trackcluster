@@ -162,7 +162,9 @@ def pandas_summary(bed8file):
     if count_file(bed8file)==0:
         return {}
 
-    df=pandas.read_csv(bed8file, sep="\t", header=None)
+    df=pandas.read_csv(bed8file, sep="\t", header=None, dtype={
+        0:object, 1:int, 2:int,3:object,4:object,5:int,6:int,7:object
+    })
 
     df.drop_duplicates()
     df["start_max"] = df[[1, 5]].max(axis=1)
