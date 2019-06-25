@@ -49,6 +49,12 @@ class TracklistTest(unittest.TestCase):
                 class4=class_4(bigg, list_ref, 10)
                 print bigg.name, class4
 
+    def test_pandas_summary(self):
+        csvfile="./test/exon_inter.bed"
+
+        i_dic=pandas_summary(csvfile)
+        print("length",len(i_dic))
+
     def test_IO(self):
         pass
         #add_sw(self.biggfile, self.swfile, out="./test/unc52_sw.bed")

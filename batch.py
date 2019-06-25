@@ -25,16 +25,14 @@ import operator
 def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
     # print key
     gff_file = "./" + key + "/" + key + "_gff.bed"
-    nano_file = "./" + key + "/" + key + "_nanof.bed"
-    figout = "./" + key + "/" + key + "_coverage.pdf"
+    nano_file = "./" + key + "/" + key + "_nano.bed"
     biggout = "./" + key + "/" + key + "_simple_coverage.bed"
-    Dout = "./" + key + "/" + key + "_simple_coverage.csv"
 
     if full is False:
         if os.stat(nano_file).st_size == 0:  # no bigg nano file
             return 0
         if os.path.isfile(biggout):  # already processed
-            return 0
+            return 2
 
     bigg_gff = read_bigg(gff_file)
     bigg_nano_raw = read_bigg(nano_file)
@@ -52,7 +50,6 @@ def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", 
         bigg_nano = add_subread_bigg(bigg_list_by1 + bigg_2)
         n+=1
 
-
     #print len(bigg_nano)
     D,bigg_nano_new=flow_cluster(bigg_nano,bigg_gff, by, intronweight=intronweight)
     bigg_nano_new=add_subread_bigg(bigg_nano_new)
@@ -65,19 +62,16 @@ def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", 
         bigg.write_subread()
 
     bigg_count_write(bigg_nano_new, out=biggout)
-
     #merge_subread_bigg(bigg_nano_new)
 
-    return 1
+    return 1 # processed in this run
 
 
 def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_all", full=False):
     # print key
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
-    figout = "./" + key + "/" + key + "_coverage.pdf"
     biggout = "./" + key + "/" + key + "_simple_coverage.bed"
-    Dout = "./" + key + "/" + key + "_simple_coverage.csv"
 
     if full is False:
         if os.stat(nano_file).st_size == 0:  # no bigg nano file
@@ -113,7 +107,7 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
             # print len(bigg_nano_new)
             # write_D(D, bigg_nano_new,Dout)
 
-            ### save nessary files
+            ### save files
             for bigg in bigg_nano_new:
                 bigg.write_subread()
 
@@ -123,7 +117,6 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
     except Exception as e:
         print e
     # merge_subread_bigg(bigg_nano_new)
-
     return 1
 
 

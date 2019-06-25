@@ -11,47 +11,37 @@ from unittest import skip
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
+        genes=["unc52", "AT1G06860", "AT2G02100"]
+        gene=genes[1]
+
         bigg_nano=[]
-        with open("./test/unc52_sw.bed") as f:
+        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
 
         bigg_gff=[]
-        with open("./test/unc52_gff.bed") as f:
+        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_gff.append(bigg_one)
+
         self.bigg_nano=bigg_nano
         self.bigg_gff=bigg_gff
         self.bigg=bigg_nano+bigg_gff
-
-
-    def test_correct_pandas(self):
-        gff_file="/home/zhaolab1/myapp/trackcluster/test/genes/AT2G02100/AT2G02100_gff.bed"
-        nano_file="/home/zhaolab1/myapp/trackcluster/test/genes/AT2G02100/AT2G02100_nano.bed"
-        gff=read_bigg(gff_file)
-        nano=read_bigg(nano_file)
-        D, bigg_list = flow_cluster(nano, gff, by="ratio_all", intronweight=0.5)
-
-        # passed with no warning
-        # wanring in the partian part
-
-
 
     def test_IO(self):
         pass
         #self.assertEquals(len(self.bigg), 323)
 
-
-    def test_padas_summary(self):
-        bb=pandas_summary("./test/exon_inter.bed")
-        print(len(bb))
+    def test_pandas_summary(self):
+        bb=pandas_summary("./test/genes/unc52/exon_inter.bed")
+        print(len(bb)==73093)
 
     def test_prefilter(self):
-        bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=100)
+        bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=50)
         print len(self.bigg_nano), len(bigg_list_new)
 
     def test_cal_distance(self):
@@ -69,7 +59,7 @@ class ClusterTest(unittest.TestCase):
        bigg_count_write(bigg_nano, out="./test/unc_52_simple_coverage.bed")
 
 
-    def test_flow_mutiple(self):
+    def test_flow_muti(self):
        D, bigg_list=flow_cluster(self.bigg_nano[1:100], self.bigg_gff, by="ratio_all", intronweight=0.2)
        write_D(D, bigg_list, "./test/d.csv")
 

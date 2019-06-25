@@ -79,16 +79,13 @@ def select_list(bigg_list, keep):
         bigg_list_new.append(bigg_list[i])
     return bigg_list_new
 
-
 def select_D(D, keep):
     D=D[keep,:]
     D=D[:,keep]
 
     return D
 
-
-def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
-                        ):
+def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50):
     """
     remove two kind of reads:
 
@@ -109,6 +106,8 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50
     if len(bigg_list_strand)==0:
         return None
 
+    for i in bigg_list_strand:
+        print i
     # filter 2
     nano_exon, nano_intron=bigglist_to_bedfile(bigg_list_strand)
     gff_exon, gff_intron=bigglist_to_bedfile(bigg_list_gff)

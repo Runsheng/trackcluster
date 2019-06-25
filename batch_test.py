@@ -21,11 +21,15 @@ class BatchTest(unittest.TestCase):
     def setUp(self):
         pass
 
-
-    def test_process(self):
-        os.chdir("./test")
+    def test_process_1(self):
+        os.chdir("./test/genes/unc52")
         key="unc52"
         process_one_subsample(key, intronweight=0.5,batchsize=500, full=True)
+
+    def test_process_2(self):
+        os.chdir("./test/genes/")
+        key="AT1G06860"
+        process_one_subsample(key, intronweight=0.5,batchsize=1000, full=True)
 
     def test_re_cal(self):
 

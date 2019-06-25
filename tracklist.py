@@ -7,7 +7,7 @@
 """
 Functions to handel the IO of bigg list
 """
-
+import re
 # self import
 from track import bigGenePred
 from collections import OrderedDict
@@ -77,6 +77,11 @@ def list_to_dic(bigg_list):
     return bigg_dic
 
 
+def remove_special_chars(my_str):
+    my_new_string = re.sub('[^a-zA-Z0-9 \n\.]', '_', my_str)
+    return my_new_string
+
+
 def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     surfix=str(randint(100, 999))
 
@@ -85,6 +90,8 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
         prefix=bigg0.name
     if dir is None:
         dir=set_tmp()
+
+    prefix=remove_special_chars(prefix)
 
     out_exon=dir+"/{prefix}_{surfix}_exon.bed".format(prefix=prefix, surfix=surfix)
     out_intron=dir+"/{prefix}_{surfix}_intron.bed".format(prefix=prefix, surfix=surfix)
