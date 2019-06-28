@@ -17,8 +17,6 @@ from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write,
 from plots import line_plot_merge
 from utils import count_file
 from cluster import flow_cluster, prefilter_smallexon, write_D
-import operator
-
 
 #random.seed(1234)
 

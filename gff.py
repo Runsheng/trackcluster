@@ -76,7 +76,7 @@ def parse_attributes(attr_string):
     return attr_dic
 
 
-class GFF(object):
+class GFF(object, indicator="sequence_name"):
     """
     A general class to parse the gff file
     For speed issue, just read all lines into mem
@@ -106,7 +106,7 @@ class GFF(object):
                 if line[0] != "#" and len(line) > 18: # ignore the # and small lines
                     self.gff_string_list.append(line)
 
-    def gene_format(self, indicator="sequence_name"):
+    def gene_format(self, indicator=indicator):
         """
         format the gff line to blocks,
         {gene name, [mRNAline, cdsline...]}

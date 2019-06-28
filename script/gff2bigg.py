@@ -15,9 +15,8 @@ parser.add_argument("-i", "--gff",
 parser.add_argument("-o", "--out", default="bigg.bed",
                     help="the output bigGenePred file name")
 
-parser.add_argument("-k", "--key", default="Gene",
-                    help="The key used to parser the gff file into gene")
-
+parser.add_argument("-k", "--key", default="Name",
+                    help="The key used as gene name in gff line, like Name=let-1")
 
 args = parser.parse_args()
 
@@ -25,7 +24,7 @@ args = parser.parse_args()
 
 fw=open(args.out, "w")
 
-gff = convert.GFF(args.gff)
+gff = convert.GFF(args.gff, args.key)
 bigg_list = convert.gff_to_bigGenePred(gff)
 
 for bigg in bigg_list:
