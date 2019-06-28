@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-
 import argparse
 import os,sys,inspect
-# self import
-import convert
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir)
 
+from trackcluster import convert
 
 parser=argparse.ArgumentParser()
 parser.add_argument("-i", "--gff",
