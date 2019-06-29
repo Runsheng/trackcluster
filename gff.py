@@ -170,7 +170,10 @@ class GFF(object):
                 record=parse_gff_line(line)
 
                 if record.type == "exon":
-                    transcript_name = record.attributes["Parent"].split(":")[1]  # only for wormbase
+                    try:
+                        transcript_name = record.attributes["Parent"].split(":")[1]  # only for wormbase
+                    except IndexError:
+                        transcript_name = record.attributes["Parent"]  # general
                     transcript_to_gene[transcript_name] = k
 
                     try:
@@ -189,7 +192,10 @@ class GFF(object):
                     if record.type=="CDS" and (record.start not in exon_junction) and (record.end not in exon_junction): # cds can have multiple parents
                         parent_l= record.attributes["Parent"].split(",")
                         for parent in parent_l:
-                            transcript_name=parent.split(":")[1] # only for wormbase
+                            try:
+                                transcript_name=parent.split(":")[1] # only for wormbase
+                            except IndexError:
+                                transcript_name=parent # only for wormbase
                             #transcript_to_gene[transcript_name]=k
                             try:
                                 transcript_d[transcript_name].append(record)

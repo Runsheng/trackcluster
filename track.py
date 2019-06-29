@@ -45,7 +45,7 @@ class bigGenePred(object):
     )
 
     """
-    def __init__(self):
+    def __init__(self, prefix=""):
         self.chrom=""
         self.chromStart=0
         self.chromEnd=0
@@ -66,6 +66,10 @@ class bigGenePred(object):
         self.geneName="none"
         self.geneName2="none"
         self.geneType="none"
+
+        # prefix was needed when used for wormbase to ucsc
+        # useful to convert "I" to "chrI"
+        self.prefix=prefix
 
         ### internal para
         self.exon=None
@@ -121,7 +125,7 @@ class bigGenePred(object):
         str_l=[str(x) for x in data_l]
 
         # ucsc compatible chr name, only use for the Worm chr as I, II....
-        return "chr"+"\t".join(str_l)
+        return self.prefix+"\t".join(str_l)
 
     def __str__(self):
         return self.to_str()
