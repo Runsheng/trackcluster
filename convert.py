@@ -154,13 +154,13 @@ def gff_to_bigGenePred(gff):
                 # bigg.geneType="none"
                 # bigg.thickStart=0
                 # bigg.thickEnd=0
-                bigg.chromStart = record.start-1 # gff is 1 based while bed is 0 based
+                bigg.chromStart = record.start-1 # the ucsc 0 based is [start, end), while gff is [start, end]
 
             bigg.chromStarts.append(record.start-bigg.chromStart-1)
             bigg.blockSizes.append(record.end-record.start+1) # [1,2] is len2
 
         # use the last end as end
-        bigg.chromEnd = record.end-1
+        bigg.chromEnd = record.end # the ucsc 0 based is [start, end), while gff is [start, end]
 
         try:
             assert len(bigg.blockSizes) == len(bigg.chromStarts)
