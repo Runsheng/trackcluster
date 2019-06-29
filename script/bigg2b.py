@@ -6,12 +6,22 @@
 
 import os
 import argparse
+import sys,inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(os.path.dirname(currentdir))
+#sys.path.insert(0,parentdir)
+
 
 parser=argparse.ArgumentParser()
 parser.add_argument("-b", "--biggfile",
                     help="the bigg bed file")
 parser.add_argument("-o", "--out", default="bigg.bb",
                     help="the output file name")
+parser.add_argument("-k", "--kent", default="/home/bin",
+                    help="the kent bin location")
+parser.add_argument("-s", "--sizefile", default=currentdir+"/ce10.sizes",
+                    help="the genome size file")
 
 args = parser.parse_args()
 
@@ -20,9 +30,10 @@ sort -k1,1 -k2,2n {biggs}> {biggs}_s
 echo "sort finished"
 sed -i '/chrMtDNA/d' {biggs}_s
 echo "sed finished"
-export PATH="/home/zhaolab1/app/jk/kentUtils/bin/":$PATH
-bedToBigBed -as=/home/zhaolab1/myapp/trackcluster/script/bigGenePred.as -type=bed12+8 {biggs}_s /home/zhaolab1/myapp/trackcluster/script/ce10.sizes {out}
-""".format(biggs=args.biggfile, out=args.out)
+export PATH={kent}:$PATH
+bedToBigBed -as={currentdir}/bigGenePred.as -type=bed12+8 {biggs}_s {sizefile} {out}
+""".format(biggs=args.biggfile, out=args.out, currentdir=currentdir, sizefile=args.sizefile,
+           kent=args.kent)
 
 print(cmd)
 os.popen(cmd)
