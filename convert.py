@@ -128,8 +128,6 @@ def gff_to_bigGenePred(gff):
 
     for key in gff.transcript_d.keys():
         bigg = bigGenePred()
-
-        print(gff.keys()[1:100])
         gene=gff.transcript_to_gene[key]
 
         for n, record in enumerate(gff.transcript_d[key]):
