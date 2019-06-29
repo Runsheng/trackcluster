@@ -26,7 +26,7 @@ parser.add_argument("-s", "--sizefile", default=currentdir+"/ce10.sizes",
 args = parser.parse_args()
 
 cmd="""
-sort -k1,1 -k2,2n {biggs}> {biggs}_s
+LC_COLLATE=C sort -k1,1 -k2,2n {biggs}> {biggs}_s
 echo "sort finished"
 sed -i '/chrMtDNA/d' {biggs}_s
 echo "sed finished"
