@@ -43,7 +43,6 @@ class bigGenePred(object):
     string geneName2; "Alternative/human readable gene name, |used to store sample information such as stage or group"
     string geneType; "Gene type"
     )
-
     """
     def __init__(self, prefix=""):
         self.chrom=""
@@ -136,8 +135,9 @@ class bigGenePred(object):
         reverse function of the to_str
         """
         string_l=string_bed.strip().split("\t")
+        chr_prefix=self.prefix
 
-        self.chrom=string_l[0][3:] # revsere the +chr operation
+        self.chrom=string_l[0].replace(chr_prefix, "") # revsere the +prefix operation
         self.chromStart=int(string_l[1])
         self.chromEnd=int(string_l[2])
         self.name=string_l[3]
@@ -295,11 +295,53 @@ class bigGenePred(object):
         """
         self.seq= str(seqdic[self.name].seq)
 
+    @staticmethod
+    def get_cumsum(l):
+        new_l = []
+        cumsum = 0
+        for elt in l:
+            cumsum += elt
+            new_l.append(cumsum)
+        return new_l
+
+    def mrna_pos_to_chro(self, mrna_pos):
+        """
+        Convert the position in the mrna to the position in chro
+        two steps: 1, determine the exon number 2, get the pos
+
+        mrna poition is 1 based
+        chro position is 0 based
+        :param mrna_pos:
+        :return: [chro(str), pos(int)]
+        """
+        if self.exon is None:
+            self.get_exon()
+        block_sum=self.get_cumsum(self.blockSizes)
+
+        ### sanity check
+        if 0<=mrna_pos<=block_sum[-1]:
+            pass
+        else:
+            return None
+
+        ###
+        block_sum_1=[0]+block_sum
+        # define which exon is the mrna_pos in
+        for i, exon_sum in enumerate(block_sum):
+            if mrna_pos<=exon_sum:
+                exon_num=i
+                exon_offset=mrna_pos-block_sum_1[i]
+                break
+
+        chro_pos=self.chromStart+self.chromStarts[exon_num]+exon_offset
+
+        return self.chrom, chro_pos
+
     def bind_chroseq(self, refdic, gap=0, intron=False):
         """
         the gap=0 and intron=False will output CDS seq
         gap>0 would not work with intron=True
-        grp>0 and intron=False woll output exon seq seperated by "N"
+        gap>0 and intron=False will output exon seq seperated by "N"
         :param: refdic: the reference genome
         """
         # need self.exon, self.strand
@@ -350,6 +392,7 @@ class bigGenePred(object):
             seq0=seq.translate(table=1)
             seq1=seq[1:].translate(table=1)
             seq2=seq[2:].translate(table=1)
+
             print str(seq0)
             print "======================================"
             print str(seq1)
@@ -359,6 +402,13 @@ class bigGenePred(object):
             answer=[seq0, seq1, seq2]
 
         return answer
+
+    def is_nmd(self):
+        """
+        use the cutoff as: >=50nt of the last junction to define the PTC, and get the NMD
+        :return:
+        """
+        pass
 
     def write_subread(self):
         """

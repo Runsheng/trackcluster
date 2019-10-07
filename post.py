@@ -56,6 +56,8 @@ def boundary_correct(bigg_isoform, read_dic):
     """
     use the subread information to correct the isoform
     """
+    strand=bigg_isoform[0].strand
+
     bigg_isoform.get_exon()
     bigg_isoform.get_junction()
     bigg_isoform.get_coverage_from_str()

@@ -13,12 +13,12 @@ from utils import fasta2dic
 class TrackTest(unittest.TestCase):
     def setUp(self):
         bigg=[]
-        with open("./test/unc52_sw.bed") as f:
+        with open("./test/genes/unc52/unc52_sw.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg.append(bigg_one)
-        with open("./test/unc52_gff.bed") as f:
+        with open("./test/genes/unc52/unc52_gff.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -67,7 +67,6 @@ class TrackTest(unittest.TestCase):
         sample.exon_to_block()
         print(sample)
 
-
     def test_cal_distance(self):
 
         bed1, bed2=self.bigg[0:2]
@@ -84,8 +83,15 @@ class TrackTest(unittest.TestCase):
         print bigg_one.seq_chro
         print bigg_one
 
+    def test_mrna_pos_to_chro(self):
+        sample = self.bigg[0]
+        print sample
+        print (sample.mrna_pos_to_chro(100),
+        sample.mrna_pos_to_chro(1000),
+        sample.mrna_pos_to_chro(-1))
 
-    def __test_orfs(self):
+
+    def test_orfs(self):
         """
         can only run with ce10 ref
         """

@@ -219,8 +219,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
-
-
     # cleanup
     del_files([exon_out, intron_out, file_exon, file_intron])
 

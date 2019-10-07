@@ -84,7 +84,6 @@ def remove_special_chars(my_str):
 
 def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     surfix=str(randint(100, 999))
-
     bigg0=bigg_list[0]
     if prefix is None:
         prefix=bigg0.name
@@ -139,7 +138,6 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     _ = myexe(sort_cmd2)
 
     # generate the bedfile
-
     cmd="bedtools intersect -wa -wb -a {bedfile1}_s -b {bedfile2}_s>{out}".format(
         bedfile1=bedfile1, bedfile2=bedfile2, out=outfile)
 
@@ -243,7 +241,6 @@ def get_readall_bigg(bigg_list):
     :param bigg_list:
     :return:
     """
-
     name_set=set()
 
     name_isoform=set([x.name for x in bigg_list])

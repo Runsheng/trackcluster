@@ -240,9 +240,7 @@ class GFF(object):
         fw.close()
 
 
-
-
-class WormBaseGFF(GFF):
+class __WormBaseGFF(GFF):
     """
     specific parser for WormBase GFF file, include:
     un-sorted CDS and exon
