@@ -52,29 +52,6 @@ def fuzzy_intersection(junction1, junction2, offset=10):
     return match_dic
 
 
-def boundary_correct(bigg_isoform, read_dic):
-    """
-    use the subread information to correct the isoform
-    """
-    strand=bigg_isoform[0].strand
-
-    bigg_isoform.get_exon()
-    bigg_isoform.get_junction()
-    bigg_isoform.get_coverage_from_str()
-    bigg_isoform.get_subread_from_str()
-
-    sub_list=[]
-    for name in bigg_isoform.subread:
-        read=read_dic[name]
-        read.get_junction()
-        sub_list.append(read)
-
-        ## assume that the read have the same 3' as the isoform
-        ## map the last ones or the isoforms with equal length to correct the boundary
-
-    # need to correct the start, end and junctions separately
-
-
 def has_new_junction(bigg0, list_ref, offset=10):
     """
     :param bigg_one:

@@ -56,7 +56,7 @@ class ClusterTest(unittest.TestCase):
        for bigg in bigg_nano:
            bigg.write_subread()
 
-       bigg_count_write(bigg_nano, out="./test/unc_52_simple_coverage.bed")
+       bigg_count_write_native(bigg_nano, out="./test/unc_52_simple_coverage.bed")
 
 
     def test_flow_muti(self):

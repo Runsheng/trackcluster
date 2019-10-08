@@ -13,7 +13,7 @@ import os
 
 
 ## self import
-from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write, merge_subread_bigg
+from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
 from plots import line_plot_merge
 from utils import count_file
 from cluster import flow_cluster, prefilter_smallexon, write_D
@@ -59,7 +59,7 @@ def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", 
     for bigg in bigg_nano_new:
         bigg.write_subread()
 
-    bigg_count_write(bigg_nano_new, out=biggout)
+    bigg_count_write_native(bigg_nano_new, out=biggout)
     #merge_subread_bigg(bigg_nano_new)
 
     return 1 # processed in this run
@@ -109,7 +109,7 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
             for bigg in bigg_nano_new:
                 bigg.write_subread()
 
-            bigg_count_write(bigg_nano_new, out=biggout)
+            bigg_count_write_native(bigg_nano_new, out=biggout)
         except Exception as e:
             print e
     except Exception as e:

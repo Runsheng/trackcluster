@@ -8,8 +8,16 @@ Make the cluster using junction information instead of the intersection of the e
 The speed is expected to be much faster
 Could be useful for high accuate long reads
 """
+# std lib import
+import operator
 
+# third part import
+import scipy
+
+# self import
 from tracklist import list_to_dic
+from post import compare_ei_by_boudary, is_junction_equal, group_site
+from cluster import select_list
 
 
 def get_junction_dic(bigg_list, ref_weight=5):
@@ -42,35 +50,93 @@ def get_junction_dic(bigg_list, ref_weight=5):
     return site_dic
 
 
-def boundary_correct(bigg_isoform, site_dic, coverage_cutoff=2):
+def filter_site_dic(site_dic, ref=None):
+    """
+    filter away the sites which is in other chro or strand
+    use the junction with highest freq as ref?
+    :param site_dic:
+    :param ref: in the format of tuple("chro", "_", "strand")
+    :return: new_site_dic
+    """
+    site_dic_new={}
+    if ref is None:
+        cov_max=max(site_dic.values())
+        for k, v in site_dic.items():
+            if v==cov_max:
+                ref=k
+        chro_ref, _, strand_ref=ref
+    else:
+        chro_ref, _, strand_ref=ref
+
+    for k, v in site_dic.items():
+        chro, _, strand=k
+        if chro==chro_ref and strand==strand_ref:
+            site_dic_new[k]=v
+    return site_dic_new
+
+
+def chose_read_from_list(name, bigg_list):
+    for bigg in bigg_list:
+        if bigg.name==name:
+            return bigg
+    return None
+
+
+def get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
     """
     Use the high confident junctions to correcnt the low frenquent junctions
-
+    junction dic like : (chro, pos, strand): coverage
     """
-    strand=bigg_isoform[0].strand
-    read_dic=list_to_dic(bigg_raed)
+    strand=bigg.strand
+    chro=bigg.chrom
+    # sanity check
 
-    bigg_isoform.get_exon()
-    bigg_isoform.get_junction()
-    bigg_isoform.get_coverage_from_str()
-    bigg_isoform.get_subread_from_str()
+    bigg.get_junction()
 
-    sub_list=[]
-    for name in bigg_isoform.subread:
-        read=read_dic[name]
-        read.get_junction()
-        sub_list.append(read)
+    # get the pos that can be used
+    pos_pass=[]
+    for k, v in junction_dic.items():
+        if v>=coverage_cutoff:
+            chro_d, pos_d, strand_d=k
+            if chro_d==chro and strand_d==strand:
+                pos_pass.append(pos_d)
+    pos_pass_set=set(pos_pass)
 
-        ## assume that the read have the same 3' as the isoform
-        ## map the last ones or the isoforms with equal length to correct the boundary
+    ###
+    bigg_junction_new=[]
+    corrected=[] # used for debug
 
-    # need to correct the start, end and junctions separately
+    for pos in bigg.junction:
+        if pos in pos_pass_set:
+            bigg_junction_new.append(pos)
+            corrected.append((pos, pos))
+        else:
+            for pos_d in pos_pass:
+                if abs(pos_d-pos)<=offset:
+                    bigg_junction_new.append(pos_d)
+                    corrected.append((pos, pos_d))
+                    break
+                else: # can not be corrected, keep as it is
+                    bigg_junction_new.append(pos)
+    # debug
+    # print("corrected", corrected)
+    return bigg_junction_new
 
 
+def flow_junction_correct(bigg_list):
+    junction_dic=get_junction_dic(bigg_list)
 
-def get_junction_dis_tab(junction_dic, coverage_cutoff=5):
-    pass
+    for bigg in bigg_list:
+        bigg.get_junction()
+        if len(bigg.junction)==0 or bigg.ttype=="isoform_anno":
+            pass
+        else:
+            junction_new=get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5)
+            bigg.junction=junction_new
+            bigg.write_junction_to_exon()
+            bigg.exon_to_block()
 
+    return bigg_list
 
 
 def get_start_end_dic(bigg_list, type="start", ref_weight=1):
@@ -143,13 +209,114 @@ def chain_site(sites_l, offset=5):
     return site_range
 
 
+def junction_is_5primer(junction):
+    group_j=group_site(junction)
+    if junction[0]==0 and len(group_j)==1:
+        return True
+    else:
+        return False
 
 
+def is_junction_inside(bigg1, bigg2):
+    """
+    merge the 5' missing but keep the 3' missing as a novel one
 
-def simple_merge(bigg_list, intron_reteintion=True):
+    :param bigg1:
+    :param bigg2:
+    :param ignore_5primer:
+    :return:
+    """
+    bigg1.get_junction()
+
+    # single exon reads, treat seperetedly
+    if len(bigg1.junction)==0:
+        return False
+
+    if is_junction_equal(bigg1, bigg2, offset=0) is True:
+        if bigg1.exonlen>=bigg2.exonlen:
+            return False
+        else:
+            return True
+
+    missed_order, extra_order=compare_ei_by_boudary(bigg1, bigg2, offset=0)
+
+    if len(missed_order)==0:
+        return False
+    else:
+        if junction_is_5primer(missed_order) and len(extra_order)==0:
+            return True
+        else:
+            return False
+
+
+def is_single_exon_in(bigg1, bigg2):
+    """
+    ignore the single exon reads with same 3'
+    keep the single reads with end site before the last exon
+
+    :param bigg1: single exon bigg
+    :param bigg2: can be single exon and can be longer
+    :return: boolean
+    """
+    bigg2.get_junction()
+    # sanity check, rm the reverse and not same chro ones
+    #if bigg1.chrom!=bigg2.chrom or bigg1.strand!=bigg2.strand:
+    #    return False
+
+    # single exon
+    if len(bigg2.junction)==0:
+        if bigg1.strand=="+":
+            if bigg1.chromStart<=bigg2.chromStart or bigg1.chromEnd>=bigg2.chromEnd:
+                return False
+            else:
+                return True
+        else: # strand "-"
+            if bigg1.chromStart>=bigg2.chromStart or bigg1.chromEnd<=bigg2.chromEnd:
+                return False
+            else:
+                return True
+    # reads with junction, judge if it is the 3' degradation
+    # not single exon, use the last junction
+    else:
+        last_junction=bigg2.junction[-1]
+
+        if bigg1.strand=="+":
+            if bigg1.chromStart<=last_junction or bigg1.chromEnd>=bigg2.chromEnd:
+                return False
+            else:
+                return True
+        else: #"-"
+            if bigg1.chromStart<=bigg2.chromStart or bigg1.chromEnd>=last_junction:
+                return False
+            else:
+                return True
+
+
+def junction_pre(bigg_list, bigg_ref):
+    """
+    make a sanity filter, rm the bigg from different chro and reverse strand
+    :param bigg_list:
+    :param bigg_ref:
+    :return:
+    """
+
+    bigg_new=[]
+    chrom=bigg_ref[0].chrom
+    strand=bigg_ref[0].strand
+
+    for bigg in bigg_list:
+        if bigg.chrom ==chrom and bigg.strand==strand:
+            bigg_new.append(bigg)
+
+    return bigg_new
+
+
+def junction_simple_merge(bigg_list):
     """
     merge the bigg with same junction to ref list
     merge the bigg with the 5' missing junction to ref list
+
+    todo?:
     leave a switch to capture the intron retention or not
     if no, merge the intron retention isoform to the nearby one
     if yes, add these back to the ref list
@@ -158,9 +325,60 @@ def simple_merge(bigg_list, intron_reteintion=True):
 
     after the clustering, add the most freq used 5' and 3' to the isoform as a representitive
 
-
     :param bigg_list:
     :return:
     """
-    pass
+    #from copy import deepcopy
+    #bigg_list_bk=deepcopy(bigg_list)
+
+    fullset=set(range(len(bigg_list)))
+    drop=set()
+
+    for i, bigg1 in enumerate(bigg_list):
+        bigg1.get_junction()
+
+        for bigg2 in bigg_list:
+            if bigg1.name==bigg2.name:
+                pass
+            else:
+                # single exon
+                if len(bigg1.junction) == 0:
+                    if is_single_exon_in(bigg1, bigg2):
+                        drop.add(i)
+                        bigg2.subread.add(bigg1.name)
+                        bigg2.subread=bigg2.subread.union(bigg1.subread)
+                # normal reads
+                else:
+                    if is_junction_inside(bigg1, bigg2):
+                        drop.add(i)
+                        bigg2.subread.add(bigg1.name)
+                        bigg2.subread=bigg2.subread.union(bigg1.subread)
+
+    keep=fullset-drop
+    # change the default score of gene, no need to add
+    for n, bigg in enumerate(bigg_list):
+        if bigg.ttype=="isoform_anno":
+            keep.add(n)
+
+    keepl = sorted(list(keep))
+
+    # write to the main
+    for i in bigg_list:
+        i.write_subread()
+
+    bigg_list_new = select_list(bigg_list, keepl)
+
+    return bigg_list_new
+
+
+def flow_junction_cluster(bigg_list, bigg_ref):
+
+    bigg_n=junction_pre(bigg_list, bigg_ref)
+    bigg_merge=bigg_n+bigg_ref
+
+    #bigg_correct=flow_junction_correct(bigg_merge)
+
+    bigg_subread=junction_simple_merge(bigg_merge)
+
+    return bigg_subread
 

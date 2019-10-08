@@ -52,6 +52,95 @@ class ClusterjTest(unittest.TestCase):
         site_range=chain_site(tes_dic.keys(), offset=10)
         print(site_range, len(tes_dic), len(site_range))
 
-    def test_boundary_correct(self):
+    def test_filter_site_dic(self):
         pass
+
+    def test_filter_site_dic(self):
+        site_dic=get_junction_dic(self.bigg)
+        site_dic_new=filter_site_dic(site_dic)
+        print(site_dic, site_dic_new, len(site_dic), len(site_dic_new))
+
+    def test_get_corrected_junction(self):
+        import random
+        from copy import deepcopy
+        #bigg=self.bigg[0]
+        bigg=chose_read_from_list("1d7aab69-44a6-461d-81e3-e0b9e1269bdc", self.bigg)
+        bigg.get_junction()
+        print bigg
+        exon_bk=deepcopy(bigg.exon)
+
+        # mask some wrong junctions for the bigg
+        junction_mask=[]
+        for i in bigg.junction:
+            offset_l=[-5,-4, -3,-2,-1,0,1,2,3,4,5]
+            offset=random.choice(offset_l)
+            junction_mask.append(i+offset)
+
+        bigg.junction=junction_mask
+        bigg.write_junction_to_exon()
+        bigg.exon_to_block()
+        print bigg
+        ####
+
+        junction_dic=get_junction_dic(self.bigg)
+
+        junction_new=get_corrected_junction(bigg, junction_dic,
+                         coverage_cutoff=2, offset=5)
+
+        bigg.junction=junction_new
+        bigg.write_junction_to_exon()
+        bigg.exon_to_block()
+        print bigg
+        print bigg.exon==exon_bk
+
+    def test_flow_junction_correct(self):
+        bigg_n=flow_junction_correct(self.bigg)
+        len1=len(bigg_n)
+        write_bigg(bigg_n, "./test/genes/AT2G43410/corrected.bed")
+        bigg_n=read_bigg("./test/genes/AT2G43410/corrected.bed")
+        print len1==len(bigg_n)
+
+    def test_is_bigg1_inside_bigg2_junction(self):
+        bigg1, bigg2 = (self.bigg[0], self.bigg[1])
+        print bigg1
+        print bigg2
+
+        print is_junction_inside(bigg1, bigg2)
+        print is_junction_inside(bigg2, bigg1)
+
+    def test_junction_simple_merge(self):
+
+        print len(self.bigg)
+        bigg_n=junction_simple_merge(self.bigg)
+
+        from tracklist import write_bigg
+        print len(bigg_n)
+        write_bigg(bigg_n, "./test/genes/AT2G43410/tt.bed")
+
+    def test_is_single_exon_in(self):
+        # get single and note single
+        single=[]
+        muti=[]
+
+        for bigg in self.bigg:
+            bigg.get_junction()
+            if len(bigg.junction)==0:
+                single.append(bigg)
+            else:
+                muti.append(bigg)
+
+        for s1 in single:
+            for s2 in muti:
+                print s1
+                print s2
+                print is_single_exon_in(s1, s2)
+
+    def test_flow_junction_cluster(self):
+        bigg_subread=flow_junction_cluster(self.bigg_nano, self.bigg_gff)
+        write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
+
+    def test_bigg_get_namedic(self):
+        bigg_list=read_bigg("./test/genes/AT2G43410/AT2G43410_subread.bed")
+        name_dic=bigg_get_namedic(bigg_list)
+        print name_dic
 

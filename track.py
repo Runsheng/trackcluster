@@ -309,6 +309,8 @@ class bigGenePred(object):
         Convert the position in the mrna to the position in chro
         two steps: 1, determine the exon number 2, get the pos
 
+        ##todo: add the reverse strand code and test
+
         mrna poition is 1 based
         chro position is 0 based
         :param mrna_pos:
@@ -459,6 +461,8 @@ class bigGenePred(object):
             junction_l.append(start)
             junction_l.append(end)
 
+        # Note: the junction is sorted from the first to the last
+        # Note as corrd
         junction_lf= junction_l[1:-1] if self.strand=="+" else (junction_l[1:-1])[::-1]
 
         self.junction=junction_lf # rm the chromStart and chromEnd
@@ -472,17 +476,20 @@ class bigGenePred(object):
         start=self.chromStart
         end=self.chromEnd
 
-        for n,i in enumerate(self.junction):
+        # remember to sort junction back to corrd
+        junction=sorted(self.junction)
+
+        for n,i in enumerate(junction):
             if n==0:
                 pair=(start, i)
                 line_exon.append(pair)
 
-            elif 0<n<len(self.junction)-1:
+            elif 0<n<len(junction)-1:
                 if n % 2==1:
-                    pair=(i, self.junction[n+1])
+                    pair=(i, junction[n+1])
                     line_exon.append(pair)
 
-            elif n==len(self.junction)-1: # last
+            elif n==len(junction)-1: # last
                 pair=(i, end)
                 line_exon.append(pair)
 

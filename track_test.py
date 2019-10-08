@@ -12,18 +12,26 @@ from utils import fasta2dic
 
 class TrackTest(unittest.TestCase):
     def setUp(self):
-        bigg=[]
-        with open("./test/genes/unc52/unc52_sw.bed") as f:
+        genes=["unc52", "AT1G06860", "AT2G02100", "AT2G43410"]
+        gene=genes[-1]
+
+        bigg_nano=[]
+        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
-                bigg.append(bigg_one)
-        with open("./test/genes/unc52/unc52_gff.bed") as f:
+                bigg_nano.append(bigg_one)
+
+        bigg_gff=[]
+        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
-                bigg.append(bigg_one)
-        self.bigg=bigg
+                bigg_gff.append(bigg_one)
+
+        self.bigg_nano=bigg_nano
+        self.bigg_gff=bigg_gff
+        self.bigg=bigg_nano+bigg_gff
 
     def test_IO(self):
         sample=self.bigg[0]
@@ -42,9 +50,15 @@ class TrackTest(unittest.TestCase):
             print("Not run test_get_exon")
 
     def test_write_junction_to_exon(self):
+        from copy import deepcopy
+        ### need to test one foward and one reverse isoform
+        # use unc-52 and AT2G43410 in init
+
         sample = self.bigg[0]
         sample.get_junction()
-
+        print sample.junction
+        print sample.exon
+        sample_bk=deepcopy(sample.exon)
         # re-init
         sample.exon=None
         sample.intron=None
@@ -52,10 +66,15 @@ class TrackTest(unittest.TestCase):
         sample.intronlen=0
 
         sample.write_junction_to_exon()
-        print sample.exonlen==1985, sample.intronlen==19742
+        print sample.exon
+        print sample.exon==sample_bk
+
+        # for unc-52 only
+        #print sample.exonlen==1985, sample.intronlen==19742
 
     def test_exon_to_block(self):
         sample = self.bigg[0]
+        print sample
         print sample.chromStarts, sample.blockSizes
         sample.get_junction()
 

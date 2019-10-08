@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.cluster.hierarchy as sch
 from cluster import flow_cluster, write_D
-from tracklist import bigg_count_write
+from tracklist import bigg_count_write_native
 
 
 # static
@@ -113,7 +113,7 @@ def plot_last(bigg_all,
 
     # write the subreads and coverage for each isoforms
     # make sure the coverage have been in each bigg
-    bigg_count_write(bigg_list_new, out=biggout)
+    bigg_count_write_native(bigg_list_new, out=biggout)
 
     ##### draw ccc
     ax2=fig.add_axes([0.225,0.09,0.65,0.91]) # adjust the ax to fit figure
@@ -234,7 +234,7 @@ def line_plot_merge(bigg_nano,
 
     # write the subreads and coverage for each isoforms
     # make sure the coverage have been in each bigg
-    bigg_count_write(bigg_list_new, out=biggout)
+    bigg_count_write_native(bigg_list_new, out=biggout)
 
     ##### draw ccc
     ax2=fig.add_axes([0.225,0.09,0.65,0.91]) # adjust the ax to fit figure

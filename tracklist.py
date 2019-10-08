@@ -66,6 +66,7 @@ def write_bigg(bigg_list, out="bigg_new.bed"):
 
     with open(out, "w") as fw:
         fw.write("\n".join(bigg_str))
+        fw.write("\n")
 
 
 def list_to_dic(bigg_list):
@@ -253,7 +254,55 @@ def get_readall_bigg(bigg_list):
     return name_set
 
 
-def bigg_count_write(bigg_list, out=None):
+def bigg_get_namedic(bigg_list):
+    """
+    from a bigg list with subreads
+    get a isoform:readname dic
+    :param bigg_list:
+    :return:
+    """
+    name_dic={}
+    for bigg in bigg_list:
+        bigg.get_subread_from_str()
+        if len(bigg.subread)>0:
+            for name in bigg.subread:
+                try:
+                    name_dic[name].append(name)
+                except KeyError:
+                    name_dic[name]=[]
+                    name_dic[name].append(name)
+
+    return name_dic
+
+
+def get_namedic_unique_ratio(name_dic):
+    iso_unique_count={}
+    iso_all_count={}
+
+    unique_name=set()
+    dup_name=set()
+    full_name=set()
+
+    for name_iso, readname in name_dic.items():
+        full_name=full_name.union(set(readname))
+
+
+
+
+
+
+def is_read(readname):
+    """
+    using the number of "-" to judge the nanopore read name
+    :param readname:
+    :return:
+    """
+    if len(readname.split("-")) == 5:
+        return True
+    else:
+        return False
+
+def bigg_count_write_native(bigg_list, out=None):
     """
     parser the output of cluster, get the count for each isoform
     :param bigg_list:
@@ -266,7 +315,7 @@ def bigg_count_write(bigg_list, out=None):
         bigg.get_subread_from_str()
         if len(bigg.subread)>0:
             for name in bigg.subread:
-                if "-" in name: # judge if it is a read or a isoform
+                if len(name.split("-"))==5: # judge if it is a read or a isoform
                     try:
                         name_dic[name]+=1
                     except KeyError:
@@ -284,6 +333,16 @@ def bigg_count_write(bigg_list, out=None):
     # debug
     #print name_dic
     write_bigg(bigg_list,out)
+
+
+def bigg_count_write_unique(bigg_list, out=None):
+    """
+    use the group information from the geneName2
+    :param bigg_list:
+    :param out:
+    :return:
+    """
+    pass
 
 
 def group_bigg_by_gene(bigglist):
