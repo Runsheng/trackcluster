@@ -8,13 +8,17 @@
 from tracklist import *
 from post import *
 import unittest
+import logging
 
 
 class TracklistTest(unittest.TestCase):
     def setUp(self):
-        self.biggfile="./test/unc52_sw.bed"
-        self.swfile="/home/zhaolab1/data/nanorna/score_SL1_ssw.txt"
-        self.testout="./test/test.bed"
+        self.biggfile="./test/genes/unc52/unc52_sw.bed"
+        self.swexonfile="./test/genes/unc52/unc52_sw_exon.bed"
+        self.csvfile="./test/genes/unc52/exon_inter.bed"
+        #self.swfile="/home/zhaolab1/data/nanorna/score_SL1_ssw.txt"
+        self.testout="./test/genes/unc52/test.bed"
+        self.test_interout="./test/genes/unc52/exon_inter.bed"
 
     def test_read(self):
         self.bigg_list=read_bigg(self.biggfile)
@@ -25,8 +29,8 @@ class TracklistTest(unittest.TestCase):
         bigg0=self.bigg_test[0]
         bigg1=self.bigg_test[-1]
 
-        matched=boundary_compare(bigg0, bigg1)
-        print matched,
+        #matched=boundary_compare(bigg0, bigg1)
+        #print matched,
 
     def test_boundaryall(self):
         self.bigg_test=read_bigg(self.testout)
@@ -37,7 +41,8 @@ class TracklistTest(unittest.TestCase):
 
         for bigg in self.bigg_test:
                 is_new=has_new_junction(bigg, list_ref)
-                print bigg.name, is_new
+                #print(bigg.name, is_new)
+        logging.info("Test {} passed.".format(self.test_boundaryall.__name__))
 
     def test_class4(self):
         self.bigg_test=read_bigg(self.testout)
@@ -50,8 +55,7 @@ class TracklistTest(unittest.TestCase):
                 print bigg.name, class4
 
     def test_pandas_summary(self):
-        csvfile="./test/exon_inter.bed"
-
+        csvfile=self.csvfile
         i_dic=pandas_summary(csvfile)
         print("length",len(i_dic))
 
@@ -73,20 +77,20 @@ class TracklistTest(unittest.TestCase):
                 print "Not equal in", i, j
 
     def test_tobedfile(self):
-        dir="./test"
+        dir="./test/genes/unc52"
         prefix=self.biggfile.split("/")[-1].split(".")[0]
-        print prefix
+        print(prefix)
 
         self.bigg_list=read_bigg(self.biggfile)
         bigglist_to_bedfile(self.bigg_list, dir=dir, prefix=prefix)
 
     def test_wrapper_bedtools(self):
-        bed1="./test/unc52_sw_exon.bed"
-        out=wrapper_bedtools_intersect2(bed1, bed1, "./test/exon_inter.bed")
-        print out
+        bed1=self.swexonfile
+        out=wrapper_bedtools_intersect2(bed1, bed1, self.test_interout)
+        print(out)
 
     def test_bigglist_add(self):
         pass
 
     def tearDown(self):
-        pass
+        self=None

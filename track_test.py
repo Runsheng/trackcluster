@@ -94,13 +94,39 @@ class TrackTest(unittest.TestCase):
         pass
 
 
-    def test_bindseq(self):
-        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10.fa")
-        bigg_one=self.bigg[-1]
+    def test_bindseq_reverse(self):
+        ### need to use one gene
+        ref_dict=fasta2dic("/home/li/reference/tair/tair10.fa")
+        mrna_dict=fasta2dic("./test/genes/AT2G43410/AT2G43410.1.fasta")
 
-        bigg_one.bind_chroseq(ref_dict, gap=100, intron=True)
-        print bigg_one.seq_chro
+        name="rna-NM_001337028.1"
+        bigg_one=None
+        for i in self.bigg:
+            if i.name==name:
+                bigg_one=i
+        if bigg_one is None:
+            return False
+        print bigg_one.name
+
+        real_seq=str(mrna_dict[name].seq)
+
+        bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
+        real_seq=real_seq.replace("\n", "")
+        print bigg_one.seq_chro==real_seq
         print bigg_one
+
+        pos=bigg_one.mrna_pos_to_chro(0)
+        print pos
+
+        # for single site
+        print chr_select(ref_dict, "chr2", 18026397, 18026398)
+        print chr_select(ref_dict, pos[0], pos[1], pos[1]+1 )
+
+    def test_bindseq_forward(self):
+        ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
+        mrna_dict = fasta2dic("./test/genes/AT2G02100/AT2G02100.fasta")
+        pass
+
 
     def test_mrna_pos_to_chro(self):
         sample = self.bigg[0]
@@ -109,12 +135,15 @@ class TrackTest(unittest.TestCase):
         sample.mrna_pos_to_chro(1000),
         sample.mrna_pos_to_chro(-1))
 
+        ### check if the nucl of the same pos is indentical
+        ### chro is 0 based and mRNA is 1 based
+        from utils import fasta2dic, chr_select
 
     def test_orfs(self):
         """
         can only run with ce10 ref
         """
-        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10.fa")
+        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10_ucsc.fa")
         bigg_one=self.bigg[30]
         bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
         print bigg_one.seq_chro

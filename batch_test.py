@@ -22,7 +22,7 @@ class BatchTest(unittest.TestCase):
         pass
 
     def test_process_1(self):
-        os.chdir("./test/genes/unc52")
+        os.chdir("./test/genes/")
         key="unc52"
         process_one_subsample(key, intronweight=0.5,batchsize=500, full=True)
 
@@ -30,13 +30,6 @@ class BatchTest(unittest.TestCase):
         os.chdir("./test/genes/")
         key="AT1G06860"
         process_one_subsample(key, intronweight=0.5,batchsize=1000, full=True)
-
-    def test_re_cal(self):
-
-        bigg_nano=read_bigg("./test/unc52/unc52_simple_coverage.bed")
-        bigg_gff=[]
-        flow_cluster(bigg_nano, bigg_gff)
-
 
     def tearDown(self):
         pass

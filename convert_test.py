@@ -10,12 +10,12 @@ from convert import *
 
 class GffConvertTest(unittest.TestCase):
     def setUp(self):
-        self.gff = GFF("./test/unc52.gff")
+        self.gff = GFF("./test/genes/unc52/unc52.gff")
 
     def test_convert(self):
         bigg_list= gff_to_bigGenePred(self.gff)
 
-        with open("./test/unc52_gff.bed", "w") as fw:
+        with open("./test/genes/unc52/unc52_gff.bed", "w") as fw:
             for bigg in bigg_list:
                 fw.write(bigg.to_str())
                 fw.write("\n")

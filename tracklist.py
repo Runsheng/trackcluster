@@ -287,10 +287,6 @@ def get_namedic_unique_ratio(name_dic):
         full_name=full_name.union(set(readname))
 
 
-
-
-
-
 def is_read(readname):
     """
     using the number of "-" to judge the nanopore read name

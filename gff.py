@@ -157,7 +157,6 @@ class GFF(object):
         if keys is None: # if no chose ones, use all mrna
             keys=self.gene_d.keys()
 
-
         for k in keys:
             gff_list=self.gene_d[k]
 

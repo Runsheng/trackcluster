@@ -44,7 +44,7 @@ def fasta2dic(fastafile):
 
 def chr_select(record_dict, chro, start,end):
     """
-    Note the start and end is 0 based
+    Note the start and end is 0 based and [)
     give the name of refdic, and the chr, start and end to be used
     return the name and sequence (both as str)
     for example, chrcut(record_dict, "I", 100,109) returns

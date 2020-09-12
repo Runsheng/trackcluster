@@ -11,13 +11,13 @@ class MyTestCase(unittest.TestCase):
 class PlotTest(unittest.TestCase):
     def setUp(self):
         bigg_nano=[]
-        with open("./test/unc52_sw.bed") as f:
+        with open("./test/genes/unc52/unc52_sw.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
         bigg_gff=[]
-        with open("./test/unc52_gff.bed") as f:
+        with open("./test/genes/unc52/unc52_gff.bed") as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -31,9 +31,9 @@ class PlotTest(unittest.TestCase):
     def test_plot(self):
         sample=self.bigg_nano[0:]
         line_plot_merge(sample, self.bigg_gff,
-                        out="./test/bb.pdf",
-                  biggout="./test/test.bed",
-                  Dout="./test/d.csv",
+                        out="./test/genes/unc52/bb.pdf",
+                  biggout="./test/genes/unc52/test.bed",
+                  Dout="./test/genes/unc52/d.csv",
                   intronweight=0.5,
                   by="ratio_all")
 

@@ -5,10 +5,9 @@
 # @File    : track.py
 
 # third part import
-from utils import set_tmp, chr_select, reverse_complement
+from utils import chr_select, reverse_complement
 import os
 
-dirp=set_tmp()
 
 def get_start_end(list2):
     start = [x[0] for x in list2]
@@ -311,7 +310,7 @@ class bigGenePred(object):
 
         ##todo: add the reverse strand code and test
 
-        mrna poition is 1 based
+        mrna poition is 0 based
         chro position is 0 based
         :param mrna_pos:
         :return: [chro(str), pos(int)]
@@ -320,13 +319,17 @@ class bigGenePred(object):
             self.get_exon()
         block_sum=self.get_cumsum(self.blockSizes)
 
+
         ### sanity check
         if 0<=mrna_pos<=block_sum[-1]:
             pass
         else:
             return None
 
-        ###
+        mrna_pos=mrna_pos if self.strand == "+" else (self.exonlen-mrna_pos-1)
+        print mrna_pos
+
+        ### for the forward mRNA
         block_sum_1=[0]+block_sum
         # define which exon is the mrna_pos in
         for i, exon_sum in enumerate(block_sum):
@@ -341,10 +344,10 @@ class bigGenePred(object):
 
     def bind_chroseq(self, refdic, gap=0, intron=False):
         """
-        the gap=0 and intron=False will output CDS seq
+        the gap=0 and intron=False will output exon seq
         gap>0 would not work with intron=True
         gap>0 and intron=False will output exon seq seperated by "N"
-        :param: refdic: the reference genome
+        :param: refdic: the reference genome in a dict
         """
         # need self.exon, self.strand
         # need to note that the chr_select is 0 based
@@ -373,7 +376,7 @@ class bigGenePred(object):
 
         self.seq_chro="".join(seq_out)
 
-    def orf_find(self):
+    def orf_find(self, refdic):
         """
         :param: refdic: the reference genome
         """

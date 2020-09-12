@@ -22,7 +22,7 @@ The output format for this pipeline is ["bigGenePred"](https://github.com/Runshe
 ## <a name="requirements"></a>Requirements
 
 1. python 2.7.10+ (developed under python 2.7.12)
-2. python modules: pysam, pandas, numpy
+2. python modules: pysam, pandas, numpy, biopython
 3. samtools V2.0+ , bedtools V2.24+
 4. [minimap2](https://github.com/lh3/minimap2)
 
