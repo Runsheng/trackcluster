@@ -11,18 +11,15 @@ from utils import *
 class myUtilsTest(unittest.TestCase):
 
     def setUp(self):
-        self.fafile="./test/test_io.fa"
+        self.fafile="./test/genes/unc52/test_io.fa"
 
     def test_chro_select(self):
         seq_dic=fasta2dic(self.fafile)
         name, seq=chr_select(seq_dic, "test", 0, 12)
-        print seq
+        print(seq)
 
         seq_rc=reverse_complement(seq)
-        print seq_rc
-
-
-
+        print(seq_rc)
 
 
     def tearDown(self):

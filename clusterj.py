@@ -12,7 +12,6 @@ Could be useful for high accuate long reads
 import operator
 
 # third part import
-import scipy
 
 # self import
 from tracklist import list_to_dic

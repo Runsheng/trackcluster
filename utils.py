@@ -105,6 +105,7 @@ def del_files(filename_l):
         except OSError:
             pass
 
+
 def parmap(f, X, nprocs=multiprocessing.cpu_count()):
     """
     a function to use muti map inside a function

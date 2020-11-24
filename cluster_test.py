@@ -56,12 +56,12 @@ class ClusterTest(unittest.TestCase):
        for bigg in bigg_nano:
            bigg.write_subread()
 
-       bigg_count_write_native(bigg_nano, out="./test/unc_52_simple_coverage.bed")
+       bigg_count_write_native(bigg_nano, out="./test/genes/unc52/unc_52_simple_coverage.bed")
 
 
     def test_flow_muti(self):
        D, bigg_list=flow_cluster(self.bigg_nano[1:100], self.bigg_gff, by="ratio_all", intronweight=0.2)
-       write_D(D, bigg_list, "./test/d.csv")
+       write_D(D, bigg_list, "./test/genes/unc52/d.csv")
 
     def tearDown(self):
         self.bigg = None

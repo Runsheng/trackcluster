@@ -12,13 +12,13 @@ import unittest
 class GFFTest(unittest.TestCase):
     def setUp(self):
         #self.gff = GFF("/home/zhaolab1/reference/ce10_ws266.gff")
-        self.gff=GFF("./test/unc52.gff")
+        self.gff=GFF("./test/genes/unc52/unc52.gff")
 
     def test_format_write(self):
         self.gff.gene_format()
         print(len(self.gff.gene_d.keys()))
         print(self.gff.gene_d.keys()[0:10])
-        self.gff.gff_write("./test/unc52_write.gff", keys=["ZC101.2"])
+        self.gff.gff_write("./test/genes/unc52/unc52_write.gff", keys=["ZC101.2"])
         print("test gff IO done")
 
     def test_parser(self):

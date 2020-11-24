@@ -12,7 +12,7 @@ The input is a list of
 from track import bigGenePred
 
 # third part import
-import scipy
+import numpy
 import operator
 from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 from utils import del_files
@@ -146,8 +146,8 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         i.to_bedstr()
 
     length=len(bigg_list)
-    D_exon=scipy.zeros([length, length])
-    D_intron=scipy.zeros([length, length])
+    D_exon=numpy.zeros([length, length])
+    D_intron=numpy.zeros([length, length])
 
     # get an pos combination and the name of bigg for each i
     # ij_list=getij(bigg_list)
