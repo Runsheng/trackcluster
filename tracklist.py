@@ -275,7 +275,7 @@ def bigg_get_namedic(bigg_list):
     return name_dic
 
 
-def get_namedic_unique_ratio(name_dic):
+def __get_namedic_unique_ratio(name_dic):
     iso_unique_count={}
     iso_all_count={}
 
@@ -297,6 +297,7 @@ def is_read(readname):
         return True
     else:
         return False
+
 
 def bigg_count_write_native(bigg_list, out=None):
     """

@@ -13,7 +13,6 @@ import unittest
 
 from track import bigGenePred
 from batch import *
-from tracklist import *
 
 import os
 
@@ -22,13 +21,13 @@ class BatchTest(unittest.TestCase):
         pass
 
     def test_process_1(self):
-        os.chdir("./test/genes/")
+        os.chdir("./test/genes")
         key="unc52"
-        process_one_subsample(key, intronweight=0.5,batchsize=500, full=True)
+        process_one_subsample(key, intronweight=0.5,batchsize=150, full=True)
 
     def test_process_2(self):
-        os.chdir("./test/genes/")
-        key="AT1G06860"
+        os.chdir("./test/genes")
+        key="AT2G43410"
         process_one_subsample(key, intronweight=0.5,batchsize=1000, full=True)
 
     def tearDown(self):

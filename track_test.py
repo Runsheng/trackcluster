@@ -94,7 +94,7 @@ class TrackTest(unittest.TestCase):
         pass
 
 
-    def test_bindseq_reverse(self):
+    def __test_bindseq_reverse(self):
         ### need to use one gene
         ref_dict=fasta2dic("/home/li/reference/tair/tair10.fa")
         mrna_dict=fasta2dic("./test/genes/AT2G43410/AT2G43410.1.fasta")
@@ -126,7 +126,6 @@ class TrackTest(unittest.TestCase):
         ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
         mrna_dict = fasta2dic("./test/genes/AT2G02100/AT2G02100.fasta")
         pass
-
 
     def test_mrna_pos_to_chro(self):
         sample = self.bigg[0]

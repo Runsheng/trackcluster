@@ -87,7 +87,8 @@ class TracklistTest(unittest.TestCase):
     def test_wrapper_bedtools(self):
         bed1=self.swexonfile
         out=wrapper_bedtools_intersect2(bed1, bed1, self.test_interout)
-        print(out)
+        from utils import count_file
+        print("file line count",  out , count_file(out))
 
     def test_bigglist_add(self):
         pass

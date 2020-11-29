@@ -12,7 +12,7 @@ from unittest import skip
 class ClusterTest(unittest.TestCase):
     def setUp(self):
         genes=["unc52", "AT1G06860", "AT2G02100"]
-        gene=genes[1]
+        gene=genes[0]
 
         bigg_nano=[]
         with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
@@ -42,11 +42,11 @@ class ClusterTest(unittest.TestCase):
 
     def test_prefilter(self):
         bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=50)
-        print len(self.bigg_nano), len(bigg_list_new)
+        print( len(self.bigg_nano), len(bigg_list_new) )
 
     def test_cal_distance(self):
         D,_=cal_distance(self.bigg)
-        print D
+        print(D)
 
     def test_flow(self):
        D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.5)

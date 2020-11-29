@@ -111,9 +111,9 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
 
             bigg_count_write_native(bigg_nano_new, out=biggout)
         except Exception as e:
-            print e
+            print ("Error in cluster level ", e)
     except Exception as e:
-        print e
+        print("Error in prefilter level", e)
     # merge_subread_bigg(bigg_nano_new)
     return 1
 
@@ -121,9 +121,6 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
 def get_len(key):
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
-    figout = "./" + key + "/" + key + ".pdf"
-    biggout = "./" + key + "/" + key + "_simple.bed"
-    Dout = "./" + key + "/" + key + "_simple.csv"
 
     line_gff = count_file(gff_file)
     line_nano = count_file(nano_file)
@@ -132,6 +129,6 @@ def get_len(key):
 
 
 if __name__=="__main__":
-    os.chdir("./test")
+    os.chdir("./test/genes/")
     key = "unc52"
-    process_one_subsample(key, batchsize=200, full=True)
+    print(process_one_subsample(key, batchsize=500, full=True))

@@ -21,6 +21,10 @@ class myUtilsTest(unittest.TestCase):
         seq_rc=reverse_complement(seq)
         print(seq_rc)
 
+    def test_myexe(self):
+        #print(myexe("ls -a |grep init"))
+        print(myexe("bedtools --version"))
+
 
     def tearDown(self):
         self.fafile=None
