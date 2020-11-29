@@ -10,6 +10,7 @@ import subprocess
 import signal
 import os
 import sys
+import logging
 from collections import OrderedDict
 
 # third part import
@@ -146,3 +147,36 @@ def fun(f, q_in, q_out):
         if i is None:
             break
         q_out.put((i, f(x)))
+
+
+#### add two logger to reduece the use of print
+def log_summary():
+    """
+    # define only the summary logger first
+    """
+    logger = logging.getLogger('summary')
+    logger.setLevel(logging.INFO)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    return logger
+
+
+def log_detail_file(filename):
+    """
+    # define only the summary logger first
+    """
+    logger = logging.getLogger('details')
+    logger.setLevel(logging.DEBUG)
+
+    ch = logging.FileHandler(filename=filename)
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+    return logger
