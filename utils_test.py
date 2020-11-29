@@ -25,6 +25,15 @@ class myUtilsTest(unittest.TestCase):
         #print(myexe("ls -a |grep init"))
         print(myexe("bedtools --version"))
 
+    def test_summary(self):
+        logger = log_summary()
+        logger.info("This is just a test, print number 100 as float" + "," + str(float(1) * 100))
+        logger.info("In total %d line, %s" % (2, "just a test number"))
+
+    def test_detail_file(self):
+        logger = log_detail_file("./test/test.txt")
+        logger.debug("This is just a test, print number 100 as float" + "," + str(float(1) * 100))
+        logger.debug("In total %d line, %s" % (2, "just a test number"))
 
     def tearDown(self):
         self.fafile=None
