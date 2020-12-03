@@ -208,7 +208,7 @@ def chain_site(sites_l, offset=5):
     return site_range
 
 
-def junction_is_5primer(junction):
+def is_junction_5primer(junction):
     group_j=group_site(junction)
     if junction[0]==0 and len(group_j)==1:
         return True
@@ -242,7 +242,7 @@ def is_junction_inside(bigg1, bigg2):
     if len(missed_order)==0:
         return False
     else:
-        if junction_is_5primer(missed_order) and len(extra_order)==0:
+        if is_junction_5primer(missed_order) and len(extra_order)==0:
             return True
         else:
             return False

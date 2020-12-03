@@ -82,7 +82,6 @@ def set_tmp(wkdir=None):
     if wkdir is None:
         aa=os.popen("echo $XDG_RUNTIME_DIR")
         dirpath=aa.read().strip()
-        #pybedtools.set_tempdir(dirpath)
         return dirpath
     else:
         return wkdir

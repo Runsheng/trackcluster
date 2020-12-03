@@ -15,7 +15,7 @@ import inspect
 from collections import OrderedDict
 from tracklist import read_bigg, write_bigg
 import logging
-
+from utils import log_detail_file, log_summary
 
 from clusterj import flow_junction_cluster
 

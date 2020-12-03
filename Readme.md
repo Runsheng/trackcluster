@@ -10,7 +10,7 @@ Trackcluster is an isoform calling and quantification pipeline for Nanopore dire
 ####
 Hint: the new feather including can be found in the dev branch
 - the compatibility with py3
-- quick junction mode for the very accurate long reads. 
+- quick junction mode for long reads with high accuracy. 
 
 ## <a name="overview"></a>Overview
 A pipeline for reference-based identification of isoform calling using Nanopore direct-RNA long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
@@ -35,3 +35,7 @@ The output format for this pipeline is ["bigGenePred"](https://github.com/Runshe
 
 An walkthrough example can be found in the [ipython notebook file](https://github.com/Runsheng/trackcluster/blob/master/trackcluster_run_example.ipynb). 
 
+## Citation
+Please kindly cite our paper in Genome Research if you use trackcluster in your work.
+
+Li, R., Ren, X., Ding, Q., Bi, Y., Xie, D. and Zhao, Z., 2020. Direct full-length RNA sequencing reveals unexpected transcriptome complexity during *Caenorhabditis elegans* development. **Genome research**, 30(2), pp.287-298.

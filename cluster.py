@@ -136,8 +136,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     :param by: used to cal the distance between two bigg object, can be "ratio", "ratio_short", "length", "length_short"
     :return: D: distance matrix
     """
-    #wkdir=set_tmp()
-    #os.chdir(wkdir)
 
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 

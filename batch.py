@@ -14,13 +14,13 @@ import os
 
 ## self import
 from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
-from plots import line_plot_merge
 from utils import count_file
 from cluster import flow_cluster, prefilter_smallexon, write_D
+from utils import log_summary, log_detail_file
 
 #random.seed(1234)
 
-def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
+def __process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
     # print key
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
@@ -65,11 +65,11 @@ def process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", 
     return 1 # processed in this run
 
 
-def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_all", full=False):
-    # print key
+def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
     biggout = "./" + key + "/" + key + "_simple_coverage.bed"
+    log_file="./" + key + "/" + key + "_run.log"
 
     if full is False:
         if os.stat(nano_file).st_size == 0:  # no bigg nano file
@@ -79,6 +79,9 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
 
     bigg_gff = read_bigg(gff_file)
     bigg_nano_raw = read_bigg(nano_file)
+
+    logger = log_detail_file(log_file)
+    logger.info(key)
 
     try:
         bigg_nano = prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
@@ -110,10 +113,12 @@ def process_one_subsample_try(key, batchsize=1000, intronweight=0.5, by="ratio_a
                 bigg.write_subread()
 
             bigg_count_write_native(bigg_nano_new, out=biggout)
+            logger.info("Write bigg outfile to {}".format(biggout))
+
         except Exception as e:
-            print ("Error in cluster level ", e)
+            logger.debug("Error in cluster level:" + e)
     except Exception as e:
-        print("Error in prefilter level", e)
+        logger.debug("Error in prefilter level:" + e)
     # merge_subread_bigg(bigg_nano_new)
     return 1
 
@@ -131,4 +136,4 @@ def get_len(key):
 if __name__=="__main__":
     os.chdir("./test/genes/")
     key = "unc52"
-    print(process_one_subsample(key, batchsize=500, full=True))
+    print(process_one_subsample_try(key, batchsize=500, full=True))
