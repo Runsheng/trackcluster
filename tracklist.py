@@ -287,13 +287,16 @@ def __get_namedic_unique_ratio(name_dic):
         full_name=full_name.union(set(readname))
 
 
-def is_read(readname):
+def is_a_read(name):
     """
-    using the number of "-" to judge the nanopore read name
-    :param readname:
+    from the string of the name, judge if it is a read or a referece name
+    Note: Now use a lot of "-" as the indicator of nanopore read, but this do not work for pacbio
+    So add a indicattor of long read name, usually the reference name is not too long,
+    the name of raw nanopore is 36 and raw pacbio is also the same
+    :param name:
     :return:
     """
-    if len(readname.split("-")) == 5:
+    if len(name.split("-")) >= 5 or len(name)>=24:
         return True
     else:
         return False
@@ -312,7 +315,7 @@ def bigg_count_write_native(bigg_list, out=None):
         bigg.get_subread_from_str()
         if len(bigg.subread)>0:
             for name in bigg.subread:
-                if len(name.split("-"))==5: # judge if it is a read or a isoform
+                if is_a_read(name): # judge if it is a read or a isoform
                     try:
                         name_dic[name]+=1
                     except KeyError:
@@ -321,7 +324,7 @@ def bigg_count_write_native(bigg_list, out=None):
     for bigg in bigg_list:
         coverage=0
         for name in bigg.subread:
-            if "-" in name:
+            if is_a_read(name):
                 coverage+=1.0/name_dic[name]
 
         bigg.coverage=coverage

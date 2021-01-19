@@ -11,14 +11,63 @@ make batch runs for different genes
 import random
 import os
 
-
 ## self import
 from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
 from utils import count_file
 from cluster import flow_cluster, prefilter_smallexon, write_D
 from utils import log_summary, log_detail_file
+from clusterj import flow_junction_cluster
 
 #random.seed(1234)
+
+# run the clustering for each gene
+
+
+def process_one_junction_try(key, full=False, batchsize=500):
+    print key
+    gff_file = "./" + key + "/" + key + "_gff.bed"
+    nano_file = "./" + key + "/" + key + "_nano.bed"
+    # figout = "./" + key + "/" + key + "_coverage.pdf"
+    biggout = "./" + key + "/" + key + "_simple_coveragej1000.bed"
+    # Dout = "./" + key + "/" + key + "_simple_coverage.csv"
+
+    if full is False:
+        if os.stat(nano_file).st_size == 0:  # no bigg nano file
+            return 0
+        if os.path.isfile(biggout):  # already processed
+            return 2
+
+    bigg_gff = read_bigg(gff_file)
+    bigg_nano = read_bigg(nano_file)
+
+    error_ll = []
+
+    if bigg_nano is None:
+        return 0
+
+    ### add the bactsize part
+    n_count = 100
+    n = 0
+
+    try:
+        while n < n_count and len(bigg_nano) > batchsize:
+            bigg_1 = bigg_nano[:batchsize]
+            bigg_2 = bigg_nano[batchsize:]
+            bigg_subread_by1 = flow_junction_cluster(bigg_1, bigg_gff)
+            bigg_2.extend(bigg_subread_by1)
+            n += 1
+
+        bigg_subread = flow_junction_cluster(bigg_2, bigg_gff)
+        write_bigg(bigg_subread, biggout)
+    except Exception as e:
+        error_ll.append(e)
+        print("Error", e)
+
+    return 1  # real run
+    # merge_subread_bigg(bigg_nano_new)
+
+    return 3  # unfinished run
+
 
 def __process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
     # print key

@@ -28,12 +28,12 @@ The output format for this pipeline is ["bigGenePred"](https://github.com/Runshe
 
 ## Recommendations
 1. UCSC Kent source tree (for generating binary track)
-2. scipy for hclust function
-3. matplotlib and pylab for plotting
 
 ## <a name="walkthrough"></a>Walkthrough
 
 An walkthrough example can be found in the [ipython notebook file](https://github.com/Runsheng/trackcluster/blob/master/trackcluster_run_example.ipynb). 
+
+The new junction mod to run trackcluster can be found in 
 
 ## Citation
 Please kindly cite our paper in Genome Research if you use trackcluster in your work.
