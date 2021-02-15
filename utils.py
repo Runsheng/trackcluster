@@ -5,6 +5,7 @@
 # @File    : utils.py
 
 # std library import
+import itertools
 import multiprocessing
 import subprocess
 import signal
@@ -179,3 +180,16 @@ def log_detail_file(filename):
     logger.addHandler(ch)
 
     return logger
+
+
+def group_site(missed_order):
+    # sanity check:
+    if len(missed_order)%2!=0:
+        pass
+        # could have some exception: 1. include the 0 or the -1 junction 2. intron retain coupled with missed exon
+        # not bug, # print "Error in the number of orders !", missed_order
+
+    # group the lists to regions
+    groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(missed_order), key=lambda x: x[0] - x[1])]
+
+    return groups

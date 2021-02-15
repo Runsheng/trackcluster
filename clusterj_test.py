@@ -12,7 +12,7 @@ from unittest import skip
 class ClusterjTest(unittest.TestCase):
     def setUp(self):
         genes=["unc52", "AT1G06860", "AT2G02100", "AT2G43410"]
-        gene=genes[3]
+        gene=genes[0]
 
         bigg_nano=[]
         with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
@@ -137,7 +137,10 @@ class ClusterjTest(unittest.TestCase):
 
     def test_flow_junction_cluster(self):
         bigg_subread=flow_junction_cluster(self.bigg_nano, self.bigg_gff)
-        write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
+        for i in bigg_subread:
+            print(i)
+
+        #write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
 
     def test_bigg_get_namedic(self):
         bigg_list=read_bigg("./test/genes/AT2G43410/AT2G43410_subread.bed")

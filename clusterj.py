@@ -15,41 +15,12 @@ import operator
 
 # self import
 from tracklist import list_to_dic
-from post import compare_ei_by_boudary, is_junction_equal, group_site
+from post import compare_ei_by_boudary, is_junction_equal
+from utils import group_site
 from cluster import select_list
 
 
-def get_junction_dic(bigg_list, ref_weight=5):
-    """
-    get the dic showing the site: frequency
-    site is as 'chro_site_strand'
-    :param bigg_list: contain both ref and read in bigg format
-    :param bigg_reads:
-    :param ref_weight: the folder of the weight in
-    :return: tuple(chro, pos, strand): coverage
-    """
-    site_dic = {}
-    for bigg in bigg_list:
-        if bigg.ttype=="nanopore_read":
-            track_weight=1
-        elif bigg.ttype=="isoform_anno":
-            track_weight=1*ref_weight
-        else:
-            track_weight=1
-        chro=bigg.chrom
-        strand=bigg.strand
-
-        bigg.get_junction()
-        for pos in bigg.junction:
-            try:
-                site_dic[tuple((chro, pos, strand))]+=track_weight
-            except KeyError:
-                site_dic[tuple((chro, pos, strand))]=track_weight
-
-    return site_dic
-
-
-def filter_site_dic(site_dic, ref=None):
+def __filter_site_dic(site_dic, ref=None):
     """
     filter away the sites which is in other chro or strand
     use the junction with highest freq as ref?
@@ -81,9 +52,10 @@ def chose_read_from_list(name, bigg_list):
     return None
 
 
-def get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
+def __get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
     """
-    Use the high confident junctions to correcnt the low frenquent junctions
+    too slooooow, as need to iter the full junction set
+    Use the high confident junctions to correct the low frequent junctions
     junction dic like : (chro, pos, strand): coverage
     """
     strand=bigg.strand
@@ -122,22 +94,6 @@ def get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
     return bigg_junction_new
 
 
-def flow_junction_correct(bigg_list):
-    junction_dic=get_junction_dic(bigg_list)
-
-    for bigg in bigg_list:
-        bigg.get_junction()
-        if len(bigg.junction)==0 or bigg.ttype=="isoform_anno":
-            pass
-        else:
-            junction_new=get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5)
-            bigg.junction=junction_new
-            bigg.write_junction_to_exon()
-            bigg.exon_to_block()
-
-    return bigg_list
-
-
 def get_start_end_dic(bigg_list, type="start", ref_weight=1):
     """
     :param type: the 5'start or the 3'end of the transcript,
@@ -167,7 +123,7 @@ def get_start_end_dic(bigg_list, type="start", ref_weight=1):
     return site_dic
 
 
-def chain_site(sites_l, offset=5):
+def __chain_site(sites_l, offset=5):
     """
     use the sorted sites_l?
     merge the sites within 5nt to a range contaning all the fields

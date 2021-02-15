@@ -466,13 +466,16 @@ class bigGenePred(object):
 
         # Note: the junction is sorted from the first to the last
         # Note as corrd
-        junction_lf= junction_l[1:-1] if self.strand=="+" else (junction_l[1:-1])[::-1]
+        #junction_lf= junction_l[1:-1] if self.strand=="+" else (junction_l[1:-1])[::-1]
+        junction_lf= junction_l if self.strand=="+" else list(reversed(junction_l))
 
-        self.junction=junction_lf # rm the chromStart and chromEnd
+        self.junction=junction_lf[1:-1] # rm the chromStart and chromEnd
 
     def write_junction_to_exon(self):
-
+        # used only for clustercj
+        # sanity check
         if len(self.junction)%2!=0:
+            raise SyntaxError("Junction number is not valid, need to be 2n")
             return None
 
         line_exon=[]

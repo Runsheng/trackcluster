@@ -5,7 +5,8 @@
 # @File    : post.py
 
 from collections import OrderedDict
-import itertools
+
+from utils import group_site
 
 
 def is_junction_equal(bigg0, bigg1, offset=10):
@@ -23,17 +24,17 @@ def is_junction_equal(bigg0, bigg1, offset=10):
     #print bigg0.name, bigg0.junction
     #print bigg1.name, bigg1.junction
 
-    match_0=set()
-    match_1=set()
+    match_0=[]
+    match_1=[]
 
     for ni, i in enumerate(bigg0.junction):
         for nj, j in enumerate(bigg1.junction):
             if -offset <= i - j <= offset:
                 #line=(bigg0.name, ni, i, bigg1.name, nj, j)
-                match_0.add(i)
-                match_1.add(j)
+                match_0.append(i)
+                match_1.append(j)
 
-    if set(bigg0.junction)==match_0 and set(bigg1.junction)==match_1:
+    if set(bigg0.junction)==set(match_0) and set(bigg1.junction)==set(match_1):
         return True
     return False
 
@@ -159,8 +160,8 @@ def find_nearest_ref(bigg0, list_ref, offset=10):
     # first the regions, then the numbers of the each site
 
     missed_s, extra_s=compare_ei_by_boudary(bigg0, list_ref[0], offset)
-    group_miss_s=group_site(missed_s)
-    group_extra_s=group_site(extra_s)
+    group_miss_s= group_site(missed_s)
+    group_extra_s= group_site(extra_s)
     s_n=0
 
     for n, bigg_ref in enumerate(list_ref):
@@ -195,19 +196,6 @@ def find_nearest_ref(bigg0, list_ref, offset=10):
                         pass
 
     return list_ref[s_n]
-
-
-def group_site(missed_order):
-    # sanity check:
-    if len(missed_order)%2!=0:
-        pass
-        # could have some exception: 1. include the 0 or the -1 junction 2. intron retain coupled with missed exon
-        # not bug, # print "Error in the number of orders !", missed_order
-
-    # group the lists to regions
-    groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(missed_order), key=lambda x: x[0] - x[1])]
-
-    return groups
 
 
 def desc_ei_by_boundary(bigg0, bigg_ref, offset=10):
