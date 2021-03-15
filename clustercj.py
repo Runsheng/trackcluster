@@ -13,9 +13,9 @@ Aims:
 """
 
 # self import
+from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
 from clusterj import junction_pre
 from cluster import getij, get_pos_dic, select_list, select_D
-from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
 from utils import group_site, log_summary
 
 
@@ -26,7 +26,6 @@ import pandas as pd
 import itertools
 
 from collections import OrderedDict
-
 
 def get_junction_dic(bigg_list, ref_weight=5, read_weight=1):
     """
@@ -75,7 +74,7 @@ def generate_binary_junction_list(junction, keys):
     return j_binary
 
 
-def get_read_junction_D(bigg_list, site_cov_dic):
+def get_read_junction_dic(bigg_list, site_cov_dic):
     """
     a dataframe with readname: junction_pos
     read1: 1,0,1,0,1 (has this junction or not)
@@ -89,11 +88,55 @@ def get_read_junction_D(bigg_list, site_cov_dic):
 
     for bigg in bigg_list:
         j_binary=generate_binary_junction_list(bigg.junction, keys)
-        read_binaryj_dic[bigg.name]=j_binary
+        read_binaryj_dic[bigg.name]=numpy.array(j_binary)
 
-    df=pd.DataFrame.from_dict(read_binaryj_dic, orient="index",columns=keys)
+    #df=pd.DataFrame.from_dict(read_binaryj_dic, orient="index",columns=keys)
     #df.index
-    return df
+    return read_binaryj_dic
+
+
+def compare_junction(j1, j2):
+    """
+    Two junctions in j1
+    :param j1: nmumpy array
+    :param j2:
+    :return: use 0:"equal", 1:"in", 2:"contain", 3:"diff"
+    """
+    if j1==j2:
+        return 0
+    else:
+        j_del=j1-j2
+        len_jun=len(j1)
+        nums, counts=numpy.unique(j_del, return_counts=True)
+        # get a defualt dic
+        freq_dic_raw=dict(zip(nums, counts))
+        freq_dic={}
+        for k in [-1, 0,1]:
+            try:
+                freq_dic[k]=freq_dic_raw[k]
+            except KeyError:
+                freq_dic[k]=0
+        #
+        if freq_dic[-1]>0 and freq_dic[1]>0:
+            return 3
+        elif freq_dic[-1]==0 and freq_dic[1]>0: # contain all junction
+            # need to differ to contain or missing exon, or missiong intron
+            return 2
+        elif freq_dic[-1]>0 and freq_dic[1]==0: # in
+            return 1
+        return "Error"
+
+
+def cal_distance_junction(df_junction):
+    """
+    From the junction dataframe, get the pair-wise matrix for the junction
+    the matrix should be 1 or 0 binary
+    :param df_junction:
+    :return:
+    """
+    pass
+
+
 
 
 def get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10):
@@ -159,6 +202,7 @@ def get_bigg_correct(bigg, w_to_r):
         try:
             junction_new.append(w_to_r[junction])
             flag=1
+            bigg.ttype="nanopore_read_corrected"
         except KeyError:
             junction_new.append(junction)
     #print len(junction_new)==len(bigg.junction)
@@ -178,9 +222,9 @@ def is_junction_in(junction_l, set_no):
         return False
 
 
-def flow_junction_correct(bigg_list):
+def flow_junction_correct(bigg_list, cov_cutoff=2, pos_cutoff=10):
     site_cov_dic=get_junction_dic(bigg_list, ref_weight=5, read_weight=1) # parameters
-    w_to_r, w_to_no = get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10) # parameters
+    w_to_r, w_to_no = get_corrected_dic(site_cov_dic, cov_cutoff=cov_cutoff, pos_cutoff=pos_cutoff) # parameters
 
     set_no=set(w_to_no)
     bigg_rare_junction=[]
@@ -193,6 +237,7 @@ def flow_junction_correct(bigg_list):
             bigg_rare_junction.append(bigg)
         else: # the remains worth correction
             bigg_new, flag=get_bigg_correct(bigg, w_to_r)
+            bigg_correct.append(bigg_new)
             flag_count+=flag
 
     logger=log_summary()
@@ -201,6 +246,22 @@ def flow_junction_correct(bigg_list):
 
     return bigg_correct, bigg_rare_junction
 
+
+
+
+def flow_df_merge(bigg_correct_dic):
+    """
+    use corrected bigg file to do the two round of merge
+    1. equal merge
+    2. 3' within merge
+    :param bigg_correct:
+    :return:
+    """
+    bigg_correct=bigg_correct_dic.values()
+    site_cov_dic=get_junction_dic(bigg_correct)
+    df=get_read_junction_D(bigg_correct, site_cov_dic)
+
+    ### if
 
 
 def __group_nearby_site(site_list, interval=5):

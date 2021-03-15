@@ -32,33 +32,6 @@ class ClusterjTest(unittest.TestCase):
         self.bigg_gff=bigg_gff
         self.bigg=bigg_nano+bigg_gff
 
-    def test_get_junction_dic(self):
-        site_dic=get_junction_dic(self.bigg)
-        print site_dic
-
-    def test_get_start_end_dic(self):
-        tss_dic=get_start_end_dic(self.bigg, type="start")
-        print tss_dic
-        sum_n=0
-        for v in tss_dic.values():
-            sum_n+=v
-        print len(tss_dic), sum_n, len(self.bigg_gff)*5+len(self.bigg_nano)
-
-        tes_dic=get_start_end_dic(self.bigg, type="end")
-        print tes_dic
-
-    def test_chain_site(self):
-        tes_dic = get_start_end_dic(self.bigg, type="end")
-        site_range=chain_site(tes_dic.keys(), offset=10)
-        print(site_range, len(tes_dic), len(site_range))
-
-    def test_filter_site_dic(self):
-        pass
-
-    def test_filter_site_dic(self):
-        site_dic=get_junction_dic(self.bigg)
-        site_dic_new=filter_site_dic(site_dic)
-        print(site_dic, site_dic_new, len(site_dic), len(site_dic_new))
 
     def test_get_corrected_junction(self):
         import random
@@ -93,12 +66,6 @@ class ClusterjTest(unittest.TestCase):
         print bigg
         print bigg.exon==exon_bk
 
-    def test_flow_junction_correct(self):
-        bigg_n=flow_junction_correct(self.bigg)
-        len1=len(bigg_n)
-        write_bigg(bigg_n, "./test/genes/AT2G43410/corrected.bed")
-        bigg_n=read_bigg("./test/genes/AT2G43410/corrected.bed")
-        print len1==len(bigg_n)
 
     def test_is_bigg1_inside_bigg2_junction(self):
         bigg1, bigg2 = (self.bigg[0], self.bigg[1])

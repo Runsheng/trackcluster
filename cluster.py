@@ -144,8 +144,8 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         i.to_bedstr()
 
     length=len(bigg_list)
-    D_exon=numpy.zeros([length, length])
-    D_intron=numpy.zeros([length, length])
+    D_exon=numpy.ones((length, length))
+    D_intron=numpy.ones((length, length))
 
     # get an pos combination and the name of bigg for each i
     # ij_list=getij(bigg_list)
@@ -168,7 +168,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         union = bigg_list[i].exonlen + bigg_list[j].exonlen - intersection
         # debug insanity
         if union <=0:
-            print "exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection
+            print("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection)
         # debug over
 
         if by == "ratio":
@@ -195,7 +195,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
         #### debug
         if union <=0:
-            print "intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection
+            print ("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection)
         #### debug over
 
         if by == "ratio":
@@ -213,7 +213,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
                 D_intron[i, j] = 1
             else:
                 D_intron[i, j] = 1 - float(intersection) / min_length
-
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 
@@ -284,8 +283,8 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
     # unless need to parer the intronD and exonD separately, or else the filter should be outer function
     for i,j in ij_list:
         if D[i,j]<cutoff:
-            if i==j:
-                pass
+            if i==j: # after init as 1, need to write a 0
+                D[i,j]=0
             else:
                 if by=="ratio":
                     if bigg_list[i].exonlen<bigg_list[j].exonlen:
@@ -328,7 +327,6 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
                         drop.add(j)
                         bigg_list[i].subread.add(bigg_list[j].name)
                         bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
-
     keep=fullset-drop
     # change the default score of gene, no need to add
     for n, bigg in enumerate(bigg_list):

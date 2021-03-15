@@ -54,7 +54,7 @@ def chose_read_from_list(name, bigg_list):
 
 def __get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
     """
-    too slooooow, as need to iter the full junction set
+    too slooooow, as need to iter the full junction set, have revised in clustercj as get_bigg_correct
     Use the high confident junctions to correct the low frequent junctions
     junction dic like : (chro, pos, strand): coverage
     """
@@ -94,7 +94,7 @@ def __get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
     return bigg_junction_new
 
 
-def get_start_end_dic(bigg_list, type="start", ref_weight=1):
+def __get_start_end_dic(bigg_list, type="start", ref_weight=1):
     """
     :param type: the 5'start or the 3'end of the transcript,
     :param bigg_list:

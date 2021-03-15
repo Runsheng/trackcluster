@@ -69,12 +69,16 @@ class ClusterjTest(unittest.TestCase):
         print("{} tracks have identical junctions".format(n))
 
 
-    def test_df(self):
+    def test_get_read_junction_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
-        df=get_read_junction_D(self.bigg, self.site_dic)
-        print df
+        df=get_read_junction_dic(self.bigg, self.site_dic)
+        #print df
         # only work for unc-52
         #print numpy.array(df.loc["087b20ed-78ba-48f9-a038-f23a9c4b75c6"])-numpy.array(df.loc["ZC101.2g.1"])
+        print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
+        print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
+        print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]-df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
+        print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]-df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
 
     def test_get_corrected_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
@@ -85,7 +89,7 @@ class ClusterjTest(unittest.TestCase):
     def test_bigg_correct(self):
         import copy
         self.site_dic=get_junction_dic(self.bigg)
-        w_to_r, w_to_no=get_corrected_dic(self.site_dic, 2,10)
+        w_to_r, w_to_no=get_corrected_dic(self.site_dic, 2,20)
         count=0
         for bigg in self.bigg:
             bigg.bk=copy.deepcopy(bigg)
@@ -97,8 +101,21 @@ class ClusterjTest(unittest.TestCase):
         print( "The number of reads corrected is ", count)
 
     def test_flow_junction_correct(self):
+        bigg_correct, bigg_rare= flow_junction_correct(self.bigg, 2, 10)
+        print(len(bigg_correct), len(set(bigg_correct)), len(bigg_rare), len(set(bigg_rare)) )
+
+    def test_flow_clusterj_corrected(self):
         bigg_correct, bigg_rare= flow_junction_correct(self.bigg)
 
+
+    def test_compare_junction(self):
+        j_all=[]
+        for i in self.bigg:
+            i.get_junction()
+            for j in self.bigg[2:]:
+                j.get_junction()
+                j_all.append(compare_junction(i.junction, j.junction))
+        print j_all
 
     def test_group_nearby_site(self):
         sites=[

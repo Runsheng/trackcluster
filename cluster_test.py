@@ -45,7 +45,9 @@ class ClusterTest(unittest.TestCase):
         print( len(self.bigg_nano), len(bigg_list_new) )
 
     def test_cal_distance(self):
-        D,_=cal_distance(self.bigg)
+        D,_=cal_distance(self.bigg, by="ratio")
+        print(D)
+        D,_=cal_distance(self.bigg, by="ratio_short")
         print(D)
 
     def test_flow(self):
@@ -55,12 +57,11 @@ class ClusterTest(unittest.TestCase):
        ### save nessary files
        for bigg in bigg_nano:
            bigg.write_subread()
-
        bigg_count_write_native(bigg_nano, out="./test/genes/unc52/unc_52_simple_coverage.bed")
 
 
     def test_flow_muti(self):
-       D, bigg_list=flow_cluster(self.bigg_nano[1:100], self.bigg_gff, by="ratio_all", intronweight=0.2)
+       D, bigg_list=flow_cluster(self.bigg_nano[1:], self.bigg_gff, by="ratio_all", intronweight=0.2)
        write_D(D, bigg_list, "./test/genes/unc52/d.csv")
 
     def tearDown(self):

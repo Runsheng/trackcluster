@@ -112,21 +112,17 @@ version 0.1.01
 
     def cluster(self):
         parser=argparse.ArgumentParser(
-            description="Original regional cluster"
+            description="Original cluster, using intersection of intron and exon as matrix"
         )
-        parser.add_argument("-d", "--wkdir", default=os.getcwd(),
-                            help="the working dir, default is the current dir")
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all the seperated tracks in different locus/genes, default is the current dir")
         parser.add_argument("-t", "--tmp", default=None,
-                            help="the working dir, default is the current dir")
-        parser.add_argument("-f", "--fasta", help="fasta to be annotated")
-        parser.add_argument("-r", "--rrna_ref", help="rrna sequences from one closest seed mtDNA")
-        parser.add_argument("-s", "--spe", default="un", help="the species name, if not given, set to un")
-
+                            help="the tmp dir, default is the current dir/tmp")
+        parser.add_argument("-s", "--sample", help="the bigg format of the read track, with the key of GeneName")
+        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
 
         args = parser.parse_args(sys.argv[2:])
         #print(args.fasta)
-        flow_anno(wkdir=args.wkdir, fasta=args.fasta, cds_ref=args.cds_ref,
-                  rrna_ref=args.rrna_ref, spe_name=args.spe)
 
     def desc(self):
         pass
