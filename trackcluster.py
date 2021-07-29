@@ -15,9 +15,11 @@ import inspect
 from collections import OrderedDict
 from tracklist import read_bigg, write_bigg
 import logging
-from utils import log_detail_file, log_summary
+from utils import log_detail_file, log_summary, is_bin_in, is_package_installed
 
 from clusterj import flow_junction_cluster
+logger = logging.getLogger('summary')
+logger.setLevel(logging.INFO)
 
 class CMD(object):
 
@@ -39,6 +41,8 @@ trackcluster.py pre --reference ref.bed --tracks in.bed --out trackall
 trackcluster.py cluster --folder trackall
 trackcluster.py clusterj --folder trackall # run in junction mod
 trackcluster.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
+
+trackcluster.py test --install
 
 version 0.1.01
             """,
@@ -64,6 +68,7 @@ version 0.1.01
                 gene_bigg[bigg.geneName].append(bigg)
         return gene_bigg
 
+
     def pre(self):
         """
         prepare the data folder used for the
@@ -82,18 +87,18 @@ version 0.1.01
         args = parser.parse_args(sys.argv[2:])
 
         #### main flow
-        logging.info("Start file reading")
+        logger.info("Start file reading")
         anno_bigg=read_bigg(args.reference)
         gene_anno=self.group_bigg_by_gene(anno_bigg)
         nano_bigg=read_bigg(args.sample)
         gene_nano = self.group_bigg_by_gene(nano_bigg)
-        logging.info("End of file reading")
+        logger.info("End of file reading")
 
         ### change dir
         os_origin=os.getcwd()
         os.chdir(args.wkdir)
 
-        logging.info("Start of dir making")
+        logger.info("Start of dir making")
         for gene, nano_bigg in gene_nano.iteritems():
             anno_bigg = gene_anno[gene]
             try:
@@ -136,6 +141,31 @@ version 0.1.01
         parentdir = os.path.dirname(os.path.dirname(currentdir))
         #sys.path.insert(0,parentdir)
         ### need to use the file from the test path to run the test
+        parser = argparse.ArgumentParser(
+            description="Test functions"
+        )
+        parser.add_argument("--install", action='store_true',
+                            help="test the install of all needed packages")
+        parser.add_argument("--pre", action="store_true",
+                            help="test the pre and makedir functions")
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.install: ## test installed packages, samtools, bedtools
+            if is_bin_in("samtools") and is_bin_in("bedtools"):
+                logger.info("Pass")
+            else:
+                logger.info("Check samtools and bedtools installion")
+
+            for package_name in ["pysam", "Bio", "numpy", "pandas"]:
+                if is_package_installed(package_name):
+                    logger.info("Package {} installed".format(package_name) )
+                else:
+                    logger.info("Import Error: Package {} not installed".format(package_name) )
+
+
+
+        if args.pre: ### test the prepare function using test
+           pass
 
 
 if __name__=="__main__":

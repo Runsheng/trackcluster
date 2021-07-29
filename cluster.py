@@ -10,16 +10,25 @@ The input is a list of
 """
 # self import
 from track import bigGenePred
+from utils import del_files
+from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 
 # third part import
 import numpy
 import operator
-from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
-from utils import del_files
+
+# set logger
+import logging
+logger = logging.getLogger('summary')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
 
 def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweight=0.5):
-
     bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
     if by=="ratio_all":
@@ -52,7 +61,7 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweigh
     #missed_2=get_readall_bigg(bigg_list_by1)-get_readall_bigg(bigg_l2)
     #missed_3=get_readall_bigg(bigg_list_by2)-get_readall_bigg(bigg_l3)
 
-    print "flow cluster",len(bigg_list),  len(bigg_l2), len(bigg_l3)
+    logger.info(("flow cluster",len(bigg_list),  len(bigg_l2), len(bigg_l3)))
 
     return D_remain, bigg_l3
 
@@ -136,7 +145,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     :param by: used to cal the distance between two bigg object, can be "ratio", "ratio_short", "length", "length_short"
     :return: D: distance matrix
     """
-
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 
     for i in bigg_list:
@@ -168,7 +176,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         union = bigg_list[i].exonlen + bigg_list[j].exonlen - intersection
         # debug insanity
         if union <=0:
-            print("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection)
+            logger.debug(("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection))
         # debug over
 
         if by == "ratio":
@@ -195,7 +203,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
         #### debug
         if union <=0:
-            print ("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection)
+            logger.debug(("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection))
         #### debug over
 
         if by == "ratio":
@@ -203,7 +211,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
             if min_length == 0:
                 D_intron[i, j] = 1
             else:
-                #print union
                 similar = float(intersection) / union
                 D_intron[i, j] = 1 - similar
 
@@ -218,13 +225,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
     # cleanup
     del_files([exon_out, intron_out, file_exon, file_intron])
-
-    # debug:
-    #print("D_exon",D_exon)
-    #print("D_intron", D_intron)
-    #print("D",D)
-
-    #cleanup(remove_all=True)
 
     return D, bigg_list
 
@@ -267,14 +267,6 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
 
     fullset=set(range(len(D)))
     drop=set()
-
-    # first
-    #print "first"
-    #print len(get_readall_bigg(bigg_list))
-
-    #for bigg in bigg_list:
-    #    bigg.get_exon()
-
 
     # same list
     ij_list=getij(D)
@@ -345,12 +337,8 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
     pos_dic=get_pos_dic(bigg_list)
     missed_name=get_readall_bigg(bigg_list)-get_readall_bigg(bigg_list_new)
 
-    #print missed_name
-    #print "inside"
-    #print len(get_readall_bigg(bigg_list_new))
     if add_miss:
         if len(missed_name)>0:
-            #print "{} missing bigg found, added back but may affect the isoforms".format(len(missed_name))
             missed_num=set()
             for k in missed_name:
                 missed_num.add(pos_dic[k])

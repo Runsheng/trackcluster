@@ -205,7 +205,7 @@ def get_bigg_correct(bigg, w_to_r):
             bigg.ttype="nanopore_read_corrected"
         except KeyError:
             junction_new.append(junction)
-    #print len(junction_new)==len(bigg.junction)
+    #print( len(junction_new)==len(bigg.junction) )
 
     bigg.junction = junction_new
     bigg.write_junction_to_exon()

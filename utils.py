@@ -18,6 +18,8 @@ from collections import OrderedDict
 from Bio import SeqIO,Seq
 import gzip
 
+logger = logging.getLogger('summary')
+logger.setLevel(logging.INFO)
 
 def count_file(thefile):
     count = 0
@@ -72,8 +74,29 @@ def myexe(cmd, timeout=10):
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
     out, err=proc.communicate()
-    #print(err, proc.returncode)
+    logger.info((err, proc.returncode))
     return out
+
+
+def is_bin_in(cmd_name):
+    """
+    used to test if bedtools and samtools are in the bin
+    :param cmd_name:
+    :return:
+    """
+    out=myexe(cmd_name+" --version")
+    if cmd_name in out:
+        return True
+    else:
+        return False
+
+
+def is_package_installed(package_name):
+    try:
+        import package_name
+    except ImportError:
+        return False
+    return True
 
 
 def set_tmp(wkdir=None):
