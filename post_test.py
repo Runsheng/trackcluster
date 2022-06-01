@@ -11,11 +11,11 @@
 # @Author  : Runsheng
 # @File    : tracklist_test.py
 
-from tracklist import read_bigg, write_bigg
-from post import *
+from .tracklist import read_bigg, write_bigg
+from .post import *
 import unittest
 
-from utils import group_site
+from .utils import group_site
 
 
 class TracklistTest(unittest.TestCase):
@@ -42,7 +42,7 @@ class TracklistTest(unittest.TestCase):
 
         for bigg in self.bigg_test:
                 is_new=has_new_junction(bigg, list_ref)
-                print bigg.name, is_new
+                print(bigg.name, is_new)
 
     def test_class4(self):
         self.bigg_test=read_bigg(self.testout)
@@ -52,7 +52,7 @@ class TracklistTest(unittest.TestCase):
         for bigg in self.bigg_test:
             if bigg.name in names[0:]:
                 class4=class_4(bigg, list_ref, 10)
-                print bigg.name, class4
+                print(bigg.name, class4)
 
     def test_compare_ei_by_boudary(self):
         self.bigg_test=read_bigg(self.testout)
@@ -67,7 +67,7 @@ class TracklistTest(unittest.TestCase):
             for bigg_ref in list_ref:
                 m,e=compare_ei_by_boudary(bigg0, bigg_ref)
                 if len(m)%2!=0 or len(e)%2!=0:
-                    print bigg0.name, bigg_ref.name, m, len(m), e, len(e)
+                    print(bigg0.name, bigg_ref.name, m, len(m), e, len(e))
 
     def test_des_ei_by_boudary(self):
         """
@@ -103,10 +103,10 @@ class TracklistTest(unittest.TestCase):
             if bigg.name in self.name:
                 bigg5.append(bigg)
 
-        print len(bigg5)
+        print(len(bigg5))
         for bigg in bigg5:
 
-            print flow_desc(bigg, list_ref, offset=20)
+            print(flow_desc(bigg, list_ref, offset=20))
 
     def test_group_site(self):
 
@@ -116,7 +116,7 @@ class TracklistTest(unittest.TestCase):
             [0,1,3]]
 
         for missed_one in missed:
-            print group_site(missed_one)
+            print(group_site(missed_one))
 
 
     def test_desc_group(self):

@@ -5,8 +5,8 @@
 # @File    : tracklist_test.py
 
 
-from tracklist import *
-from post import *
+from .tracklist import *
+from .post import *
 import unittest
 import logging
 
@@ -22,7 +22,7 @@ class TracklistTest(unittest.TestCase):
 
     def test_read(self):
         self.bigg_list=read_bigg(self.biggfile)
-        print len(self.bigg_list)
+        print(len(self.bigg_list))
 
     def test_boundary(self):
         self.bigg_test=read_bigg(self.testout)
@@ -52,12 +52,12 @@ class TracklistTest(unittest.TestCase):
         for bigg in self.bigg_test:
             if bigg.name in names[0:]:
                 class4=class_4(bigg, list_ref, 10)
-                print bigg.name, class4
+                print(bigg.name, class4)
 
     def test_pandas_summary(self):
         csvfile=self.csvfile
         i_dic=pandas_summary(csvfile)
-        print("length",len(i_dic))
+        print(("length",len(i_dic)))
 
     def test_IO(self):
         pass
@@ -68,13 +68,13 @@ class TracklistTest(unittest.TestCase):
         bigg_add=self.bigg_list+self.bigg_list+self.bigg_list
         bigg_added=add_subread_bigg(bigg_add)
 
-        print len(self.bigg_list)==len(bigg_added)
+        print(len(self.bigg_list)==len(bigg_added))
 
         for i,j in zip(self.bigg_list, bigg_added):
             if i.name==j.name:
                 pass
             else:
-                print "Not equal in", i, j
+                print("Not equal in", i, j)
 
     def test_tobedfile(self):
         dir="./test/genes/unc52"
@@ -87,8 +87,8 @@ class TracklistTest(unittest.TestCase):
     def test_wrapper_bedtools(self):
         bed1=self.swexonfile
         out=wrapper_bedtools_intersect2(bed1, bed1, self.test_interout)
-        from utils import count_file
-        print("file line count",  out , count_file(out))
+        from .utils import count_file
+        print(("file line count",  out , count_file(out)))
 
     def test_bigglist_add(self):
         pass

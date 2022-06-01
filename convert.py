@@ -8,8 +8,8 @@ The processing functions used to change the format of tracks
 """
 
 # self import
-from track import bigGenePred
-from gff import GFF
+from .track import bigGenePred
+from .gff import GFF
 
 # third part import
 from pysam import AlignmentFile
@@ -60,7 +60,7 @@ def sam_to_bigGenePred(record, samfile):
     try:
         assert len(bigg.blockSizes) == len(bigg.chromStarts)
     except AssertionError:
-        print len(bigg.blockSizes), len(bigg.chromStarts)
+        print(len(bigg.blockSizes), len(bigg.chromStarts))
     bigg.blockCount = len(bigg.blockSizes)
 
     bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)]
@@ -126,7 +126,7 @@ def gff_to_bigGenePred(gff):
     if gff.transcript_d is None:
         gff.transcript_format()
 
-    for key in gff.transcript_d.keys():
+    for key in list(gff.transcript_d.keys()):
         bigg = bigGenePred()
         gene=gff.transcript_to_gene[key]
 
@@ -165,7 +165,7 @@ def gff_to_bigGenePred(gff):
         try:
             assert len(bigg.blockSizes) == len(bigg.chromStarts)
         except AssertionError:
-            print len(bigg.blockSizes), len(bigg.chromStarts)
+            print(len(bigg.blockSizes), len(bigg.chromStarts))
         bigg.blockCount = len(bigg.blockSizes)
         bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)] # ignore frame
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
             sample = record
             break
         bigg = sam_to_bigGenePred(sample, samfile)
-        print bigg.to_str()
+        print(bigg.to_str())
         samfile.close()
 
     def test_gff_to_bigGenePred():

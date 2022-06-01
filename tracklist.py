@@ -9,9 +9,9 @@ Functions to handel the IO of bigg list
 """
 import re
 # self import
-from track import bigGenePred
+from .track import bigGenePred
 from collections import OrderedDict
-from utils import myexe, set_tmp, del_files
+from .utils import myexe, set_tmp, del_files
 from random import randint
 import pandas
 
@@ -154,7 +154,7 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
 
 def count_file(thefile):
     count = 0
-    for line in open(thefile).xreadlines(  ):
+    for line in open(thefile):
         count += 1
     return count
 
@@ -210,7 +210,7 @@ def add_subread_bigg(bigg_raw):
             subread_2=bigg.subread
             bigg_dic[bigg.name].subread=subread_1.union(subread_2)
 
-    return bigg_dic.values()
+    return list(bigg_dic.values())
 
 
 def merge_subread_bigg(bigg_raw):
@@ -229,7 +229,7 @@ def merge_subread_bigg(bigg_raw):
         if name in subreads:
             print(name)
 
-    print(sorted(names))
+    print((sorted(names)))
 
     #bigg_dic=bigg
     for bigg in bigg_raw:
@@ -283,7 +283,7 @@ def __get_namedic_unique_ratio(name_dic):
     dup_name=set()
     full_name=set()
 
-    for name_iso, readname in name_dic.items():
+    for name_iso, readname in list(name_dic.items()):
         full_name=full_name.union(set(readname))
 
 

@@ -7,8 +7,8 @@
 
 import unittest
 
-from track import *
-from utils import fasta2dic
+from .track import *
+from .utils import fasta2dic
 
 class TrackTest(unittest.TestCase):
     def setUp(self):
@@ -36,16 +36,16 @@ class TrackTest(unittest.TestCase):
     def test_IO(self):
         sample=self.bigg[0]
         sample.to_bedstr()
-        print sample.exon_str
+        print((sample.exon_str))
 
     def test_get_exon(self):
         sample = self.bigg[0]
         if sample.name=="579ebc2e-86ca-469f-b68c-7262fc292c9d":
             sample.get_exon()
 
-            print (sample.exon==[(14627636, 14627786), (14627936, 14628112), (14628157, 14628269), (14628325, 14628427), (14628724, 14630134), (14649328, 14649363)])
-            print (sample.intron==[(14627786, 14627936), (14628112, 14628157), (14628269, 14628325), (14628427, 14628724), (14630134, 14649328)])
-            print (sample.exonlen==1985, sample.intronlen==19742)
+            print((sample.exon==[(14627636, 14627786), (14627936, 14628112), (14628157, 14628269), (14628325, 14628427), (14628724, 14630134), (14649328, 14649363)]))
+            print((sample.intron==[(14627786, 14627936), (14628112, 14628157), (14628269, 14628325), (14628427, 14628724), (14630134, 14649328)]))
+            print((sample.exonlen==1985, sample.intronlen==19742))
         else:
             print("Not run test_get_exon")
 
@@ -56,8 +56,8 @@ class TrackTest(unittest.TestCase):
 
         sample = self.bigg[0]
         sample.get_junction()
-        print sample.junction
-        print sample.exon
+        print((sample.junction))
+        print((sample.exon))
         sample_bk=deepcopy(sample.exon)
         # re-init
         sample.exon=None
@@ -66,22 +66,22 @@ class TrackTest(unittest.TestCase):
         sample.intronlen=0
 
         sample.write_junction_to_exon()
-        print sample.exon
-        print sample.exon==sample_bk
+        print((sample.exon))
+        print((sample.exon==sample_bk))
 
         # for unc-52 only
         #print sample.exonlen==1985, sample.intronlen==19742
 
     def test_exon_to_block(self):
         sample = self.bigg[0]
-        print sample
-        print sample.chromStarts, sample.blockSizes
+        print(sample)
+        print((sample.chromStarts, sample.blockSizes))
         sample.get_junction()
 
         # re-init
         sample.chromStarts=[]
         sample.blockSizes=[]
-        print sample
+        print(sample)
 
         sample.exon_to_block()
         print(sample)
@@ -106,21 +106,21 @@ class TrackTest(unittest.TestCase):
                 bigg_one=i
         if bigg_one is None:
             return False
-        print bigg_one.name
+        print((bigg_one.name))
 
         real_seq=str(mrna_dict[name].seq)
 
         bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
         real_seq=real_seq.replace("\n", "")
-        print bigg_one.seq_chro==real_seq
-        print bigg_one
+        print((bigg_one.seq_chro==real_seq))
+        print(bigg_one)
 
         pos=bigg_one.mrna_pos_to_chro(0)
-        print pos
+        print(pos)
 
         # for single site
-        print chr_select(ref_dict, "chr2", 18026397, 18026398)
-        print chr_select(ref_dict, pos[0], pos[1], pos[1]+1 )
+        print((chr_select(ref_dict, "chr2", 18026397, 18026398)))
+        print((chr_select(ref_dict, pos[0], pos[1], pos[1]+1 )))
 
     def test_bindseq_forward(self):
         ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
@@ -129,14 +129,14 @@ class TrackTest(unittest.TestCase):
 
     def test_mrna_pos_to_chro(self):
         sample = self.bigg[0]
-        print sample
-        print (sample.mrna_pos_to_chro(100),
+        print(sample)
+        print((sample.mrna_pos_to_chro(100),
         sample.mrna_pos_to_chro(1000),
-        sample.mrna_pos_to_chro(-1))
+        sample.mrna_pos_to_chro(-1)))
 
         ### check if the nucl of the same pos is indentical
         ### chro is 0 based and mRNA is 1 based
-        from utils import fasta2dic, chr_select
+        from .utils import fasta2dic, chr_select
 
     def test_orfs(self):
         """
@@ -145,11 +145,11 @@ class TrackTest(unittest.TestCase):
         ref_dict=fasta2dic("/home/zhaolab1/reference/ce10_ucsc.fa")
         bigg_one=self.bigg[30]
         bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
-        print bigg_one.seq_chro
+        print((bigg_one.seq_chro))
         ans=bigg_one.find_orfs_with_trans()
 
-        print ans
-        print bigg_one
+        print(ans)
+        print(bigg_one)
 
     def test_orf(self):
         pass

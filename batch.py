@@ -12,11 +12,11 @@ import random
 import os
 
 ## self import
-from tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
-from utils import count_file
-from cluster import flow_cluster, prefilter_smallexon, write_D
-from utils import log_summary, log_detail_file
-from clusterj import flow_junction_cluster
+from .tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
+from .utils import count_file
+from .cluster import flow_cluster, prefilter_smallexon, write_D
+from .utils import log_summary, log_detail_file
+from .clusterj import flow_junction_cluster
 
 #random.seed(1234)
 
@@ -24,7 +24,7 @@ from clusterj import flow_junction_cluster
 
 
 def process_one_junction_try(key, full=False, batchsize=500):
-    print key
+    print(key)
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
     # figout = "./" + key + "/" + key + "_coverage.pdf"
@@ -61,7 +61,7 @@ def process_one_junction_try(key, full=False, batchsize=500):
         write_bigg(bigg_subread, biggout)
     except Exception as e:
         error_ll.append(e)
-        print("Error", e)
+        print(("Error", e))
 
     return 1  # real run
     # merge_subread_bigg(bigg_nano_new)
@@ -90,7 +90,7 @@ def __process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all"
     #bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
     while n < n_count and len(bigg_nano)>batchsize:
-        print "n=", n
+        print("n=", n)
         bigg_1 = bigg_nano[:batchsize]
         bigg_2 = bigg_nano[batchsize:]
         _, bigg_list_by1 = flow_cluster(bigg_1, bigg_gff, by, intronweight=intronweight)
@@ -185,4 +185,4 @@ def get_len(key):
 if __name__=="__main__":
     os.chdir("./test/genes/")
     key = "unc52"
-    print(process_one_subsample_try(key, batchsize=500, full=True))
+    print((process_one_subsample_try(key, batchsize=500, full=True)))

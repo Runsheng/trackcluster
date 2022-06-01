@@ -14,10 +14,10 @@ import operator
 # third part import
 
 # self import
-from tracklist import list_to_dic
-from post import compare_ei_by_boudary, is_junction_equal
-from utils import group_site
-from cluster import select_list
+from .tracklist import list_to_dic
+from .post import compare_ei_by_boudary, is_junction_equal
+from .utils import group_site
+from .cluster import select_list
 
 
 def __filter_site_dic(site_dic, ref=None):
@@ -31,14 +31,14 @@ def __filter_site_dic(site_dic, ref=None):
     site_dic_new={}
     if ref is None:
         cov_max=max(site_dic.values())
-        for k, v in site_dic.items():
+        for k, v in list(site_dic.items()):
             if v==cov_max:
                 ref=k
         chro_ref, _, strand_ref=ref
     else:
         chro_ref, _, strand_ref=ref
 
-    for k, v in site_dic.items():
+    for k, v in list(site_dic.items()):
         chro, _, strand=k
         if chro==chro_ref and strand==strand_ref:
             site_dic_new[k]=v
@@ -66,7 +66,7 @@ def __get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
 
     # get the pos that can be used
     pos_pass=[]
-    for k, v in junction_dic.items():
+    for k, v in list(junction_dic.items()):
         if v>=coverage_cutoff:
             chro_d, pos_d, strand_d=k
             if chro_d==chro and strand_d==strand:

@@ -23,7 +23,7 @@ logger.setLevel(logging.INFO)
 
 def count_file(thefile):
     count = 0
-    for line in open(thefile).xreadlines(  ):
+    for line in open(thefile):
         count += 1
     return count
 

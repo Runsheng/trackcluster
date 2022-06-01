@@ -9,9 +9,9 @@ make dendrogram for further plotting
 The input is a list of
 """
 # self import
-from track import bigGenePred
-from utils import del_files
-from tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
+from .track import bigGenePred
+from .utils import del_files
+from .tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 
 # third part import
 import numpy
@@ -122,7 +122,7 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50):
     exonfile=wrapper_bedtools_intersect2(nano_exon, gff_exon)
     out_d=pandas_summary(exonfile)
     keep_name=set()
-    for k, intersection in out_d.items():
+    for k, intersection in list(out_d.items()):
         nano_name, gff_name=k
         if intersection > cutoff:
             keep_name.add(nano_name)
@@ -168,7 +168,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     intron_out=wrapper_bedtools_intersect2(file_intron, file_intron)
     intron_i=pandas_summary(intron_out)
 
-    for k, intersection in exon_i.items():
+    for k, intersection in list(exon_i.items()):
         name1, name2=k
         i=pos_dic[name1]
         j=pos_dic[name2]
@@ -194,7 +194,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
             else:
                 D_exon[i, j] = 1 - float(intersection) / min_length
 
-    for k, intersection in intron_i.items():
+    for k, intersection in list(intron_i.items()):
         name1, name2 = k
         i = pos_dic[name1]
         j = pos_dic[name2]

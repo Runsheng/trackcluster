@@ -29,7 +29,7 @@ def parse_gff_line(line):
 
     # test if the line is 9 cols
     if len(line_l) != len(GFF_FIELD):
-        print("{0} != {1}".format(len(line_l), len(GFF_FIELD)))
+        print(("{0} != {1}".format(len(line_l), len(GFF_FIELD))))
         pass
 
     # in case some gff have quotes in the cols, replace them
@@ -155,7 +155,7 @@ class GFF(object):
             self.gene_format()
 
         if keys is None: # if no chose ones, use all mrna
-            keys=self.gene_d.keys()
+            keys=list(self.gene_d.keys())
 
         for k in keys:
             gff_list=self.gene_d[k]
@@ -202,7 +202,7 @@ class GFF(object):
                                 transcript_d[transcript_name]=[]
                                 transcript_d[transcript_name].append(record)
 
-        for k, v in transcript_d.items():
+        for k, v in list(transcript_d.items()):
             v.sort(key=attrgetter('start'))
 
         self.transcript_to_gene=transcript_to_gene
@@ -216,10 +216,10 @@ class GFF(object):
         fw=open(out,"w")
 
         if keys is None:
-           keys=self.gene_d.keys()
+           keys=list(self.gene_d.keys())
 
         for k in keys:
-            print k
+            print(k)
             v=self.gene_d[k]
             for line in v:
                 if "gene" in line.split("\t")[2]:

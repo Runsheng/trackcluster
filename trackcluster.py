@@ -13,11 +13,11 @@ import sys
 import os
 import inspect
 from collections import OrderedDict
-from tracklist import read_bigg, write_bigg
+from .tracklist import read_bigg, write_bigg
 import logging
-from utils import log_detail_file, log_summary, is_bin_in, is_package_installed
+from .utils import log_detail_file, log_summary, is_bin_in, is_package_installed
 
-from clusterj import flow_junction_cluster
+from .clusterj import flow_junction_cluster
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
 
@@ -99,7 +99,7 @@ version 0.1.01
         os.chdir(args.wkdir)
 
         logger.info("Start of dir making")
-        for gene, nano_bigg in gene_nano.iteritems():
+        for gene, nano_bigg in gene_nano.items():
             anno_bigg = gene_anno[gene]
             try:
                 os.mkdir(gene)

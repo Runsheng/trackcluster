@@ -11,8 +11,8 @@ insert a full function key value test for the plotlib
 
 import unittest
 
-from track import bigGenePred
-from batch import *
+from .track import bigGenePred
+from .batch import *
 
 import os
 

@@ -5,7 +5,7 @@
 # @File    : ssw.py
 
 
-from ssw.ssw_wrap import Aligner
+from .ssw.ssw_wrap import Aligner
 # copy the library from primer_RFLP(runsheng, 2016 version)
 import re
 

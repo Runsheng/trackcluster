@@ -6,7 +6,7 @@
 
 from collections import OrderedDict
 
-from utils import group_site
+from .utils import group_site
 
 
 def is_junction_equal(bigg0, bigg1, offset=10):
@@ -127,7 +127,7 @@ def compare_ei_by_boudary(bigg0, bigg_ref, offset=10):
     # correct the bigg0 junction with ref junction
     junction_new=[]
     for i in bigg0.junction:
-        if i in match_dic.keys():
+        if i in list(match_dic.keys()):
             junction_new.append(match_dic[i])
         else:
             junction_new.append(i)

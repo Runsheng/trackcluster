@@ -6,7 +6,7 @@
 
 
 import unittest
-from utils import *
+from .utils import *
 
 class myUtilsTest(unittest.TestCase):
 
@@ -23,7 +23,7 @@ class myUtilsTest(unittest.TestCase):
 
     def test_myexe(self):
         #print(myexe("ls -a |grep init"))
-        print(myexe("bedtools --version"))
+        print((myexe("bedtools --version")))
 
     def test_summary(self):
         logger = log_summary()

@@ -5,7 +5,7 @@
 # @File    : track.py
 
 # third part import
-from utils import chr_select, reverse_complement
+from .utils import chr_select, reverse_complement
 import os
 
 
@@ -327,7 +327,7 @@ class bigGenePred(object):
             return None
 
         mrna_pos=mrna_pos if self.strand == "+" else (self.exonlen-mrna_pos-1)
-        print mrna_pos
+        print(mrna_pos)
 
         ### for the forward mRNA
         block_sum_1=[0]+block_sum
@@ -398,11 +398,11 @@ class bigGenePred(object):
             seq1=seq[1:].translate(table=1)
             seq2=seq[2:].translate(table=1)
 
-            print str(seq0)
+            print((str(seq0)))
             print("======================================")
-            print(str(seq1))
+            print((str(seq1)))
             print("======================================")
-            print(str(seq2))
+            print((str(seq2)))
 
             answer=[seq0, seq1, seq2]
 

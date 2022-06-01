@@ -5,7 +5,7 @@
 # @File    : convert_test.py
 
 import unittest
-from convert import *
+from .convert import *
 
 
 class GffConvertTest(unittest.TestCase):
@@ -42,7 +42,7 @@ class GffConvertTest(unittest.TestCase):
                        (1, 1), (0, 10), (2, 2), (0, 7), (1, 3), (0, 2), (2, 1), (0, 3),
                        (2, 1), (0, 6), (1, 1), (0, 6), (1, 1), (0, 7), (4, 15)]
 
-        print(cigar_count(cigar_tuple))
+        print((cigar_count(cigar_tuple)))
 
 
     def tearDown(self):

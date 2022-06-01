@@ -7,8 +7,8 @@
 Test set for clustercj mode
 """
 
-from clustercj import *
-from tracklist import *
+from .clustercj import *
+from .tracklist import *
 import unittest
 from unittest import skip
 
@@ -45,20 +45,20 @@ class ClusterjTest(unittest.TestCase):
 
     def test_get_junction_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
-        print self.site_dic
+        print(self.site_dic)
 
     def test_generate_binary_junction_list(self):
         self.site_dic=get_junction_dic(self.bigg)
-        keys=self.site_dic.keys()
+        keys=list(self.site_dic.keys())
         junction=self.bigg[10].junction
-        print(generate_binary_junction_list(junction, keys))
+        print((generate_binary_junction_list(junction, keys)))
 
     def test_get_read_junction_D(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_D(self.bigg, self.site_dic)
         #print df.index.names
         #print df
-        print df.at["087b20ed-78ba-48f9-a038-f23a9c4b75c6", 14647857]==1
+        print(df.at["087b20ed-78ba-48f9-a038-f23a9c4b75c6", 14647857]==1)
         df = df[df.duplicated(keep=False)]
         #print df
 
@@ -66,7 +66,7 @@ class ClusterjTest(unittest.TestCase):
         n=0
         for i in dup_l:
             n+=len(i)
-        print("{} tracks have identical junctions".format(n))
+        print(("{} tracks have identical junctions".format(n)))
 
 
     def test_get_read_junction_dic(self):
@@ -98,11 +98,11 @@ class ClusterjTest(unittest.TestCase):
                 #print bigg_1
                 #print bigg.bk
                 count+=1
-        print( "The number of reads corrected is ", count)
+        print(( "The number of reads corrected is ", count))
 
     def test_flow_junction_correct(self):
         bigg_correct, bigg_rare= flow_junction_correct(self.bigg, 2, 10)
-        print(len(bigg_correct), len(set(bigg_correct)), len(bigg_rare), len(set(bigg_rare)) )
+        print((len(bigg_correct), len(set(bigg_correct)), len(bigg_rare), len(set(bigg_rare)) ))
 
     def test_flow_clusterj_corrected(self):
         bigg_correct, bigg_rare= flow_junction_correct(self.bigg)
@@ -115,7 +115,7 @@ class ClusterjTest(unittest.TestCase):
             for j in self.bigg[2:]:
                 j.get_junction()
                 j_all.append(compare_junction(i.junction, j.junction))
-        print j_all
+        print(j_all)
 
     def test_group_nearby_site(self):
         sites=[
@@ -128,7 +128,7 @@ class ClusterjTest(unittest.TestCase):
         ]
 
         for site in sites:
-            print __group_nearby_site(site)
+            print(__group_nearby_site(site))
 
         # expected out
         #[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [20, 21, 25, 26, 27, 28, 37, 38, 39, 40]]

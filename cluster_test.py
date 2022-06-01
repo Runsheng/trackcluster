@@ -4,8 +4,8 @@
 # @Author  : Runsheng     
 # @File    : cluster_test.py
 
-from cluster import *
-from tracklist import *
+from .cluster import *
+from .tracklist import *
 import unittest
 from unittest import skip
 
@@ -38,11 +38,11 @@ class ClusterTest(unittest.TestCase):
 
     def test_pandas_summary(self):
         bb=pandas_summary("./test/genes/unc52/exon_inter.bed")
-        print(len(bb)==73093)
+        print((len(bb)==73093))
 
     def test_prefilter(self):
         bigg_list_new=prefilter_smallexon(self.bigg_nano, self.bigg_gff, cutoff=50)
-        print( len(self.bigg_nano), len(bigg_list_new) )
+        print(( len(self.bigg_nano), len(bigg_list_new) ))
 
     def test_cal_distance(self):
         D,_=cal_distance(self.bigg, by="ratio")

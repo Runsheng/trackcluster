@@ -4,8 +4,8 @@
 # @Author  : Runsheng     
 # @File    : cluster_test.py
 
-from clusterj import *
-from tracklist import *
+from .clusterj import *
+from .tracklist import *
 import unittest
 from unittest import skip
 
@@ -39,7 +39,7 @@ class ClusterjTest(unittest.TestCase):
         #bigg=self.bigg[0]
         bigg=chose_read_from_list("1d7aab69-44a6-461d-81e3-e0b9e1269bdc", self.bigg)
         bigg.get_junction()
-        print bigg
+        print(bigg)
         exon_bk=deepcopy(bigg.exon)
 
         # mask some wrong junctions for the bigg
@@ -52,7 +52,7 @@ class ClusterjTest(unittest.TestCase):
         bigg.junction=junction_mask
         bigg.write_junction_to_exon()
         bigg.exon_to_block()
-        print bigg
+        print(bigg)
         ####
 
         junction_dic=get_junction_dic(self.bigg)
@@ -63,25 +63,25 @@ class ClusterjTest(unittest.TestCase):
         bigg.junction=junction_new
         bigg.write_junction_to_exon()
         bigg.exon_to_block()
-        print bigg
-        print bigg.exon==exon_bk
+        print(bigg)
+        print(bigg.exon==exon_bk)
 
 
     def test_is_bigg1_inside_bigg2_junction(self):
         bigg1, bigg2 = (self.bigg[0], self.bigg[1])
-        print bigg1
-        print bigg2
+        print(bigg1)
+        print(bigg2)
 
-        print is_junction_inside(bigg1, bigg2)
-        print is_junction_inside(bigg2, bigg1)
+        print(is_junction_inside(bigg1, bigg2))
+        print(is_junction_inside(bigg2, bigg1))
 
     def test_junction_simple_merge(self):
 
-        print len(self.bigg)
+        print(len(self.bigg))
         bigg_n=junction_simple_merge(self.bigg)
 
-        from tracklist import write_bigg
-        print len(bigg_n)
+        from .tracklist import write_bigg
+        print(len(bigg_n))
         write_bigg(bigg_n, "./test/genes/AT2G43410/tt.bed")
 
     def test_is_single_exon_in(self):
@@ -98,9 +98,9 @@ class ClusterjTest(unittest.TestCase):
 
         for s1 in single:
             for s2 in muti:
-                print s1
-                print s2
-                print is_single_exon_in(s1, s2)
+                print(s1)
+                print(s2)
+                print(is_single_exon_in(s1, s2))
 
     def test_flow_junction_cluster(self):
         bigg_subread=flow_junction_cluster(self.bigg_nano, self.bigg_gff)
@@ -112,5 +112,5 @@ class ClusterjTest(unittest.TestCase):
     def test_bigg_get_namedic(self):
         bigg_list=read_bigg("./test/genes/AT2G43410/AT2G43410_subread.bed")
         name_dic=bigg_get_namedic(bigg_list)
-        print name_dic
+        print(name_dic)
 

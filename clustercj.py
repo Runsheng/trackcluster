@@ -13,10 +13,10 @@ Aims:
 """
 
 # self import
-from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
-from clusterj import junction_pre
-from cluster import getij, get_pos_dic, select_list, select_D
-from utils import group_site
+from .tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
+from .clusterj import junction_pre
+from .cluster import getij, get_pos_dic, select_list, select_D
+from .utils import group_site
 
 
 
@@ -85,7 +85,7 @@ def get_read_junction_dic(bigg_list, site_cov_dic):
     :param site_cov_dic: the dic for junction sites, only keys are used
     :return: a pandas df
     """
-    keys=site_cov_dic.keys()
+    keys=list(site_cov_dic.keys())
     read_binaryj_dic=OrderedDict()
 
     for bigg in bigg_list:
@@ -111,7 +111,7 @@ def compare_junction(j1, j2):
         len_jun=len(j1)
         nums, counts=numpy.unique(j_del, return_counts=True)
         # get a defualt dic
-        freq_dic_raw=dict(zip(nums, counts))
+        freq_dic_raw=dict(list(zip(nums, counts)))
         freq_dic={}
         for k in [-1, 0,1]:
             try:
@@ -161,7 +161,7 @@ def get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10):
     high_j=OrderedDict()
     low_j=OrderedDict()
 
-    keys=site_cov_dic.keys()
+    keys=list(site_cov_dic.keys())
     for n, k in enumerate(keys):
         if site_cov_dic[k] >= cov_cutoff:
             high_j[n]=k
@@ -169,7 +169,7 @@ def get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10):
             low_j[n]=k
     #print high_j, low_j
 
-    low_j_group=group_site(low_j.keys())
+    low_j_group=group_site(list(low_j.keys()))
     #print low_j_group
 
     w_to_r=OrderedDict() # site can be corrected
@@ -265,7 +265,7 @@ def flow_df_merge(bigg_correct_dic):
     :param bigg_correct:
     :return:
     """
-    bigg_correct=bigg_correct_dic.values()
+    bigg_correct=list(bigg_correct_dic.values())
     site_cov_dic=get_junction_dic(bigg_correct)
     df=get_read_junction_D(bigg_correct, site_cov_dic)
 
