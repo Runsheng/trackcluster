@@ -399,10 +399,10 @@ class bigGenePred(object):
             seq2=seq[2:].translate(table=1)
 
             print str(seq0)
-            print "======================================"
-            print str(seq1)
-            print "======================================"
-            print str(seq2)
+            print("======================================")
+            print(str(seq1))
+            print("======================================")
+            print(str(seq2))
 
             answer=[seq0, seq1, seq2]
 

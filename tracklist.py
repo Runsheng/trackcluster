@@ -227,9 +227,9 @@ def merge_subread_bigg(bigg_raw):
         subreads=subreads.union(bigg.subread)
     for name in names:
         if name in subreads:
-            print name
+            print(name)
 
-    print sorted(names)
+    print(sorted(names))
 
     #bigg_dic=bigg
     for bigg in bigg_raw:

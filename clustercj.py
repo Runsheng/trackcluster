@@ -16,17 +16,19 @@ Aims:
 from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
 from clusterj import junction_pre
 from cluster import getij, get_pos_dic, select_list, select_D
-from utils import group_site, log_summary
+from utils import group_site
+
 
 
 # std lib import
-import operator
+import logging
 import numpy
 import pandas as pd
 import itertools
 
 from collections import OrderedDict
 
+logger = logging.getLogger('summary')
 def get_junction_dic(bigg_list, ref_weight=5, read_weight=1):
     """
     get the dic showing the site: frequency
@@ -98,7 +100,7 @@ def get_read_junction_dic(bigg_list, site_cov_dic):
 def compare_junction(j1, j2):
     """
     Two junctions in j1
-    :param j1: nmumpy array
+    :param j1: numpy array
     :param j2:
     :return: use 0:"equal", 1:"in", 2:"contain", 3:"diff"
     """
@@ -126,16 +128,25 @@ def compare_junction(j1, j2):
             return 1
         return "Error"
 
+def compare_ends(bigg1, bigg2):
+    """
+    used to compare the end information for the 0 result in junction comprasion
+    :param bigg1:
+    :param bigg2:
+    :return: use 0:"equal", 1:"in", 2:"contain", 3:"diff"
+    """
+    pass
+
 
 def cal_distance_junction(df_junction):
     """
+    wrapper function to generate a D for the distance matrix
     From the junction dataframe, get the pair-wise matrix for the junction
     the matrix should be 1 or 0 binary
     :param df_junction:
     :return:
     """
     pass
-
 
 
 
@@ -240,13 +251,10 @@ def flow_junction_correct(bigg_list, cov_cutoff=2, pos_cutoff=10):
             bigg_correct.append(bigg_new)
             flag_count+=flag
 
-    logger=log_summary()
     logger.info("Corrected track number is {}".format(flag_count))
     logger.info("Number of tracks with rare junction is {}".format(len(bigg_rare_junction)))
 
     return bigg_correct, bigg_rare_junction
-
-
 
 
 def flow_df_merge(bigg_correct_dic):
@@ -285,6 +293,5 @@ def get_junction_D(bigg_list, site_cov_dic):
     :param site_cov_dic:
     :return:
     """
-
     pass
 
