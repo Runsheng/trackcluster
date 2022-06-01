@@ -6,7 +6,7 @@
 
 from collections import OrderedDict
 
-from .utils import group_site
+from utils import group_site
 
 
 def is_junction_equal(bigg0, bigg1, offset=10):

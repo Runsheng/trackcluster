@@ -11,18 +11,18 @@
 # @Author  : Runsheng
 # @File    : tracklist_test.py
 
-from .tracklist import read_bigg, write_bigg
-from .post import *
+from trackcluster.tracklist import read_bigg, write_bigg
+from trackcluster.post import *
 import unittest
 
-from .utils import group_site
+from trackcluster.utils import group_site
 
 
 class TracklistTest(unittest.TestCase):
     def setUp(self):
-        self.biggfile="./test/genes/unc52/unc52_sw.bed"
+        self.biggfile="./genes/unc52/unc52_sw.bed"
         #self.swfile="/home/zhaolab1/data/nanorna/score_SL1_ssw.txt"
-        self.testout="./test/genes/unc52/test.bed"
+        self.testout="./genes/unc52/test.bed"
         self.name=["930b8415-579c-4f85-bdfa-c0ddbf49719b","09b8ff24-e1bd-40de-9b47-1412ced6500e","eb6e13ea-56cb-437c-8aa2-a5140590d4e6","7be0aa03-ff5c-4e81-8e3f-ea329f2d2ac0","9c148ee0-1108-43c9-a7b5-6545d1922a92","c74e83ed-2e4e-4b89-b2e7-ca107fe8d73b","4f9d09ff-7bf6-46ca-b275-75553967ca74","8ef6b155-5fa9-4d84-b129-6794a73756bd","61efb881-efc4-49a9-a07f-9ba0eceb9a09","1a5c37df-a572-4d4b-90d3-b51d8df73e26","765ea80b-7b8e-42bf-b153-fc6d7d64f197","39e224fe-394a-4b98-9759-c2271fdb8799","7545fe38-5d0b-4e89-ad47-929d08d70282","48afbbef-bbfb-4915-9bf9-5705339e491f"]
         self.bigg_test=read_bigg(self.testout)
 
@@ -92,7 +92,7 @@ class TracklistTest(unittest.TestCase):
         bigg_l=[bigg0, nearest_ref]
 
         # write the bigg to check them manualy
-        write_bigg(bigg_l, "./test/bigg2.bed")
+        write_bigg(bigg_l, "./bigg2.bed")
 
     def test_flow(self):
 

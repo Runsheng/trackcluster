@@ -7,23 +7,23 @@
 
 import unittest
 
-from .track import *
-from .utils import fasta2dic
+from trackcluster.track import *
+from trackcluster.utils import fasta2dic
 
-class TrackTest(unittest.TestCase):
+class Test(unittest.TestCase):
     def setUp(self):
         genes=["unc52", "AT1G06860", "AT2G02100", "AT2G43410"]
         gene=genes[-1]
 
         bigg_nano=[]
-        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
 
         bigg_gff=[]
-        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -123,8 +123,8 @@ class TrackTest(unittest.TestCase):
         print((chr_select(ref_dict, pos[0], pos[1], pos[1]+1 )))
 
     def test_bindseq_forward(self):
-        ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
-        mrna_dict = fasta2dic("./test/genes/AT2G02100/AT2G02100.fasta")
+        #ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
+        mrna_dict = fasta2dic("./genes/AT2G02100/AT2G02100.fasta")
         pass
 
     def test_mrna_pos_to_chro(self):
@@ -136,9 +136,8 @@ class TrackTest(unittest.TestCase):
 
         ### check if the nucl of the same pos is indentical
         ### chro is 0 based and mRNA is 1 based
-        from .utils import fasta2dic, chr_select
 
-    def test_orfs(self):
+    def __test_orfs(self):
         """
         can only run with ce10 ref
         """
@@ -154,6 +153,9 @@ class TrackTest(unittest.TestCase):
     def test_orf(self):
         pass
 
+
+if __name__ == '__main__':
+    unittest.main()
 
 
 

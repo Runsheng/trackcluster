@@ -9,9 +9,9 @@ Functions to handel the IO of bigg list
 """
 import re
 # self import
-from .track import bigGenePred
+from trackcluster.track import bigGenePred
 from collections import OrderedDict
-from .utils import myexe, set_tmp, del_files
+from trackcluster.utils import myexe, set_tmp, del_files, count_file
 from random import randint
 import pandas
 
@@ -107,6 +107,9 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
         f_intron.write(bigg.intron_str)
         f_intron.write("\n")
 
+    f_exon.close()
+    f_intron.close()
+
     return (out_exon, out_intron)
 
 
@@ -150,13 +153,6 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     del_files([bedfile1, bedfile2, bed1s, bed2s])
 
     return outfile
-
-
-def count_file(thefile):
-    count = 0
-    for line in open(thefile):
-        count += 1
-    return count
 
 
 def pandas_summary(bed8file):

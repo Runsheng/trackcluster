@@ -6,12 +6,12 @@
 
 
 import unittest
-from .utils import *
+from trackcluster.utils import *
 
 class myUtilsTest(unittest.TestCase):
 
     def setUp(self):
-        self.fafile="./test/genes/unc52/test_io.fa"
+        self.fafile="./genes/unc52/test_io.fa"
 
     def test_chro_select(self):
         seq_dic=fasta2dic(self.fafile)
@@ -31,7 +31,7 @@ class myUtilsTest(unittest.TestCase):
         logger.info("In total %d line, %s" % (2, "just a test number"))
 
     def test_detail_file(self):
-        logger = log_detail_file("./test/test.txt")
+        logger = log_detail_file("./log.txt")
         logger.debug("This is just a test, print number 100 as float" + "," + str(float(1) * 100))
         logger.debug("In total %d line, %s" % (2, "just a test number"))
 

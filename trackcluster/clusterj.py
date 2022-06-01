@@ -14,9 +14,9 @@ import operator
 # third part import
 
 # self import
-from .tracklist import list_to_dic
+from tracklist import list_to_dic
 from .post import compare_ei_by_boudary, is_junction_equal
-from .utils import group_site
+from utils import group_site
 from .cluster import select_list
 
 

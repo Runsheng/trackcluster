@@ -7,8 +7,8 @@
 Functions to build the folders to start a batch run
 contain tests in __main__
 """
-from .utils import del_files, myexe
-from .tracklist import get_file_prefix, get_file_location, count_file
+from utils import del_files, myexe
+from tracklist import get_file_prefix, get_file_location, count_file
 import pandas
 
 

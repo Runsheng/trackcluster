@@ -4,10 +4,10 @@
 # @Author  : Runsheng     
 # @File    : cluster_test.py
 
-from .cluster import *
-from .tracklist import *
+from trackcluster.cluster import *
+from trackcluster.tracklist import *
 import unittest
-from unittest import skip
+
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
@@ -15,14 +15,14 @@ class ClusterTest(unittest.TestCase):
         gene=genes[0]
 
         bigg_nano=[]
-        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
 
         bigg_gff=[]
-        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -37,7 +37,7 @@ class ClusterTest(unittest.TestCase):
         #self.assertEquals(len(self.bigg), 323)
 
     def test_pandas_summary(self):
-        bb=pandas_summary("./test/genes/unc52/exon_inter.bed")
+        bb=pandas_summary("./genes/unc52/exon_inter.bed")
         print((len(bb)==73093))
 
     def test_prefilter(self):
@@ -57,12 +57,12 @@ class ClusterTest(unittest.TestCase):
        ### save nessary files
        for bigg in bigg_nano:
            bigg.write_subread()
-       bigg_count_write_native(bigg_nano, out="./test/genes/unc52/unc_52_simple_coverage.bed")
+       bigg_count_write_native(bigg_nano, out="./genes/unc52/unc_52_simple_coverage.bed")
 
 
     def test_flow_muti(self):
        D, bigg_list=flow_cluster(self.bigg_nano[1:], self.bigg_gff, by="ratio_all", intronweight=0.2)
-       write_D(D, bigg_list, "./test/genes/unc52/d.csv")
+       write_D(D, bigg_list, "./genes/unc52/d.csv")
 
     def tearDown(self):
         self.bigg = None

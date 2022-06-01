@@ -5,20 +5,20 @@
 # @File    : tracklist_test.py
 
 
-from .tracklist import *
-from .post import *
+from trackcluster.tracklist import *
+from trackcluster.post import *
 import unittest
 import logging
 
 
 class TracklistTest(unittest.TestCase):
     def setUp(self):
-        self.biggfile="./test/genes/unc52/unc52_sw.bed"
-        self.swexonfile="./test/genes/unc52/unc52_sw_exon.bed"
-        self.csvfile="./test/genes/unc52/exon_inter.bed"
+        self.biggfile="./genes/unc52/unc52_sw.bed"
+        self.swexonfile="./genes/unc52/unc52_sw_exon.bed"
+        self.csvfile="./genes/unc52/exon_inter.bed"
         #self.swfile="/home/zhaolab1/data/nanorna/score_SL1_ssw.txt"
-        self.testout="./test/genes/unc52/test.bed"
-        self.test_interout="./test/genes/unc52/exon_inter.bed"
+        self.testout="./genes/unc52/test.bed"
+        self.test_interout="./genes/unc52/exon_inter.bed"
 
     def test_read(self):
         self.bigg_list=read_bigg(self.biggfile)
@@ -72,12 +72,13 @@ class TracklistTest(unittest.TestCase):
 
         for i,j in zip(self.bigg_list, bigg_added):
             if i.name==j.name:
+                #print("Pass")
                 pass
             else:
                 print("Not equal in", i, j)
 
     def test_tobedfile(self):
-        dir="./test/genes/unc52"
+        dir= "./genes/unc52"
         prefix=self.biggfile.split("/")[-1].split(".")[0]
         print(prefix)
 
@@ -87,7 +88,7 @@ class TracklistTest(unittest.TestCase):
     def test_wrapper_bedtools(self):
         bed1=self.swexonfile
         out=wrapper_bedtools_intersect2(bed1, bed1, self.test_interout)
-        from .utils import count_file
+        from trackcluster.utils import count_file
         print(("file line count",  out , count_file(out)))
 
     def test_bigglist_add(self):

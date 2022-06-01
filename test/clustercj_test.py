@@ -7,10 +7,9 @@
 Test set for clustercj mode
 """
 
-from .clustercj import *
-from .tracklist import *
+from trackcluster.clustercj import *
+from trackcluster.tracklist import *
 import unittest
-from unittest import skip
 
 
 class ClusterjTest(unittest.TestCase):
@@ -19,14 +18,14 @@ class ClusterjTest(unittest.TestCase):
         gene=genes[0]
 
         bigg_nano=[]
-        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
 
         bigg_gff=[]
-        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -40,7 +39,6 @@ class ClusterjTest(unittest.TestCase):
         self.bigg=self.bigg_nano+bigg_gff
 
         self.bigg_dic=list_to_dic(self.bigg)
-
 
 
     def test_get_junction_dic(self):
@@ -117,7 +115,7 @@ class ClusterjTest(unittest.TestCase):
                 j_all.append(compare_junction(i.junction, j.junction))
         print(j_all)
 
-    def test_group_nearby_site(self):
+    def __test_group_nearby_site(self):
         sites=[
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 20, 21, 25, 26, 27, 28, 37, 38, 39, 40],
             [0, 1, 2, 3, 4, 5,  9, 10, 11, 12, 13, 17,  25, 26, 27, 28, 37, 38, 39, 40],

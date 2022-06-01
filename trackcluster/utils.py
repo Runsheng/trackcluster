@@ -21,10 +21,18 @@ import gzip
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
 
+
 def count_file(thefile):
+    """
+    count file line number
+    :param thefile:
+    :return:
+    """
     count = 0
-    for line in open(thefile):
+    f=open(thefile, "r")
+    for line in f.readlines():
         count += 1
+    f.close()
     return count
 
 
@@ -38,9 +46,9 @@ def fasta2dic(fastafile):
     Require Biopython SeqIO medule to parse the sequence into dict, a large readfile may take a lot of RAM
     """
     if ".gz" in fastafile:
-        handle=gzip.open(fastafile, "rU")
+        handle=gzip.open(fastafile, "r")
     else:
-        handle=open(fastafile, "rU")
+        handle=open(fastafile, "r")
     record_dict=SeqIO.to_dict(SeqIO.parse(handle, "fasta"))
     handle.close()
     return record_dict
@@ -214,5 +222,18 @@ def group_site(missed_order):
 
     # group the lists to regions
     groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(missed_order), key=lambda x: x[0] - x[1])]
+
+    return groups
+
+
+def __group_nearby_site(site_list, interval=5):
+    """
+    get list for all site with nearby
+    :param site_list:
+    :param interval:
+    :return:
+    """
+    # group the lists to regions
+    groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(site_list), key=lambda x: abs(x[1] - x[0])<=interval ) ]
 
     return groups

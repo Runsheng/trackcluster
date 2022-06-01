@@ -12,11 +12,11 @@ import random
 import os
 
 ## self import
-from .tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
-from .utils import count_file
-from .cluster import flow_cluster, prefilter_smallexon, write_D
-from .utils import log_summary, log_detail_file
-from .clusterj import flow_junction_cluster
+from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
+from trackcluster.utils import count_file
+from trackcluster.cluster import flow_cluster, prefilter_smallexon, write_D
+from trackcluster.utils import log_summary, log_detail_file
+from trackcluster.clusterj import flow_junction_cluster
 
 #random.seed(1234)
 
@@ -183,6 +183,6 @@ def get_len(key):
 
 
 if __name__=="__main__":
-    os.chdir("./test/genes/")
+    os.chdir("../test/genes/")
     key = "unc52"
     print((process_one_subsample_try(key, batchsize=500, full=True)))

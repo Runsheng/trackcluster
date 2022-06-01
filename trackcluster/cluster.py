@@ -9,9 +9,9 @@ make dendrogram for further plotting
 The input is a list of
 """
 # self import
-from .track import bigGenePred
-from .utils import del_files
-from .tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
+#from trackcluster.track import bigGenePred
+from trackcluster.utils import del_files
+from trackcluster.tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 
 # third part import
 import numpy

@@ -5,20 +5,12 @@
 # @File    : convert_test.py
 
 import unittest
-from .convert import *
+from trackcluster.convert import *
 
 
 class GffConvertTest(unittest.TestCase):
     def setUp(self):
-        self.gff = GFF("./test/genes/unc52/unc52.gff")
-
-    def test_convert(self):
-        bigg_list= gff_to_bigGenePred(self.gff)
-
-        with open("./test/genes/unc52/unc52_gff.bed", "w") as fw:
-            for bigg in bigg_list:
-                fw.write(bigg.to_str())
-                fw.write("\n")
+        self.gff = GFF("./genes/unc52/unc52.gff")
 
     def test_cigar_count(self):
         cigar_tuple = [(4, 95), (0, 28), (2, 1), (0, 14), (2, 2), (0, 5), (2, 1),

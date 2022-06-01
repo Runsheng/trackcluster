@@ -11,7 +11,7 @@ insert a full function key value test for the plotlib
 import os
 import unittest
 from tracklist import read_bigg, write_bigg
-from track import bigGenePred
+from trackcluster.track import bigGenePred
 from plotsi import line_plot_merge
 from collections import OrderedDict
 from utils import count_file

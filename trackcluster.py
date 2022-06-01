@@ -12,12 +12,12 @@ import argparse
 import sys
 import os
 import inspect
-from collections import OrderedDict
-from .tracklist import read_bigg, write_bigg
 import logging
-from .utils import log_detail_file, log_summary, is_bin_in, is_package_installed
+from collections import OrderedDict
 
-from .clusterj import flow_junction_cluster
+from trackcluster.tracklist import read_bigg, write_bigg
+from trackcluster.utils import is_bin_in, is_package_installed
+
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
 

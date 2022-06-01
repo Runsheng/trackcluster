@@ -8,7 +8,7 @@ The processing functions used to change the format of tracks
 """
 
 # self import
-from .track import bigGenePred
+from track import bigGenePred
 from .gff import GFF
 
 # third part import

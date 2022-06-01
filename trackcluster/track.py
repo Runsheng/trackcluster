@@ -5,7 +5,7 @@
 # @File    : track.py
 
 # third part import
-from .utils import chr_select, reverse_complement
+from trackcluster.utils import chr_select, reverse_complement
 import os
 
 

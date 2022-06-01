@@ -13,10 +13,10 @@ Aims:
 """
 
 # self import
-from .tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
+from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
 from .clusterj import junction_pre
 from .cluster import getij, get_pos_dic, select_list, select_D
-from .utils import group_site
+from utils import group_site
 
 
 
@@ -27,8 +27,9 @@ import pandas as pd
 import itertools
 
 from collections import OrderedDict
-
 logger = logging.getLogger('summary')
+
+
 def get_junction_dic(bigg_list, ref_weight=5, read_weight=1):
     """
     get the dic showing the site: frequency
@@ -234,6 +235,13 @@ def is_junction_in(junction_l, set_no):
 
 
 def flow_junction_correct(bigg_list, cov_cutoff=2, pos_cutoff=10):
+    """
+
+    :param bigg_list:
+    :param cov_cutoff:
+    :param pos_cutoff: only merge sites within the distance of pos_cutoff
+    :return:
+    """
     site_cov_dic=get_junction_dic(bigg_list, ref_weight=5, read_weight=1) # parameters
     w_to_r, w_to_no = get_corrected_dic(site_cov_dic, cov_cutoff=cov_cutoff, pos_cutoff=pos_cutoff) # parameters
 
@@ -272,17 +280,7 @@ def flow_df_merge(bigg_correct_dic):
     ### if
 
 
-def __group_nearby_site(site_list, interval=5):
-    """
-    get list for all site with nearrby
-    :param site_list:
-    :param interval:
-    :return:
-    """
-    # group the lists to regions
-    groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(site_list), key=lambda x: abs(x[1] - x[0])<=interval ) ]
 
-    return groups
 
 
 def get_junction_D(bigg_list, site_cov_dic):

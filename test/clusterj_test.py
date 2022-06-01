@@ -4,10 +4,11 @@
 # @Author  : Runsheng     
 # @File    : cluster_test.py
 
-from .clusterj import *
-from .tracklist import *
+from trackcluster.clusterj import *
+from trackcluster.tracklist import *
+from trackcluster.tracklist import write_bigg
 import unittest
-from unittest import skip
+
 
 class ClusterjTest(unittest.TestCase):
     def setUp(self):
@@ -15,14 +16,14 @@ class ClusterjTest(unittest.TestCase):
         gene=genes[0]
 
         bigg_nano=[]
-        with open("./test/genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
                 bigg_nano.append(bigg_one)
 
         bigg_gff=[]
-        with open("./test/genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
+        with open("./genes/{gene}/{gene}_gff.bed".format(gene=gene)) as f:
             for line_one in f.readlines():
                 bigg_one=bigGenePred()
                 bigg_one.from_string(line_one)
@@ -80,7 +81,6 @@ class ClusterjTest(unittest.TestCase):
         print(len(self.bigg))
         bigg_n=junction_simple_merge(self.bigg)
 
-        from .tracklist import write_bigg
         print(len(bigg_n))
         write_bigg(bigg_n, "./test/genes/AT2G43410/tt.bed")
 
@@ -110,7 +110,7 @@ class ClusterjTest(unittest.TestCase):
         #write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
 
     def test_bigg_get_namedic(self):
-        bigg_list=read_bigg("./test/genes/AT2G43410/AT2G43410_subread.bed")
+        bigg_list=read_bigg("genes/AT2G43410/AT2G43410_subread.bed")
         name_dic=bigg_get_namedic(bigg_list)
         print(name_dic)
 
