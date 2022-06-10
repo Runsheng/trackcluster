@@ -39,7 +39,7 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweigh
         by2=by
 
     if cutoff=="auto":
-        cutoff1=0.025
+        cutoff1=0.05
         cutoff2=0.001
     else: # expect cutoff as a tuple (0.05, 0.01)
         cutoff1, cutoff2= cutoff
@@ -176,6 +176,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         union = bigg_list[i].exonlen + bigg_list[j].exonlen - intersection
         # debug insanity
         if union <=0:
+            #pass
             logger.debug(("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection))
         # debug over
 
@@ -203,6 +204,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
         #### debug
         if union <=0:
+            #pass
             logger.debug(("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection))
         #### debug over
 
@@ -321,9 +323,9 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
                         bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
     keep=fullset-drop
     # change the default score of gene, no need to add
-    for n, bigg in enumerate(bigg_list):
-        if bigg.ttype=="isoform_anno":
-            keep.add(n)
+    #for n, bigg in enumerate(bigg_list):
+    #    if bigg.ttype=="isoform_anno":
+    #        keep.add(n)
 
 
     # re_order D and bigg_list

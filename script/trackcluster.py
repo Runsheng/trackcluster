@@ -15,6 +15,9 @@ import inspect
 import logging
 from collections import OrderedDict
 
+# non-std lib
+from tqdm import tqdm
+
 from trackcluster.tracklist import read_bigg, write_bigg
 from trackcluster.utils import is_bin_in, is_package_installed
 

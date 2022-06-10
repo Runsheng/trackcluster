@@ -63,58 +63,21 @@ def process_one_junction_try(key, full=False, batchsize=500):
         error_ll.append(e)
         print(("Error", e))
 
+    if len(bigg_subread)>=batchsize:
+        return 3  # unfinished run
     return 1  # real run
-    # merge_subread_bigg(bigg_nano_new)
-
-    return 3  # unfinished run
-
-
-def __process_one_subsample(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
-    # print key
-    gff_file = "./" + key + "/" + key + "_gff.bed"
-    nano_file = "./" + key + "/" + key + "_nano.bed"
-    biggout = "./" + key + "/" + key + "_simple_coverage.bed"
-
-    if full is False:
-        if os.stat(nano_file).st_size == 0:  # no bigg nano file
-            return 0
-        if os.path.isfile(biggout):  # already processed
-            return 2
-
-    bigg_gff = read_bigg(gff_file)
-    bigg_nano_raw = read_bigg(nano_file)
-
-    bigg_nano=prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
-    n_count=50
-    n=0
-    #bigg_nano.sort(key=operator.attrgetter("chromStart"))
-
-    while n < n_count and len(bigg_nano)>batchsize:
-        print("n=", n)
-        bigg_1 = bigg_nano[:batchsize]
-        bigg_2 = bigg_nano[batchsize:]
-        _, bigg_list_by1 = flow_cluster(bigg_1, bigg_gff, by, intronweight=intronweight)
-        bigg_nano = add_subread_bigg(bigg_list_by1 + bigg_2)
-        n+=1
-
-    #print len(bigg_nano)
-    D,bigg_nano_new=flow_cluster(bigg_nano,bigg_gff, by, intronweight=intronweight)
-    bigg_nano_new=add_subread_bigg(bigg_nano_new)
-
-    #print len(bigg_nano_new)
-    #write_D(D, bigg_nano_new,Dout)
-
-    ### save nessary files
-    for bigg in bigg_nano_new:
-        bigg.write_subread()
-
-    bigg_count_write_native(bigg_nano_new, out=biggout)
-    #merge_subread_bigg(bigg_nano_new)
-
-    return 1 # processed in this run
 
 
 def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
+    """
+    batch run script for original trackcluster using exon/intron itersections
+    :param key:
+    :param batchsize:
+    :param intronweight:
+    :param by:
+    :param full:
+    :return:
+    """
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
     biggout = "./" + key + "/" + key + "_simple_coverage.bed"
@@ -134,7 +97,9 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
 
     try:
         bigg_nano = prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
-        n_count = 100
+        n_count = 100 # hard code n count for 50 times, if the reads > batchsize*time, will be
+        # processed within 1000*100=100K, and the final isoform level can not be
+        # more than 1000(batchsize)
         n = 0
         # bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
@@ -153,9 +118,6 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
             # print len(bigg_nano)
             D, bigg_nano_new = flow_cluster(bigg_nano, bigg_gff, by, intronweight=intronweight)
             bigg_nano_new = add_subread_bigg(bigg_nano_new)
-
-            # print len(bigg_nano_new)
-            # write_D(D, bigg_nano_new,Dout)
 
             ### save files
             for bigg in bigg_nano_new:
@@ -183,6 +145,7 @@ def get_len(key):
 
 
 if __name__=="__main__":
-    os.chdir("../test/genes/")
-    key = "unc52"
-    print((process_one_subsample_try(key, batchsize=500, full=True)))
+    pass
+    #os.chdir("./genes/")
+    #key = "unc52"
+    #print((process_one_subsample_try(key, batchsize=500, full=True)))

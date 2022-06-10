@@ -48,16 +48,18 @@ class ClusterjTest(unittest.TestCase):
     def test_generate_binary_junction_list(self):
         self.site_dic=get_junction_dic(self.bigg)
         keys=list(self.site_dic.keys())
+        print(keys)
         junction=self.bigg[10].junction
         print((generate_binary_junction_list(junction, keys)))
 
-    def test_get_read_junction_D(self):
+    def __test_get_read_junction_D(self):
+        # test if using pandas dataframe is better than using dict with array as values
         self.site_dic=get_junction_dic(self.bigg)
-        df=get_read_junction_D(self.bigg, self.site_dic)
-        #print df.index.names
-        #print df
-        print(df.at["087b20ed-78ba-48f9-a038-f23a9c4b75c6", 14647857]==1)
-        df = df[df.duplicated(keep=False)]
+        df=get_read_junction_dic(self.bigg, self.site_dic)
+        #print(df)
+        print (df.index.names)
+        print(df["087b20ed-78ba-48f9-a038-f23a9c4b75c6", 14647857]==1)
+        #df = df[df.duplicated(keep=False)]
         #print df
 
         dup_l=df.groupby(df.columns.tolist()).apply(lambda x: tuple(x.index)).tolist()
@@ -70,13 +72,38 @@ class ClusterjTest(unittest.TestCase):
     def test_get_read_junction_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_dic(self.bigg, self.site_dic)
-        #print df
+        print(df.keys())
         # only work for unc-52
         #print numpy.array(df.loc["087b20ed-78ba-48f9-a038-f23a9c4b75c6"])-numpy.array(df.loc["ZC101.2g.1"])
         print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
         print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
         print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]-df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
         print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]-df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
+
+    def test_get_arrry_freq(self):
+        self.site_dic=get_junction_dic(self.bigg)
+        df=get_read_junction_dic(self.bigg, self.site_dic)
+        j1=df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]
+        j2=df["1f940a05-24a1-4455-a506-b1aa04caf81a"]
+        array_del=j1-j2
+        #print(array_del)
+        #print(get_array_freq(array_del))
+
+        ### test is _junction_inside
+        print(is_junction_inside(j1, j2))
+        print(is_junction_inside(j2, j1))
+
+
+    def __test_compare_junction(self):
+        self.site_dic=get_junction_dic(self.bigg)
+        df=get_read_junction_dic(self.bigg, self.site_dic)
+        j_all = []
+        for i in self.bigg:
+            i.get_junction()
+            for j in self.bigg[2:]:
+                j.get_junction()
+                j_all.append(__compare_junction(i.junction, j.junction))
+        print(j_all)
 
     def test_get_corrected_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
@@ -106,14 +133,7 @@ class ClusterjTest(unittest.TestCase):
         bigg_correct, bigg_rare= flow_junction_correct(self.bigg)
 
 
-    def test_compare_junction(self):
-        j_all=[]
-        for i in self.bigg:
-            i.get_junction()
-            for j in self.bigg[2:]:
-                j.get_junction()
-                j_all.append(compare_junction(i.junction, j.junction))
-        print(j_all)
+
 
     def __test_group_nearby_site(self):
         sites=[

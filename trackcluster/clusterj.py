@@ -15,9 +15,9 @@ import operator
 
 # self import
 from tracklist import list_to_dic
-from .post import compare_ei_by_boudary, is_junction_equal
+from trackcluster.post import compare_ei_by_boudary, is_junction_equal
 from utils import group_site
-from .cluster import select_list
+from trackcluster.cluster import select_list
 
 
 def __filter_site_dic(site_dic, ref=None):

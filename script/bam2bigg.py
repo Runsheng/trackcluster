@@ -20,7 +20,8 @@ parser.add_argument("-o", "--out", default="bigg.bed",
 parser.add_argument("-s", "--score", default=21,
                     help="The min mapq score used to keep a read")
 
-args = parser.parse_args()
+
+args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
 # make a file using the functions
 samfile=AlignmentFile(args.bamfile)

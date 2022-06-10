@@ -82,7 +82,7 @@ def myexe(cmd, timeout=10):
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
     out, err=proc.communicate()
-    logger.info((err, proc.returncode))
+    logger.debug("err",err, "return",proc.returncode)
     return out
 
 
@@ -114,6 +114,7 @@ def set_tmp(wkdir=None):
     if wkdir is None:
         aa=os.popen("echo $XDG_RUNTIME_DIR")
         dirpath=aa.read().strip()
+        aa.close()
         return dirpath
     else:
         return wkdir

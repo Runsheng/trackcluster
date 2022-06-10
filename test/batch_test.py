@@ -22,7 +22,7 @@ class BatchTest(unittest.TestCase):
     def test_process_1(self):
         os.chdir("genes")
         key="unc52"
-        process_one_subsample_try(key, intronweight=0.5,batchsize=500, full=True)
+        process_one_subsample_try(key, intronweight=0.5,batchsize=300, full=True)
 
     def test_process_2(self):
         os.chdir("genes")
@@ -30,9 +30,13 @@ class BatchTest(unittest.TestCase):
         process_one_subsample_try(key, intronweight=0.5,batchsize=1000, full=True)
 
     def test_process_3(self):
+        # large reads number
         os.chdir("genes")
         key = "AT2G02100"
-        process_one_subsample_try(key, intronweight=0.5, batchsize=1000, full=True)
+        #process_one_subsample_try(key, intronweight=0.5, batchsize=900, full=True)
+        process_one_subsample_try(key, intronweight=0.5, batchsize=1000, full=True)  # 33S
+        #process_one_subsample_try(key, intronweight=0.5, batchsize=2000, full=True) # 46S
+        # should be 898
 
     def tearDown(self):
         pass
