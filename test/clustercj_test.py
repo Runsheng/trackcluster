@@ -72,7 +72,7 @@ class ClusterjTest(unittest.TestCase):
     def test_get_read_junction_dic(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_dic(self.bigg, self.site_dic)
-        print(df.keys())
+        #print(df.keys())
         # only work for unc-52
         #print numpy.array(df.loc["087b20ed-78ba-48f9-a038-f23a9c4b75c6"])-numpy.array(df.loc["ZC101.2g.1"])
         print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
@@ -80,18 +80,23 @@ class ClusterjTest(unittest.TestCase):
         print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]-df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
         print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]-df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
 
-    def test_get_arrry_freq(self):
+    def test_get_arrry_freq_is_junction_inside(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_dic(self.bigg, self.site_dic)
         j1=df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]
         j2=df["1f940a05-24a1-4455-a506-b1aa04caf81a"]
-        array_del=j1-j2
         #print(array_del)
         #print(get_array_freq(array_del))
-
         ### test is _junction_inside
         print(is_junction_inside(j1, j2))
         print(is_junction_inside(j2, j1))
+
+
+        keys=list(df.keys())
+
+        for i in keys:
+            for j in keys:
+                is_junction_inside(df[i],df[j])
 
 
     def __test_compare_junction(self):

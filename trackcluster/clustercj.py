@@ -146,39 +146,64 @@ def split_site(junction_array):
         # could have some exception: 1. include the 0 or the -1 junction 2. intron retain coupled with missed exon
         # not bug, # print "Error in the number of orders !", missed_order
 
-    # group the lists to regions
+    # group the lists to sublist with equal values
     groups = [list(g) for k, g in itertools.groupby(junction_array)]
 
     return groups
+
 
 def is_junction_inside(j1, j2):
     """
     test if j1 is in j2
     :param j1: junction numpy array, with all aligned part
     :param j2:
-    :return: 0 for F, 1 for T
+    :return: 0 for not contain, 1 for j1 in j2, -1 for j2 in j1, "e" for error
     """
     # do not consider the single exon track/read
     # first to simplify the two unions from the large union
+
+    if numpy.array_equal(j1,j2):
+        return "is_junction_inside error: equal"
+
     pos_simple=[ pos for pos, value in enumerate(j1+j2) if value>=1]
 
     j1_s=j1[pos_simple]
-    print(j1_s)
     j2_s=j2[pos_simple]
-    print(j2_s)
-
-
-    print(split_site(j1_s))
-    print(split_site(j2_s))
 
     #print(j1_s)
     #print(j2_s)
 
-    if j1 in j2:
-        return True
-    else:
-        return False
+    if numpy.sum(j1_s)==0 or numpy.sum(j2_s)==0:
+        return "is_junction_inside error: single exon"
 
+    j12_del=j1_s-j2_s
+
+    # consider 3 types
+
+    group_l=split_site(j12_del)
+    #print(group_l)
+
+    # did not consider the len=0 and len=1
+    # single exon and equal junction should have been excluded
+    if len(group_l)>=3:
+        return 0
+    elif len(group_l)==2: # should be all 0, 1 or all 0 ,-1
+        # need to consider 5' or 3' missing
+        # 5' is belong, 3' is differ
+        a,b=group_l
+        if -1<a[0]+b[0]<1: # should not happen for [-1,-1], [1,1], but no overalp
+            return 0
+        if a[0]+ b[0]>=1: #j1_s > j2_s
+            if b[0]==0: # 5' missing
+                return -1
+            else: # 3' missing
+                return 0
+
+        elif a[0]+ b[0]<=-1: #j1_s < j2_s
+            if b[0]==0: # 5' missing
+                return 1
+            else: # 3' missing
+                return 0
 
 
 def __compare_junction(j1, j2):
@@ -214,7 +239,6 @@ def __compare_junction(j1, j2):
         return "Error"
 
 
-
 def cal_distance_junction(df_junction):
     """
     wrapper function to generate a D for the distance matrix
@@ -224,7 +248,6 @@ def cal_distance_junction(df_junction):
     :return:
     """
     pass
-
 
 
 def get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10):
