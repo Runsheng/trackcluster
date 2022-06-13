@@ -38,6 +38,20 @@ class BatchTest(unittest.TestCase):
         #process_one_subsample_try(key, intronweight=0.5, batchsize=2000, full=True) # 46S
         # should be 898
 
+    def test_junction_3(self):
+        os.chdir("genes")
+        key = "AT2G02100"
+        #key = "unc52" # 87,40
+        # size=2000,28s， size=1000, 13s; size=500,6s
+        #out=process_one_junction_corrected_try(key, batchsize=2000, full=True)  # 27S, still slow
+
+        #out=process_one_junction_corrected_try(key, batchsize=1000, full=True)  # slow
+
+        out=process_one_junction_corrected_try(key, batchsize=500, full=True)  # 27S, still slow
+
+
+
+
     def tearDown(self):
         pass
 

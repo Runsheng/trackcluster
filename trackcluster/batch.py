@@ -13,58 +13,83 @@ import os
 
 ## self import
 from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
-from trackcluster.utils import count_file
+from trackcluster.utils import count_file, parmap
 from trackcluster.cluster import flow_cluster, prefilter_smallexon, write_D
 from trackcluster.utils import log_summary, log_detail_file
-from trackcluster.clusterj import flow_junction_cluster
+from trackcluster.clusterj import junction_simple_merge, junction_pre
+from trackcluster.clustercj import flow_junction_correct
+
+
+# bar for run
+
 
 #random.seed(1234)
 
+def run_junction(wkdir, gene, core):
+    os.chdir(wkdir)
+    parmap(process_one_junction_corrected_try, gene, core)
+
+
+
 # run the clustering for each gene
+def process_one_junction_corrected_try(key, full=False, batchsize=1000):
 
-
-def process_one_junction_try(key, full=False, batchsize=500):
-    print(key)
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
-    # figout = "./" + key + "/" + key + "_coverage.pdf"
-    biggout = "./" + key + "/" + key + "_simple_coveragej1000.bed"
-    # Dout = "./" + key + "/" + key + "_simple_coverage.csv"
+    bigg_out = "./" + key + "/" + key + "_simple_coveragej.bed"
+    bigg_unused = "./" + key + "/" + key + "_unused.bed"
+    log_file="./" + key + "/" + key + "_jrun.log"
+
+    logger = log_detail_file(log_file)
+    logger.info(key+",start")
 
     if full is False:
         if os.stat(nano_file).st_size == 0:  # no bigg nano file
             return 0
-        if os.path.isfile(biggout):  # already processed
+        if os.path.isfile(bigg_out):  # already processed
             return 2
 
     bigg_gff = read_bigg(gff_file)
-    bigg_nano = read_bigg(nano_file)
+    bigg_nano_raw = read_bigg(nano_file)
 
     error_ll = []
 
-    if bigg_nano is None:
+    if bigg_nano_raw is None:
         return 0
 
     ### add the bactsize part
     n_count = 100
     n = 0
+    bigg_nano = junction_pre(bigg_nano_raw, bigg_gff )
+    bigg_merge=bigg_gff+bigg_nano # keep the ref on top of the list
+    bigg_nano, bigg_rare = flow_junction_correct(bigg_merge)
+
 
     try:
         while n < n_count and len(bigg_nano) > batchsize:
+            # print "n=", n
             bigg_1 = bigg_nano[:batchsize]
             bigg_2 = bigg_nano[batchsize:]
-            bigg_subread_by1 = flow_junction_cluster(bigg_1, bigg_gff)
-            bigg_2.extend(bigg_subread_by1)
+            bigg_new = junction_simple_merge(bigg_1)
+            bigg_nano = add_subread_bigg(bigg_new+ bigg_2)
             n += 1
 
-        bigg_subread = flow_junction_cluster(bigg_2, bigg_gff)
-        write_bigg(bigg_subread, biggout)
+        # less than batchsize and the last collect
+        bigg_new = junction_simple_merge(bigg_nano)
+
+        logger.info([key, "isoform called:",len(bigg_new),
+                               ";read with rare junction:",len(bigg_rare)])
+
+        write_bigg(bigg_new ,bigg_out)
+        write_bigg(bigg_rare, bigg_unused)
+        logger.info(key + ",end")
+
+    # need to add a sanity check if all bigg are there
+
     except Exception as e:
         error_ll.append(e)
-        print(("Error", e))
+        logger.info(("Error", e))
 
-    if len(bigg_subread)>=batchsize:
-        return 3  # unfinished run
     return 1  # real run
 
 

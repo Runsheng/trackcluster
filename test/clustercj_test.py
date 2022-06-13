@@ -83,20 +83,42 @@ class ClusterjTest(unittest.TestCase):
     def test_get_arrry_freq_is_junction_inside(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_dic(self.bigg, self.site_dic)
-        j1=df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]
-        j2=df["1f940a05-24a1-4455-a506-b1aa04caf81a"]
+        #j1=df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]
+        #j2=df["1f940a05-24a1-4455-a506-b1aa04caf81a"]
         #print(array_del)
         #print(get_array_freq(array_del))
         ### test is _junction_inside
-        print(is_junction_inside(j1, j2))
-        print(is_junction_inside(j2, j1))
+        #print(is_junction_inside(j1, j2))
+        #print(is_junction_inside(j2, j1))
 
 
         keys=list(df.keys())
 
-        for i in keys:
-            for j in keys:
-                is_junction_inside(df[i],df[j])
+        # test different method for speed
+        #####-----
+        # take 4s for unc-52, for reducing the caculation to 50%
+        def iter_for():
+            import itertools
+            for i,j in itertools.combinations(keys, 2):
+                is_junction_inside(df[i], df[j])
+        iter_for()
+        #####-----
+        # takes 8s
+        def mutual_for():
+            for i in keys:
+                for j in keys:
+                    is_junction_inside(df[i],df[j])
+        #mutual_for()
+
+        # map method, 4s for unc52, 19s for
+
+        def map_two():
+            import itertools
+            ij_l=itertools.combinations(keys,2)
+            out=list(map(lambda x: is_junction_inside(df[x[0]], df[x[1]]),
+                ij_l))
+            print(len(out))
+        #map_two()
 
 
     def __test_compare_junction(self):

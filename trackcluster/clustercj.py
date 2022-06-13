@@ -13,17 +13,12 @@ Aims:
 """
 
 # self import
-from tracklist import add_subread_bigg, get_readall_bigg, list_to_dic
-from .clusterj import junction_pre
-from .cluster import getij, get_pos_dic, select_list, select_D
 from utils import group_site
-
 
 
 # std lib import
 import logging
 import numpy
-import pandas as pd
 import itertools
 
 from collections import OrderedDict
@@ -154,19 +149,20 @@ def split_site(junction_array):
 
 def is_junction_inside(j1, j2):
     """
-    test if j1 is in j2
+    test if j1 is in j2， change into comp all junctions except single exon
+    still very slow， not in use
     :param j1: junction numpy array, with all aligned part
     :param j2:
-    :return: 0 for not contain, 1 for j1 in j2, -1 for j2 in j1, "e" for error
+    :return: 0 for contain, 3 for differ, 1 for j1 in j2, -1 for j2 in j1, "e" for error
     """
     # do not consider the single exon track/read
     # first to simplify the two unions from the large union
 
     if numpy.array_equal(j1,j2):
-        return "is_junction_inside error: equal"
+        return 0
 
-    pos_simple=[ pos for pos, value in enumerate(j1+j2) if value>=1]
-
+    # select the union of the junction list
+    pos_simple=[pos for pos, value in enumerate(j1+j2) if value>=1]
     j1_s=j1[pos_simple]
     j2_s=j2[pos_simple]
 
@@ -177,33 +173,38 @@ def is_junction_inside(j1, j2):
         return "is_junction_inside error: single exon"
 
     j12_del=j1_s-j2_s
+    #freq_dic = get_array_freq(j12_del)
 
-    # consider 3 types
+    # filter the easy differ ones
 
+    #if freq_dic[-1] > 0 and freq_dic[1] > 0:  # has more and less junction, must be 3
+    #    return 3
+
+    # consider 3 types using group_l, this will be slower
     group_l=split_site(j12_del)
     #print(group_l)
 
     # did not consider the len=0 and len=1
     # single exon and equal junction should have been excluded
     if len(group_l)>=3:
-        return 0
+        return 3
     elif len(group_l)==2: # should be all 0, 1 or all 0 ,-1
         # need to consider 5' or 3' missing
         # 5' is belong, 3' is differ
         a,b=group_l
         if -1<a[0]+b[0]<1: # should not happen for [-1,-1], [1,1], but no overalp
-            return 0
+            return 3
         if a[0]+ b[0]>=1: #j1_s > j2_s
             if b[0]==0: # 5' missing
                 return -1
             else: # 3' missing
-                return 0
+                return 3
 
         elif a[0]+ b[0]<=-1: #j1_s < j2_s
             if b[0]==0: # 5' missing
                 return 1
             else: # 3' missing
-                return 0
+                return 3
 
 
 def __compare_junction(j1, j2):
@@ -215,39 +216,11 @@ def __compare_junction(j1, j2):
     does not conserider single exon tracks
     """
     # do not consider the single exon track/read
-    if j1==j2:
-        return 0
-    else:
-        j_del=j1-j2
-        # use freq dic count to determine the first change
-        freq_dic=get_array_freq(j_del)
 
-        if freq_dic[-1]>0 and freq_dic[1]>0: # has more and less junction, must be 3
-            return 3
-
-        ### need more to determine if it is contained
-
-        elif freq_dic[-1]==0 and freq_dic[1]>0: # contain all junction, just return all contain thing
-            # need to differ to contain or missing exon, or missiong intron
-            # these would need more
-            return 2
-
-
-
-        elif freq_dic[-1]>0 and freq_dic[1]==0: # in and contain is the same
-            return 1
-        return "Error"
-
-
-def cal_distance_junction(df_junction):
-    """
-    wrapper function to generate a D for the distance matrix
-    From the junction dataframe, get the pair-wise matrix for the junction
-    the matrix should be 1 or 0 binary
-    :param df_junction:
-    :return:
-    """
+    # single junction first
     pass
+
+
 
 
 def get_corrected_dic(site_cov_dic, cov_cutoff=2, pos_cutoff=10):
@@ -364,32 +337,4 @@ def flow_junction_correct(bigg_list, cov_cutoff=2, pos_cutoff=10):
     return bigg_correct, bigg_rare_junction
 
 
-def flow_junction_merge_corrected(bigg_correct):
-    """
-    use corrected bigg file to do the two round of merge
-    1. equal merge
-    2. 3' within merge
-    :param bigg_correct:
-    :return:
-    """
-    fullset=set(range(len(bigg_correct)))
-    drop=set()
-
-
-
-    ### if
-
-
-
-
-
-def get_junction_D(bigg_list, site_cov_dic):
-    """
-    Get the dic for sites, in pandas df form
-
-    :param bigg_list:
-    :param site_cov_dic:
-    :return:
-    """
-    pass
-
+# use junction_simple_merge

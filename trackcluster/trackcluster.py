@@ -20,6 +20,7 @@ from tqdm import tqdm
 
 from trackcluster.tracklist import read_bigg, write_bigg
 from trackcluster.utils import is_bin_in, is_package_installed
+from trackcluster import __version__
 
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
@@ -47,8 +48,8 @@ trackcluster.py desc --isoform isoform.bed --reference ref.bed > desc.bed
 
 trackcluster.py test --install
 
-version 0.1.01
-            """,
+version {version}
+            """.format(version =__version__),
             formatter_class = argparse.RawDescriptionHelpFormatter)
         parser.add_argument("command", help="Subcommand to run")
         args=parser.parse_args(sys.argv[1:2])
@@ -170,7 +171,4 @@ version 0.1.01
         if args.pre: ### test the prepare function using test
            pass
 
-
-if __name__=="__main__":
-    CMD()
 

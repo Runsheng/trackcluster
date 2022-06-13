@@ -311,9 +311,9 @@ def junction_simple_merge(bigg_list):
 
     keep=fullset-drop
     # change the default score of gene, no need to add
-    for n, bigg in enumerate(bigg_list):
-        if bigg.ttype=="isoform_anno":
-            keep.add(n)
+    #for n, bigg in enumerate(bigg_list):
+    #    if bigg.ttype=="isoform_anno":
+    #        keep.add(n)
 
     keepl = sorted(list(keep))
 
@@ -330,10 +330,6 @@ def flow_junction_cluster(bigg_list, bigg_ref):
 
     bigg_n=junction_pre(bigg_list, bigg_ref)
     bigg_merge=bigg_n+bigg_ref
-
-    #bigg_correct=flow_junction_correct(bigg_merge)
-
     bigg_subread=junction_simple_merge(bigg_merge)
 
     return bigg_subread
-
