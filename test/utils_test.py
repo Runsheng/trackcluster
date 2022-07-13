@@ -24,6 +24,17 @@ class myUtilsTest(unittest.TestCase):
     def test_myexe(self):
         #print(myexe("ls -a |grep init"))
         print((myexe("bedtools --version")))
+        print(myexe("which bedtools"))
+        print("minimap2 --version")
+        print(myexe("echo $PATH"))
+
+    def test_is_bin_in(self):
+        print(is_bin_in("minimap2"))
+        print(myexe("minimap2 --help"))
+        import shutil
+        print(shutil.which("minimap2"))
+
+        myexe("/bin/bash -i -c minimap2")
 
     def test_summary(self):
         logger = log_summary()

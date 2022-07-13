@@ -387,12 +387,19 @@ class bigGenePred(object):
             pass
 
     def find_orfs_with_trans(self, trans_table=1, min_protein_length=10):
+        """
+        compare the three orfs, use the longest one as new protein
+        min size may need to be defined as 30aa?,so cds need to >90
+        :param trans_table:
+        :param min_protein_length:
+        :return:
+        """
         if self.seq_chro is None:
             return None
         else:
             from Bio.Seq import Seq
             from Bio.Alphabet import generic_dna
-            seq=Seq(self.seq_chro, generic_dna)
+            seq=Seq(self.seq_chro)
 
             seq0=seq.translate(table=1)
             seq1=seq[1:].translate(table=1)
@@ -405,6 +412,7 @@ class bigGenePred(object):
             print((str(seq2)))
 
             answer=[seq0, seq1, seq2]
+
 
         return answer
 

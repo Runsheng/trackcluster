@@ -11,7 +11,7 @@ import re
 # self import
 from trackcluster.track import bigGenePred
 from collections import OrderedDict
-from trackcluster.utils import myexe, set_tmp, del_files, count_file
+from trackcluster.utils import myexe, set_tmp, del_files, count_file, get_file_prefix, get_file_location
 from random import randint
 import pandas
 
@@ -113,14 +113,6 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     return (out_exon, out_intron)
 
 
-def get_file_prefix(filepath):
-    return filepath.split("/")[-1].split("_")[0]
-
-
-def get_file_location(filepath):
-    return "/".join(filepath.split("/")[0:-1])
-
-
 def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     """
     Using two bedfile to get the intsersection of pairs
@@ -129,9 +121,9 @@ def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     :return:
     """
     if outfile is None:
-        prefix1=get_file_prefix(bedfile1)
-        prefix2=get_file_prefix(bedfile2)
-        location=get_file_location(bedfile1)
+        prefix1= get_file_prefix(bedfile1)
+        prefix2= get_file_prefix(bedfile2)
+        location= get_file_location(bedfile1)
 
         outfile=location+"/"+"_".join([prefix1, prefix2])+".bed"
 
@@ -209,7 +201,7 @@ def add_subread_bigg(bigg_raw):
     return list(bigg_dic.values())
 
 
-def merge_subread_bigg(bigg_raw):
+def _merge_subread_bigg(bigg_raw):
     """
     sanity check for the read number
     :param bigg_raw:
@@ -339,27 +331,4 @@ def bigg_count_write_unique(bigg_list, out=None):
     :return:
     """
     pass
-
-
-def group_bigg_by_gene(bigglist):
-    """
-    used to make pre-dirs using the new functions
-    :param bigglist:
-    :return:
-    """
-    gene_bigg = OrderedDict()
-
-    for bigg in bigglist:
-        try:
-            gene_bigg[bigg.geneName].append(bigg)
-        except KeyError:
-            gene_bigg[bigg.geneName] = []
-            gene_bigg[bigg.geneName].append(bigg)
-    return gene_bigg
-
-
-
-
-
-
 

@@ -8,8 +8,9 @@ The processing functions used to change the format of tracks
 """
 
 # self import
-from track import bigGenePred
-from .gff import GFF
+from trackcluster.track import bigGenePred
+from trackcluster.gff import GFF
+from trackcluster.utils import get_file_prefix
 
 # third part import
 from pysam import AlignmentFile
@@ -23,6 +24,7 @@ def sam_to_bigGenePred(record, samfile):
     :param samfile: the opened Alignment file from pysam
     :return:
     """
+
     bigg = bigGenePred()
 
     # rename the values
@@ -43,8 +45,9 @@ def sam_to_bigGenePred(record, samfile):
 
     # bigg.ttype="nanopore_reads"
     # bigg.geneName=""
-    # bigg.geneName2=""
+    # bigg.geneName2="" # used to store group info, can use the bam file name as indicator
     # bigg.geneType="none"
+
 
     # using the cigar, affact the following field
     cigaryield = cigar_count(record.cigartuples)
@@ -193,6 +196,5 @@ if __name__ == "__main__":
             for bigg in bigg_list:
                 fw.write(bigg.to_str())
                 fw.write("\n")
-
 
     test_gff_to_bigGenePred()

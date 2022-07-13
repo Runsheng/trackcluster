@@ -12,7 +12,7 @@ import random
 import os
 
 ## self import
-from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, merge_subread_bigg
+from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native
 from trackcluster.utils import count_file, parmap
 from trackcluster.cluster import flow_cluster, prefilter_smallexon, write_D
 from trackcluster.utils import log_summary, log_detail_file
@@ -25,11 +25,6 @@ from trackcluster.clustercj import flow_junction_correct
 
 #random.seed(1234)
 
-def run_junction(wkdir, gene, core):
-    os.chdir(wkdir)
-    parmap(process_one_junction_corrected_try, gene, core)
-
-
 
 # run the clustering for each gene
 def process_one_junction_corrected_try(key, full=False, batchsize=1000):
@@ -39,6 +34,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=1000):
     bigg_out = "./" + key + "/" + key + "_simple_coveragej.bed"
     bigg_unused = "./" + key + "/" + key + "_unused.bed"
     log_file="./" + key + "/" + key + "_jrun.log"
+    #print(key)
 
     logger = log_detail_file(log_file)
     logger.info(key+",start")
@@ -60,7 +56,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=1000):
     ### add the bactsize part
     n_count = 100
     n = 0
-    bigg_nano = junction_pre(bigg_nano_raw, bigg_gff )
+    bigg_nano = junction_pre(bigg_nano_raw, bigg_gff)
     bigg_merge=bigg_gff+bigg_nano # keep the ref on top of the list
     bigg_nano, bigg_rare = flow_junction_correct(bigg_merge)
 

@@ -23,7 +23,7 @@ parser.add_argument("-k", "--kent", default="/home/bin",
 parser.add_argument("-s", "--sizefile", default=currentdir+"/ce10.sizes",
                     help="the genome size file")
 
-args = parser.parse_args()
+args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
 cmd="""
 LC_COLLATE=C sort -k1,1 -k2,2n {biggs}> {biggs}_s

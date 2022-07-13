@@ -18,10 +18,9 @@ setup(
                       "pysam>=0.16.0.1",
                       "tqdm>=4.64.0"],
 
+    scripts=['script/trackrun.py',
+             'script/bam2bigg.py',
+             'script/bigg2b.py',
+             'script/gff2bigg.py'],
 
-    entry_point={
-        "console_scripts": [
-            "trackcluster=trackcluster.trackcluster:CMD"
-        ]
-    }
 )

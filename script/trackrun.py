@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 3/10/2020 2:45 PM
 # @Author  : Runsheng     
-# @File    : trackcluster.py
+# @File    : trackrun.py
 
 """
 A wrapper for the general processing of the trackcluster jobs
@@ -29,8 +29,8 @@ class CMD(object):
 
     def __init__(self):
         parser=argparse.ArgumentParser(
-            description="Mitovar cmd lines",
-            usage=""" trackcluster.py <command> [<args>]
+            description="Trackcluster cmd lines",
+            usage=""" trackrun.py <command> [<args>]
 
 -------
 The command contains:
@@ -41,12 +41,12 @@ desc: compare the novel isoforms with the existing annotations to give an descri
 test: run the test code for some gene models in the test folder
 ------
 A example for running annotation command:
-trackcluster.py pre --reference ref.bed --tracks in.bed --out trackall
-trackcluster.py cluster --folder trackall
-trackcluster.py clusterj --folder trackall # run in junction mod
-trackcluster.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
+trackrun.py pre --reference ref.bed --tracks in.bed --out trackall
+trackrun.py cluster --folder trackall
+trackrun.py clusterj --folder trackall # run in junction mod
+trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
 
-trackcluster.py test --install
+trackrun.py test --install
 
 version {version}
             """.format(version =__version__),
@@ -160,7 +160,7 @@ version {version}
             else:
                 logger.info("Check samtools and bedtools installion")
 
-            for package_name in ["pysam", "Bio", "numpy", "pandas"]:
+            for package_name in ["pysam", "Bio", "numpy", "pandas", "tqdm"]:
                 if is_package_installed(package_name):
                     logger.info("Package {} installed".format(package_name) )
                 else:
@@ -171,4 +171,5 @@ version {version}
         if args.pre: ### test the prepare function using test
            pass
 
-
+if __name__ =="__main__":
+    CMD()

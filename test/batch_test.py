@@ -41,13 +41,12 @@ class BatchTest(unittest.TestCase):
     def test_junction_3(self):
         os.chdir("genes")
         key = "AT2G02100"
-        #key = "unc52" # 87,40
+        key = "unc52" # 90,40
         # size=2000,28s， size=1000, 13s; size=500,6s
         #out=process_one_junction_corrected_try(key, batchsize=2000, full=True)  # 27S, still slow
-
         #out=process_one_junction_corrected_try(key, batchsize=1000, full=True)  # slow
 
-        out=process_one_junction_corrected_try(key, batchsize=500, full=True)  # 27S, still slow
+        out=process_one_junction_corrected_try(key, batchsize=200, full=True)  #  5s
 
 
 

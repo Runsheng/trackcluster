@@ -311,9 +311,9 @@ def junction_simple_merge(bigg_list):
 
     keep=fullset-drop
     # change the default score of gene, no need to add
-    #for n, bigg in enumerate(bigg_list):
-    #    if bigg.ttype=="isoform_anno":
-    #        keep.add(n)
+    for n, bigg in enumerate(bigg_list):
+        if bigg.ttype=="isoform_anno":
+            keep.add(n)
 
     keepl = sorted(list(keep))
 

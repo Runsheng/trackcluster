@@ -18,9 +18,6 @@ from collections import OrderedDict
 from Bio import SeqIO,Seq
 import gzip
 
-logger = logging.getLogger('summary')
-logger.setLevel(logging.INFO)
-
 
 def count_file(thefile):
     """
@@ -82,7 +79,7 @@ def myexe(cmd, timeout=10):
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
     out, err=proc.communicate()
-    logger.debug("err",err, "return",proc.returncode)
+    #print("sterr",err, "return",proc.returncode)
     return out
 
 
@@ -93,7 +90,8 @@ def is_bin_in(cmd_name):
     :return:
     """
     out=myexe(cmd_name+" --version")
-    if cmd_name in out:
+    # could return name or just version number with 2.1.1
+    if cmd_name in str(out) or "." in str(out): # py3, out is byte
         return True
     else:
         return False
@@ -238,3 +236,11 @@ def __group_nearby_site(site_list, interval=5):
     groups = [[y[1] for y in g] for k, g in itertools.groupby(enumerate(site_list), key=lambda x: abs(x[1] - x[0])<=interval ) ]
 
     return groups
+
+
+def get_file_prefix(filepath, sep="_"):
+    return filepath.split("/")[-1].split(sep)[0]
+
+
+def get_file_location(filepath):
+    return "/".join(filepath.split("/")[0:-1])
