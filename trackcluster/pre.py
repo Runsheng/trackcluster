@@ -9,15 +9,21 @@ contain tests in __main__
 """
 from trackcluster.utils import del_files, myexe, get_file_prefix, get_file_location
 from trackcluster.tracklist import count_file
+from trackcluster.track import bigGenePred
 
 import pandas
 
 
-def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None,fraction=0.2):
+def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None,fraction_bed1=0.05, fraction_bed2=0.1):
     """
     Using two bedfile to get the intsersection of pairs
+    use simular fraction as substract instead of 0.2, the bigg can contain large intron in first intersect
+
+    # -f 0.01= 1% from bigg, -F 0.05, means 5% from gene annotation
+
     :param bigg_one: the read
     :param bigg_two: the ref
+    :param: fraction, may need to inlcude some read track with very long
     :return:
     """
     if outfile is None:
@@ -29,14 +35,14 @@ def wrapper_bedtools_intersect2_select(bedfile1,bedfile2,outfile=None,fraction=0
 
     # generate the bedfile, -r is reciprocal overlap, -s is strandedness/keep the same strand
 
-    cmd="bedtools intersect -wa -wb -r  -s -f {fraction} -a {bedfile1} -b {bedfile2}>{out}".format(
-        bedfile1=bedfile1, bedfile2=bedfile2, out=outfile, fraction=fraction)
+    # sometime the name check for an intact bed and an non-intact one can result in a blank file
+    # add -nonamecheck
+    cmd="bedtools intersect -nonamecheck -wa -wb  -s -f {f1} -F {f2} -a {bedfile1} -b {bedfile2}>{out}".format(
+        bedfile1=bedfile1, bedfile2=bedfile2, out=outfile, f1=fraction_bed1, f2=fraction_bed2)
 
     _=myexe(cmd)
 
     ### cleanup
-    bed1s=bedfile1+"_s"
-    bed2s=bedfile2+"_s"
     #del_files([bedfile1, bedfile2, bed1s, bed2s])
 
     return outfile
@@ -55,12 +61,91 @@ def wrapper_bedtools_merge(bigg_file, out):
     """
 
     # merge with strandness, report to col5
-    cmd="bedtools merge -s  -c 4 -o count -i {biggfile} > {out}".format(
+    cmd="bedtools merge -nonamecheck -s  -c 4 -o count -i {biggfile} > {out}".format(
         biggfile=bigg_file, out=out
     )
     _=myexe(cmd)
 
     return out
+
+
+def wrapper_bedtools_subtract(bigg_regionmark, bigg_gff, bigg_regionmark_f, f1=0.01, f2=0.01):
+    """
+
+    compare the region mark with original gff to remove
+    :param bigg_regionmark:
+    :param bigg_gff:
+    :return:
+    """
+    # strandness, -A remove entire
+
+    # the substract will change the original novel file
+    # the output could be 0 if re-run the order
+    sorted1=bigg_regionmark+"_s"
+    sorted2=bigg_gff+"_s"
+
+
+    def get_cmd_sort(infile, outfile):
+        cmd_sort="bedtools sort -i {infile}> {outfile}".format(infile=infile, outfile=outfile)
+        return cmd_sort
+
+    cmd1=get_cmd_sort(bigg_regionmark, sorted1)
+    cmd2=get_cmd_sort(bigg_gff,sorted2)
+
+    myexe(cmd1)
+    myexe(cmd2)
+
+    # cutoff, if the novel region contain the following, then exclude
+    # -f 0.01= 1% from region mark, -F 0.05, means 5% from gene annotation
+    cmd="bedtools subtract -nonamecheck -s -A -f {f1} -F {f2} -a {bigg_regionmark} -b {bigg_gff}> {bigg_regionmark_f}".format(
+        bigg_regionmark=sorted1, bigg_gff=sorted2, bigg_regionmark_f=bigg_regionmark_f, f1=f1, f2=f2
+    )
+    #print(cmd)
+    _=myexe(cmd)
+
+    del_files([sorted1, sorted2])
+    return bigg_regionmark_f
+
+
+def mergedbed2bigg(merge_bedfile, count_cutoff=5):
+    """
+    read the output from bedtools merge
+    create a pseudo reference bigg for further use
+    :param merge_bedfile:
+    :return: a region_mark bigg used to get novel genes to new region
+    """
+    bigglist=[]
+    with open(merge_bedfile, "r") as f:
+        for line in f.readlines():
+            line_l=line.strip().split("\t")
+            chro, start, end, strand, count=line_l
+
+            if int(count)>=count_cutoff:
+                # generate a chro_start_end string for name
+                str_l=["NOVEL",chro,start,end, "f"] if strand=="+" else ["NOVEL",chro, start, end, "r"]
+                name_str="_".join(str_l)
+
+                bigg=bigGenePred()
+                bigg.chrom=chro
+                bigg.chromStart=start
+                bigg.chromEnd=end
+                bigg.strand=strand
+
+                # create a single exon gene
+                bigg.chromStarts=[0]
+                bigg.blockSizes=[int(end)-int(start)]
+                bigg.blockCount=1
+                bigg.exonFrames=[-1]
+                # end for single exon
+
+                bigg.name=name_str
+                bigg.geneName=name_str # gene will be added to geneName
+
+                bigg.ttype="region_mark"
+
+                bigglist.append(bigg)
+    return bigglist
+
 
 
 def get_gendic_bedinter(interfile):
@@ -131,11 +216,9 @@ def tracklist_add_gene(bigg_nano, read_gene):
 
 
 
+def flow_write_gene_bigg(bigg_nano, bigg_ref, f1=0.05, f2=0.1):
 
-
-def flow_write_gene_bigg(bigg_nano, bigg_ref, fraction=0.2):
-
-    out=wrapper_bedtools_intersect2_select(bigg_nano, bigg_ref, outfile=None, fraction=fraction)
+    out=wrapper_bedtools_intersect2_select(bigg_nano, bigg_ref, outfile=None, fraction_bed1=f1, fraction_bed2=f2)
     read_gene=get_gendic_bedinter(out)
 
     return read_gene

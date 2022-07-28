@@ -8,14 +8,13 @@ make batch runs for different genes
 """
 
 ##std lib import
-import random
 import os
 
 ## self import
 from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native
-from trackcluster.utils import count_file, parmap
-from trackcluster.cluster import flow_cluster, prefilter_smallexon, write_D
-from trackcluster.utils import log_summary, log_detail_file
+from trackcluster.utils import count_file
+from trackcluster.cluster import flow_cluster, prefilter_smallexon
+from trackcluster.utils import log_detail_file
 from trackcluster.clusterj import junction_simple_merge, junction_pre
 from trackcluster.clustercj import flow_junction_correct
 
@@ -27,7 +26,7 @@ from trackcluster.clustercj import flow_junction_correct
 
 
 # run the clustering for each gene
-def process_one_junction_corrected_try(key, full=False, batchsize=1000):
+def process_one_junction_corrected_try(key, full=True, batchsize=1000):
 
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
@@ -57,6 +56,9 @@ def process_one_junction_corrected_try(key, full=False, batchsize=1000):
     n_count = 100
     n = 0
     bigg_nano = junction_pre(bigg_nano_raw, bigg_gff)
+
+    if len(bigg_gff)==1 and bigg_gff[0].ttype=="region_mark": # excelude the land_mark bed file
+        bigg_gff=[]
     bigg_merge=bigg_gff+bigg_nano # keep the ref on top of the list
     bigg_nano, bigg_rare = flow_junction_correct(bigg_merge)
 
@@ -76,7 +78,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=1000):
         logger.info([key, "isoform called:",len(bigg_new),
                                ";read with rare junction:",len(bigg_rare)])
 
-        write_bigg(bigg_new ,bigg_out)
+        bigg_count_write_native(bigg_new, bigg_gff,bigg_out)
         write_bigg(bigg_rare, bigg_unused)
         logger.info(key + ",end")
 
@@ -87,6 +89,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=1000):
         logger.info(("Error", e))
 
     return 1  # real run
+
 
 
 def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
@@ -144,7 +147,7 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
             for bigg in bigg_nano_new:
                 bigg.write_subread()
 
-            bigg_count_write_native(bigg_nano_new, out=biggout)
+            bigg_count_write_native(bigg_nano_new,bigg_gff, out=biggout)
             logger.info("Write bigg outfile to {}".format(biggout))
 
         except Exception as e:

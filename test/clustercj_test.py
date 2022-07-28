@@ -100,14 +100,14 @@ class ClusterjTest(unittest.TestCase):
         def iter_for():
             import itertools
             for i,j in itertools.combinations(keys, 2):
-                is_junction_inside(df[i], df[j])
+                _is_junction_inside(df[i], df[j])
         iter_for()
         #####-----
         # takes 8s
         def mutual_for():
             for i in keys:
                 for j in keys:
-                    is_junction_inside(df[i],df[j])
+                    _is_junction_inside(df[i], df[j])
         #mutual_for()
 
         # map method, 4s for unc52, 19s for
@@ -115,8 +115,8 @@ class ClusterjTest(unittest.TestCase):
         def map_two():
             import itertools
             ij_l=itertools.combinations(keys,2)
-            out=list(map(lambda x: is_junction_inside(df[x[0]], df[x[1]]),
-                ij_l))
+            out=list(map(lambda x: _is_junction_inside(df[x[0]], df[x[1]]),
+                         ij_l))
             print(len(out))
         #map_two()
 

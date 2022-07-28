@@ -7,6 +7,7 @@
 """
 Functions to handel the IO of bigg list
 """
+import glob
 import re
 # self import
 from trackcluster.track import bigGenePred
@@ -19,6 +20,7 @@ import pandas
 def add_sw(bigg_file, sw_file, out="bigg_sw.bed"):
     """
     To add the splicing leader mapping score
+    sw_file is a two col file: {readname, score}
     :param bigg_list:
     :return:
     """
@@ -275,44 +277,58 @@ def __get_namedic_unique_ratio(name_dic):
         full_name=full_name.union(set(readname))
 
 
-def is_a_read(name):
+def is_a_read(name, refname_set=None):
     """
+    change to a method with not in set(refname_set)
+
     from the string of the name, judge if it is a read or a referece name
     Note: Now use a lot of "-" as the indicator of nanopore read, but this do not work for pacbio
     So add a indicattor of long read name, usually the reference name is not too long,
     the name of raw nanopore is 36 and raw pacbio is also the same
+
+    For the reference gene name, the ensemble name is 15, gene predictor
+
     :param name:
     :return:
     """
-    if len(name.split("-")) >= 5 or len(name)>=24:
-        return True
+    if refname_set is None:
+        if len(name.split("-")) >= 5 or len(name) >= 24:
+            return True
+        else:
+            return False
     else:
-        return False
+        if name in refname_set:
+            return False
+        else:
+            return True
 
 
-def bigg_count_write_native(bigg_list, out=None):
+def bigg_count_write_native(isoform_list, gff_bed, out=None):
     """
     parser the output of cluster, get the count for each isoform
-    :param bigg_list:
+    :param isoform_list: the isoform_list
     :return:
     """
+    # getthe refname_set:
+    refname_set=set([bigg.name for bigg in gff_bed])
+
     # store sub-read name and number
     name_dic=OrderedDict()
 
-    for bigg in bigg_list:
+    for bigg in isoform_list:
         bigg.get_subread_from_str()
         if len(bigg.subread)>0:
             for name in bigg.subread:
-                if is_a_read(name): # judge if it is a read or a isoform
+                if is_a_read(name, refname_set=refname_set): # judge if it is a read or a isoform
                     try:
                         name_dic[name]+=1
                     except KeyError:
                         name_dic[name]=1
 
-    for bigg in bigg_list:
+    for bigg in isoform_list:
         coverage=0
         for name in bigg.subread:
-            if is_a_read(name):
+            if is_a_read(name, refname_set=refname_set):
                 coverage+=1.0/name_dic[name]
 
         bigg.coverage=coverage
@@ -320,10 +336,10 @@ def bigg_count_write_native(bigg_list, out=None):
 
     # debug
     #print name_dic
-    write_bigg(bigg_list,out)
+    write_bigg(isoform_list, out)
 
 
-def bigg_count_write_unique(bigg_list, out=None):
+def __bigg_count_write_unique(bigg_list, out=None):
     """
     use the group information from the geneName2
     :param bigg_list:
@@ -332,3 +348,23 @@ def bigg_count_write_unique(bigg_list, out=None):
     """
     pass
 
+
+def cat_bed(keyword):
+    """
+    locate all bed file with keyword in current wkdir, read them and return a full bed file
+    used in the wkdir to cat all gene output together
+    :param keyword: *_simple_coveragej.bed
+    :return:
+    """
+    bigg_full=[]
+    file_l=glob.glob(pathname=keyword, recursive=True)
+
+    for file_one in file_l:
+        try:
+            bigg_one=read_bigg(file_one)
+            bigg_full.extend(bigg_one)
+        except Exception as e: # usually for the novel gene, the region may actually contain no track
+           print (file_one, e)
+
+    print("total number of isoform in all bed files", len(bigg_full))
+    return bigg_full

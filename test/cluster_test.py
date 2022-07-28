@@ -57,7 +57,7 @@ class ClusterTest(unittest.TestCase):
        ### save nessary files
        for bigg in bigg_nano:
            bigg.write_subread()
-       bigg_count_write_native(bigg_nano, out="./genes/unc52/unc_52_simple_coverage.bed")
+       bigg_count_write_native(bigg_nano, gff_bed=self.bigg_gff,out="./genes/unc52/unc_52_simple_coverage.bed")
 
 
     def test_flow_muti(self):

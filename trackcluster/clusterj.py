@@ -96,6 +96,10 @@ def __get_corrected_junction(bigg, junction_dic, coverage_cutoff=2, offset=5):
 
 def __get_start_end_dic(bigg_list, type="start", ref_weight=1):
     """
+    Todo： may need to chop the long isoform to shorter one by refine the 5' and 3'
+    There are two levels of chopping， affect the junction or not
+    The SL signal in nematode may work
+
     :param type: the 5'start or the 3'end of the transcript,
     :param bigg_list:
     :return: tuple(chro, pos, strand): coverage

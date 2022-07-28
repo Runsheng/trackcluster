@@ -78,8 +78,9 @@ def myexe(cmd, timeout=10):
 
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
+    print("Running:  ",  cmd)
     out, err=proc.communicate()
-    #print("sterr",err, "return",proc.returncode)
+    print("stderr out:  ",err, "\n","return code:  ",proc.returncode)
     return out
 
 
@@ -244,3 +245,28 @@ def get_file_prefix(filepath, sep="_"):
 
 def get_file_location(filepath):
     return "/".join(filepath.split("/")[0:-1])
+
+def list2file(ll, genename_file):
+    """
+    write a list to a file
+    :param ll:
+    :param genename_file:
+    :return:
+    """
+    with open(genename_file, "w") as fw:
+       for gene in ll:
+           fw.write(gene)
+           fw.write("\n")
+    return genename_file
+
+def file2list(genename_file):
+    """
+    reverse of file2list
+    :param genename_file:
+    :return:
+    """
+    gene_l=[]
+    with open(genename_file, "r") as f:
+        for line in f.readlines():
+            gene_l.append(line.strip())
+    return gene_l

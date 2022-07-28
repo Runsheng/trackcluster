@@ -15,6 +15,9 @@ from trackcluster.batch import *
 
 import os
 
+from trackcluster.tracklist import cat_bed
+
+
 class BatchTest(unittest.TestCase):
     def setUp(self):
         pass
@@ -47,6 +50,16 @@ class BatchTest(unittest.TestCase):
         #out=process_one_junction_corrected_try(key, batchsize=1000, full=True)  # slow
 
         out=process_one_junction_corrected_try(key, batchsize=200, full=True)  #  5s
+
+    def test_cat_bed(self):
+        wkdir="./genes"
+        os.chdir(wkdir)
+        cat_bed( "**/*_simple_coveragej.bed")
+
+        wkdir="/t1/shoudong_488/test/tracktest"
+        os.chdir(wkdir)
+        cat_bed( "**/*_simple_coveragej.bed")
+
 
 
 

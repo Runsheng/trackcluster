@@ -147,10 +147,10 @@ def split_site(junction_array):
     return groups
 
 
-def is_junction_inside(j1, j2):
+def _is_junction_inside(j1, j2):
     """
     test if j1 is in j2， change into comp all junctions except single exon
-    still very slow， not in use
+    still very slow， unused
     :param j1: junction numpy array, with all aligned part
     :param j2:
     :return: 0 for contain, 3 for differ, 1 for j1 in j2, -1 for j2 in j1, "e" for error
