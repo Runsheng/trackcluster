@@ -61,7 +61,6 @@ class BatchTest(unittest.TestCase):
 
 
 
-
     def tearDown(self):
         pass
 

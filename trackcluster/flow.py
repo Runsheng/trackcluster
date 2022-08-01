@@ -4,7 +4,7 @@ The main flow file to process one fastq file with
 
 from trackcluster.utils import myexe, is_bin_in, get_file_prefix,del_files,parmap, list2file, file2list
 from trackcluster.convert import sam_to_bigGenePred
-from trackcluster.batch import process_one_junction_corrected_try
+from trackcluster.batch import process_one_junction_corrected_try, process_one_subsample_try
 from trackcluster.tracklist import read_bigg, write_bigg, cat_bed, bigg_count_write_native, is_a_read
 
 from trackcluster.pre import wrapper_bedtools_intersect2_select, tracklist_add_gene,get_gendic_bedinter,group_bigg_by_gene, wrapper_bedtools_merge, mergedbed2bigg, wrapper_bedtools_subtract
@@ -18,7 +18,7 @@ import functools
 from pysam import AlignmentFile
 from tqdm import tqdm
 
-
+############# shared flows for both cluster and clusterj
 def flow_mapping(wkdir,ref_file,fastq_file,prefix, core=16):
     """
     minimap2 mapping flow
@@ -139,24 +139,6 @@ def flow_preparedir(wkdir, prefix, bigg_gff_file, bigg_nano_file, genename_file=
     return genename_l
 
 
-def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=1000):
-    """
-    run clusterj in all prepared folders, folder name from the genename_file
-    can be used in both gene and landmark novel gene runs
-    :param wkdir:
-    :param genename_file:the namelist key file for the folders
-    :param core:
-    :return:
-    """
-    os.chdir(wkdir)
-
-    gene_l=file2list(genename_file)
-    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize)
-
-    print("###### Run junction cluster ######")
-    parmap(process_one, tqdm(gene_l), core)
-
-
 def flow_prepare_novel_dir(wkdir, prefix, novel_file, bigg_anno, genename_file="novelname.txt"):
     """
     use the novel bigg file, run merge to get the merged full bed, use each line to create a
@@ -181,76 +163,6 @@ def flow_prepare_novel_dir(wkdir, prefix, novel_file, bigg_anno, genename_file="
     flow_preparedir(wkdir, prefix, bigg_regionmark, novel_file, genename_file=genename_file) # write novelname.txt
 
     return genename_file
-
-
-def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
-                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
-    """
-    wkdir and prefix will be passed from external bash wrappers
-    :param wkdir:
-    :param prefix:
-    :param nano_bed:
-    :param gff_bed:
-    :param core:
-    :param f1:
-    :param f2:
-    :return: run all cluster job
-    write all inter and out file to disk
-    """
-
-    # internal file name
-    novel_bed = prefix + "_novel.bed"
-    mergefile = prefix + "_merge.bed"
-    genename_file = prefix + "_gene.txt"
-    bigg_regionmark = prefix + "_regionmark.bed"
-    bigg_regionmark_f = prefix + "_regionmarkf.bed"
-    novelname_file = prefix + "_novelname.txt"
-
-    # output file
-    bigg_isoform_file=prefix+"_isoform.bed"
-    bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
-
-    os.chdir(wkdir)
-
-    # step1
-    # the novel bigg file is prefix_novel.bed
-    # the gene name file for further use is prefix_gene.txt
-    gene_l = flow_preparedir(wkdir, prefix, bigg_gff_file=gff_bed, bigg_nano_file=nano_bed,
-                             genename_file=genename_file,
-                             f1=f1, f2=f2)
-    print("Gene name format example: ", gene_l[100])
-
-    # step2 use genename to run gene cluster
-    flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize)
-
-    # combine the bed file and write the new isoforms out
-    bigg_isoform=cat_bed("**/*_simple_coveragej.bed") # use ** for all file in the wkdir
-    write_bigg(bigg_isoform,bigg_isoform_file)
-
-    bigg_isoform_cov5=[]
-    for bigg in bigg_isoform:
-        bigg.get_coverage_from_str()
-        if bigg.coverage>=count_cutoff:
-            bigg_isoform_cov5.append(bigg)
-    write_bigg(bigg_isoform_cov5,bigg_isoform_cov5_file)
-
-    # step 3, prepare and run the novel bed
-    wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
-    bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
-    write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
-
-    # 421 for the new genes,
-    # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
-    # only two left, need to adjust again
-    # try to use the count >5 isoforms to avoid long intron isoform impact
-    wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
-
-
-    # the substract will change the original novel file
-    flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
-    flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
-
-    return 1
 
 
 def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
@@ -314,6 +226,201 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
             line = [str(x) for x in line]
             fw.write(",".join(list(line)))
             fw.write("\n")
+
+########################################################################################################
+
+
+########################################################################################################
+###################### flow functions for clusterj， which is similar but has difference in wrapper
+def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000):
+    """
+    run clusterj in all prepared folders, folder name from the genename_file
+    can be used in both gene and landmark novel gene runs
+    :param wkdir:
+    :param genename_file:the namelist key file for the folders
+    :param core:
+    :return:
+    """
+    os.chdir(wkdir)
+
+    gene_l=file2list(genename_file)
+    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize)
+
+    print("###### Run junction cluster ######")
+    parmap(process_one, tqdm(gene_l), core)
+
+
+def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
+    """
+    wkdir and prefix will be passed from external bash wrappers
+    :param wkdir:
+    :param prefix:
+    :param nano_bed:
+    :param gff_bed:
+    :param core:
+    :param f1:
+    :param f2:
+    :return: run all cluster job
+    write all inter and out file to disk
+    """
+
+    # internal file name
+    novel_bed = prefix + "_novel.bed"
+    mergefile = prefix + "_merge.bed"
+    genename_file = prefix + "_gene.txt"
+    bigg_regionmark = prefix + "_regionmark.bed"
+    bigg_regionmark_f = prefix + "_regionmarkf.bed"
+    novelname_file = prefix + "_novelname.txt"
+
+    # output file
+    bigg_isoform_file=prefix+"_isoform.bed"
+    bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
+
+    os.chdir(wkdir)
+
+    # step1
+    print("Step1, Running prepare dir")
+    # the novel bigg file is prefix_novel.bed
+    # the gene name file for further use is prefix_gene.txt
+    gene_l = flow_preparedir(wkdir, prefix, bigg_gff_file=gff_bed, bigg_nano_file=nano_bed,
+                             genename_file=genename_file,
+                             f1=f1, f2=f2)
+    print("Gene name format example: ", gene_l[0])
+
+    # step2 use genename to run gene cluster
+    print("Step2, Running cluster junction")
+    flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize)
+
+    # combine the bed file and write the new isoforms out
+    bigg_isoform=cat_bed("**/*_simple_coveragej.bed") # use ** for all file in the wkdir
+    write_bigg(bigg_isoform,bigg_isoform_file)
+
+    bigg_isoform_cov5=[]
+    for bigg in bigg_isoform:
+        bigg.get_coverage_from_str()
+        if bigg.coverage>=count_cutoff:
+            bigg_isoform_cov5.append(bigg)
+    write_bigg(bigg_isoform_cov5,bigg_isoform_cov5_file)
+
+    # step 3, prepare and run the novel bed
+    print("Step3, Running novel gene finding and clustering")
+    wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
+    bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
+    write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
+
+    # 421 for the new genes,
+    # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
+    # only two left, need to adjust again
+    # try to use the count >5 isoforms to avoid long intron isoform impact
+    wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
+
+    # the substract will change the original novel file
+    flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
+    flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
+
+    return 1
+########################################################################################################
+
+
+
+########################################################################################################
+###################### flow functions for clusterj， which is similar but has difference in wrapper
+
+def flow_key_cluster(wkdir, genename_file, core=30, batchsize=2000, intronweight=0.5,
+                     cutoff1=0.05, cutoff2=0.005, scorecutoff=11):
+    """
+    run clusterj in all prepared folders, folder name from the genename_file
+    can be used in both gene and landmark novel gene runs
+    :param wkdir:
+    :param genename_file:the namelist key file for the folders
+    :param core:
+    :param cutoff1 and 2: cutoff used for round1 cluster and round2 cluster
+    :return:
+    """
+    os.chdir(wkdir)
+    gene_l=file2list(genename_file)
+    process_one=functools.partial(process_one_subsample_try,
+                                  batchsize=batchsize, intronweight=intronweight,
+                                  cutoff1=cutoff1, cutoff2=cutoff2, scorecutoff=scorecutoff)
+
+    print("###### Run intersection cluster ######")
+    parmap(process_one, tqdm(gene_l), core)
+
+
+
+def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01, f2=0.05, count_cutoff=5,
+                                batchsize=2000, intronweight=0.5,cutoff1=0.05, cutoff2=0.005, scorecutoff=11):
+    """
+    wkdir and prefix will be passed from external bash wrappers
+    the original intersection function will be used
+    :return: run all cluster job
+    write all inter and out file to disk
+    """
+
+    # internal file name
+    novel_bed = prefix + "_novel.bed"
+    mergefile = prefix + "_merge.bed"
+    genename_file = prefix + "_gene.txt"
+    bigg_regionmark = prefix + "_regionmark.bed"
+    bigg_regionmark_f = prefix + "_regionmarkf.bed"
+    novelname_file = prefix + "_novelname.txt"
+
+    # output file
+    bigg_isoform_file=prefix+"_isoform.bed"
+    bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
+
+    os.chdir(wkdir)
+
+    # step1
+    print("Step1, Running prepare dir")
+    # the novel bigg file is prefix_novel.bed
+    # the gene name file for further use is prefix_gene.txt
+    gene_l = flow_preparedir(wkdir, prefix, bigg_gff_file=gff_bed, bigg_nano_file=nano_bed,
+                             genename_file=genename_file,
+                             f1=f1, f2=f2)
+    print("Gene name format example: ", gene_l[0])
+
+    # step2 use genename to run gene cluster, the function is different
+    # modify: replace the function with new parameters
+
+    flow_key_cluster_use=functools.partial(flow_key_cluster, core=core, batchsize=batchsize,
+                                           intronweight=intronweight,
+                                           cutoff1=cutoff1, cutoff2=cutoff2, scorecutoff=scorecutoff)
+
+    print("Step2, Running cluster junction")
+    flow_key_cluster_use(wkdir, genename_file)
+
+    # combine the bed file and write the new isoforms out
+    # modify: the default output surfix is different, so change to simple_coverage.bed
+    bigg_isoform=cat_bed("**/*_simple_coverage.bed") # use ** for all file in the wkdir
+    write_bigg(bigg_isoform,bigg_isoform_file)
+
+    bigg_isoform_cov5=[]
+    for bigg in bigg_isoform:
+        bigg.get_coverage_from_str()
+        if bigg.coverage>=count_cutoff:
+            bigg_isoform_cov5.append(bigg)
+    write_bigg(bigg_isoform_cov5,bigg_isoform_cov5_file)
+
+    # step 3, prepare and run the novel bed
+    print("Step3, Running novel gene finding and clustering")
+    wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
+    bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
+    write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
+
+    # 421 for the new genes,
+    # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
+    # only two left, need to adjust again
+    # try to use the count >5 isoforms to avoid long intron isoform impact
+    wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
+
+    # the substract will change the original novel file
+    flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
+    flow_key_cluster_use(wkdir, novelname_file)
+
+    return 1
+
 
 
 def flow_prepare_clusterj_count(wkdir, prefix, nano_bed, gff_bed, core=30):

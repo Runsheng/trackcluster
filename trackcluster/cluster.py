@@ -28,7 +28,9 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 
-def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweight=0.5):
+def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
+                 cutoff1=0.05, cutoff2=0.001, intronweight=0.5, scorecutoff=11):
+
     bigg_nano.sort(key=operator.attrgetter("chromStart"))
 
     if by=="ratio_all":
@@ -38,11 +40,8 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweigh
         by1=by
         by2=by
 
-    if cutoff=="auto":
-        cutoff1=0.05
-        cutoff2=0.001
-    else: # expect cutoff as a tuple (0.05, 0.01)
-        cutoff1, cutoff2= cutoff
+    gene=bigg_gff[0].geneName
+    l_str=[bigg_gff[0].chrom, ":", str(bigg_gff[0].chromStart), "-" ,str(bigg_gff[0].chromEnd)]
 
     # hard code first filter of overalpping of 50 bp
     #bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50) # using default cutoff 0.95
@@ -50,10 +49,10 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweigh
 
     # can be change filters
     D1, bigg_list_by1=cal_distance(bigg_list, intronweight=intronweight, by=by1)
-    _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1, cutoff=cutoff1)
+    _, bigg_l2=filter_D(D1, bigg_list_by1, by=by1, cutoff1=cutoff1, cutoff2=cutoff2, scorecutoff=scorecutoff)
 
     D2, bigg_list_by2=cal_distance(bigg_l2, intronweight=intronweight, by=by2)
-    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2, cutoff=cutoff2)
+    D_remain, bigg_l3=filter_D(D2, bigg_list_by2, by=by2,cutoff1=cutoff1, cutoff2=cutoff2, scorecutoff=scorecutoff)
 
     # add sanity check
     # the bigg_l3 subreads number together with read number+ bigg_l3=bigg_ll
@@ -61,7 +60,7 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all", cutoff="auto", intronweigh
     #missed_2=get_readall_bigg(bigg_list_by1)-get_readall_bigg(bigg_l2)
     #missed_3=get_readall_bigg(bigg_list_by2)-get_readall_bigg(bigg_l3)
 
-    logger.info(("flow cluster",len(bigg_list),  len(bigg_l2), len(bigg_l3)))
+    logger.info(("flow cluster",gene,"".join(l_str), len(bigg_list),  len(bigg_l2), len(bigg_l3)) )
 
     return D_remain, bigg_l3
 
@@ -152,6 +151,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         i.to_bedstr()
 
     length=len(bigg_list)
+    # init as 1
     D_exon=numpy.ones((length, length))
     D_intron=numpy.ones((length, length))
 
@@ -164,9 +164,6 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
     exon_out=wrapper_bedtools_intersect2(file_exon, file_exon)
     exon_i=pandas_summary(exon_out)
-
-    intron_out=wrapper_bedtools_intersect2(file_intron, file_intron)
-    intron_i=pandas_summary(intron_out)
 
     for k, intersection in list(exon_i.items()):
         name1, name2=k
@@ -183,17 +180,20 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         if by == "ratio":
             # exon could be 0?
             if min_length == 0:
-                D_exon[i, j] = 1
+                D_exon[i, j] = 0
             else:
                 similar = float(intersection) / union
                 D_exon[i, j] = 1 - similar
 
         elif by == "ratio_short":
-            # intron could be 0
+            # exon could be 0?
             if min_length == 0:
-                D_exon[i, j] = 1
+                D_exon[i, j] = 0
             else:
                 D_exon[i, j] = 1 - float(intersection) / min_length
+
+    intron_out=wrapper_bedtools_intersect2(file_intron, file_intron)
+    intron_i=pandas_summary(intron_out)
 
     for k, intersection in list(intron_i.items()):
         name1, name2 = k
@@ -210,8 +210,10 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
 
         if by == "ratio":
             # intron could be 0
+            # if intron is 0, is single exon gene, the distance for intron should be 0
+            # intron has no weight, all similar
             if min_length == 0:
-                D_intron[i, j] = 1
+                D_intron[i, j] = 0
             else:
                 similar = float(intersection) / union
                 D_intron[i, j] = 1 - similar
@@ -246,26 +248,18 @@ def write_D(D, bigg_list_new, outfile="./test/d.csv"):
                 fw.write("\n")
 
 
-def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=True):
+def filter_D(D, bigg_list, by="ratio", cutoff1=0.05, cutoff2=0.001, scorecutoff=11, add_miss=True):
 
     """
     cutoff selection:
     learn from unc52, <0.025 in ratio_short
     return: index of the matrix that can be retained
     """
-    if cutoff=="auto":
-        if by=="ratio":
-            cutoff=0.025
-        elif by=="ratio_short":
-            cutoff=0.001 # may need to add to 0.01
-        elif by=="length" or by=="length_short":
-            cutoff=100
-
-    else: # expect two numbers for the cutoff
-        cutoff=cutoff
+    # ratio or ratio_short cutoff
+    cutoff=cutoff1 if by=="ratio" else cutoff2
 
     # hard code a cutoff for sw score of SL
-    sw_score=11
+    sw_score=scorecutoff
 
     fullset=set(range(len(D)))
     drop=set()
@@ -343,7 +337,11 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=True):
         if len(missed_name)>0:
             missed_num=set()
             for k in missed_name:
-                missed_num.add(pos_dic[k])
+                # in extrem case, like the isoform number > batchsize , will have error
+                try:
+                    missed_num.add(pos_dic[k])
+                except KeyError:
+                    pass
 
             keep=keep.union(missed_num)
 

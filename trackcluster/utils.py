@@ -21,14 +21,18 @@ import gzip
 
 def count_file(thefile):
     """
-    count file line number
+    count bed file line number have to have at least 4 column (chro, start, end)
     :param thefile:
     :return:
     """
     count = 0
     f=open(thefile, "r")
     for line in f.readlines():
-        count += 1
+        try:
+            if len(line.split("\t"))>=3:
+                count += 1
+        except Exception:
+            pass
     f.close()
     return count
 

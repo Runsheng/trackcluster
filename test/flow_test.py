@@ -121,6 +121,31 @@ class flowtest(unittest.TestCase):
         flow_clusterj_all_gene_novel(nano_bed=nano_bed, gff_bed=gff_bed, prefix=prefix,wkdir=wkdir,
                                      core=core, f1=f1, f2=f2)
 
+
+    def test_prepare_run_gene_novel_cluster_original(self):
+        """
+        batch test for full gene and novel run
+        :return:
+        """
+        # parameters
+        wkdir="/t1/shoudong_488/test/tracktest_noj"
+        prefix="488_aba_1"
+        gff_bed="../gene.bed_s"
+        nano_bed="../488_aba_1_s.bed"
+        f1=0.01
+        f2=0.05
+        core=30
+        batchsize=2000
+        intronweight=0.2
+        cutoff1=0.05
+        cutoff2=0.05
+        os.chdir(wkdir)
+
+        flow_cluster_all_gene_novel(nano_bed=nano_bed, gff_bed=gff_bed, prefix=prefix,wkdir=wkdir,
+                                     core=core, f1=f1, f2=f2, intronweight=intronweight, batchsize=batchsize,
+                                    cutoff1=cutoff1, cutoff2=cutoff2)
+
+
     def test_count(self):
         wkdir = "/t1/shoudong_488/test/tracktest"
         prefix = "488_aba_1"
@@ -129,10 +154,6 @@ class flowtest(unittest.TestCase):
         nano_bed = "../488_aba_1_s.bed"
         os.chdir(wkdir)
         flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed)
-
-
-
-
 
 
     def tearDown(self) -> None:

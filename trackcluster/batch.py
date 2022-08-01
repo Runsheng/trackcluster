@@ -92,7 +92,8 @@ def process_one_junction_corrected_try(key, full=False, batchsize=500):
 
 
 
-def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_all", full=False):
+def process_one_subsample_try(key, batchsize=2000, intronweight=0.5, by="ratio_all", full=False,
+                              cutoff1=0.05, cutoff2=0.001,  scorecutoff=11):
     """
     batch run script for original trackcluster using exon/intron itersections
     :param key:
@@ -120,7 +121,8 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
     logger.info(key)
 
     try:
-        bigg_nano = prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
+        #bigg_nano = prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
+        bigg_nano = bigg_nano_raw
         n_count = 100 # hard code n count for 50 times, if the reads > batchsize*time, will be
         # processed within 1000*100=100K, and the final isoform level can not be
         # more than 1000(batchsize)
@@ -135,7 +137,8 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
                 # print "n=", n
                 bigg_1 = bigg_nano[:batchsize]
                 bigg_2 = bigg_nano[batchsize:]
-                _, bigg_list_by1 = flow_cluster(bigg_1, bigg_gff, by, intronweight=intronweight)
+                _, bigg_list_by1 = flow_cluster(bigg_1, bigg_gff, by=by, intronweight=intronweight,
+                                                )
                 bigg_nano = add_subread_bigg(bigg_list_by1 + bigg_2)
                 n += 1
 
@@ -151,9 +154,12 @@ def process_one_subsample_try(key, batchsize=500, intronweight=0.5, by="ratio_al
             logger.info("Write bigg outfile to {}".format(biggout))
 
         except Exception as e:
-            logger.debug("Error in cluster level:" + e)
+            if e is ResourceWarning:
+                pass
+            else:
+                logger.info("Error in cluster level:" + str(e))
     except Exception as e:
-        logger.debug("Error in prefilter level:" + e)
+        logger.info("Error in prefilter level:" + str(e))
     # merge_subread_bigg(bigg_nano_new)
     return 1
 
