@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 #"""
-#todo:Hard-coded path is not used for package!
 #"""
 
 import os

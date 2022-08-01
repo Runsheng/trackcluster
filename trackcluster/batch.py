@@ -26,7 +26,7 @@ from trackcluster.clustercj import flow_junction_correct
 
 
 # run the clustering for each gene
-def process_one_junction_corrected_try(key, full=True, batchsize=1000):
+def process_one_junction_corrected_try(key, full=False, batchsize=500):
 
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
@@ -57,7 +57,7 @@ def process_one_junction_corrected_try(key, full=True, batchsize=1000):
     n = 0
     bigg_nano = junction_pre(bigg_nano_raw, bigg_gff)
 
-    if len(bigg_gff)==1 and bigg_gff[0].ttype=="region_mark": # excelude the land_mark bed file
+    if len(bigg_gff)==1 and bigg_gff[0].ttype=="region_mark": # exclude the land_mark bed file
         bigg_gff=[]
     bigg_merge=bigg_gff+bigg_nano # keep the ref on top of the list
     bigg_nano, bigg_rare = flow_junction_correct(bigg_merge)

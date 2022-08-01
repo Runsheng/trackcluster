@@ -19,8 +19,9 @@ from collections import OrderedDict
 from tqdm import tqdm
 
 from trackcluster.tracklist import read_bigg, write_bigg
-from trackcluster.utils import is_bin_in, is_package_installed
+from trackcluster.utils import is_bin_in, is_package_installed, get_file_prefix
 from trackcluster import __version__
+from trackcluster.flow import flow_clusterj_all_gene_novel
 
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
@@ -60,20 +61,9 @@ version {version}
         getattr(self, args.command)()
 
 
-    @staticmethod
-    def group_bigg_by_gene(bigglist):
-        gene_bigg = OrderedDict()
-
-        for bigg in bigglist:
-            try:
-                gene_bigg[bigg.geneName].append(bigg)
-            except KeyError:
-                gene_bigg[bigg.geneName] = []
-                gene_bigg[bigg.geneName].append(bigg)
-        return gene_bigg
 
 
-    def pre(self):
+    def __pre(self):
         """
         prepare the data folder used for the
         :return:
@@ -119,7 +109,7 @@ version {version}
         os.chdir(os_origin)
         logging.info("END of dir making")
 
-    def cluster(self):
+    def __cluster(self):
         parser=argparse.ArgumentParser(
             description="Original cluster, using intersection of intron and exon as matrix"
         )
@@ -133,8 +123,46 @@ version {version}
         args = parser.parse_args(sys.argv[2:])
         #print(args.fasta)
 
+
+    def clusterj(self):
+        parser = argparse.ArgumentParser(
+            description="cluster using junction information"
+        )
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all files, default is the current dir")
+        parser.add_argument("-s", "--sample", help="the bigg format of the read track, with group information in GeneName2")
+        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
+        parser.add_argument("-t", "--thread", default=32, type=int,
+                            help="the max thread used to run some of the process")
+        parser.add_argument("-f1", "--intersect1", default=0.01, type=float,
+                            help="the min intersection in read track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-f2", "--intersect2", default=0.05, type=float,
+                            help="the min intersection in isoform track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-c", "--count", default=5, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+        parser.add_argument("-p", "--prefix", default=None, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+        parser.add_argument("-b", "--batchsize", default=1000, type=int,
+                            help="the max reads can be processed in one batch")
+        #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
+        args = parser.parse_args(sys.argv[2:] if sys.argv[2:] is not None else ["--help"])
+
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.sample,sep=".")
+
+        flow_clusterj_all_gene_novel(wkdir=args.folder,
+                                     prefix=args.prefix,
+                                     nano_bed=args.sample,
+                                     gff_bed=args.reference,
+                                     core=args.thread,
+                                     f1=args.intersect1,
+                                     f2=args.intersect2,
+                                     count_cutoff=args.count,
+                                     batchsize=args.batchsize)
+
     def desc(self):
         pass
+
 
     def test(self):
         """
@@ -155,17 +183,16 @@ version {version}
         args = parser.parse_args(sys.argv[2:])
 
         if args.install: ## test installed packages, samtools, bedtools
-            if is_bin_in("samtools") and is_bin_in("bedtools"):
+            if is_bin_in("samtools") and is_bin_in("bedtools") and is_bin_in("minimap2"):
                 logger.info("Pass")
             else:
-                logger.info("Check samtools and bedtools installion")
+                logger.info("Check if samtools, bedtools and minimap2 are in $PATH")
 
             for package_name in ["pysam", "Bio", "numpy", "pandas", "tqdm"]:
                 if is_package_installed(package_name):
                     logger.info("Package {} installed".format(package_name) )
                 else:
                     logger.info("Import Error: Package {} not installed".format(package_name) )
-
 
 
         if args.pre: ### test the prepare function using test

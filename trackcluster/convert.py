@@ -168,7 +168,7 @@ def gff_to_bigGenePred(gff):
         try:
             assert len(bigg.blockSizes) == len(bigg.chromStarts)
         except AssertionError:
-            print(len(bigg.blockSizes), len(bigg.chromStarts))
+            print("Error in gff convert", len(bigg.blockSizes), len(bigg.chromStarts))
         bigg.blockCount = len(bigg.blockSizes)
         bigg.exonFrames = [-1 for i in range(0, bigg.blockCount)] # ignore frame
 

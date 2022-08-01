@@ -18,7 +18,7 @@ parser.add_argument("-o", "--out", default="bigg.bed",
 parser.add_argument("-k", "--key", default="Name",
                     help="The key used as gene name in gff line, like Name=let-1")
 
-args = parser.parse_args()
+args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
 # make a file using the functions
 
@@ -30,6 +30,5 @@ bigg_list = convert.gff_to_bigGenePred(gff)
 for bigg in bigg_list:
     fw.write(bigg.to_str())
     fw.write("\n")
-
 
 fw.close()

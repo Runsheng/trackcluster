@@ -12,6 +12,7 @@ from trackcluster.pre import wrapper_bedtools_intersect2_select, tracklist_add_g
 #std lib
 import logging
 import os
+import functools
 
 #third party lib
 from pysam import AlignmentFile
@@ -75,7 +76,8 @@ def flow_bamconvert(wkdir,bamfile,out,prefix,score=30):
     return out
 
 
-def flow_preparedir(wkdir, prefix, bigg_gff_file, bigg_nano_file, genename_file="gene.txt", f1=0.01, f2=0.05):
+def flow_preparedir(wkdir, prefix, bigg_gff_file, bigg_nano_file, genename_file="gene.txt",
+                    f1=0.01, f2=0.05):
     """
     use nanopore and gff annotation to build folders
     :param bigg_gff:
@@ -137,7 +139,7 @@ def flow_preparedir(wkdir, prefix, bigg_gff_file, bigg_nano_file, genename_file=
     return genename_l
 
 
-def flow_key_clusterj(wkdir, genename_file, core=30):
+def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=1000):
     """
     run clusterj in all prepared folders, folder name from the genename_file
     can be used in both gene and landmark novel gene runs
@@ -149,9 +151,10 @@ def flow_key_clusterj(wkdir, genename_file, core=30):
     os.chdir(wkdir)
 
     gene_l=file2list(genename_file)
+    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize)
 
     print("###### Run junction cluster ######")
-    parmap(process_one_junction_corrected_try, tqdm(gene_l), core)
+    parmap(process_one, tqdm(gene_l), core)
 
 
 def flow_prepare_novel_dir(wkdir, prefix, novel_file, bigg_anno, genename_file="novelname.txt"):
@@ -180,7 +183,8 @@ def flow_prepare_novel_dir(wkdir, prefix, novel_file, bigg_anno, genename_file="
     return genename_file
 
 
-def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30, f1=0.01, f2=0.01, count_cutoff=5):
+def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
     """
     wkdir and prefix will be passed from external bash wrappers
     :param wkdir:
@@ -204,7 +208,7 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30, f1=0.
 
     # output file
     bigg_isoform_file=prefix+"_isoform.bed"
-    bigg_isoform_cov5_file=prefix+"_cov5_isoform.bed"
+    bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
 
     os.chdir(wkdir)
 
@@ -217,7 +221,7 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30, f1=0.
     print("Gene name format example: ", gene_l[100])
 
     # step2 use genename to run gene cluster
-    flow_key_clusterj(wkdir, genename_file, core=core)
+    flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize)
 
     # combine the bed file and write the new isoforms out
     bigg_isoform=cat_bed("**/*_simple_coveragej.bed") # use ** for all file in the wkdir
@@ -244,7 +248,7 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30, f1=0.
 
     # the substract will change the original novel file
     flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
-    flow_key_clusterj(wkdir, novelname_file, core=core)
+    flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
 
     return 1
 
@@ -310,3 +314,7 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
             line = [str(x) for x in line]
             fw.write(",".join(list(line)))
             fw.write("\n")
+
+
+def flow_prepare_clusterj_count(wkdir, prefix, nano_bed, gff_bed, core=30):
+    pass

@@ -111,8 +111,8 @@ class flowtest(unittest.TestCase):
         # parameters
         wkdir="/t1/shoudong_488/test/tracktest"
         prefix="488_aba_1"
-        gff_bed="gene.bed_s"
-        nano_bed="488_aba_1_s.bed"
+        gff_bed="../gene.bed_s"
+        nano_bed="../488_aba_1_s.bed"
         f1=0.01
         f2=0.05
         core=30
@@ -125,8 +125,8 @@ class flowtest(unittest.TestCase):
         wkdir = "/t1/shoudong_488/test/tracktest"
         prefix = "488_aba_1"
         isoform_bed="488_aba_1_isoform.bed"
-        gff_bed = "gene.bed_s"
-        nano_bed = "488_aba_1_s.bed"
+        gff_bed = "../gene.bed_s"
+        nano_bed = "../488_aba_1_s.bed"
         os.chdir(wkdir)
         flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed)
 

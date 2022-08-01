@@ -10,35 +10,25 @@ parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir)
 
 # self import
-from trackcluster import convert
+from trackcluster.flow import flow_bamconvert
 
 parser=argparse.ArgumentParser()
 parser.add_argument("-b", "--bamfile",
                     help="the sorted and indexed bam file")
 parser.add_argument("-o", "--out", default="bigg.bed",
                     help="the output file name")
-parser.add_argument("-s", "--score", default=21,
+parser.add_argument("-s", "--score",  type=int, default=30,
                     help="The min mapq score used to keep a read")
 
+parser.add_argument("-g", "--group", default=None,
+                    help="The name used for the group of this sample, if not given, use the prefix of the bamfile")
+parser.add_argument("-d", "--wkdir", default=None,
+                    help="The dir path contain the file, if not given, use the current dir")
 
 args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
-# make a file using the functions
-samfile=AlignmentFile(args.bamfile)
+# default handler
+wkdir=os.getcwd() if args.wkdir is None else args.wkdir
+prefix=args.bamfile.split(".")[0] if args.group is None else args.group
 
-fw=open(args.out, "w")
-
-for n, record in enumerate(samfile):
-    # add mapq filter to rm the secondary and supplementary mapping
-    if record.mapq>=args.score:
-        try:
-            bigg=convert.sam_to_bigGenePred(record, samfile)
-            fw.write(bigg.to_str())
-            fw.write("\n")
-        except ValueError:
-            pass
-    #if n>100:
-        #break
-
-fw.close()
-samfile.close()
+flow_bamconvert(wkdir=wkdir,bamfile=args.bamfile,out=args.out, prefix=prefix, score=int(args.score))

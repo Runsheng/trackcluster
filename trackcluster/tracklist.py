@@ -44,6 +44,21 @@ def add_sw(bigg_file, sw_file, out="bigg_sw.bed"):
         fw.write("\n".join(bigg_str))
 
 
+def bigg_addvalue(bigg_file, value_str, poskey, out="bigg_add.bed"):
+    """
+    add a single value to a pos, for each of the bigg in the file,write the new file out
+    pos is designed to be score, GeneName, GeneName2(group), ttype(isoform_anno, read_nano, region_mark), name2 (subreads)
+    :param bigg_list:
+    :return:
+    """
+    bigg_list= read_bigg(bigg_file)
+    bigg_new=[]
+    for bigg_one in bigg_list:
+        bigg_one.poskey=value_str
+        bigg_new.append(bigg_one)
+    write_bigg(bigg_new, out)
+
+
 def read_bigg(bigg_file):
     """
 

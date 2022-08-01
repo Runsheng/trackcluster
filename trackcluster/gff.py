@@ -243,7 +243,7 @@ class __WormBaseGFF(GFF):
     """
     specific parser for WormBase GFF file, include:
     un-sorted CDS and exon
-    mutiple parents:
+    multiple parents:
     mRNA (transcript):Parent=Gene:WBxxxxx
     exon:Parent=Transcript:Y74C9A.3
     CDS: same
