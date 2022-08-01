@@ -246,7 +246,7 @@ def write_D(D, bigg_list_new, outfile="./test/d.csv"):
                 fw.write("\n")
 
 
-def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
+def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=True):
 
     """
     cutoff selection:
@@ -322,10 +322,10 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
                         bigg_list[i].subread.add(bigg_list[j].name)
                         bigg_list[i].subread=bigg_list[i].subread.union(bigg_list[j].subread)
     keep=fullset-drop
-    # change the default score of gene, no need to add
-    #for n, bigg in enumerate(bigg_list):
-    #    if bigg.ttype=="isoform_anno":
-    #        keep.add(n)
+    # change the default score of gene, still need to add
+    for n, bigg in enumerate(bigg_list):
+        if bigg.ttype=="isoform_anno":
+            keep.add(n)
 
 
     # re_order D and bigg_list
@@ -337,9 +337,9 @@ def filter_D(D, bigg_list, by="ratio", cutoff="auto", add_miss=False):
     #### sanity check for missed ones
     ## collect the missed ones
     pos_dic=get_pos_dic(bigg_list)
-    missed_name=get_readall_bigg(bigg_list)-get_readall_bigg(bigg_list_new)
 
     if add_miss:
+        missed_name = get_readall_bigg(bigg_list) - get_readall_bigg(bigg_list_new)
         if len(missed_name)>0:
             missed_num=set()
             for k in missed_name:
