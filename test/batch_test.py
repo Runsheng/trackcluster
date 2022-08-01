@@ -25,7 +25,14 @@ class BatchTest(unittest.TestCase):
     def test_process_1(self):
         os.chdir("genes")
         key="unc52"
-        process_one_subsample_try(key, intronweight=0.5,batchsize=300, full=True)
+
+        # 200 and 300 has one line different, 108 for 200, 108 for 300, 108 for 400,108 for 150
+        # 100 will be wrong, because the batch size is smaller than the variation size
+        # 100 will output 111, because not all will be processed until the last round after all 100 round
+        # and the result will be slow for clusterj because the remained junctions are huge
+        # do not use add_miss in filter_D result in 106 or 107 when using different batch size
+        # need to include the add_miss in filter_D function
+        process_one_subsample_try(key, intronweight=0.5,batchsize=150, full=True)
 
     def test_process_2(self):
         os.chdir("genes")
@@ -36,7 +43,8 @@ class BatchTest(unittest.TestCase):
         # large reads number
         os.chdir("genes")
         key = "AT2G02100"
-        #process_one_subsample_try(key, intronweight=0.5, batchsize=900, full=True)
+        # all output 899, this is not a good example, because the reads are from other regions
+        process_one_subsample_try(key, intronweight=0.5, batchsize=900, full=True)
         process_one_subsample_try(key, intronweight=0.5, batchsize=1000, full=True)  # 33S
         #process_one_subsample_try(key, intronweight=0.5, batchsize=2000, full=True) # 46S
         # should be 898
@@ -51,14 +59,6 @@ class BatchTest(unittest.TestCase):
 
         out=process_one_junction_corrected_try(key, batchsize=200, full=True)  #  5s
 
-    def test_cat_bed(self):
-        wkdir="./genes"
-        os.chdir(wkdir)
-        cat_bed( "**/*_simple_coveragej.bed")
-
-        wkdir="/t1/shoudong_488/test/tracktest"
-        os.chdir(wkdir)
-        cat_bed( "**/*_simple_coveragej.bed")
 
 
 

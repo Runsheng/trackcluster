@@ -94,5 +94,12 @@ class TracklistTest(unittest.TestCase):
     def test_bigglist_add(self):
         pass
 
+    def test_cat_bed(self):
+        import os
+        wkdir="./genes"
+        os.chdir(wkdir)
+        cat_bed( "**/*_simple_coveragej.bed")
+
+
     def tearDown(self):
         self=None
