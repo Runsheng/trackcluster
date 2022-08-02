@@ -34,9 +34,15 @@ class Test(unittest.TestCase):
         self.bigg=bigg_nano+bigg_gff
 
     def test_IO(self):
-        sample=self.bigg[0]
-        sample.to_bedstr()
-        print((sample.exon_str))
+        #sample=self.bigg[0]
+       for sample in self.bigg:
+            sample.to_bedstr()
+            # test single exon track
+            if sample.intronlen==0:
+                print(sample)
+                print((sample.exon_str))
+                print("======")
+                print(sample.intron_str)
 
     def test_get_exon(self):
         sample = self.bigg[0]

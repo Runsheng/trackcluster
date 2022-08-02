@@ -11,11 +11,13 @@ The input is a list of
 # self import
 #from trackcluster.track import bigGenePred
 from trackcluster.utils import del_files
-from trackcluster.tracklist import wrapper_bedtools_intersect2, bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
+from trackcluster.tracklist import wrapper_bedtools_intersect2, junction_pre,bigglist_to_bedfile, pandas_summary, add_subread_bigg, get_readall_bigg
 
 # third part import
 import numpy
 import operator
+from itertools import permutations
+
 
 # set logger
 import logging
@@ -32,6 +34,7 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
                  cutoff1=0.05, cutoff2=0.001, intronweight=0.5, scorecutoff=11):
 
     bigg_nano.sort(key=operator.attrgetter("chromStart"))
+    bigg_nano = junction_pre(bigg_nano, bigg_gff)
 
     if by=="ratio_all":
         by1="ratio"
@@ -43,8 +46,6 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
     gene=bigg_gff[0].geneName
     l_str=[bigg_gff[0].chrom, ":", str(bigg_gff[0].chromStart), "-" ,str(bigg_gff[0].chromEnd)]
 
-    # hard code first filter of overalpping of 50 bp
-    #bigg_l1=prefilter_smallexon(bigg_nano, bigg_gff, cutoff=50) # using default cutoff 0.95
     bigg_list=add_subread_bigg(bigg_gff+bigg_nano)
 
     # can be change filters
@@ -149,6 +150,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     for i in bigg_list:
         i.get_exon()
         i.to_bedstr()
+    bigg_name=[bigg.name for bigg in bigg_list]
 
     length=len(bigg_list)
     # init as 1
@@ -162,6 +164,8 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     # flow begin
     file_exon, file_intron = bigglist_to_bedfile(bigg_list)
 
+    ## exon part
+    ## exon no intersection can be leave as 1
     exon_out=wrapper_bedtools_intersect2(file_exon, file_exon)
     exon_i=pandas_summary(exon_out)
 
@@ -171,59 +175,50 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
         j=pos_dic[name2]
         min_length = min(bigg_list[i].exonlen, bigg_list[j].exonlen)
         union = bigg_list[i].exonlen + bigg_list[j].exonlen - intersection
+
         # debug insanity
-        if union <=0:
-            #pass
-            logger.debug(("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection))
+        if union <=0 or min_length<=0:
+            print(("exon", name1, name2, bigg_list[i].exonlen,  bigg_list[j].exonlen, union, intersection))
         # debug over
+        else:
+            D_exon[i, j]=1-float(intersection) / union if by=="ratio" else 1 - float(intersection) / min_length
 
-        if by == "ratio":
-            # exon could be 0?
-            if min_length == 0:
-                D_exon[i, j] = 0
-            else:
-                similar = float(intersection) / union
-                D_exon[i, j] = 1 - similar
-
-        elif by == "ratio_short":
-            # exon could be 0?
-            if min_length == 0:
-                D_exon[i, j] = 0
-            else:
-                D_exon[i, j] = 1 - float(intersection) / min_length
-
+    ### intron part, first handle the single exon track
     intron_out=wrapper_bedtools_intersect2(file_intron, file_intron)
     intron_i=pandas_summary(intron_out)
+    #print(intron_i)
 
-    for k, intersection in list(intron_i.items()):
-        name1, name2 = k
+    # for single intron file, the position is 1 nucl start
+    # intron_i will not contain all the lines reads, the no intersection line will be empty, the no intron line will be empty
+    # the intersection should be ignored and the weight should be 0
+
+    name2 = list(permutations(bigg_name, 2))
+    for k in name2:
+        name1, name2=k
         i = pos_dic[name1]
         j = pos_dic[name2]
+
+        try:
+            intersection=intron_i[(name1, name2)]
+        except KeyError:
+            intersection=0
+
         min_length = min(bigg_list[i].intronlen, bigg_list[j].intronlen)
         union = bigg_list[i].intronlen + bigg_list[j].intronlen - intersection
 
-        #### debug
-        if union <=0:
-            #pass
-            logger.debug(("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection))
-        #### debug over
-
-        if by == "ratio":
-            # intron could be 0
-            # if intron is 0, is single exon gene, the distance for intron should be 0
-            # intron has no weight, all similar
-            if min_length == 0:
-                D_intron[i, j] = 0
-            else:
-                similar = float(intersection) / union
-                D_intron[i, j] = 1 - similar
-
-        elif by == "ratio_short":
-            # intron could be 0
-            if min_length == 0:
-                D_intron[i, j] = 1
-            else:
-                D_intron[i, j] = 1 - float(intersection) / min_length
+        # if single exon, use 0
+        if min_length==0:
+            D_intron[i, j] = 0
+        #### sanity check pass or not?
+        elif union <=0:
+            print(("intron",name1, name2, bigg_list[i].intronlen,  bigg_list[j].intronlen, union, intersection))
+        ####
+        else:
+            D_intron[i,j]=1-float(intersection) / union if by=="ratio" else 1 - float(intersection) / min_length
+    #print("++++++++++intron")
+    #print(D_intron)
+    #print("++++++++++exon")
+    #print(D_exon)
 
     D=(D_exon+intronweight*D_intron)/float(1+intronweight)
 

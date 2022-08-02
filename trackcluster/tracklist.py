@@ -101,6 +101,13 @@ def remove_special_chars(my_str):
 
 
 def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
+    """
+    write all intron and all exon region to a bed file for one gene
+    :param bigg_list:
+    :param prefix:
+    :param dir:
+    :return:
+    """
     surfix=str(randint(100, 999))
     bigg0=bigg_list[0]
     if prefix is None:
@@ -383,3 +390,22 @@ def cat_bed(keyword):
 
     print("total number of isoform in all bed files", len(bigg_full))
     return bigg_full
+
+
+def junction_pre(bigg_list, bigg_ref):
+    """
+    make a sanity filter, rm the bigg from different chro and reverse strand
+    :param bigg_list:
+    :param bigg_ref:
+    :return:
+    """
+
+    bigg_new=[]
+    chrom=bigg_ref[0].chrom
+    strand=bigg_ref[0].strand
+
+    for bigg in bigg_list:
+        if bigg.chrom ==chrom and bigg.strand==strand:
+            bigg_new.append(bigg)
+
+    return bigg_new

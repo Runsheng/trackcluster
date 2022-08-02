@@ -11,8 +11,10 @@ import unittest
 
 class ClusterTest(unittest.TestCase):
     def setUp(self):
-        genes=["unc52", "AT1G06860", "AT2G02100"]
-        gene=genes[0]
+        # last gene is c24 gene with only single exon
+        genes=["unc52", "AT1G06860", "AT2G02100","ATC24-5G67880"]
+        gene=genes[3]
+        self.gene=gene
 
         bigg_nano=[]
         with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
@@ -49,15 +51,19 @@ class ClusterTest(unittest.TestCase):
         print(D)
         D,_=cal_distance(self.bigg, by="ratio_short")
         print(D)
+        print(len(D))
 
     def test_flow(self):
-       D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.5)
-       bigg_nano = add_subread_bigg(bigg_list)
+        out="./genes/{gene}/{gene}_simple_coverage.bed".format(gene=self.gene)
 
-       ### save nessary files
-       for bigg in bigg_nano:
-           bigg.write_subread()
-       bigg_count_write_native(bigg_nano, gff_bed=self.bigg_gff,out="./genes/unc52/unc_52_simple_coverage.bed")
+        D, bigg_list=flow_cluster(self.bigg_nano, self.bigg_gff, by="ratio_all", intronweight=0.2)
+        print(D)
+        bigg_nano = add_subread_bigg(bigg_list)
+
+           ### save nessary files
+        for bigg in bigg_nano:
+            bigg.write_subread()
+        bigg_count_write_native(bigg_nano, gff_bed=self.bigg_gff,out=out)
 
 
     def test_flow_muti(self):

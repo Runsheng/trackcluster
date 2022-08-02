@@ -82,9 +82,9 @@ def myexe(cmd, timeout=10):
 
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
-    #print("Running:  ",  cmd)
+    print("Running:  ",  cmd)
     out, err=proc.communicate()
-    #print("stderr out:  ",err, "\n","return code:  ",proc.returncode)
+    print("stderr out:  ",err, "\n","return code:  ",proc.returncode)
     return out
 
 

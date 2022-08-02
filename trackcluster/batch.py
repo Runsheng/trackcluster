@@ -11,11 +11,11 @@ make batch runs for different genes
 import os
 
 ## self import
-from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native
+from trackcluster.tracklist import read_bigg, write_bigg, add_subread_bigg, bigg_count_write_native, junction_pre
 from trackcluster.utils import count_file
 from trackcluster.cluster import flow_cluster, prefilter_smallexon
 from trackcluster.utils import log_detail_file
-from trackcluster.clusterj import junction_simple_merge, junction_pre
+from trackcluster.clusterj import junction_simple_merge
 from trackcluster.clustercj import flow_junction_correct
 
 
@@ -121,8 +121,7 @@ def process_one_subsample_try(key, batchsize=2000, intronweight=0.5, by="ratio_a
     logger.info(key)
 
     try:
-        #bigg_nano = prefilter_smallexon(bigg_nano_raw, bigg_gff, cutoff=50)
-        bigg_nano = bigg_nano_raw
+        bigg_nano = junction_pre(bigg_nano_raw, bigg_gff)
         n_count = 100 # hard code n count for 50 times, if the reads > batchsize*time, will be
         # processed within 1000*100=100K, and the final isoform level can not be
         # more than 1000(batchsize)

@@ -279,8 +279,14 @@ class bigGenePred(object):
 
         # re init the list for intron
         line_str = []
-        for intron in self.intron:
-            start, end = intron
+        if self.intronlen>0:
+            for intron in self.intron:
+                start, end = intron
+                str_one_intron = "\t".join([self.chrom, str(start), str(end), self.name])
+                line_str.append(str_one_intron)
+        else: #  for single exon gene,generate a line with len=1, start=end-1=chromStart
+            start=self.chromStart
+            end=self.chromStart+1
             str_one_intron = "\t".join([self.chrom, str(start), str(end), self.name])
             line_str.append(str_one_intron)
 

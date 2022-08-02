@@ -9,12 +9,11 @@ The speed is expected to be much faster
 Could be useful for high accuate long reads
 """
 # std lib import
-import operator
 
 # third part import
 
 # self import
-from tracklist import list_to_dic
+from trackcluster.tracklist import junction_pre
 from trackcluster.post import compare_ei_by_boudary, is_junction_equal
 from utils import group_site
 from trackcluster.cluster import select_list
@@ -251,25 +250,6 @@ def is_single_exon_in(bigg1, bigg2):
                 return True
 
 
-def junction_pre(bigg_list, bigg_ref):
-    """
-    make a sanity filter, rm the bigg from different chro and reverse strand
-    :param bigg_list:
-    :param bigg_ref:
-    :return:
-    """
-
-    bigg_new=[]
-    chrom=bigg_ref[0].chrom
-    strand=bigg_ref[0].strand
-
-    for bigg in bigg_list:
-        if bigg.chrom ==chrom and bigg.strand==strand:
-            bigg_new.append(bigg)
-
-    return bigg_new
-
-
 def junction_simple_merge(bigg_list):
     """
     merge the bigg with same junction to ref list
@@ -332,7 +312,7 @@ def junction_simple_merge(bigg_list):
 
 def flow_junction_cluster(bigg_list, bigg_ref):
 
-    bigg_n=junction_pre(bigg_list, bigg_ref)
+    bigg_n= junction_pre(bigg_list, bigg_ref)
     bigg_merge=bigg_n+bigg_ref
     bigg_subread=junction_simple_merge(bigg_merge)
 
