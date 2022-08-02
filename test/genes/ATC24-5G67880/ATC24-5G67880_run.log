@@ -1,0 +1,1524 @@
+2022-08-02 13:18:57,684 - details - INFO - ATC24-5G67880
+2022-08-02 13:18:58,264 - details - INFO - Write bigg outfile to ./ATC24-5G67880/ATC24-5G67880_simple_coverage.bed
+2022-08-02 13:18:58,271 - details - INFO - ATC24-5G71410
+2022-08-02 13:18:58,890 - details - INFO - Write bigg outfile to ./ATC24-5G71410/ATC24-5G71410_simple_coverage.bed
+2022-08-02 13:18:58,899 - details - INFO - ATC24-5G38300
+2022-08-02 13:19:05,778 - details - INFO - Write bigg outfile to ./ATC24-5G38300/ATC24-5G38300_simple_coverage.bed
+2022-08-02 13:19:05,784 - details - INFO - ATC24-1G18880
+2022-08-02 13:19:06,079 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'bd125e8d-5ed4-4ab4-9274-30591b149bd5'
+2022-08-02 13:19:06,086 - details - INFO - ATC24-1G18520
+2022-08-02 13:19:06,683 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:19:06,689 - details - INFO - ATC24-1G18890
+2022-08-02 13:19:06,878 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'adda13c6-e874-4d46-bda3-11ca78b78ab8'
+2022-08-02 13:19:06,882 - details - INFO - ATC24-1G18840
+2022-08-02 13:19:07,103 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:19:07,108 - details - INFO - ATC24-5G28440
+2022-08-02 13:19:07,962 - details - INFO - Write bigg outfile to ./ATC24-5G28440/ATC24-5G28440_simple_coverage.bed
+2022-08-02 13:19:07,966 - details - INFO - ATC24-1G18540
+2022-08-02 13:19:08,559 - details - INFO - Write bigg outfile to ./ATC24-1G18540/ATC24-1G18540_simple_coverage.bed
+2022-08-02 13:19:08,563 - details - INFO - ATC24-1G18590
+2022-08-02 13:19:09,146 - details - INFO - Write bigg outfile to ./ATC24-1G18590/ATC24-1G18590_simple_coverage.bed
+2022-08-02 13:19:09,151 - details - INFO - ATC24-1G18620
+2022-08-02 13:19:10,010 - details - INFO - Write bigg outfile to ./ATC24-1G18620/ATC24-1G18620_simple_coverage.bed
+2022-08-02 13:19:10,016 - details - INFO - ATC24-1G18750
+2022-08-02 13:19:10,647 - details - INFO - Write bigg outfile to ./ATC24-1G18750/ATC24-1G18750_simple_coverage.bed
+2022-08-02 13:19:10,651 - details - INFO - ATC24-1G18830
+2022-08-02 13:19:11,233 - details - INFO - Write bigg outfile to ./ATC24-1G18830/ATC24-1G18830_simple_coverage.bed
+2022-08-02 13:19:11,240 - details - INFO - ATC24-3G30420
+2022-08-02 13:19:13,020 - details - INFO - Write bigg outfile to ./ATC24-3G30420/ATC24-3G30420_simple_coverage.bed
+2022-08-02 13:19:13,025 - details - INFO - ATC24-5G59640
+2022-08-02 13:19:13,793 - details - INFO - Write bigg outfile to ./ATC24-5G59640/ATC24-5G59640_simple_coverage.bed
+2022-08-02 13:19:13,798 - details - INFO - ATC24-1G19050
+2022-08-02 13:19:14,436 - details - INFO - Write bigg outfile to ./ATC24-1G19050/ATC24-1G19050_simple_coverage.bed
+2022-08-02 13:19:14,440 - details - INFO - ATC24-1G19090
+2022-08-02 13:19:15,066 - details - INFO - Write bigg outfile to ./ATC24-1G19090/ATC24-1G19090_simple_coverage.bed
+2022-08-02 13:19:15,070 - details - INFO - ATC24-1G19170
+2022-08-02 13:19:15,637 - details - INFO - Write bigg outfile to ./ATC24-1G19170/ATC24-1G19170_simple_coverage.bed
+2022-08-02 13:19:15,642 - details - INFO - ATC24-1G19230
+2022-08-02 13:19:16,834 - details - INFO - Write bigg outfile to ./ATC24-1G19230/ATC24-1G19230_simple_coverage.bed
+2022-08-02 13:19:16,839 - details - INFO - ATC24-5G82400
+2022-08-02 13:19:17,586 - details - INFO - Write bigg outfile to ./ATC24-5G82400/ATC24-5G82400_simple_coverage.bed
+2022-08-02 13:19:17,591 - details - INFO - ATC24-2G52200
+2022-08-02 13:19:18,177 - details - INFO - Write bigg outfile to ./ATC24-2G52200/ATC24-2G52200_simple_coverage.bed
+2022-08-02 13:19:18,230 - details - INFO - ATC24-5G54840
+2022-08-02 13:19:49,576 - details - INFO - Write bigg outfile to ./ATC24-5G54840/ATC24-5G54840_simple_coverage.bed
+2022-08-02 13:19:49,588 - details - INFO - ATC24-1G23990
+2022-08-02 13:19:50,199 - details - INFO - Write bigg outfile to ./ATC24-1G23990/ATC24-1G23990_simple_coverage.bed
+2022-08-02 13:19:50,203 - details - INFO - ATC24-1G21610
+2022-08-02 13:19:50,808 - details - INFO - Write bigg outfile to ./ATC24-1G21610/ATC24-1G21610_simple_coverage.bed
+2022-08-02 13:19:50,812 - details - INFO - ATC24-1G21660
+2022-08-02 13:19:51,400 - details - INFO - Write bigg outfile to ./ATC24-1G21660/ATC24-1G21660_simple_coverage.bed
+2022-08-02 13:19:51,411 - details - INFO - ATC24-3G27610
+2022-08-02 13:20:00,449 - details - INFO - Write bigg outfile to ./ATC24-3G27610/ATC24-3G27610_simple_coverage.bed
+2022-08-02 13:20:00,456 - details - INFO - ATC24-4G67360
+2022-08-02 13:20:01,261 - details - INFO - Write bigg outfile to ./ATC24-4G67360/ATC24-4G67360_simple_coverage.bed
+2022-08-02 13:20:01,266 - details - INFO - ATC24-4G16470
+2022-08-02 13:20:02,201 - details - INFO - Write bigg outfile to ./ATC24-4G16470/ATC24-4G16470_simple_coverage.bed
+2022-08-02 13:20:02,206 - details - INFO - ATC24-3G60930
+2022-08-02 13:20:02,800 - details - INFO - Write bigg outfile to ./ATC24-3G60930/ATC24-3G60930_simple_coverage.bed
+2022-08-02 13:20:02,805 - details - INFO - ATC24-1G22580
+2022-08-02 13:20:03,395 - details - INFO - Write bigg outfile to ./ATC24-1G22580/ATC24-1G22580_simple_coverage.bed
+2022-08-02 13:20:03,408 - details - INFO - ATC24-2G57950
+2022-08-02 13:20:25,746 - details - INFO - Write bigg outfile to ./ATC24-2G57950/ATC24-2G57950_simple_coverage.bed
+2022-08-02 13:20:25,752 - details - INFO - ATC24-5G22980
+2022-08-02 13:20:26,298 - details - INFO - Write bigg outfile to ./ATC24-5G22980/ATC24-5G22980_simple_coverage.bed
+2022-08-02 13:20:26,313 - details - INFO - ATC24-1G31750
+2022-08-02 13:20:44,340 - details - INFO - Write bigg outfile to ./ATC24-1G31750/ATC24-1G31750_simple_coverage.bed
+2022-08-02 13:20:44,348 - details - INFO - ATC24-5G60310
+2022-08-02 13:20:44,920 - details - INFO - Write bigg outfile to ./ATC24-5G60310/ATC24-5G60310_simple_coverage.bed
+2022-08-02 13:20:44,925 - details - INFO - ATC24-1G26060
+2022-08-02 13:20:45,492 - details - INFO - Write bigg outfile to ./ATC24-1G26060/ATC24-1G26060_simple_coverage.bed
+2022-08-02 13:20:45,499 - details - INFO - ATC24-3G38200
+2022-08-02 13:20:50,070 - details - INFO - Write bigg outfile to ./ATC24-3G38200/ATC24-3G38200_simple_coverage.bed
+2022-08-02 13:20:50,075 - details - INFO - ATC24-1G26720
+2022-08-02 13:20:50,799 - details - INFO - Write bigg outfile to ./ATC24-1G26720/ATC24-1G26720_simple_coverage.bed
+2022-08-02 13:20:50,807 - details - INFO - ATC24-5G53960
+2022-08-02 13:20:52,811 - details - INFO - Write bigg outfile to ./ATC24-5G53960/ATC24-5G53960_simple_coverage.bed
+2022-08-02 13:20:52,823 - details - INFO - ATC24-5G79910
+2022-08-02 13:20:59,425 - details - INFO - Write bigg outfile to ./ATC24-5G79910/ATC24-5G79910_simple_coverage.bed
+2022-08-02 13:20:59,432 - details - INFO - ATC24-1G27710
+2022-08-02 13:21:00,162 - details - INFO - Write bigg outfile to ./ATC24-1G27710/ATC24-1G27710_simple_coverage.bed
+2022-08-02 13:21:00,167 - details - INFO - ATC24-1G27810
+2022-08-02 13:21:00,740 - details - INFO - Write bigg outfile to ./ATC24-1G27810/ATC24-1G27810_simple_coverage.bed
+2022-08-02 13:21:00,746 - details - INFO - ATC24-4G60940
+2022-08-02 13:21:01,766 - details - INFO - Write bigg outfile to ./ATC24-4G60940/ATC24-4G60940_simple_coverage.bed
+2022-08-02 13:21:01,771 - details - INFO - ATC24-1G27950
+2022-08-02 13:21:02,385 - details - INFO - Write bigg outfile to ./ATC24-1G27950/ATC24-1G27950_simple_coverage.bed
+2022-08-02 13:21:02,390 - details - INFO - ATC24-1G28050
+2022-08-02 13:21:03,021 - details - INFO - Write bigg outfile to ./ATC24-1G28050/ATC24-1G28050_simple_coverage.bed
+2022-08-02 13:21:03,026 - details - INFO - ATC24-5G81720
+2022-08-02 13:21:03,320 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:21:03,325 - details - INFO - ATC24-1G28130
+2022-08-02 13:21:03,923 - details - INFO - Write bigg outfile to ./ATC24-1G28130/ATC24-1G28130_simple_coverage.bed
+2022-08-02 13:21:03,929 - details - INFO - ATC24-1G28200
+2022-08-02 13:21:04,512 - details - INFO - Write bigg outfile to ./ATC24-1G28200/ATC24-1G28200_simple_coverage.bed
+2022-08-02 13:21:04,517 - details - INFO - ATC24-1G28320
+2022-08-02 13:21:05,093 - details - INFO - Write bigg outfile to ./ATC24-1G28320/ATC24-1G28320_simple_coverage.bed
+2022-08-02 13:21:05,098 - details - INFO - ATC24-1G28380
+2022-08-02 13:21:05,694 - details - INFO - Write bigg outfile to ./ATC24-1G28380/ATC24-1G28380_simple_coverage.bed
+2022-08-02 13:21:05,699 - details - INFO - ATC24-1G30360
+2022-08-02 13:21:06,368 - details - INFO - Write bigg outfile to ./ATC24-1G30360/ATC24-1G30360_simple_coverage.bed
+2022-08-02 13:21:06,373 - details - INFO - ATC24-1G28590
+2022-08-02 13:21:07,026 - details - INFO - Write bigg outfile to ./ATC24-1G28590/ATC24-1G28590_simple_coverage.bed
+2022-08-02 13:21:07,031 - details - INFO - ATC24-1G28670
+2022-08-02 13:21:07,623 - details - INFO - Write bigg outfile to ./ATC24-1G28670/ATC24-1G28670_simple_coverage.bed
+2022-08-02 13:21:07,628 - details - INFO - ATC24-1G28760
+2022-08-02 13:21:08,230 - details - INFO - Write bigg outfile to ./ATC24-1G28760/ATC24-1G28760_simple_coverage.bed
+2022-08-02 13:21:08,235 - details - INFO - ATC24-2G43830
+2022-08-02 13:21:08,887 - details - INFO - Write bigg outfile to ./ATC24-2G43830/ATC24-2G43830_simple_coverage.bed
+2022-08-02 13:21:08,892 - details - INFO - ATC24-1G28880
+2022-08-02 13:21:09,472 - details - INFO - Write bigg outfile to ./ATC24-1G28880/ATC24-1G28880_simple_coverage.bed
+2022-08-02 13:21:09,478 - details - INFO - ATC24-3G76090
+2022-08-02 13:21:10,443 - details - INFO - Write bigg outfile to ./ATC24-3G76090/ATC24-3G76090_simple_coverage.bed
+2022-08-02 13:21:10,448 - details - INFO - ATC24-1G29010
+2022-08-02 13:21:11,040 - details - INFO - Write bigg outfile to ./ATC24-1G29010/ATC24-1G29010_simple_coverage.bed
+2022-08-02 13:21:11,045 - details - INFO - ATC24-3G84670
+2022-08-02 13:21:11,730 - details - INFO - Write bigg outfile to ./ATC24-3G84670/ATC24-3G84670_simple_coverage.bed
+2022-08-02 13:21:11,735 - details - INFO - ATC24-1G29330
+2022-08-02 13:21:12,173 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'ad536d2e-eca8-4f1a-a817-351e38bec4c2'
+2022-08-02 13:21:12,182 - details - INFO - ATC24-4G51580
+2022-08-02 13:21:13,686 - details - INFO - Write bigg outfile to ./ATC24-4G51580/ATC24-4G51580_simple_coverage.bed
+2022-08-02 13:21:13,691 - details - INFO - ATC24-1G29380
+2022-08-02 13:21:14,271 - details - INFO - Write bigg outfile to ./ATC24-1G29380/ATC24-1G29380_simple_coverage.bed
+2022-08-02 13:21:14,277 - details - INFO - ATC24-1G29510
+2022-08-02 13:21:14,889 - details - INFO - Write bigg outfile to ./ATC24-1G29510/ATC24-1G29510_simple_coverage.bed
+2022-08-02 13:21:14,896 - details - INFO - ATC24-1G40540
+2022-08-02 13:21:15,892 - details - INFO - Write bigg outfile to ./ATC24-1G40540/ATC24-1G40540_simple_coverage.bed
+2022-08-02 13:21:15,898 - details - INFO - ATC24-1G29770
+2022-08-02 13:21:16,462 - details - INFO - Write bigg outfile to ./ATC24-1G29770/ATC24-1G29770_simple_coverage.bed
+2022-08-02 13:21:16,468 - details - INFO - ATC24-1G29860
+2022-08-02 13:21:17,111 - details - INFO - Write bigg outfile to ./ATC24-1G29860/ATC24-1G29860_simple_coverage.bed
+2022-08-02 13:21:17,117 - details - INFO - ATC24-1G30070
+2022-08-02 13:21:17,684 - details - INFO - Write bigg outfile to ./ATC24-1G30070/ATC24-1G30070_simple_coverage.bed
+2022-08-02 13:21:17,690 - details - INFO - ATC24-1G30210
+2022-08-02 13:21:18,265 - details - INFO - Write bigg outfile to ./ATC24-1G30210/ATC24-1G30210_simple_coverage.bed
+2022-08-02 13:21:18,273 - details - INFO - ATC24-1G30420
+2022-08-02 13:21:20,157 - details - INFO - Write bigg outfile to ./ATC24-1G30420/ATC24-1G30420_simple_coverage.bed
+2022-08-02 13:21:20,163 - details - INFO - ATC24-1G30800
+2022-08-02 13:21:20,726 - details - INFO - Write bigg outfile to ./ATC24-1G30800/ATC24-1G30800_simple_coverage.bed
+2022-08-02 13:21:20,732 - details - INFO - ATC24-1G81810
+2022-08-02 13:21:21,381 - details - INFO - Write bigg outfile to ./ATC24-1G81810/ATC24-1G81810_simple_coverage.bed
+2022-08-02 13:21:21,387 - details - INFO - ATC24-3G19490
+2022-08-02 13:21:21,973 - details - INFO - Write bigg outfile to ./ATC24-3G19490/ATC24-3G19490_simple_coverage.bed
+2022-08-02 13:21:21,979 - details - INFO - ATC24-1G30920
+2022-08-02 13:21:22,572 - details - INFO - Write bigg outfile to ./ATC24-1G30920/ATC24-1G30920_simple_coverage.bed
+2022-08-02 13:21:22,578 - details - INFO - ATC24-1G31020
+2022-08-02 13:21:23,152 - details - INFO - Write bigg outfile to ./ATC24-1G31020/ATC24-1G31020_simple_coverage.bed
+2022-08-02 13:21:23,158 - details - INFO - ATC24-1G31130
+2022-08-02 13:21:23,798 - details - INFO - Write bigg outfile to ./ATC24-1G31130/ATC24-1G31130_simple_coverage.bed
+2022-08-02 13:21:23,804 - details - INFO - ATC24-1G31260
+2022-08-02 13:21:24,463 - details - INFO - Write bigg outfile to ./ATC24-1G31260/ATC24-1G31260_simple_coverage.bed
+2022-08-02 13:21:24,469 - details - INFO - ATC24-2G42140
+2022-08-02 13:21:25,211 - details - INFO - Write bigg outfile to ./ATC24-2G42140/ATC24-2G42140_simple_coverage.bed
+2022-08-02 13:21:25,217 - details - INFO - ATC24-1G31420
+2022-08-02 13:21:26,057 - details - INFO - Write bigg outfile to ./ATC24-1G31420/ATC24-1G31420_simple_coverage.bed
+2022-08-02 13:21:26,066 - details - INFO - ATC24-5G38980
+2022-08-02 13:21:31,348 - details - INFO - Write bigg outfile to ./ATC24-5G38980/ATC24-5G38980_simple_coverage.bed
+2022-08-02 13:21:31,359 - details - INFO - ATC24-1G42960
+2022-08-02 13:21:32,245 - details - INFO - Write bigg outfile to ./ATC24-1G42960/ATC24-1G42960_simple_coverage.bed
+2022-08-02 13:21:32,251 - details - INFO - ATC24-5G61200
+2022-08-02 13:21:32,943 - details - INFO - Write bigg outfile to ./ATC24-5G61200/ATC24-5G61200_simple_coverage.bed
+2022-08-02 13:21:32,957 - details - INFO - ATC24-2G15440
+2022-08-02 13:21:35,776 - details - INFO - Write bigg outfile to ./ATC24-2G15440/ATC24-2G15440_simple_coverage.bed
+2022-08-02 13:21:35,782 - details - INFO - ATC24-1G32060
+2022-08-02 13:21:36,324 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/81bcb9f3_81bcb9f3.bed'
+2022-08-02 13:21:36,332 - details - INFO - ATC24-1G32330
+2022-08-02 13:21:36,886 - details - INFO - Write bigg outfile to ./ATC24-1G32330/ATC24-1G32330_simple_coverage.bed
+2022-08-02 13:21:36,893 - details - INFO - ATC24-1G36750
+2022-08-02 13:21:37,923 - details - INFO - Write bigg outfile to ./ATC24-1G36750/ATC24-1G36750_simple_coverage.bed
+2022-08-02 13:21:37,929 - details - INFO - ATC24-2G39760
+2022-08-02 13:21:38,604 - details - INFO - Write bigg outfile to ./ATC24-2G39760/ATC24-2G39760_simple_coverage.bed
+2022-08-02 13:21:38,610 - details - INFO - ATC24-5G78870
+2022-08-02 13:21:39,180 - details - INFO - Write bigg outfile to ./ATC24-5G78870/ATC24-5G78870_simple_coverage.bed
+2022-08-02 13:21:39,186 - details - INFO - ATC24-3G39240
+2022-08-02 13:21:39,811 - details - INFO - Write bigg outfile to ./ATC24-3G39240/ATC24-3G39240_simple_coverage.bed
+2022-08-02 13:21:39,818 - details - INFO - ATC24-1G32160
+2022-08-02 13:21:40,403 - details - INFO - Write bigg outfile to ./ATC24-1G32160/ATC24-1G32160_simple_coverage.bed
+2022-08-02 13:21:40,409 - details - INFO - ATC24-1G32260
+2022-08-02 13:21:40,976 - details - INFO - Write bigg outfile to ./ATC24-1G32260/ATC24-1G32260_simple_coverage.bed
+2022-08-02 13:21:40,982 - details - INFO - ATC24-1G32370
+2022-08-02 13:21:41,538 - details - INFO - Write bigg outfile to ./ATC24-1G32370/ATC24-1G32370_simple_coverage.bed
+2022-08-02 13:21:41,545 - details - INFO - ATC24-1G32440
+2022-08-02 13:21:41,861 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:21:41,868 - details - INFO - ATC24-1G32520
+2022-08-02 13:21:42,531 - details - INFO - Write bigg outfile to ./ATC24-1G32520/ATC24-1G32520_simple_coverage.bed
+2022-08-02 13:21:42,537 - details - INFO - ATC24-1G32590
+2022-08-02 13:21:43,089 - details - INFO - Write bigg outfile to ./ATC24-1G32590/ATC24-1G32590_simple_coverage.bed
+2022-08-02 13:21:43,095 - details - INFO - ATC24-1G32660
+2022-08-02 13:21:43,634 - details - INFO - Write bigg outfile to ./ATC24-1G32660/ATC24-1G32660_simple_coverage.bed
+2022-08-02 13:21:43,640 - details - INFO - ATC24-1G32780
+2022-08-02 13:21:44,236 - details - INFO - Write bigg outfile to ./ATC24-1G32780/ATC24-1G32780_simple_coverage.bed
+2022-08-02 13:21:44,242 - details - INFO - ATC24-4G70260
+2022-08-02 13:21:44,830 - details - INFO - Write bigg outfile to ./ATC24-4G70260/ATC24-4G70260_simple_coverage.bed
+2022-08-02 13:21:44,836 - details - INFO - ATC24-1G32800
+2022-08-02 13:21:45,429 - details - INFO - Write bigg outfile to ./ATC24-1G32800/ATC24-1G32800_simple_coverage.bed
+2022-08-02 13:21:45,435 - details - INFO - ATC24-1G32860
+2022-08-02 13:21:46,078 - details - INFO - Write bigg outfile to ./ATC24-1G32860/ATC24-1G32860_simple_coverage.bed
+2022-08-02 13:21:46,084 - details - INFO - ATC24-4G68630
+2022-08-02 13:21:46,702 - details - INFO - Write bigg outfile to ./ATC24-4G68630/ATC24-4G68630_simple_coverage.bed
+2022-08-02 13:21:46,708 - details - INFO - ATC24-1G33040
+2022-08-02 13:21:47,498 - details - INFO - Write bigg outfile to ./ATC24-1G33040/ATC24-1G33040_simple_coverage.bed
+2022-08-02 13:21:47,505 - details - INFO - ATC24-1G33130
+2022-08-02 13:21:48,125 - details - INFO - Write bigg outfile to ./ATC24-1G33130/ATC24-1G33130_simple_coverage.bed
+2022-08-02 13:21:48,132 - details - INFO - ATC24-2G59490
+2022-08-02 13:21:48,878 - details - INFO - Write bigg outfile to ./ATC24-2G59490/ATC24-2G59490_simple_coverage.bed
+2022-08-02 13:21:48,885 - details - INFO - ATC24-1G33320
+2022-08-02 13:21:49,454 - details - INFO - Write bigg outfile to ./ATC24-1G33320/ATC24-1G33320_simple_coverage.bed
+2022-08-02 13:21:49,461 - details - INFO - ATC24-1G33510
+2022-08-02 13:21:50,015 - details - INFO - Write bigg outfile to ./ATC24-1G33510/ATC24-1G33510_simple_coverage.bed
+2022-08-02 13:21:50,021 - details - INFO - ATC24-1G33710
+2022-08-02 13:21:50,614 - details - INFO - Write bigg outfile to ./ATC24-1G33710/ATC24-1G33710_simple_coverage.bed
+2022-08-02 13:21:50,620 - details - INFO - ATC24-1G33770
+2022-08-02 13:21:51,202 - details - INFO - Write bigg outfile to ./ATC24-1G33770/ATC24-1G33770_simple_coverage.bed
+2022-08-02 13:21:51,208 - details - INFO - ATC24-1G33830
+2022-08-02 13:21:51,779 - details - INFO - Write bigg outfile to ./ATC24-1G33830/ATC24-1G33830_simple_coverage.bed
+2022-08-02 13:21:51,785 - details - INFO - ATC24-1G33900
+2022-08-02 13:21:52,374 - details - INFO - Write bigg outfile to ./ATC24-1G33900/ATC24-1G33900_simple_coverage.bed
+2022-08-02 13:21:52,380 - details - INFO - ATC24-1G33980
+2022-08-02 13:21:53,022 - details - INFO - Write bigg outfile to ./ATC24-1G33980/ATC24-1G33980_simple_coverage.bed
+2022-08-02 13:21:53,030 - details - INFO - ATC24-3G25460
+2022-08-02 13:21:54,281 - details - INFO - Write bigg outfile to ./ATC24-3G25460/ATC24-3G25460_simple_coverage.bed
+2022-08-02 13:21:54,288 - details - INFO - ATC24-1G34160
+2022-08-02 13:21:54,892 - details - INFO - Write bigg outfile to ./ATC24-1G34160/ATC24-1G34160_simple_coverage.bed
+2022-08-02 13:21:54,898 - details - INFO - ATC24-1G34230
+2022-08-02 13:21:55,481 - details - INFO - Write bigg outfile to ./ATC24-1G34230/ATC24-1G34230_simple_coverage.bed
+2022-08-02 13:21:55,488 - details - INFO - ATC24-1G34400
+2022-08-02 13:21:55,664 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:21:55,671 - details - INFO - ATC24-1G34320
+2022-08-02 13:21:56,331 - details - INFO - Write bigg outfile to ./ATC24-1G34320/ATC24-1G34320_simple_coverage.bed
+2022-08-02 13:21:56,338 - details - INFO - ATC24-1G85470
+2022-08-02 13:21:56,926 - details - INFO - Write bigg outfile to ./ATC24-1G85470/ATC24-1G85470_simple_coverage.bed
+2022-08-02 13:21:56,934 - details - INFO - ATC24-1G89330
+2022-08-02 13:21:58,358 - details - INFO - Write bigg outfile to ./ATC24-1G89330/ATC24-1G89330_simple_coverage.bed
+2022-08-02 13:21:58,365 - details - INFO - ATC24-1G34620
+2022-08-02 13:21:58,989 - details - INFO - Write bigg outfile to ./ATC24-1G34620/ATC24-1G34620_simple_coverage.bed
+2022-08-02 13:21:58,995 - details - INFO - ATC24-1G34830
+2022-08-02 13:21:59,418 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:21:59,431 - details - INFO - ATC24-4G13800
+2022-08-02 13:22:01,869 - details - INFO - Write bigg outfile to ./ATC24-4G13800/ATC24-4G13800_simple_coverage.bed
+2022-08-02 13:22:01,876 - details - INFO - ATC24-1G35030
+2022-08-02 13:22:02,447 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:22:02,456 - details - INFO - ATC24-4G47470
+2022-08-02 13:22:03,074 - details - INFO - Write bigg outfile to ./ATC24-4G47470/ATC24-4G47470_simple_coverage.bed
+2022-08-02 13:22:03,081 - details - INFO - ATC24-1G35170
+2022-08-02 13:22:03,677 - details - INFO - Write bigg outfile to ./ATC24-1G35170/ATC24-1G35170_simple_coverage.bed
+2022-08-02 13:22:03,690 - details - INFO - ATC24-1G71230
+2022-08-02 13:22:18,423 - details - INFO - Write bigg outfile to ./ATC24-1G71230/ATC24-1G71230_simple_coverage.bed
+2022-08-02 13:22:18,432 - details - INFO - ATC24-1G38130
+2022-08-02 13:22:18,664 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:22:18,671 - details - INFO - ATC24-1G38190
+2022-08-02 13:22:19,255 - details - INFO - Write bigg outfile to ./ATC24-1G38190/ATC24-1G38190_simple_coverage.bed
+2022-08-02 13:22:19,262 - details - INFO - ATC24-1G38320
+2022-08-02 13:22:19,950 - details - INFO - Write bigg outfile to ./ATC24-1G38320/ATC24-1G38320_simple_coverage.bed
+2022-08-02 13:22:19,960 - details - INFO - ATC24-3G22750
+2022-08-02 13:22:23,237 - details - INFO - Write bigg outfile to ./ATC24-3G22750/ATC24-3G22750_simple_coverage.bed
+2022-08-02 13:22:23,245 - details - INFO - ATC24-2G42120
+2022-08-02 13:22:23,408 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:22:23,414 - details - INFO - ATC24-1G39040
+2022-08-02 13:22:23,565 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '6f83e1c9-77ca-4ae1-a6a7-52cabef281a9'
+2022-08-02 13:22:23,575 - details - INFO - ATC24-3G34360
+2022-08-02 13:22:24,284 - details - INFO - Write bigg outfile to ./ATC24-3G34360/ATC24-3G34360_simple_coverage.bed
+2022-08-02 13:22:24,291 - details - INFO - ATC24-1G78140
+2022-08-02 13:22:24,656 - details - INFO - Error in cluster level:'082c75d6-3c3d-4905-8fae-810118889feb'
+2022-08-02 13:22:24,665 - details - INFO - ATC24-2G50830
+2022-08-02 13:22:26,214 - details - INFO - Write bigg outfile to ./ATC24-2G50830/ATC24-2G50830_simple_coverage.bed
+2022-08-02 13:22:26,221 - details - INFO - ATC24-1G39650
+2022-08-02 13:22:26,845 - details - INFO - Write bigg outfile to ./ATC24-1G39650/ATC24-1G39650_simple_coverage.bed
+2022-08-02 13:22:26,852 - details - INFO - ATC24-1G39790
+2022-08-02 13:22:27,430 - details - INFO - Write bigg outfile to ./ATC24-1G39790/ATC24-1G39790_simple_coverage.bed
+2022-08-02 13:22:27,437 - details - INFO - ATC24-5G69380
+2022-08-02 13:22:28,034 - details - INFO - Write bigg outfile to ./ATC24-5G69380/ATC24-5G69380_simple_coverage.bed
+2022-08-02 13:22:28,041 - details - INFO - ATC24-1G40410
+2022-08-02 13:22:28,649 - details - INFO - Write bigg outfile to ./ATC24-1G40410/ATC24-1G40410_simple_coverage.bed
+2022-08-02 13:22:28,656 - details - INFO - ATC24-5G29070
+2022-08-02 13:22:29,304 - details - INFO - Write bigg outfile to ./ATC24-5G29070/ATC24-5G29070_simple_coverage.bed
+2022-08-02 13:22:29,310 - details - INFO - ATC24-1G40770
+2022-08-02 13:22:29,873 - details - INFO - Write bigg outfile to ./ATC24-1G40770/ATC24-1G40770_simple_coverage.bed
+2022-08-02 13:22:29,884 - details - INFO - ATC24-5G65380
+2022-08-02 13:22:34,429 - details - INFO - Write bigg outfile to ./ATC24-5G65380/ATC24-5G65380_simple_coverage.bed
+2022-08-02 13:22:34,437 - details - INFO - ATC24-1G41310
+2022-08-02 13:22:34,889 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:22:34,900 - details - INFO - ATC24-2G12050
+2022-08-02 13:22:36,888 - details - INFO - Write bigg outfile to ./ATC24-2G12050/ATC24-2G12050_simple_coverage.bed
+2022-08-02 13:22:36,894 - details - INFO - ATC24-1G41530
+2022-08-02 13:22:37,493 - details - INFO - Write bigg outfile to ./ATC24-1G41530/ATC24-1G41530_simple_coverage.bed
+2022-08-02 13:22:37,500 - details - INFO - ATC24-1G64950
+2022-08-02 13:22:38,161 - details - INFO - Write bigg outfile to ./ATC24-1G64950/ATC24-1G64950_simple_coverage.bed
+2022-08-02 13:22:38,171 - details - INFO - ATC24-3G19820
+2022-08-02 13:22:39,611 - details - INFO - Write bigg outfile to ./ATC24-3G19820/ATC24-3G19820_simple_coverage.bed
+2022-08-02 13:22:39,618 - details - INFO - ATC24-1G42080
+2022-08-02 13:22:40,230 - details - INFO - Write bigg outfile to ./ATC24-1G42080/ATC24-1G42080_simple_coverage.bed
+2022-08-02 13:22:40,237 - details - INFO - ATC24-1G42240
+2022-08-02 13:22:40,802 - details - INFO - Write bigg outfile to ./ATC24-1G42240/ATC24-1G42240_simple_coverage.bed
+2022-08-02 13:22:40,809 - details - INFO - ATC24-1G42580
+2022-08-02 13:22:41,397 - details - INFO - Write bigg outfile to ./ATC24-1G42580/ATC24-1G42580_simple_coverage.bed
+2022-08-02 13:22:41,404 - details - INFO - ATC24-1G42820
+2022-08-02 13:22:42,071 - details - INFO - Write bigg outfile to ./ATC24-1G42820/ATC24-1G42820_simple_coverage.bed
+2022-08-02 13:22:42,080 - details - INFO - ATC24-1G43190
+2022-08-02 13:22:42,603 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/28835064_28835064.bed'
+2022-08-02 13:22:42,614 - details - INFO - ATC24-2G50390
+2022-08-02 13:22:43,168 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:22:43,175 - details - INFO - ATC24-1G43260
+2022-08-02 13:22:43,880 - details - INFO - Write bigg outfile to ./ATC24-1G43260/ATC24-1G43260_simple_coverage.bed
+2022-08-02 13:22:43,890 - details - INFO - ATC24-1G43390
+2022-08-02 13:22:44,634 - details - INFO - Write bigg outfile to ./ATC24-1G43390/ATC24-1G43390_simple_coverage.bed
+2022-08-02 13:22:44,642 - details - INFO - ATC24-1G43580
+2022-08-02 13:22:45,295 - details - INFO - Write bigg outfile to ./ATC24-1G43580/ATC24-1G43580_simple_coverage.bed
+2022-08-02 13:22:45,302 - details - INFO - ATC24-1G43850
+2022-08-02 13:22:45,926 - details - INFO - Write bigg outfile to ./ATC24-1G43850/ATC24-1G43850_simple_coverage.bed
+2022-08-02 13:22:45,933 - details - INFO - ATC24-3G74390
+2022-08-02 13:22:46,372 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:22:46,380 - details - INFO - ATC24-1G44130
+2022-08-02 13:22:46,977 - details - INFO - Write bigg outfile to ./ATC24-1G44130/ATC24-1G44130_simple_coverage.bed
+2022-08-02 13:22:46,985 - details - INFO - ATC24-2G58130
+2022-08-02 13:22:47,623 - details - INFO - Write bigg outfile to ./ATC24-2G58130/ATC24-2G58130_simple_coverage.bed
+2022-08-02 13:22:47,630 - details - INFO - ATC24-5G19460
+2022-08-02 13:22:48,232 - details - INFO - Write bigg outfile to ./ATC24-5G19460/ATC24-5G19460_simple_coverage.bed
+2022-08-02 13:22:48,240 - details - INFO - ATC24-1G44490
+2022-08-02 13:22:48,971 - details - INFO - Write bigg outfile to ./ATC24-1G44490/ATC24-1G44490_simple_coverage.bed
+2022-08-02 13:22:48,979 - details - INFO - ATC24-1G44610
+2022-08-02 13:22:49,583 - details - INFO - Write bigg outfile to ./ATC24-1G44610/ATC24-1G44610_simple_coverage.bed
+2022-08-02 13:22:49,593 - details - INFO - ATC24-1G44700
+2022-08-02 13:22:51,488 - details - INFO - Write bigg outfile to ./ATC24-1G44700/ATC24-1G44700_simple_coverage.bed
+2022-08-02 13:22:51,496 - details - INFO - ATC24-1G45100
+2022-08-02 13:22:51,651 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/d5cb3209_d5cb3209.bed'
+2022-08-02 13:22:51,662 - details - INFO - ATC24-2G61410
+2022-08-02 13:22:52,290 - details - INFO - Write bigg outfile to ./ATC24-2G61410/ATC24-2G61410_simple_coverage.bed
+2022-08-02 13:22:52,298 - details - INFO - ATC24-1G45190
+2022-08-02 13:22:52,879 - details - INFO - Write bigg outfile to ./ATC24-1G45190/ATC24-1G45190_simple_coverage.bed
+2022-08-02 13:22:52,887 - details - INFO - ATC24-3G68530
+2022-08-02 13:22:53,496 - details - INFO - Write bigg outfile to ./ATC24-3G68530/ATC24-3G68530_simple_coverage.bed
+2022-08-02 13:22:53,505 - details - INFO - ATC24-1G45560
+2022-08-02 13:22:54,147 - details - INFO - Write bigg outfile to ./ATC24-1G45560/ATC24-1G45560_simple_coverage.bed
+2022-08-02 13:22:54,155 - details - INFO - ATC24-4G60110
+2022-08-02 13:22:54,493 - details - INFO - Error in cluster level:'a537e7f5-0b1'
+2022-08-02 13:22:54,500 - details - INFO - ATC24-1G45980
+2022-08-02 13:22:55,090 - details - INFO - Write bigg outfile to ./ATC24-1G45980/ATC24-1G45980_simple_coverage.bed
+2022-08-02 13:22:55,099 - details - INFO - ATC24-1G46140
+2022-08-02 13:22:55,666 - details - INFO - Write bigg outfile to ./ATC24-1G46140/ATC24-1G46140_simple_coverage.bed
+2022-08-02 13:22:55,674 - details - INFO - ATC24-1G46460
+2022-08-02 13:22:55,828 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:22:55,839 - details - INFO - ATC24-1G46630
+2022-08-02 13:22:56,406 - details - INFO - Write bigg outfile to ./ATC24-1G46630/ATC24-1G46630_simple_coverage.bed
+2022-08-02 13:22:56,414 - details - INFO - ATC24-1G47050
+2022-08-02 13:22:57,247 - details - INFO - Write bigg outfile to ./ATC24-1G47050/ATC24-1G47050_simple_coverage.bed
+2022-08-02 13:22:57,255 - details - INFO - ATC24-1G47890
+2022-08-02 13:22:57,838 - details - INFO - Write bigg outfile to ./ATC24-1G47890/ATC24-1G47890_simple_coverage.bed
+2022-08-02 13:22:57,847 - details - INFO - ATC24-5G81170
+2022-08-02 13:22:58,723 - details - INFO - Write bigg outfile to ./ATC24-5G81170/ATC24-5G81170_simple_coverage.bed
+2022-08-02 13:22:58,731 - details - INFO - ATC24-5G22100
+2022-08-02 13:22:58,902 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:22:58,913 - details - INFO - ATC24-2G45390
+2022-08-02 13:22:59,562 - details - INFO - Write bigg outfile to ./ATC24-2G45390/ATC24-2G45390_simple_coverage.bed
+2022-08-02 13:22:59,570 - details - INFO - ATC24-5G10610
+2022-08-02 13:23:00,200 - details - INFO - Write bigg outfile to ./ATC24-5G10610/ATC24-5G10610_simple_coverage.bed
+2022-08-02 13:23:00,208 - details - INFO - ATC24-1G48810
+2022-08-02 13:23:00,909 - details - INFO - Write bigg outfile to ./ATC24-1G48810/ATC24-1G48810_simple_coverage.bed
+2022-08-02 13:23:00,916 - details - INFO - ATC24-1G49800
+2022-08-02 13:23:01,512 - details - INFO - Write bigg outfile to ./ATC24-1G49800/ATC24-1G49800_simple_coverage.bed
+2022-08-02 13:23:01,521 - details - INFO - ATC24-3G13720
+2022-08-02 13:23:02,138 - details - INFO - Write bigg outfile to ./ATC24-3G13720/ATC24-3G13720_simple_coverage.bed
+2022-08-02 13:23:02,148 - details - INFO - ATC24-1G55520
+2022-08-02 13:23:02,809 - details - INFO - Write bigg outfile to ./ATC24-1G55520/ATC24-1G55520_simple_coverage.bed
+2022-08-02 13:23:02,818 - details - INFO - ATC24-1G57100
+2022-08-02 13:23:04,002 - details - INFO - Write bigg outfile to ./ATC24-1G57100/ATC24-1G57100_simple_coverage.bed
+2022-08-02 13:23:04,011 - details - INFO - ATC24-3G18290
+2022-08-02 13:23:05,209 - details - INFO - Write bigg outfile to ./ATC24-3G18290/ATC24-3G18290_simple_coverage.bed
+2022-08-02 13:23:05,217 - details - INFO - ATC24-1G58510
+2022-08-02 13:23:05,701 - details - INFO - Error in cluster level:'0be9820c-8058-47de-845c-87e6f540fb00'
+2022-08-02 13:23:05,718 - details - INFO - ATC24-1G84310
+2022-08-02 13:23:08,053 - details - INFO - Write bigg outfile to ./ATC24-1G84310/ATC24-1G84310_simple_coverage.bed
+2022-08-02 13:23:08,061 - details - INFO - ATC24-1G59380
+2022-08-02 13:23:08,640 - details - INFO - Write bigg outfile to ./ATC24-1G59380/ATC24-1G59380_simple_coverage.bed
+2022-08-02 13:23:08,649 - details - INFO - ATC24-2G50290
+2022-08-02 13:23:09,303 - details - INFO - Write bigg outfile to ./ATC24-2G50290/ATC24-2G50290_simple_coverage.bed
+2022-08-02 13:23:09,316 - details - INFO - ATC24-3G31800
+2022-08-02 13:23:10,218 - details - INFO - Write bigg outfile to ./ATC24-3G31800/ATC24-3G31800_simple_coverage.bed
+2022-08-02 13:23:10,228 - details - INFO - ATC24-5G34950
+2022-08-02 13:23:10,932 - details - INFO - Write bigg outfile to ./ATC24-5G34950/ATC24-5G34950_simple_coverage.bed
+2022-08-02 13:23:10,940 - details - INFO - ATC24-1G60620
+2022-08-02 13:23:11,551 - details - INFO - Write bigg outfile to ./ATC24-1G60620/ATC24-1G60620_simple_coverage.bed
+2022-08-02 13:23:11,559 - details - INFO - ATC24-1G60870
+2022-08-02 13:23:12,173 - details - INFO - Write bigg outfile to ./ATC24-1G60870/ATC24-1G60870_simple_coverage.bed
+2022-08-02 13:23:12,182 - details - INFO - ATC24-5G77170
+2022-08-02 13:23:12,894 - details - INFO - Write bigg outfile to ./ATC24-5G77170/ATC24-5G77170_simple_coverage.bed
+2022-08-02 13:23:12,903 - details - INFO - ATC24-4G56430
+2022-08-02 13:23:13,552 - details - INFO - Write bigg outfile to ./ATC24-4G56430/ATC24-4G56430_simple_coverage.bed
+2022-08-02 13:23:13,560 - details - INFO - ATC24-1G61470
+2022-08-02 13:23:14,196 - details - INFO - Write bigg outfile to ./ATC24-1G61470/ATC24-1G61470_simple_coverage.bed
+2022-08-02 13:23:14,206 - details - INFO - ATC24-1G61800
+2022-08-02 13:23:14,861 - details - INFO - Write bigg outfile to ./ATC24-1G61800/ATC24-1G61800_simple_coverage.bed
+2022-08-02 13:23:14,871 - details - INFO - ATC24-3G40320
+2022-08-02 13:23:15,581 - details - INFO - Write bigg outfile to ./ATC24-3G40320/ATC24-3G40320_simple_coverage.bed
+2022-08-02 13:23:15,590 - details - INFO - ATC24-1G62540
+2022-08-02 13:23:16,154 - details - INFO - Write bigg outfile to ./ATC24-1G62540/ATC24-1G62540_simple_coverage.bed
+2022-08-02 13:23:16,164 - details - INFO - ATC24-1G62840
+2022-08-02 13:23:16,751 - details - INFO - Write bigg outfile to ./ATC24-1G62840/ATC24-1G62840_simple_coverage.bed
+2022-08-02 13:23:16,760 - details - INFO - ATC24-1G63200
+2022-08-02 13:23:17,607 - details - INFO - Write bigg outfile to ./ATC24-1G63200/ATC24-1G63200_simple_coverage.bed
+2022-08-02 13:23:17,616 - details - INFO - ATC24-1G63800
+2022-08-02 13:23:17,961 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:23:17,970 - details - INFO - ATC24-5G75800
+2022-08-02 13:23:18,757 - details - INFO - Write bigg outfile to ./ATC24-5G75800/ATC24-5G75800_simple_coverage.bed
+2022-08-02 13:23:18,765 - details - INFO - ATC24-1G64240
+2022-08-02 13:23:18,928 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:23:18,937 - details - INFO - ATC24-1G64260
+2022-08-02 13:23:19,541 - details - INFO - Write bigg outfile to ./ATC24-1G64260/ATC24-1G64260_simple_coverage.bed
+2022-08-02 13:23:19,551 - details - INFO - ATC24-5G19860
+2022-08-02 13:23:20,788 - details - INFO - Write bigg outfile to ./ATC24-5G19860/ATC24-5G19860_simple_coverage.bed
+2022-08-02 13:23:20,796 - details - INFO - ATC24-1G64900
+2022-08-02 13:23:21,388 - details - INFO - Write bigg outfile to ./ATC24-1G64900/ATC24-1G64900_simple_coverage.bed
+2022-08-02 13:23:21,397 - details - INFO - ATC24-2G42150
+2022-08-02 13:23:22,097 - details - INFO - Write bigg outfile to ./ATC24-2G42150/ATC24-2G42150_simple_coverage.bed
+2022-08-02 13:23:22,111 - details - INFO - ATC24-1G65370
+2022-08-02 13:23:22,621 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/94ed7397_94ed7397.bed'
+2022-08-02 13:23:22,631 - details - INFO - ATC24-1G65600
+2022-08-02 13:23:23,225 - details - INFO - Write bigg outfile to ./ATC24-1G65600/ATC24-1G65600_simple_coverage.bed
+2022-08-02 13:23:23,236 - details - INFO - ATC24-3G25470
+2022-08-02 13:23:24,780 - details - INFO - Write bigg outfile to ./ATC24-3G25470/ATC24-3G25470_simple_coverage.bed
+2022-08-02 13:23:24,789 - details - INFO - ATC24-1G66110
+2022-08-02 13:23:25,402 - details - INFO - Write bigg outfile to ./ATC24-1G66110/ATC24-1G66110_simple_coverage.bed
+2022-08-02 13:23:25,412 - details - INFO - ATC24-1G66260
+2022-08-02 13:23:26,130 - details - INFO - Write bigg outfile to ./ATC24-1G66260/ATC24-1G66260_simple_coverage.bed
+2022-08-02 13:23:26,141 - details - INFO - ATC24-1G66510
+2022-08-02 13:23:26,763 - details - INFO - Write bigg outfile to ./ATC24-1G66510/ATC24-1G66510_simple_coverage.bed
+2022-08-02 13:23:26,772 - details - INFO - ATC24-1G66660
+2022-08-02 13:23:27,378 - details - INFO - Write bigg outfile to ./ATC24-1G66660/ATC24-1G66660_simple_coverage.bed
+2022-08-02 13:23:27,388 - details - INFO - ATC24-1G66890
+2022-08-02 13:23:28,272 - details - INFO - Write bigg outfile to ./ATC24-1G66890/ATC24-1G66890_simple_coverage.bed
+2022-08-02 13:23:28,282 - details - INFO - ATC24-1G67180
+2022-08-02 13:23:28,872 - details - INFO - Write bigg outfile to ./ATC24-1G67180/ATC24-1G67180_simple_coverage.bed
+2022-08-02 13:23:28,881 - details - INFO - ATC24-4G42700
+2022-08-02 13:23:29,654 - details - INFO - Write bigg outfile to ./ATC24-4G42700/ATC24-4G42700_simple_coverage.bed
+2022-08-02 13:23:29,663 - details - INFO - ATC24-1G67480
+2022-08-02 13:23:30,271 - details - INFO - Write bigg outfile to ./ATC24-1G67480/ATC24-1G67480_simple_coverage.bed
+2022-08-02 13:23:30,280 - details - INFO - ATC24-1G67650
+2022-08-02 13:23:30,464 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:23:30,474 - details - INFO - ATC24-3G70770
+2022-08-02 13:23:31,084 - details - INFO - Write bigg outfile to ./ATC24-3G70770/ATC24-3G70770_simple_coverage.bed
+2022-08-02 13:23:31,093 - details - INFO - ATC24-1G67700
+2022-08-02 13:23:31,682 - details - INFO - Write bigg outfile to ./ATC24-1G67700/ATC24-1G67700_simple_coverage.bed
+2022-08-02 13:23:31,691 - details - INFO - ATC24-3G73350
+2022-08-02 13:23:32,286 - details - INFO - Write bigg outfile to ./ATC24-3G73350/ATC24-3G73350_simple_coverage.bed
+2022-08-02 13:23:32,299 - details - INFO - ATC24-4G64890
+2022-08-02 13:23:36,720 - details - INFO - Write bigg outfile to ./ATC24-4G64890/ATC24-4G64890_simple_coverage.bed
+2022-08-02 13:23:36,730 - details - INFO - ATC24-1G69470
+2022-08-02 13:23:37,325 - details - INFO - Write bigg outfile to ./ATC24-1G69470/ATC24-1G69470_simple_coverage.bed
+2022-08-02 13:23:37,334 - details - INFO - ATC24-1G69680
+2022-08-02 13:23:37,909 - details - INFO - Write bigg outfile to ./ATC24-1G69680/ATC24-1G69680_simple_coverage.bed
+2022-08-02 13:23:37,919 - details - INFO - ATC24-1G81770
+2022-08-02 13:23:38,708 - details - INFO - Write bigg outfile to ./ATC24-1G81770/ATC24-1G81770_simple_coverage.bed
+2022-08-02 13:23:38,722 - details - INFO - ATC24-1G70290
+2022-08-02 13:23:41,635 - details - INFO - Write bigg outfile to ./ATC24-1G70290/ATC24-1G70290_simple_coverage.bed
+2022-08-02 13:23:41,645 - details - INFO - ATC24-1G71500
+2022-08-02 13:23:42,555 - details - INFO - Write bigg outfile to ./ATC24-1G71500/ATC24-1G71500_simple_coverage.bed
+2022-08-02 13:23:42,564 - details - INFO - ATC24-1G71970
+2022-08-02 13:23:43,190 - details - INFO - Write bigg outfile to ./ATC24-1G71970/ATC24-1G71970_simple_coverage.bed
+2022-08-02 13:23:43,200 - details - INFO - ATC24-1G72280
+2022-08-02 13:23:43,822 - details - INFO - Write bigg outfile to ./ATC24-1G72280/ATC24-1G72280_simple_coverage.bed
+2022-08-02 13:23:43,832 - details - INFO - ATC24-2G36480
+2022-08-02 13:23:44,099 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'fe0b3542-f6da-4fbe-b167-2437c4e84d92'
+2022-08-02 13:23:44,108 - details - INFO - ATC24-1G72580
+2022-08-02 13:23:44,683 - details - INFO - Write bigg outfile to ./ATC24-1G72580/ATC24-1G72580_simple_coverage.bed
+2022-08-02 13:23:44,692 - details - INFO - ATC24-1G72800
+2022-08-02 13:23:45,276 - details - INFO - Write bigg outfile to ./ATC24-1G72800/ATC24-1G72800_simple_coverage.bed
+2022-08-02 13:23:45,285 - details - INFO - ATC24-1G73230
+2022-08-02 13:23:45,902 - details - INFO - Write bigg outfile to ./ATC24-1G73230/ATC24-1G73230_simple_coverage.bed
+2022-08-02 13:23:45,911 - details - INFO - ATC24-1G73510
+2022-08-02 13:23:46,570 - details - INFO - Write bigg outfile to ./ATC24-1G73510/ATC24-1G73510_simple_coverage.bed
+2022-08-02 13:23:46,580 - details - INFO - ATC24-1G73620
+2022-08-02 13:23:47,186 - details - INFO - Write bigg outfile to ./ATC24-1G73620/ATC24-1G73620_simple_coverage.bed
+2022-08-02 13:23:47,196 - details - INFO - ATC24-4G60710
+2022-08-02 13:23:49,067 - details - INFO - Write bigg outfile to ./ATC24-4G60710/ATC24-4G60710_simple_coverage.bed
+2022-08-02 13:23:49,075 - details - INFO - ATC24-1G74610
+2022-08-02 13:23:49,671 - details - INFO - Write bigg outfile to ./ATC24-1G74610/ATC24-1G74610_simple_coverage.bed
+2022-08-02 13:23:49,684 - details - INFO - ATC24-1G75210
+2022-08-02 13:23:50,306 - details - INFO - Write bigg outfile to ./ATC24-1G75210/ATC24-1G75210_simple_coverage.bed
+2022-08-02 13:23:50,316 - details - INFO - ATC24-1G74920
+2022-08-02 13:23:50,890 - details - INFO - Write bigg outfile to ./ATC24-1G74920/ATC24-1G74920_simple_coverage.bed
+2022-08-02 13:23:50,899 - details - INFO - ATC24-1G75400
+2022-08-02 13:23:51,516 - details - INFO - Write bigg outfile to ./ATC24-1G75400/ATC24-1G75400_simple_coverage.bed
+2022-08-02 13:23:51,526 - details - INFO - ATC24-1G75720
+2022-08-02 13:23:52,104 - details - INFO - Write bigg outfile to ./ATC24-1G75720/ATC24-1G75720_simple_coverage.bed
+2022-08-02 13:23:52,114 - details - INFO - ATC24-1G75940
+2022-08-02 13:23:52,701 - details - INFO - Write bigg outfile to ./ATC24-1G75940/ATC24-1G75940_simple_coverage.bed
+2022-08-02 13:23:52,711 - details - INFO - ATC24-1G76280
+2022-08-02 13:23:52,996 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr1'
+2022-08-02 13:23:53,009 - details - INFO - ATC24-1G76370
+2022-08-02 13:23:53,614 - details - INFO - Write bigg outfile to ./ATC24-1G76370/ATC24-1G76370_simple_coverage.bed
+2022-08-02 13:23:53,625 - details - INFO - ATC24-1G76650
+2022-08-02 13:23:54,317 - details - INFO - Write bigg outfile to ./ATC24-1G76650/ATC24-1G76650_simple_coverage.bed
+2022-08-02 13:23:54,327 - details - INFO - ATC24-1G77240
+2022-08-02 13:23:54,924 - details - INFO - Write bigg outfile to ./ATC24-1G77240/ATC24-1G77240_simple_coverage.bed
+2022-08-02 13:23:54,934 - details - INFO - ATC24-5G15950
+2022-08-02 13:23:55,619 - details - INFO - Write bigg outfile to ./ATC24-5G15950/ATC24-5G15950_simple_coverage.bed
+2022-08-02 13:23:55,628 - details - INFO - ATC24-2G60890
+2022-08-02 13:23:55,781 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '8c09bd02-8b99-4b08-9e2a-1381bb2c8594'
+2022-08-02 13:23:55,791 - details - INFO - ATC24-1G77170
+2022-08-02 13:23:56,422 - details - INFO - Write bigg outfile to ./ATC24-1G77170/ATC24-1G77170_simple_coverage.bed
+2022-08-02 13:23:56,432 - details - INFO - ATC24-1G77440
+2022-08-02 13:23:57,097 - details - INFO - Write bigg outfile to ./ATC24-1G77440/ATC24-1G77440_simple_coverage.bed
+2022-08-02 13:23:57,111 - details - INFO - ATC24-1G77640
+2022-08-02 13:23:57,774 - details - INFO - Write bigg outfile to ./ATC24-1G77640/ATC24-1G77640_simple_coverage.bed
+2022-08-02 13:23:57,785 - details - INFO - ATC24-1G77900
+2022-08-02 13:23:58,390 - details - INFO - Write bigg outfile to ./ATC24-1G77900/ATC24-1G77900_simple_coverage.bed
+2022-08-02 13:23:58,400 - details - INFO - ATC24-3G30590
+2022-08-02 13:23:58,974 - details - INFO - Write bigg outfile to ./ATC24-3G30590/ATC24-3G30590_simple_coverage.bed
+2022-08-02 13:23:58,983 - details - INFO - ATC24-1G78520
+2022-08-02 13:23:59,617 - details - INFO - Write bigg outfile to ./ATC24-1G78520/ATC24-1G78520_simple_coverage.bed
+2022-08-02 13:23:59,626 - details - INFO - ATC24-1G78870
+2022-08-02 13:24:00,243 - details - INFO - Write bigg outfile to ./ATC24-1G78870/ATC24-1G78870_simple_coverage.bed
+2022-08-02 13:24:00,256 - details - INFO - ATC24-2G13960
+2022-08-02 13:24:01,714 - details - INFO - Write bigg outfile to ./ATC24-2G13960/ATC24-2G13960_simple_coverage.bed
+2022-08-02 13:24:01,722 - details - INFO - ATC24-1G79620
+2022-08-02 13:24:02,186 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/c4d197e3_c4d197e3.bed'
+2022-08-02 13:24:02,202 - details - INFO - ATC24-1G79940
+2022-08-02 13:24:02,811 - details - INFO - Write bigg outfile to ./ATC24-1G79940/ATC24-1G79940_simple_coverage.bed
+2022-08-02 13:24:02,822 - details - INFO - ATC24-5G53950
+2022-08-02 13:24:03,568 - details - INFO - Write bigg outfile to ./ATC24-5G53950/ATC24-5G53950_simple_coverage.bed
+2022-08-02 13:24:03,578 - details - INFO - ATC24-1G80240
+2022-08-02 13:24:04,198 - details - INFO - Write bigg outfile to ./ATC24-1G80240/ATC24-1G80240_simple_coverage.bed
+2022-08-02 13:24:04,207 - details - INFO - ATC24-1G80460
+2022-08-02 13:24:04,801 - details - INFO - Write bigg outfile to ./ATC24-1G80460/ATC24-1G80460_simple_coverage.bed
+2022-08-02 13:24:04,812 - details - INFO - ATC24-1G80660
+2022-08-02 13:24:05,412 - details - INFO - Write bigg outfile to ./ATC24-1G80660/ATC24-1G80660_simple_coverage.bed
+2022-08-02 13:24:05,422 - details - INFO - ATC24-1G80860
+2022-08-02 13:24:06,014 - details - INFO - Write bigg outfile to ./ATC24-1G80860/ATC24-1G80860_simple_coverage.bed
+2022-08-02 13:24:06,024 - details - INFO - ATC24-1G81150
+2022-08-02 13:24:06,612 - details - INFO - Write bigg outfile to ./ATC24-1G81150/ATC24-1G81150_simple_coverage.bed
+2022-08-02 13:24:06,622 - details - INFO - ATC24-1G81300
+2022-08-02 13:24:07,260 - details - INFO - Write bigg outfile to ./ATC24-1G81300/ATC24-1G81300_simple_coverage.bed
+2022-08-02 13:24:07,270 - details - INFO - ATC24-1G81710
+2022-08-02 13:24:07,916 - details - INFO - Write bigg outfile to ./ATC24-1G81710/ATC24-1G81710_simple_coverage.bed
+2022-08-02 13:24:07,925 - details - INFO - ATC24-1G82030
+2022-08-02 13:24:08,509 - details - INFO - Write bigg outfile to ./ATC24-1G82030/ATC24-1G82030_simple_coverage.bed
+2022-08-02 13:24:08,520 - details - INFO - ATC24-1G82230
+2022-08-02 13:24:08,990 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:24:09,003 - details - INFO - ATC24-1G82430
+2022-08-02 13:24:09,581 - details - INFO - Write bigg outfile to ./ATC24-1G82430/ATC24-1G82430_simple_coverage.bed
+2022-08-02 13:24:09,591 - details - INFO - ATC24-3G40030
+2022-08-02 13:24:10,263 - details - INFO - Write bigg outfile to ./ATC24-3G40030/ATC24-3G40030_simple_coverage.bed
+2022-08-02 13:24:10,273 - details - INFO - ATC24-1G82940
+2022-08-02 13:24:10,478 - details - INFO - Error in cluster level:'0376dc5b-ad4c-464a-a889-7840e03141fc'
+2022-08-02 13:24:10,488 - details - INFO - ATC24-1G83100
+2022-08-02 13:24:11,085 - details - INFO - Write bigg outfile to ./ATC24-1G83100/ATC24-1G83100_simple_coverage.bed
+2022-08-02 13:24:11,104 - details - INFO - ATC24-5G16480
+2022-08-02 13:24:20,801 - details - INFO - Write bigg outfile to ./ATC24-5G16480/ATC24-5G16480_simple_coverage.bed
+2022-08-02 13:24:20,814 - details - INFO - ATC24-1G86620
+2022-08-02 13:24:21,404 - details - INFO - Write bigg outfile to ./ATC24-1G86620/ATC24-1G86620_simple_coverage.bed
+2022-08-02 13:24:21,417 - details - INFO - ATC24-4G46010
+2022-08-02 13:24:23,664 - details - INFO - Write bigg outfile to ./ATC24-4G46010/ATC24-4G46010_simple_coverage.bed
+2022-08-02 13:24:23,673 - details - INFO - ATC24-1G87650
+2022-08-02 13:24:24,314 - details - INFO - Write bigg outfile to ./ATC24-1G87650/ATC24-1G87650_simple_coverage.bed
+2022-08-02 13:24:24,324 - details - INFO - ATC24-1G87940
+2022-08-02 13:24:24,992 - details - INFO - Write bigg outfile to ./ATC24-1G87940/ATC24-1G87940_simple_coverage.bed
+2022-08-02 13:24:25,003 - details - INFO - ATC24-1G88180
+2022-08-02 13:24:25,603 - details - INFO - Write bigg outfile to ./ATC24-1G88180/ATC24-1G88180_simple_coverage.bed
+2022-08-02 13:24:25,614 - details - INFO - ATC24-5G23810
+2022-08-02 13:24:26,249 - details - INFO - Write bigg outfile to ./ATC24-5G23810/ATC24-5G23810_simple_coverage.bed
+2022-08-02 13:24:26,259 - details - INFO - ATC24-1G88720
+2022-08-02 13:24:26,899 - details - INFO - Write bigg outfile to ./ATC24-1G88720/ATC24-1G88720_simple_coverage.bed
+2022-08-02 13:24:26,909 - details - INFO - ATC24-1G89010
+2022-08-02 13:24:27,176 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/085536ab_085536ab.bed'
+2022-08-02 13:24:27,189 - details - INFO - ATC24-1G89130
+2022-08-02 13:24:27,814 - details - INFO - Write bigg outfile to ./ATC24-1G89130/ATC24-1G89130_simple_coverage.bed
+2022-08-02 13:24:27,826 - details - INFO - ATC24-1G89400
+2022-08-02 13:24:28,442 - details - INFO - Write bigg outfile to ./ATC24-1G89400/ATC24-1G89400_simple_coverage.bed
+2022-08-02 13:24:28,454 - details - INFO - ATC24-1G89660
+2022-08-02 13:24:29,084 - details - INFO - Write bigg outfile to ./ATC24-1G89660/ATC24-1G89660_simple_coverage.bed
+2022-08-02 13:24:29,095 - details - INFO - ATC24-1G90020
+2022-08-02 13:24:29,704 - details - INFO - Write bigg outfile to ./ATC24-1G90020/ATC24-1G90020_simple_coverage.bed
+2022-08-02 13:24:29,716 - details - INFO - ATC24-1G90110
+2022-08-02 13:24:30,349 - details - INFO - Write bigg outfile to ./ATC24-1G90110/ATC24-1G90110_simple_coverage.bed
+2022-08-02 13:24:30,361 - details - INFO - ATC24-5G64920
+2022-08-02 13:24:30,628 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'ATC24-5G64920.1'
+2022-08-02 13:24:30,639 - details - INFO - ATC24-3G84800
+2022-08-02 13:24:31,223 - details - INFO - Write bigg outfile to ./ATC24-3G84800/ATC24-3G84800_simple_coverage.bed
+2022-08-02 13:24:31,234 - details - INFO - ATC24-1G90330
+2022-08-02 13:24:31,833 - details - INFO - Write bigg outfile to ./ATC24-1G90330/ATC24-1G90330_simple_coverage.bed
+2022-08-02 13:24:31,846 - details - INFO - ATC24-3G80560
+2022-08-02 13:24:34,186 - details - INFO - Write bigg outfile to ./ATC24-3G80560/ATC24-3G80560_simple_coverage.bed
+2022-08-02 13:24:34,195 - details - INFO - ATC24-1G91610
+2022-08-02 13:24:34,781 - details - INFO - Write bigg outfile to ./ATC24-1G91610/ATC24-1G91610_simple_coverage.bed
+2022-08-02 13:24:34,792 - details - INFO - ATC24-5G54300
+2022-08-02 13:24:35,385 - details - INFO - Write bigg outfile to ./ATC24-5G54300/ATC24-5G54300_simple_coverage.bed
+2022-08-02 13:24:35,395 - details - INFO - ATC24-1G92140
+2022-08-02 13:24:36,029 - details - INFO - Write bigg outfile to ./ATC24-1G92140/ATC24-1G92140_simple_coverage.bed
+2022-08-02 13:24:36,039 - details - INFO - ATC24-1G92380
+2022-08-02 13:24:36,622 - details - INFO - Write bigg outfile to ./ATC24-1G92380/ATC24-1G92380_simple_coverage.bed
+2022-08-02 13:24:36,632 - details - INFO - ATC24-1G92570
+2022-08-02 13:24:37,309 - details - INFO - Write bigg outfile to ./ATC24-1G92570/ATC24-1G92570_simple_coverage.bed
+2022-08-02 13:24:37,325 - details - INFO - ATC24-1G92840
+2022-08-02 13:24:37,944 - details - INFO - Write bigg outfile to ./ATC24-1G92840/ATC24-1G92840_simple_coverage.bed
+2022-08-02 13:24:37,955 - details - INFO - ATC24-1G92960
+2022-08-02 13:24:38,558 - details - INFO - Write bigg outfile to ./ATC24-1G92960/ATC24-1G92960_simple_coverage.bed
+2022-08-02 13:24:38,569 - details - INFO - ATC24-1G93150
+2022-08-02 13:24:38,860 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/d267c1b0_d267c1b0.bed'
+2022-08-02 13:24:38,874 - details - INFO - ATC24-2G34880
+2022-08-02 13:24:39,521 - details - INFO - Write bigg outfile to ./ATC24-2G34880/ATC24-2G34880_simple_coverage.bed
+2022-08-02 13:24:39,537 - details - INFO - ATC24-5G30650
+2022-08-02 13:24:43,832 - details - INFO - Write bigg outfile to ./ATC24-5G30650/ATC24-5G30650_simple_coverage.bed
+2022-08-02 13:24:43,848 - details - INFO - ATC24-5G51470
+2022-08-02 13:24:45,015 - details - INFO - Write bigg outfile to ./ATC24-5G51470/ATC24-5G51470_simple_coverage.bed
+2022-08-02 13:24:45,028 - details - INFO - ATC24-3G77650
+2022-08-02 13:24:48,340 - details - INFO - Write bigg outfile to ./ATC24-3G77650/ATC24-3G77650_simple_coverage.bed
+2022-08-02 13:24:48,352 - details - INFO - ATC24-2G12400
+2022-08-02 13:24:49,002 - details - INFO - Write bigg outfile to ./ATC24-2G12400/ATC24-2G12400_simple_coverage.bed
+2022-08-02 13:24:49,013 - details - INFO - ATC24-2G13010
+2022-08-02 13:24:49,655 - details - INFO - Write bigg outfile to ./ATC24-2G13010/ATC24-2G13010_simple_coverage.bed
+2022-08-02 13:24:49,666 - details - INFO - ATC24-4G64780
+2022-08-02 13:24:50,276 - details - INFO - Write bigg outfile to ./ATC24-4G64780/ATC24-4G64780_simple_coverage.bed
+2022-08-02 13:24:50,287 - details - INFO - ATC24-3G25060
+2022-08-02 13:24:50,956 - details - INFO - Write bigg outfile to ./ATC24-3G25060/ATC24-3G25060_simple_coverage.bed
+2022-08-02 13:24:50,967 - details - INFO - ATC24-2G14660
+2022-08-02 13:24:51,594 - details - INFO - Write bigg outfile to ./ATC24-2G14660/ATC24-2G14660_simple_coverage.bed
+2022-08-02 13:24:51,605 - details - INFO - ATC24-2G15450
+2022-08-02 13:24:52,220 - details - INFO - Write bigg outfile to ./ATC24-2G15450/ATC24-2G15450_simple_coverage.bed
+2022-08-02 13:24:52,231 - details - INFO - ATC24-2G16090
+2022-08-02 13:24:52,390 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:24:52,404 - details - INFO - ATC24-2G15520
+2022-08-02 13:24:53,011 - details - INFO - Write bigg outfile to ./ATC24-2G15520/ATC24-2G15520_simple_coverage.bed
+2022-08-02 13:24:53,024 - details - INFO - ATC24-4G59480
+2022-08-02 13:24:53,968 - details - INFO - Write bigg outfile to ./ATC24-4G59480/ATC24-4G59480_simple_coverage.bed
+2022-08-02 13:24:53,980 - details - INFO - ATC24-2G21130
+2022-08-02 13:24:55,094 - details - INFO - Write bigg outfile to ./ATC24-2G21130/ATC24-2G21130_simple_coverage.bed
+2022-08-02 13:24:55,105 - details - INFO - ATC24-2G28620
+2022-08-02 13:24:55,742 - details - INFO - Write bigg outfile to ./ATC24-2G28620/ATC24-2G28620_simple_coverage.bed
+2022-08-02 13:24:55,753 - details - INFO - ATC24-2G29700
+2022-08-02 13:24:55,921 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:24:55,933 - details - INFO - ATC24-2G29660
+2022-08-02 13:24:56,520 - details - INFO - Write bigg outfile to ./ATC24-2G29660/ATC24-2G29660_simple_coverage.bed
+2022-08-02 13:24:56,531 - details - INFO - ATC24-2G30520
+2022-08-02 13:24:57,153 - details - INFO - Write bigg outfile to ./ATC24-2G30520/ATC24-2G30520_simple_coverage.bed
+2022-08-02 13:24:57,164 - details - INFO - ATC24-4G16440
+2022-08-02 13:24:57,861 - details - INFO - Write bigg outfile to ./ATC24-4G16440/ATC24-4G16440_simple_coverage.bed
+2022-08-02 13:24:57,874 - details - INFO - ATC24-2G31600
+2022-08-02 13:24:58,529 - details - INFO - Write bigg outfile to ./ATC24-2G31600/ATC24-2G31600_simple_coverage.bed
+2022-08-02 13:24:58,541 - details - INFO - ATC24-2G31920
+2022-08-02 13:24:59,063 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '69325443-13dd-4ddb-9308-75dfe6ce269f'
+2022-08-02 13:24:59,077 - details - INFO - ATC24-2G32250
+2022-08-02 13:24:59,703 - details - INFO - Write bigg outfile to ./ATC24-2G32250/ATC24-2G32250_simple_coverage.bed
+2022-08-02 13:24:59,715 - details - INFO - ATC24-2G32640
+2022-08-02 13:25:00,343 - details - INFO - Write bigg outfile to ./ATC24-2G32640/ATC24-2G32640_simple_coverage.bed
+2022-08-02 13:25:00,355 - details - INFO - ATC24-2G32970
+2022-08-02 13:25:00,975 - details - INFO - Write bigg outfile to ./ATC24-2G32970/ATC24-2G32970_simple_coverage.bed
+2022-08-02 13:25:00,989 - details - INFO - ATC24-2G56700
+2022-08-02 13:25:01,657 - details - INFO - Write bigg outfile to ./ATC24-2G56700/ATC24-2G56700_simple_coverage.bed
+2022-08-02 13:25:01,669 - details - INFO - ATC24-5G21870
+2022-08-02 13:25:02,399 - details - INFO - Write bigg outfile to ./ATC24-5G21870/ATC24-5G21870_simple_coverage.bed
+2022-08-02 13:25:02,411 - details - INFO - ATC24-4G40630
+2022-08-02 13:25:03,066 - details - INFO - Write bigg outfile to ./ATC24-4G40630/ATC24-4G40630_simple_coverage.bed
+2022-08-02 13:25:03,078 - details - INFO - ATC24-2G34410
+2022-08-02 13:25:03,683 - details - INFO - Write bigg outfile to ./ATC24-2G34410/ATC24-2G34410_simple_coverage.bed
+2022-08-02 13:25:03,695 - details - INFO - ATC24-2G34780
+2022-08-02 13:25:04,322 - details - INFO - Write bigg outfile to ./ATC24-2G34780/ATC24-2G34780_simple_coverage.bed
+2022-08-02 13:25:04,334 - details - INFO - ATC24-2G35310
+2022-08-02 13:25:04,942 - details - INFO - Write bigg outfile to ./ATC24-2G35310/ATC24-2G35310_simple_coverage.bed
+2022-08-02 13:25:04,955 - details - INFO - ATC24-5G15400
+2022-08-02 13:25:05,807 - details - INFO - Write bigg outfile to ./ATC24-5G15400/ATC24-5G15400_simple_coverage.bed
+2022-08-02 13:25:05,821 - details - INFO - ATC24-5G66390
+2022-08-02 13:25:06,817 - details - INFO - Write bigg outfile to ./ATC24-5G66390/ATC24-5G66390_simple_coverage.bed
+2022-08-02 13:25:06,829 - details - INFO - ATC24-2G36560
+2022-08-02 13:25:07,775 - details - INFO - Write bigg outfile to ./ATC24-2G36560/ATC24-2G36560_simple_coverage.bed
+2022-08-02 13:25:07,789 - details - INFO - ATC24-2G37080
+2022-08-02 13:25:08,389 - details - INFO - Write bigg outfile to ./ATC24-2G37080/ATC24-2G37080_simple_coverage.bed
+2022-08-02 13:25:08,400 - details - INFO - ATC24-2G37380
+2022-08-02 13:25:09,081 - details - INFO - Write bigg outfile to ./ATC24-2G37380/ATC24-2G37380_simple_coverage.bed
+2022-08-02 13:25:09,093 - details - INFO - ATC24-2G37670
+2022-08-02 13:25:09,699 - details - INFO - Write bigg outfile to ./ATC24-2G37670/ATC24-2G37670_simple_coverage.bed
+2022-08-02 13:25:09,711 - details - INFO - ATC24-5G34120
+2022-08-02 13:25:10,308 - details - INFO - Write bigg outfile to ./ATC24-5G34120/ATC24-5G34120_simple_coverage.bed
+2022-08-02 13:25:10,321 - details - INFO - ATC24-2G38430
+2022-08-02 13:25:10,538 - details - INFO - Error in cluster level:'0c740bc6-6632-4506-a2de-211b668a2080'
+2022-08-02 13:25:10,549 - details - INFO - ATC24-2G59970
+2022-08-02 13:25:11,178 - details - INFO - Write bigg outfile to ./ATC24-2G59970/ATC24-2G59970_simple_coverage.bed
+2022-08-02 13:25:11,192 - details - INFO - ATC24-3G20400
+2022-08-02 13:25:13,516 - details - INFO - Write bigg outfile to ./ATC24-3G20400/ATC24-3G20400_simple_coverage.bed
+2022-08-02 13:25:13,528 - details - INFO - ATC24-2G39650
+2022-08-02 13:25:14,122 - details - INFO - Write bigg outfile to ./ATC24-2G39650/ATC24-2G39650_simple_coverage.bed
+2022-08-02 13:25:14,139 - details - INFO - ATC24-2G40080
+2022-08-02 13:25:14,733 - details - INFO - Write bigg outfile to ./ATC24-2G40080/ATC24-2G40080_simple_coverage.bed
+2022-08-02 13:25:14,746 - details - INFO - ATC24-2G40410
+2022-08-02 13:25:15,048 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/28eb4c7a_28eb4c7a.bed'
+2022-08-02 13:25:15,064 - details - INFO - ATC24-2G40630
+2022-08-02 13:25:15,669 - details - INFO - Write bigg outfile to ./ATC24-2G40630/ATC24-2G40630_simple_coverage.bed
+2022-08-02 13:25:15,681 - details - INFO - ATC24-2G40960
+2022-08-02 13:25:16,293 - details - INFO - Write bigg outfile to ./ATC24-2G40960/ATC24-2G40960_simple_coverage.bed
+2022-08-02 13:25:16,304 - details - INFO - ATC24-2G41420
+2022-08-02 13:25:16,930 - details - INFO - Write bigg outfile to ./ATC24-2G41420/ATC24-2G41420_simple_coverage.bed
+2022-08-02 13:25:16,942 - details - INFO - ATC24-2G41800
+2022-08-02 13:25:17,535 - details - INFO - Write bigg outfile to ./ATC24-2G41800/ATC24-2G41800_simple_coverage.bed
+2022-08-02 13:25:17,547 - details - INFO - ATC24-2G42240
+2022-08-02 13:25:18,254 - details - INFO - Write bigg outfile to ./ATC24-2G42240/ATC24-2G42240_simple_coverage.bed
+2022-08-02 13:25:18,266 - details - INFO - ATC24-2G42690
+2022-08-02 13:25:18,907 - details - INFO - Write bigg outfile to ./ATC24-2G42690/ATC24-2G42690_simple_coverage.bed
+2022-08-02 13:25:18,919 - details - INFO - ATC24-2G43070
+2022-08-02 13:25:19,589 - details - INFO - Write bigg outfile to ./ATC24-2G43070/ATC24-2G43070_simple_coverage.bed
+2022-08-02 13:25:19,604 - details - INFO - ATC24-2G56860
+2022-08-02 13:25:20,659 - details - INFO - Write bigg outfile to ./ATC24-2G56860/ATC24-2G56860_simple_coverage.bed
+2022-08-02 13:25:20,672 - details - INFO - ATC24-2G43970
+2022-08-02 13:25:21,276 - details - INFO - Write bigg outfile to ./ATC24-2G43970/ATC24-2G43970_simple_coverage.bed
+2022-08-02 13:25:21,289 - details - INFO - ATC24-2G44500
+2022-08-02 13:25:22,190 - details - INFO - Write bigg outfile to ./ATC24-2G44500/ATC24-2G44500_simple_coverage.bed
+2022-08-02 13:25:22,202 - details - INFO - ATC24-2G44990
+2022-08-02 13:25:22,794 - details - INFO - Write bigg outfile to ./ATC24-2G44990/ATC24-2G44990_simple_coverage.bed
+2022-08-02 13:25:22,807 - details - INFO - ATC24-2G45300
+2022-08-02 13:25:22,995 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:25:23,008 - details - INFO - ATC24-2G45400
+2022-08-02 13:25:23,707 - details - INFO - Write bigg outfile to ./ATC24-2G45400/ATC24-2G45400_simple_coverage.bed
+2022-08-02 13:25:23,720 - details - INFO - ATC24-2G45860
+2022-08-02 13:25:24,347 - details - INFO - Write bigg outfile to ./ATC24-2G45860/ATC24-2G45860_simple_coverage.bed
+2022-08-02 13:25:24,360 - details - INFO - ATC24-2G46220
+2022-08-02 13:25:25,001 - details - INFO - Write bigg outfile to ./ATC24-2G46220/ATC24-2G46220_simple_coverage.bed
+2022-08-02 13:25:25,013 - details - INFO - ATC24-2G46420
+2022-08-02 13:25:25,637 - details - INFO - Write bigg outfile to ./ATC24-2G46420/ATC24-2G46420_simple_coverage.bed
+2022-08-02 13:25:25,653 - details - INFO - ATC24-2G46850
+2022-08-02 13:25:26,251 - details - INFO - Write bigg outfile to ./ATC24-2G46850/ATC24-2G46850_simple_coverage.bed
+2022-08-02 13:25:26,269 - details - INFO - ATC24-2G47050
+2022-08-02 13:25:26,862 - details - INFO - Write bigg outfile to ./ATC24-2G47050/ATC24-2G47050_simple_coverage.bed
+2022-08-02 13:25:26,873 - details - INFO - ATC24-2G47410
+2022-08-02 13:25:27,512 - details - INFO - Write bigg outfile to ./ATC24-2G47410/ATC24-2G47410_simple_coverage.bed
+2022-08-02 13:25:27,527 - details - INFO - ATC24-2G64040
+2022-08-02 13:25:28,216 - details - INFO - Write bigg outfile to ./ATC24-2G64040/ATC24-2G64040_simple_coverage.bed
+2022-08-02 13:25:28,229 - details - INFO - ATC24-2G47930
+2022-08-02 13:25:28,391 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '4cf50a6b-297d-42b2-86e9-7dd0ce46714d'
+2022-08-02 13:25:28,406 - details - INFO - ATC24-4G63230
+2022-08-02 13:25:29,065 - details - INFO - Write bigg outfile to ./ATC24-4G63230/ATC24-4G63230_simple_coverage.bed
+2022-08-02 13:25:29,080 - details - INFO - ATC24-2G48280
+2022-08-02 13:25:29,719 - details - INFO - Write bigg outfile to ./ATC24-2G48280/ATC24-2G48280_simple_coverage.bed
+2022-08-02 13:25:29,731 - details - INFO - ATC24-2G48640
+2022-08-02 13:25:30,334 - details - INFO - Write bigg outfile to ./ATC24-2G48640/ATC24-2G48640_simple_coverage.bed
+2022-08-02 13:25:30,346 - details - INFO - ATC24-2G49040
+2022-08-02 13:25:30,956 - details - INFO - Write bigg outfile to ./ATC24-2G49040/ATC24-2G49040_simple_coverage.bed
+2022-08-02 13:25:30,968 - details - INFO - ATC24-2G49430
+2022-08-02 13:25:31,162 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:25:31,174 - details - INFO - ATC24-2G49460
+2022-08-02 13:25:31,800 - details - INFO - Write bigg outfile to ./ATC24-2G49460/ATC24-2G49460_simple_coverage.bed
+2022-08-02 13:25:31,815 - details - INFO - ATC24-5G60100
+2022-08-02 13:25:32,695 - details - INFO - Write bigg outfile to ./ATC24-5G60100/ATC24-5G60100_simple_coverage.bed
+2022-08-02 13:25:32,707 - details - INFO - ATC24-2G50500
+2022-08-02 13:25:33,348 - details - INFO - Write bigg outfile to ./ATC24-2G50500/ATC24-2G50500_simple_coverage.bed
+2022-08-02 13:25:33,361 - details - INFO - ATC24-2G50850
+2022-08-02 13:25:33,982 - details - INFO - Write bigg outfile to ./ATC24-2G50850/ATC24-2G50850_simple_coverage.bed
+2022-08-02 13:25:33,995 - details - INFO - ATC24-4G54240
+2022-08-02 13:25:34,965 - details - INFO - Write bigg outfile to ./ATC24-4G54240/ATC24-4G54240_simple_coverage.bed
+2022-08-02 13:25:34,976 - details - INFO - ATC24-2G51960
+2022-08-02 13:25:35,140 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:25:35,154 - details - INFO - ATC24-4G35540
+2022-08-02 13:25:35,324 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:25:35,338 - details - INFO - ATC24-5G37630
+2022-08-02 13:25:35,988 - details - INFO - Write bigg outfile to ./ATC24-5G37630/ATC24-5G37630_simple_coverage.bed
+2022-08-02 13:25:36,001 - details - INFO - ATC24-2G52290
+2022-08-02 13:25:36,154 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:25:36,171 - details - INFO - ATC24-2G52230
+2022-08-02 13:25:36,869 - details - INFO - Write bigg outfile to ./ATC24-2G52230/ATC24-2G52230_simple_coverage.bed
+2022-08-02 13:25:36,882 - details - INFO - ATC24-2G52670
+2022-08-02 13:25:37,647 - details - INFO - Write bigg outfile to ./ATC24-2G52670/ATC24-2G52670_simple_coverage.bed
+2022-08-02 13:25:37,659 - details - INFO - ATC24-2G53090
+2022-08-02 13:25:38,357 - details - INFO - Write bigg outfile to ./ATC24-2G53090/ATC24-2G53090_simple_coverage.bed
+2022-08-02 13:25:38,372 - details - INFO - ATC24-2G53470
+2022-08-02 13:25:39,007 - details - INFO - Write bigg outfile to ./ATC24-2G53470/ATC24-2G53470_simple_coverage.bed
+2022-08-02 13:25:39,020 - details - INFO - ATC24-2G53880
+2022-08-02 13:25:39,636 - details - INFO - Write bigg outfile to ./ATC24-2G53880/ATC24-2G53880_simple_coverage.bed
+2022-08-02 13:25:39,648 - details - INFO - ATC24-2G54220
+2022-08-02 13:25:40,099 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:25:40,117 - details - INFO - ATC24-2G54440
+2022-08-02 13:25:40,733 - details - INFO - Write bigg outfile to ./ATC24-2G54440/ATC24-2G54440_simple_coverage.bed
+2022-08-02 13:25:40,746 - details - INFO - ATC24-2G54810
+2022-08-02 13:25:41,376 - details - INFO - Write bigg outfile to ./ATC24-2G54810/ATC24-2G54810_simple_coverage.bed
+2022-08-02 13:25:41,389 - details - INFO - ATC24-4G58230
+2022-08-02 13:25:42,123 - details - INFO - Write bigg outfile to ./ATC24-4G58230/ATC24-4G58230_simple_coverage.bed
+2022-08-02 13:25:42,138 - details - INFO - ATC24-2G55150
+2022-08-02 13:25:42,774 - details - INFO - Write bigg outfile to ./ATC24-2G55150/ATC24-2G55150_simple_coverage.bed
+2022-08-02 13:25:42,787 - details - INFO - ATC24-2G55550
+2022-08-02 13:25:43,398 - details - INFO - Write bigg outfile to ./ATC24-2G55550/ATC24-2G55550_simple_coverage.bed
+2022-08-02 13:25:43,412 - details - INFO - ATC24-5G70600
+2022-08-02 13:25:44,266 - details - INFO - Write bigg outfile to ./ATC24-5G70600/ATC24-5G70600_simple_coverage.bed
+2022-08-02 13:25:44,277 - details - INFO - ATC24-2G56160
+2022-08-02 13:25:45,228 - details - INFO - Write bigg outfile to ./ATC24-2G56160/ATC24-2G56160_simple_coverage.bed
+2022-08-02 13:25:45,241 - details - INFO - ATC24-5G19060
+2022-08-02 13:25:45,932 - details - INFO - Write bigg outfile to ./ATC24-5G19060/ATC24-5G19060_simple_coverage.bed
+2022-08-02 13:25:45,945 - details - INFO - ATC24-2G56810
+2022-08-02 13:25:47,262 - details - INFO - Write bigg outfile to ./ATC24-2G56810/ATC24-2G56810_simple_coverage.bed
+2022-08-02 13:25:47,274 - details - INFO - ATC24-2G57680
+2022-08-02 13:25:47,992 - details - INFO - Write bigg outfile to ./ATC24-2G57680/ATC24-2G57680_simple_coverage.bed
+2022-08-02 13:25:48,011 - details - INFO - ATC24-2G57930
+2022-08-02 13:25:48,611 - details - INFO - Write bigg outfile to ./ATC24-2G57930/ATC24-2G57930_simple_coverage.bed
+2022-08-02 13:25:48,629 - details - INFO - ATC24-2G58300
+2022-08-02 13:25:49,262 - details - INFO - Write bigg outfile to ./ATC24-2G58300/ATC24-2G58300_simple_coverage.bed
+2022-08-02 13:25:49,276 - details - INFO - ATC24-2G58670
+2022-08-02 13:25:49,934 - details - INFO - Write bigg outfile to ./ATC24-2G58670/ATC24-2G58670_simple_coverage.bed
+2022-08-02 13:25:49,947 - details - INFO - ATC24-2G59190
+2022-08-02 13:25:50,574 - details - INFO - Write bigg outfile to ./ATC24-2G59190/ATC24-2G59190_simple_coverage.bed
+2022-08-02 13:25:50,587 - details - INFO - ATC24-2G59250
+2022-08-02 13:25:51,205 - details - INFO - Write bigg outfile to ./ATC24-2G59250/ATC24-2G59250_simple_coverage.bed
+2022-08-02 13:25:51,218 - details - INFO - ATC24-2G59600
+2022-08-02 13:25:51,973 - details - INFO - Write bigg outfile to ./ATC24-2G59600/ATC24-2G59600_simple_coverage.bed
+2022-08-02 13:25:51,986 - details - INFO - ATC24-2G59980
+2022-08-02 13:25:52,620 - details - INFO - Write bigg outfile to ./ATC24-2G59980/ATC24-2G59980_simple_coverage.bed
+2022-08-02 13:25:52,634 - details - INFO - ATC24-3G70110
+2022-08-02 13:25:53,302 - details - INFO - Write bigg outfile to ./ATC24-3G70110/ATC24-3G70110_simple_coverage.bed
+2022-08-02 13:25:53,317 - details - INFO - ATC24-2G60400
+2022-08-02 13:25:53,961 - details - INFO - Write bigg outfile to ./ATC24-2G60400/ATC24-2G60400_simple_coverage.bed
+2022-08-02 13:25:53,975 - details - INFO - ATC24-5G68540
+2022-08-02 13:25:54,607 - details - INFO - Write bigg outfile to ./ATC24-5G68540/ATC24-5G68540_simple_coverage.bed
+2022-08-02 13:25:54,620 - details - INFO - ATC24-2G61260
+2022-08-02 13:25:55,244 - details - INFO - Write bigg outfile to ./ATC24-2G61260/ATC24-2G61260_simple_coverage.bed
+2022-08-02 13:25:55,257 - details - INFO - ATC24-2G61670
+2022-08-02 13:25:55,883 - details - INFO - Write bigg outfile to ./ATC24-2G61670/ATC24-2G61670_simple_coverage.bed
+2022-08-02 13:25:55,897 - details - INFO - ATC24-2G61990
+2022-08-02 13:25:56,524 - details - INFO - Write bigg outfile to ./ATC24-2G61990/ATC24-2G61990_simple_coverage.bed
+2022-08-02 13:25:56,537 - details - INFO - ATC24-2G62220
+2022-08-02 13:25:56,753 - details - INFO - Error in cluster level:'046eb06d-8478-4e19-b5d7-26936881026f'
+2022-08-02 13:25:56,767 - details - INFO - ATC24-4G56140
+2022-08-02 13:25:57,522 - details - INFO - Write bigg outfile to ./ATC24-4G56140/ATC24-4G56140_simple_coverage.bed
+2022-08-02 13:25:57,536 - details - INFO - ATC24-2G62750
+2022-08-02 13:25:58,147 - details - INFO - Write bigg outfile to ./ATC24-2G62750/ATC24-2G62750_simple_coverage.bed
+2022-08-02 13:25:58,161 - details - INFO - ATC24-2G63070
+2022-08-02 13:25:58,860 - details - INFO - Write bigg outfile to ./ATC24-2G63070/ATC24-2G63070_simple_coverage.bed
+2022-08-02 13:25:58,873 - details - INFO - ATC24-3G29650
+2022-08-02 13:25:59,568 - details - INFO - Write bigg outfile to ./ATC24-3G29650/ATC24-3G29650_simple_coverage.bed
+2022-08-02 13:25:59,581 - details - INFO - ATC24-2G63810
+2022-08-02 13:26:00,203 - details - INFO - Write bigg outfile to ./ATC24-2G63810/ATC24-2G63810_simple_coverage.bed
+2022-08-02 13:26:00,217 - details - INFO - ATC24-2G64170
+2022-08-02 13:26:00,842 - details - INFO - Write bigg outfile to ./ATC24-2G64170/ATC24-2G64170_simple_coverage.bed
+2022-08-02 13:26:00,855 - details - INFO - ATC24-2G64520
+2022-08-02 13:26:01,499 - details - INFO - Write bigg outfile to ./ATC24-2G64520/ATC24-2G64520_simple_coverage.bed
+2022-08-02 13:26:01,513 - details - INFO - ATC24-4G60860
+2022-08-02 13:26:02,125 - details - INFO - Write bigg outfile to ./ATC24-4G60860/ATC24-4G60860_simple_coverage.bed
+2022-08-02 13:26:02,138 - details - INFO - ATC24-2G65210
+2022-08-02 13:26:02,774 - details - INFO - Write bigg outfile to ./ATC24-2G65210/ATC24-2G65210_simple_coverage.bed
+2022-08-02 13:26:02,787 - details - INFO - ATC24-2G65480
+2022-08-02 13:26:03,119 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/ATC24_ATC24.bed'
+2022-08-02 13:26:03,140 - details - INFO - ATC24-2G65710
+2022-08-02 13:26:03,441 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr2'
+2022-08-02 13:26:03,455 - details - INFO - ATC24-3G16330
+2022-08-02 13:26:04,125 - details - INFO - Write bigg outfile to ./ATC24-3G16330/ATC24-3G16330_simple_coverage.bed
+2022-08-02 13:26:04,140 - details - INFO - ATC24-2G66260
+2022-08-02 13:26:04,851 - details - INFO - Write bigg outfile to ./ATC24-2G66260/ATC24-2G66260_simple_coverage.bed
+2022-08-02 13:26:04,866 - details - INFO - ATC24-2G66580
+2022-08-02 13:26:05,496 - details - INFO - Write bigg outfile to ./ATC24-2G66580/ATC24-2G66580_simple_coverage.bed
+2022-08-02 13:26:05,509 - details - INFO - ATC24-2G66920
+2022-08-02 13:26:06,229 - details - INFO - Write bigg outfile to ./ATC24-2G66920/ATC24-2G66920_simple_coverage.bed
+2022-08-02 13:26:06,243 - details - INFO - ATC24-5G50980
+2022-08-02 13:26:06,857 - details - INFO - Write bigg outfile to ./ATC24-5G50980/ATC24-5G50980_simple_coverage.bed
+2022-08-02 13:26:06,871 - details - INFO - ATC24-3G10610
+2022-08-02 13:26:07,222 - details - INFO - Error in cluster level:'0f916b87-e86a-41b3-a3f9-615634d6dc35'
+2022-08-02 13:26:07,239 - details - INFO - ATC24-3G10540
+2022-08-02 13:26:07,861 - details - INFO - Write bigg outfile to ./ATC24-3G10540/ATC24-3G10540_simple_coverage.bed
+2022-08-02 13:26:07,876 - details - INFO - ATC24-5G78090
+2022-08-02 13:26:08,543 - details - INFO - Write bigg outfile to ./ATC24-5G78090/ATC24-5G78090_simple_coverage.bed
+2022-08-02 13:26:08,558 - details - INFO - ATC24-3G11080
+2022-08-02 13:26:09,191 - details - INFO - Write bigg outfile to ./ATC24-3G11080/ATC24-3G11080_simple_coverage.bed
+2022-08-02 13:26:09,205 - details - INFO - ATC24-3G11530
+2022-08-02 13:26:09,856 - details - INFO - Write bigg outfile to ./ATC24-3G11530/ATC24-3G11530_simple_coverage.bed
+2022-08-02 13:26:09,870 - details - INFO - ATC24-3G16230
+2022-08-02 13:26:10,595 - details - INFO - Write bigg outfile to ./ATC24-3G16230/ATC24-3G16230_simple_coverage.bed
+2022-08-02 13:26:10,608 - details - INFO - ATC24-3G12130
+2022-08-02 13:26:11,247 - details - INFO - Write bigg outfile to ./ATC24-3G12130/ATC24-3G12130_simple_coverage.bed
+2022-08-02 13:26:11,262 - details - INFO - ATC24-3G12440
+2022-08-02 13:26:11,762 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:26:11,776 - details - INFO - ATC24-3G81670
+2022-08-02 13:26:12,421 - details - INFO - Write bigg outfile to ./ATC24-3G81670/ATC24-3G81670_simple_coverage.bed
+2022-08-02 13:26:12,436 - details - INFO - ATC24-3G13180
+2022-08-02 13:26:12,644 - details - INFO - Error in cluster level:cannot convert float NaN to integer
+2022-08-02 13:26:12,658 - details - INFO - ATC24-3G13120
+2022-08-02 13:26:13,319 - details - INFO - Write bigg outfile to ./ATC24-3G13120/ATC24-3G13120_simple_coverage.bed
+2022-08-02 13:26:13,335 - details - INFO - ATC24-3G13560
+2022-08-02 13:26:14,262 - details - INFO - Write bigg outfile to ./ATC24-3G13560/ATC24-3G13560_simple_coverage.bed
+2022-08-02 13:26:14,279 - details - INFO - ATC24-3G14010
+2022-08-02 13:26:15,247 - details - INFO - Write bigg outfile to ./ATC24-3G14010/ATC24-3G14010_simple_coverage.bed
+2022-08-02 13:26:15,260 - details - INFO - ATC24-3G14550
+2022-08-02 13:26:15,870 - details - INFO - Write bigg outfile to ./ATC24-3G14550/ATC24-3G14550_simple_coverage.bed
+2022-08-02 13:26:15,884 - details - INFO - ATC24-3G14960
+2022-08-02 13:26:16,493 - details - INFO - Write bigg outfile to ./ATC24-3G14960/ATC24-3G14960_simple_coverage.bed
+2022-08-02 13:26:16,507 - details - INFO - ATC24-3G15530
+2022-08-02 13:26:17,142 - details - INFO - Write bigg outfile to ./ATC24-3G15530/ATC24-3G15530_simple_coverage.bed
+2022-08-02 13:26:17,155 - details - INFO - ATC24-4G56070
+2022-08-02 13:26:17,827 - details - INFO - Write bigg outfile to ./ATC24-4G56070/ATC24-4G56070_simple_coverage.bed
+2022-08-02 13:26:17,841 - details - INFO - ATC24-3G16040
+2022-08-02 13:26:18,464 - details - INFO - Write bigg outfile to ./ATC24-3G16040/ATC24-3G16040_simple_coverage.bed
+2022-08-02 13:26:18,487 - details - INFO - ATC24-4G37920
+2022-08-02 13:26:19,873 - details - INFO - Write bigg outfile to ./ATC24-4G37920/ATC24-4G37920_simple_coverage.bed
+2022-08-02 13:26:19,887 - details - INFO - ATC24-3G17410
+2022-08-02 13:26:20,514 - details - INFO - Write bigg outfile to ./ATC24-3G17410/ATC24-3G17410_simple_coverage.bed
+2022-08-02 13:26:20,529 - details - INFO - ATC24-3G17710
+2022-08-02 13:26:21,143 - details - INFO - Write bigg outfile to ./ATC24-3G17710/ATC24-3G17710_simple_coverage.bed
+2022-08-02 13:26:21,158 - details - INFO - ATC24-3G18010
+2022-08-02 13:26:21,795 - details - INFO - Write bigg outfile to ./ATC24-3G18010/ATC24-3G18010_simple_coverage.bed
+2022-08-02 13:26:21,809 - details - INFO - ATC24-3G18440
+2022-08-02 13:26:21,989 - details - INFO - Error in cluster level:'0369e65d-b15b-4951-af55-c219a4c0ee6c'
+2022-08-02 13:26:22,005 - details - INFO - ATC24-3G65830
+2022-08-02 13:26:22,637 - details - INFO - Write bigg outfile to ./ATC24-3G65830/ATC24-3G65830_simple_coverage.bed
+2022-08-02 13:26:22,651 - details - INFO - ATC24-3G18780
+2022-08-02 13:26:23,286 - details - INFO - Write bigg outfile to ./ATC24-3G18780/ATC24-3G18780_simple_coverage.bed
+2022-08-02 13:26:23,307 - details - INFO - ATC24-4G45540
+2022-08-02 13:26:23,645 - details - INFO - Error in cluster level:'113b8562-09a5-4617-a74a-9944c39a600f'
+2022-08-02 13:26:23,660 - details - INFO - ATC24-4G33610
+2022-08-02 13:26:24,298 - details - INFO - Write bigg outfile to ./ATC24-4G33610/ATC24-4G33610_simple_coverage.bed
+2022-08-02 13:26:24,319 - details - INFO - ATC24-4G58240
+2022-08-02 13:26:25,124 - details - INFO - Write bigg outfile to ./ATC24-4G58240/ATC24-4G58240_simple_coverage.bed
+2022-08-02 13:26:25,139 - details - INFO - ATC24-5G71150
+2022-08-02 13:26:25,788 - details - INFO - Write bigg outfile to ./ATC24-5G71150/ATC24-5G71150_simple_coverage.bed
+2022-08-02 13:26:25,803 - details - INFO - ATC24-3G20130
+2022-08-02 13:26:26,468 - details - INFO - Write bigg outfile to ./ATC24-3G20130/ATC24-3G20130_simple_coverage.bed
+2022-08-02 13:26:26,483 - details - INFO - ATC24-3G20370
+2022-08-02 13:26:27,128 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:26:27,146 - details - INFO - ATC24-3G20810
+2022-08-02 13:26:28,419 - details - INFO - Write bigg outfile to ./ATC24-3G20810/ATC24-3G20810_simple_coverage.bed
+2022-08-02 13:26:28,433 - details - INFO - ATC24-3G21640
+2022-08-02 13:26:29,070 - details - INFO - Write bigg outfile to ./ATC24-3G21640/ATC24-3G21640_simple_coverage.bed
+2022-08-02 13:26:29,086 - details - INFO - ATC24-3G22040
+2022-08-02 13:26:29,290 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:26:29,304 - details - INFO - ATC24-3G22120
+2022-08-02 13:26:29,625 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'fffcacd7-3ef1-4127-a331-5829445ec885'
+2022-08-02 13:26:29,644 - details - INFO - ATC24-3G22320
+2022-08-02 13:26:30,282 - details - INFO - Write bigg outfile to ./ATC24-3G22320/ATC24-3G22320_simple_coverage.bed
+2022-08-02 13:26:30,298 - details - INFO - ATC24-3G82580
+2022-08-02 13:26:31,007 - details - INFO - Write bigg outfile to ./ATC24-3G82580/ATC24-3G82580_simple_coverage.bed
+2022-08-02 13:26:31,021 - details - INFO - ATC24-3G22990
+2022-08-02 13:26:31,635 - details - INFO - Write bigg outfile to ./ATC24-3G22990/ATC24-3G22990_simple_coverage.bed
+2022-08-02 13:26:31,650 - details - INFO - ATC24-3G23390
+2022-08-02 13:26:32,379 - details - INFO - Write bigg outfile to ./ATC24-3G23390/ATC24-3G23390_simple_coverage.bed
+2022-08-02 13:26:32,394 - details - INFO - ATC24-3G23860
+2022-08-02 13:26:33,032 - details - INFO - Write bigg outfile to ./ATC24-3G23860/ATC24-3G23860_simple_coverage.bed
+2022-08-02 13:26:33,046 - details - INFO - ATC24-3G24210
+2022-08-02 13:26:33,679 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/58640af2_58640af2.bed'
+2022-08-02 13:26:33,700 - details - INFO - ATC24-3G75680
+2022-08-02 13:26:34,347 - details - INFO - Write bigg outfile to ./ATC24-3G75680/ATC24-3G75680_simple_coverage.bed
+2022-08-02 13:26:34,362 - details - INFO - ATC24-3G24900
+2022-08-02 13:26:34,992 - details - INFO - Write bigg outfile to ./ATC24-3G24900/ATC24-3G24900_simple_coverage.bed
+2022-08-02 13:26:35,006 - details - INFO - ATC24-3G25450
+2022-08-02 13:26:35,643 - details - INFO - Write bigg outfile to ./ATC24-3G25450/ATC24-3G25450_simple_coverage.bed
+2022-08-02 13:26:35,658 - details - INFO - ATC24-3G25920
+2022-08-02 13:26:35,983 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr3'
+2022-08-02 13:26:35,998 - details - INFO - ATC24-3G25980
+2022-08-02 13:26:36,662 - details - INFO - Write bigg outfile to ./ATC24-3G25980/ATC24-3G25980_simple_coverage.bed
+2022-08-02 13:26:36,677 - details - INFO - ATC24-3G26450
+2022-08-02 13:26:36,860 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:26:36,874 - details - INFO - ATC24-3G26590
+2022-08-02 13:26:37,502 - details - INFO - Write bigg outfile to ./ATC24-3G26590/ATC24-3G26590_simple_coverage.bed
+2022-08-02 13:26:37,516 - details - INFO - ATC24-3G27160
+2022-08-02 13:26:37,843 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr3'
+2022-08-02 13:26:37,857 - details - INFO - ATC24-3G27400
+2022-08-02 13:26:38,341 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:26:38,360 - details - INFO - ATC24-4G66660
+2022-08-02 13:26:40,351 - details - INFO - Write bigg outfile to ./ATC24-4G66660/ATC24-4G66660_simple_coverage.bed
+2022-08-02 13:26:40,365 - details - INFO - ATC24-3G28810
+2022-08-02 13:26:40,994 - details - INFO - Write bigg outfile to ./ATC24-3G28810/ATC24-3G28810_simple_coverage.bed
+2022-08-02 13:26:41,008 - details - INFO - ATC24-3G29180
+2022-08-02 13:26:41,672 - details - INFO - Write bigg outfile to ./ATC24-3G29180/ATC24-3G29180_simple_coverage.bed
+2022-08-02 13:26:41,687 - details - INFO - ATC24-3G29550
+2022-08-02 13:26:42,298 - details - INFO - Write bigg outfile to ./ATC24-3G29550/ATC24-3G29550_simple_coverage.bed
+2022-08-02 13:26:42,312 - details - INFO - ATC24-3G29810
+2022-08-02 13:26:42,941 - details - INFO - Write bigg outfile to ./ATC24-3G29810/ATC24-3G29810_simple_coverage.bed
+2022-08-02 13:26:42,957 - details - INFO - ATC24-3G30330
+2022-08-02 13:26:43,570 - details - INFO - Write bigg outfile to ./ATC24-3G30330/ATC24-3G30330_simple_coverage.bed
+2022-08-02 13:26:43,587 - details - INFO - ATC24-5G57930
+2022-08-02 13:26:44,789 - details - INFO - Write bigg outfile to ./ATC24-5G57930/ATC24-5G57930_simple_coverage.bed
+2022-08-02 13:26:44,803 - details - INFO - ATC24-3G31450
+2022-08-02 13:26:45,452 - details - INFO - Write bigg outfile to ./ATC24-3G31450/ATC24-3G31450_simple_coverage.bed
+2022-08-02 13:26:45,467 - details - INFO - ATC24-3G31870
+2022-08-02 13:26:46,120 - details - INFO - Write bigg outfile to ./ATC24-3G31870/ATC24-3G31870_simple_coverage.bed
+2022-08-02 13:26:46,136 - details - INFO - ATC24-3G32270
+2022-08-02 13:26:46,448 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr3'
+2022-08-02 13:26:46,466 - details - INFO - ATC24-3G32460
+2022-08-02 13:26:47,163 - details - INFO - Write bigg outfile to ./ATC24-3G32460/ATC24-3G32460_simple_coverage.bed
+2022-08-02 13:26:47,180 - details - INFO - ATC24-3G33220
+2022-08-02 13:26:47,820 - details - INFO - Write bigg outfile to ./ATC24-3G33220/ATC24-3G33220_simple_coverage.bed
+2022-08-02 13:26:47,836 - details - INFO - ATC24-3G33690
+2022-08-02 13:26:48,012 - details - INFO - Error in cluster level:'03ac6832-850e-43d2-854a-d7cf337f228b'
+2022-08-02 13:26:48,029 - details - INFO - ATC24-3G33810
+2022-08-02 13:26:48,751 - details - INFO - Write bigg outfile to ./ATC24-3G33810/ATC24-3G33810_simple_coverage.bed
+2022-08-02 13:26:48,767 - details - INFO - ATC24-3G34560
+2022-08-02 13:26:49,432 - details - INFO - Write bigg outfile to ./ATC24-3G34560/ATC24-3G34560_simple_coverage.bed
+2022-08-02 13:26:49,448 - details - INFO - ATC24-3G34930
+2022-08-02 13:26:50,102 - details - INFO - Write bigg outfile to ./ATC24-3G34930/ATC24-3G34930_simple_coverage.bed
+2022-08-02 13:26:50,117 - details - INFO - ATC24-4G48400
+2022-08-02 13:26:50,814 - details - INFO - Write bigg outfile to ./ATC24-4G48400/ATC24-4G48400_simple_coverage.bed
+2022-08-02 13:26:50,836 - details - INFO - ATC24-3G35870
+2022-08-02 13:26:51,448 - details - INFO - Write bigg outfile to ./ATC24-3G35870/ATC24-3G35870_simple_coverage.bed
+2022-08-02 13:26:51,463 - details - INFO - ATC24-3G36240
+2022-08-02 13:26:52,130 - details - INFO - Write bigg outfile to ./ATC24-3G36240/ATC24-3G36240_simple_coverage.bed
+2022-08-02 13:26:52,146 - details - INFO - ATC24-3G36790
+2022-08-02 13:26:52,839 - details - INFO - Write bigg outfile to ./ATC24-3G36790/ATC24-3G36790_simple_coverage.bed
+2022-08-02 13:26:52,855 - details - INFO - ATC24-4G46750
+2022-08-02 13:26:53,506 - details - INFO - Write bigg outfile to ./ATC24-4G46750/ATC24-4G46750_simple_coverage.bed
+2022-08-02 13:26:53,522 - details - INFO - ATC24-5G38510
+2022-08-02 13:26:54,202 - details - INFO - Write bigg outfile to ./ATC24-5G38510/ATC24-5G38510_simple_coverage.bed
+2022-08-02 13:26:54,223 - details - INFO - ATC24-3G38420
+2022-08-02 13:26:54,385 - details - INFO - Error in cluster level:Integer column has NA values in column 5
+2022-08-02 13:26:54,406 - details - INFO - ATC24-4G59910
+2022-08-02 13:26:55,177 - details - INFO - Write bigg outfile to ./ATC24-4G59910/ATC24-4G59910_simple_coverage.bed
+2022-08-02 13:26:55,195 - details - INFO - ATC24-3G38980
+2022-08-02 13:26:55,846 - details - INFO - Write bigg outfile to ./ATC24-3G38980/ATC24-3G38980_simple_coverage.bed
+2022-08-02 13:26:55,864 - details - INFO - ATC24-3G69680
+2022-08-02 13:26:56,585 - details - INFO - Write bigg outfile to ./ATC24-3G69680/ATC24-3G69680_simple_coverage.bed
+2022-08-02 13:26:56,602 - details - INFO - ATC24-5G30160
+2022-08-02 13:26:57,381 - details - INFO - Write bigg outfile to ./ATC24-5G30160/ATC24-5G30160_simple_coverage.bed
+2022-08-02 13:26:57,399 - details - INFO - ATC24-3G40450
+2022-08-02 13:26:58,062 - details - INFO - Write bigg outfile to ./ATC24-3G40450/ATC24-3G40450_simple_coverage.bed
+2022-08-02 13:26:58,078 - details - INFO - ATC24-3G40780
+2022-08-02 13:26:58,257 - details - INFO - Error in cluster level:'324d4363-a929-44a1-b3e0-346e783b7d1d'
+2022-08-02 13:26:58,273 - details - INFO - ATC24-3G41010
+2022-08-02 13:26:58,914 - details - INFO - Write bigg outfile to ./ATC24-3G41010/ATC24-3G41010_simple_coverage.bed
+2022-08-02 13:26:58,937 - details - INFO - ATC24-5G61440
+2022-08-02 13:26:59,568 - details - INFO - Write bigg outfile to ./ATC24-5G61440/ATC24-5G61440_simple_coverage.bed
+2022-08-02 13:26:59,583 - details - INFO - ATC24-3G42610
+2022-08-02 13:27:00,242 - details - INFO - Write bigg outfile to ./ATC24-3G42610/ATC24-3G42610_simple_coverage.bed
+2022-08-02 13:27:00,258 - details - INFO - ATC24-3G43280
+2022-08-02 13:27:00,969 - details - INFO - Write bigg outfile to ./ATC24-3G43280/ATC24-3G43280_simple_coverage.bed
+2022-08-02 13:27:00,984 - details - INFO - ATC24-3G46050
+2022-08-02 13:27:01,617 - details - INFO - Write bigg outfile to ./ATC24-3G46050/ATC24-3G46050_simple_coverage.bed
+2022-08-02 13:27:01,632 - details - INFO - ATC24-3G59430
+2022-08-02 13:27:02,283 - details - INFO - Write bigg outfile to ./ATC24-3G59430/ATC24-3G59430_simple_coverage.bed
+2022-08-02 13:27:02,304 - details - INFO - ATC24-3G61720
+2022-08-02 13:27:02,976 - details - INFO - Write bigg outfile to ./ATC24-3G61720/ATC24-3G61720_simple_coverage.bed
+2022-08-02 13:27:02,995 - details - INFO - ATC24-3G62560
+2022-08-02 13:27:03,646 - details - INFO - Write bigg outfile to ./ATC24-3G62560/ATC24-3G62560_simple_coverage.bed
+2022-08-02 13:27:03,663 - details - INFO - ATC24-3G64320
+2022-08-02 13:27:04,289 - details - INFO - Write bigg outfile to ./ATC24-3G64320/ATC24-3G64320_simple_coverage.bed
+2022-08-02 13:27:04,304 - details - INFO - ATC24-3G64910
+2022-08-02 13:27:04,994 - details - INFO - Write bigg outfile to ./ATC24-3G64910/ATC24-3G64910_simple_coverage.bed
+2022-08-02 13:27:05,012 - details - INFO - ATC24-3G65610
+2022-08-02 13:27:05,645 - details - INFO - Write bigg outfile to ./ATC24-3G65610/ATC24-3G65610_simple_coverage.bed
+2022-08-02 13:27:05,662 - details - INFO - ATC24-3G66290
+2022-08-02 13:27:05,858 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr3'
+2022-08-02 13:27:05,874 - details - INFO - ATC24-3G66430
+2022-08-02 13:27:06,506 - details - INFO - Write bigg outfile to ./ATC24-3G66430/ATC24-3G66430_simple_coverage.bed
+2022-08-02 13:27:06,525 - details - INFO - ATC24-3G66990
+2022-08-02 13:27:07,179 - details - INFO - Write bigg outfile to ./ATC24-3G66990/ATC24-3G66990_simple_coverage.bed
+2022-08-02 13:27:07,199 - details - INFO - ATC24-3G67500
+2022-08-02 13:27:07,813 - details - INFO - Write bigg outfile to ./ATC24-3G67500/ATC24-3G67500_simple_coverage.bed
+2022-08-02 13:27:07,829 - details - INFO - ATC24-3G67840
+2022-08-02 13:27:08,511 - details - INFO - Write bigg outfile to ./ATC24-3G67840/ATC24-3G67840_simple_coverage.bed
+2022-08-02 13:27:08,527 - details - INFO - ATC24-3G68340
+2022-08-02 13:27:09,165 - details - INFO - Write bigg outfile to ./ATC24-3G68340/ATC24-3G68340_simple_coverage.bed
+2022-08-02 13:27:09,183 - details - INFO - ATC24-3G68840
+2022-08-02 13:27:09,817 - details - INFO - Write bigg outfile to ./ATC24-3G68840/ATC24-3G68840_simple_coverage.bed
+2022-08-02 13:27:09,833 - details - INFO - ATC24-3G69300
+2022-08-02 13:27:10,174 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:27:10,191 - details - INFO - ATC24-3G69330
+2022-08-02 13:27:10,831 - details - INFO - Write bigg outfile to ./ATC24-3G69330/ATC24-3G69330_simple_coverage.bed
+2022-08-02 13:27:10,846 - details - INFO - ATC24-3G69890
+2022-08-02 13:27:11,493 - details - INFO - Write bigg outfile to ./ATC24-3G69890/ATC24-3G69890_simple_coverage.bed
+2022-08-02 13:27:11,511 - details - INFO - ATC24-3G70290
+2022-08-02 13:27:12,171 - details - INFO - Write bigg outfile to ./ATC24-3G70290/ATC24-3G70290_simple_coverage.bed
+2022-08-02 13:27:12,188 - details - INFO - ATC24-3G78820
+2022-08-02 13:27:12,953 - details - INFO - Write bigg outfile to ./ATC24-3G78820/ATC24-3G78820_simple_coverage.bed
+2022-08-02 13:27:12,970 - details - INFO - ATC24-3G71740
+2022-08-02 13:27:13,285 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:27:13,302 - details - INFO - ATC24-3G71750
+2022-08-02 13:27:14,050 - details - INFO - Write bigg outfile to ./ATC24-3G71750/ATC24-3G71750_simple_coverage.bed
+2022-08-02 13:27:14,065 - details - INFO - ATC24-4G49860
+2022-08-02 13:27:14,698 - details - INFO - Write bigg outfile to ./ATC24-4G49860/ATC24-4G49860_simple_coverage.bed
+2022-08-02 13:27:14,715 - details - INFO - ATC24-3G72710
+2022-08-02 13:27:14,983 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:27:15,002 - details - INFO - ATC24-3G72590
+2022-08-02 13:27:15,653 - details - INFO - Write bigg outfile to ./ATC24-3G72590/ATC24-3G72590_simple_coverage.bed
+2022-08-02 13:27:15,670 - details - INFO - ATC24-3G72990
+2022-08-02 13:27:16,476 - details - INFO - Write bigg outfile to ./ATC24-3G72990/ATC24-3G72990_simple_coverage.bed
+2022-08-02 13:27:16,491 - details - INFO - ATC24-3G73450
+2022-08-02 13:27:17,149 - details - INFO - Write bigg outfile to ./ATC24-3G73450/ATC24-3G73450_simple_coverage.bed
+2022-08-02 13:27:17,171 - details - INFO - ATC24-3G73820
+2022-08-02 13:27:17,830 - details - INFO - Write bigg outfile to ./ATC24-3G73820/ATC24-3G73820_simple_coverage.bed
+2022-08-02 13:27:17,847 - details - INFO - ATC24-3G74200
+2022-08-02 13:27:18,485 - details - INFO - Write bigg outfile to ./ATC24-3G74200/ATC24-3G74200_simple_coverage.bed
+2022-08-02 13:27:18,506 - details - INFO - ATC24-4G13400
+2022-08-02 13:27:19,831 - details - INFO - Write bigg outfile to ./ATC24-4G13400/ATC24-4G13400_simple_coverage.bed
+2022-08-02 13:27:19,848 - details - INFO - ATC24-5G84230
+2022-08-02 13:27:20,610 - details - INFO - Write bigg outfile to ./ATC24-5G84230/ATC24-5G84230_simple_coverage.bed
+2022-08-02 13:27:20,627 - details - INFO - ATC24-3G75910
+2022-08-02 13:27:21,341 - details - INFO - Write bigg outfile to ./ATC24-3G75910/ATC24-3G75910_simple_coverage.bed
+2022-08-02 13:27:21,361 - details - INFO - ATC24-3G76430
+2022-08-02 13:27:22,011 - details - INFO - Write bigg outfile to ./ATC24-3G76430/ATC24-3G76430_simple_coverage.bed
+2022-08-02 13:27:22,028 - details - INFO - ATC24-5G12950
+2022-08-02 13:27:22,689 - details - INFO - Write bigg outfile to ./ATC24-5G12950/ATC24-5G12950_simple_coverage.bed
+2022-08-02 13:27:22,774 - details - INFO - ATC24-3G77310
+2022-08-02 13:27:23,418 - details - INFO - Write bigg outfile to ./ATC24-3G77310/ATC24-3G77310_simple_coverage.bed
+2022-08-02 13:27:23,434 - details - INFO - ATC24-3G77670
+2022-08-02 13:27:24,084 - details - INFO - Write bigg outfile to ./ATC24-3G77670/ATC24-3G77670_simple_coverage.bed
+2022-08-02 13:27:24,101 - details - INFO - ATC24-3G78110
+2022-08-02 13:27:24,797 - details - INFO - Write bigg outfile to ./ATC24-3G78110/ATC24-3G78110_simple_coverage.bed
+2022-08-02 13:27:24,813 - details - INFO - ATC24-3G78720
+2022-08-02 13:27:25,468 - details - INFO - Write bigg outfile to ./ATC24-3G78720/ATC24-3G78720_simple_coverage.bed
+2022-08-02 13:27:25,484 - details - INFO - ATC24-3G78880
+2022-08-02 13:27:26,115 - details - INFO - Write bigg outfile to ./ATC24-3G78880/ATC24-3G78880_simple_coverage.bed
+2022-08-02 13:27:26,133 - details - INFO - ATC24-3G79510
+2022-08-02 13:27:26,765 - details - INFO - Write bigg outfile to ./ATC24-3G79510/ATC24-3G79510_simple_coverage.bed
+2022-08-02 13:27:26,780 - details - INFO - ATC24-3G79780
+2022-08-02 13:27:27,433 - details - INFO - Write bigg outfile to ./ATC24-3G79780/ATC24-3G79780_simple_coverage.bed
+2022-08-02 13:27:27,449 - details - INFO - ATC24-3G80190
+2022-08-02 13:27:28,084 - details - INFO - Write bigg outfile to ./ATC24-3G80190/ATC24-3G80190_simple_coverage.bed
+2022-08-02 13:27:28,101 - details - INFO - ATC24-3G80930
+2022-08-02 13:27:28,770 - details - INFO - Write bigg outfile to ./ATC24-3G80930/ATC24-3G80930_simple_coverage.bed
+2022-08-02 13:27:28,788 - details - INFO - ATC24-3G81500
+2022-08-02 13:27:29,624 - details - INFO - Write bigg outfile to ./ATC24-3G81500/ATC24-3G81500_simple_coverage.bed
+2022-08-02 13:27:29,639 - details - INFO - ATC24-5G68770
+2022-08-02 13:27:30,291 - details - INFO - Write bigg outfile to ./ATC24-5G68770/ATC24-5G68770_simple_coverage.bed
+2022-08-02 13:27:30,309 - details - INFO - ATC24-3G82470
+2022-08-02 13:27:30,973 - details - INFO - Write bigg outfile to ./ATC24-3G82470/ATC24-3G82470_simple_coverage.bed
+2022-08-02 13:27:30,990 - details - INFO - ATC24-3G82990
+2022-08-02 13:27:31,646 - details - INFO - Write bigg outfile to ./ATC24-3G82990/ATC24-3G82990_simple_coverage.bed
+2022-08-02 13:27:31,663 - details - INFO - ATC24-3G83430
+2022-08-02 13:27:32,294 - details - INFO - Write bigg outfile to ./ATC24-3G83430/ATC24-3G83430_simple_coverage.bed
+2022-08-02 13:27:32,310 - details - INFO - ATC24-3G83760
+2022-08-02 13:27:32,942 - details - INFO - Write bigg outfile to ./ATC24-3G83760/ATC24-3G83760_simple_coverage.bed
+2022-08-02 13:27:32,958 - details - INFO - ATC24-3G84230
+2022-08-02 13:27:33,621 - details - INFO - Write bigg outfile to ./ATC24-3G84230/ATC24-3G84230_simple_coverage.bed
+2022-08-02 13:27:33,640 - details - INFO - ATC24-3G84580
+2022-08-02 13:27:34,275 - details - INFO - Write bigg outfile to ./ATC24-3G84580/ATC24-3G84580_simple_coverage.bed
+2022-08-02 13:27:34,291 - details - INFO - ATC24-4G69400
+2022-08-02 13:27:34,966 - details - INFO - Write bigg outfile to ./ATC24-4G69400/ATC24-4G69400_simple_coverage.bed
+2022-08-02 13:27:34,982 - details - INFO - ATC24-4G10880
+2022-08-02 13:27:35,624 - details - INFO - Write bigg outfile to ./ATC24-4G10880/ATC24-4G10880_simple_coverage.bed
+2022-08-02 13:27:35,641 - details - INFO - ATC24-4G11390
+2022-08-02 13:27:36,317 - details - INFO - Write bigg outfile to ./ATC24-4G11390/ATC24-4G11390_simple_coverage.bed
+2022-08-02 13:27:36,334 - details - INFO - ATC24-4G12110
+2022-08-02 13:27:36,986 - details - INFO - Write bigg outfile to ./ATC24-4G12110/ATC24-4G12110_simple_coverage.bed
+2022-08-02 13:27:37,003 - details - INFO - ATC24-4G12540
+2022-08-02 13:27:37,637 - details - INFO - Write bigg outfile to ./ATC24-4G12540/ATC24-4G12540_simple_coverage.bed
+2022-08-02 13:27:37,653 - details - INFO - ATC24-4G13080
+2022-08-02 13:27:38,138 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:27:38,154 - details - INFO - ATC24-4G13220
+2022-08-02 13:27:38,321 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/ATC24_ATC24.bed'
+2022-08-02 13:27:38,338 - details - INFO - ATC24-4G13360
+2022-08-02 13:27:38,984 - details - INFO - Write bigg outfile to ./ATC24-4G13360/ATC24-4G13360_simple_coverage.bed
+2022-08-02 13:27:39,000 - details - INFO - ATC24-4G14000
+2022-08-02 13:27:39,175 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:27:39,191 - details - INFO - ATC24-4G14040
+2022-08-02 13:27:39,822 - details - INFO - Write bigg outfile to ./ATC24-4G14040/ATC24-4G14040_simple_coverage.bed
+2022-08-02 13:27:39,839 - details - INFO - ATC24-4G14800
+2022-08-02 13:27:40,022 - details - INFO - Error in cluster level:'174040c7-5632-4ebf-963a-ab22144b5f21'
+2022-08-02 13:27:40,038 - details - INFO - ATC24-4G15050
+2022-08-02 13:27:40,657 - details - INFO - Write bigg outfile to ./ATC24-4G15050/ATC24-4G15050_simple_coverage.bed
+2022-08-02 13:27:40,673 - details - INFO - ATC24-4G15680
+2022-08-02 13:27:41,305 - details - INFO - Write bigg outfile to ./ATC24-4G15680/ATC24-4G15680_simple_coverage.bed
+2022-08-02 13:27:41,325 - details - INFO - ATC24-4G16100
+2022-08-02 13:27:41,987 - details - INFO - Write bigg outfile to ./ATC24-4G16100/ATC24-4G16100_simple_coverage.bed
+2022-08-02 13:27:42,003 - details - INFO - ATC24-4G21270
+2022-08-02 13:27:42,186 - details - INFO - Error in cluster level:'ATC24-4G21250.1'
+2022-08-02 13:27:42,202 - details - INFO - ATC24-4G27660
+2022-08-02 13:27:42,928 - details - INFO - Write bigg outfile to ./ATC24-4G27660/ATC24-4G27660_simple_coverage.bed
+2022-08-02 13:27:42,944 - details - INFO - ATC24-4G34770
+2022-08-02 13:27:43,593 - details - INFO - Write bigg outfile to ./ATC24-4G34770/ATC24-4G34770_simple_coverage.bed
+2022-08-02 13:27:43,614 - details - INFO - ATC24-4G35700
+2022-08-02 13:27:44,276 - details - INFO - Write bigg outfile to ./ATC24-4G35700/ATC24-4G35700_simple_coverage.bed
+2022-08-02 13:27:44,293 - details - INFO - ATC24-4G36410
+2022-08-02 13:27:44,917 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr4'
+2022-08-02 13:27:44,940 - details - INFO - ATC24-5G67980
+2022-08-02 13:27:45,588 - details - INFO - Write bigg outfile to ./ATC24-5G67980/ATC24-5G67980_simple_coverage.bed
+2022-08-02 13:27:45,604 - details - INFO - ATC24-4G37300
+2022-08-02 13:27:46,285 - details - INFO - Write bigg outfile to ./ATC24-4G37300/ATC24-4G37300_simple_coverage.bed
+2022-08-02 13:27:46,305 - details - INFO - ATC24-4G70840
+2022-08-02 13:27:47,026 - details - INFO - Write bigg outfile to ./ATC24-4G70840/ATC24-4G70840_simple_coverage.bed
+2022-08-02 13:27:47,047 - details - INFO - ATC24-4G38970
+2022-08-02 13:27:47,667 - details - INFO - Write bigg outfile to ./ATC24-4G38970/ATC24-4G38970_simple_coverage.bed
+2022-08-02 13:27:47,683 - details - INFO - ATC24-4G39270
+2022-08-02 13:27:48,387 - details - INFO - Write bigg outfile to ./ATC24-4G39270/ATC24-4G39270_simple_coverage.bed
+2022-08-02 13:27:48,405 - details - INFO - ATC24-5G69590
+2022-08-02 13:27:49,137 - details - INFO - Write bigg outfile to ./ATC24-5G69590/ATC24-5G69590_simple_coverage.bed
+2022-08-02 13:27:49,154 - details - INFO - ATC24-5G14470
+2022-08-02 13:27:49,885 - details - INFO - Write bigg outfile to ./ATC24-5G14470/ATC24-5G14470_simple_coverage.bed
+2022-08-02 13:27:49,901 - details - INFO - ATC24-4G40970
+2022-08-02 13:27:50,584 - details - INFO - Write bigg outfile to ./ATC24-4G40970/ATC24-4G40970_simple_coverage.bed
+2022-08-02 13:27:50,600 - details - INFO - ATC24-4G41610
+2022-08-02 13:27:51,225 - details - INFO - Write bigg outfile to ./ATC24-4G41610/ATC24-4G41610_simple_coverage.bed
+2022-08-02 13:27:51,241 - details - INFO - ATC24-4G42280
+2022-08-02 13:27:51,868 - details - INFO - Write bigg outfile to ./ATC24-4G42280/ATC24-4G42280_simple_coverage.bed
+2022-08-02 13:27:51,885 - details - INFO - ATC24-4G42790
+2022-08-02 13:27:52,564 - details - INFO - Write bigg outfile to ./ATC24-4G42790/ATC24-4G42790_simple_coverage.bed
+2022-08-02 13:27:52,582 - details - INFO - ATC24-4G43290
+2022-08-02 13:27:53,017 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:27:53,041 - details - INFO - ATC24-4G43580
+2022-08-02 13:27:53,757 - details - INFO - Write bigg outfile to ./ATC24-4G43580/ATC24-4G43580_simple_coverage.bed
+2022-08-02 13:27:53,775 - details - INFO - ATC24-5G63300
+2022-08-02 13:27:54,788 - details - INFO - Write bigg outfile to ./ATC24-5G63300/ATC24-5G63300_simple_coverage.bed
+2022-08-02 13:27:54,806 - details - INFO - ATC24-4G45140
+2022-08-02 13:27:55,482 - details - INFO - Write bigg outfile to ./ATC24-4G45140/ATC24-4G45140_simple_coverage.bed
+2022-08-02 13:27:55,501 - details - INFO - ATC24-4G45490
+2022-08-02 13:27:56,208 - details - INFO - Write bigg outfile to ./ATC24-4G45490/ATC24-4G45490_simple_coverage.bed
+2022-08-02 13:27:56,226 - details - INFO - ATC24-4G45980
+2022-08-02 13:27:56,874 - details - INFO - Write bigg outfile to ./ATC24-4G45980/ATC24-4G45980_simple_coverage.bed
+2022-08-02 13:27:56,891 - details - INFO - ATC24-4G46480
+2022-08-02 13:27:57,549 - details - INFO - Write bigg outfile to ./ATC24-4G46480/ATC24-4G46480_simple_coverage.bed
+2022-08-02 13:27:57,567 - details - INFO - ATC24-4G46950
+2022-08-02 13:27:57,873 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/f9d09587_f9d09587.bed'
+2022-08-02 13:27:57,925 - details - INFO - ATC24-4G47020
+2022-08-02 13:27:58,593 - details - INFO - Write bigg outfile to ./ATC24-4G47020/ATC24-4G47020_simple_coverage.bed
+2022-08-02 13:27:58,611 - details - INFO - ATC24-4G47430
+2022-08-02 13:27:59,324 - details - INFO - Write bigg outfile to ./ATC24-4G47430/ATC24-4G47430_simple_coverage.bed
+2022-08-02 13:27:59,344 - details - INFO - ATC24-4G48030
+2022-08-02 13:28:00,010 - details - INFO - Write bigg outfile to ./ATC24-4G48030/ATC24-4G48030_simple_coverage.bed
+2022-08-02 13:28:00,028 - details - INFO - ATC24-4G48510
+2022-08-02 13:28:00,685 - details - INFO - Write bigg outfile to ./ATC24-4G48510/ATC24-4G48510_simple_coverage.bed
+2022-08-02 13:28:00,703 - details - INFO - ATC24-4G49080
+2022-08-02 13:28:01,327 - details - INFO - Write bigg outfile to ./ATC24-4G49080/ATC24-4G49080_simple_coverage.bed
+2022-08-02 13:28:01,345 - details - INFO - ATC24-4G49830
+2022-08-02 13:28:02,393 - details - INFO - Write bigg outfile to ./ATC24-4G49830/ATC24-4G49830_simple_coverage.bed
+2022-08-02 13:28:02,413 - details - INFO - ATC24-4G50630
+2022-08-02 13:28:03,062 - details - INFO - Write bigg outfile to ./ATC24-4G50630/ATC24-4G50630_simple_coverage.bed
+2022-08-02 13:28:03,080 - details - INFO - ATC24-5G83370
+2022-08-02 13:28:03,774 - details - INFO - Write bigg outfile to ./ATC24-5G83370/ATC24-5G83370_simple_coverage.bed
+2022-08-02 13:28:03,793 - details - INFO - ATC24-4G51650
+2022-08-02 13:28:04,445 - details - INFO - Write bigg outfile to ./ATC24-4G51650/ATC24-4G51650_simple_coverage.bed
+2022-08-02 13:28:04,463 - details - INFO - ATC24-4G52290
+2022-08-02 13:28:05,121 - details - INFO - Write bigg outfile to ./ATC24-4G52290/ATC24-4G52290_simple_coverage.bed
+2022-08-02 13:28:05,141 - details - INFO - ATC24-4G52920
+2022-08-02 13:28:05,786 - details - INFO - Write bigg outfile to ./ATC24-4G52920/ATC24-4G52920_simple_coverage.bed
+2022-08-02 13:28:05,805 - details - INFO - ATC24-5G24170
+2022-08-02 13:28:06,557 - details - INFO - Write bigg outfile to ./ATC24-5G24170/ATC24-5G24170_simple_coverage.bed
+2022-08-02 13:28:06,575 - details - INFO - ATC24-4G53880
+2022-08-02 13:28:07,277 - details - INFO - Write bigg outfile to ./ATC24-4G53880/ATC24-4G53880_simple_coverage.bed
+2022-08-02 13:28:07,295 - details - INFO - ATC24-4G54430
+2022-08-02 13:28:07,936 - details - INFO - Write bigg outfile to ./ATC24-4G54430/ATC24-4G54430_simple_coverage.bed
+2022-08-02 13:28:07,959 - details - INFO - ATC24-4G54800
+2022-08-02 13:28:08,600 - details - INFO - Write bigg outfile to ./ATC24-4G54800/ATC24-4G54800_simple_coverage.bed
+2022-08-02 13:28:08,618 - details - INFO - ATC24-4G55490
+2022-08-02 13:28:09,374 - details - INFO - Write bigg outfile to ./ATC24-4G55490/ATC24-4G55490_simple_coverage.bed
+2022-08-02 13:28:09,390 - details - INFO - ATC24-4G57500
+2022-08-02 13:28:09,577 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '65d69d3f-1a57-4845-99f6-628156003041'
+2022-08-02 13:28:09,595 - details - INFO - ATC24-4G55980
+2022-08-02 13:28:10,299 - details - INFO - Write bigg outfile to ./ATC24-4G55980/ATC24-4G55980_simple_coverage.bed
+2022-08-02 13:28:10,317 - details - INFO - ATC24-4G56600
+2022-08-02 13:28:10,989 - details - INFO - Write bigg outfile to ./ATC24-4G56600/ATC24-4G56600_simple_coverage.bed
+2022-08-02 13:28:11,013 - details - INFO - ATC24-4G57124
+2022-08-02 13:28:11,735 - details - INFO - Write bigg outfile to ./ATC24-4G57124/ATC24-4G57124_simple_coverage.bed
+2022-08-02 13:28:11,755 - details - INFO - ATC24-4G57750
+2022-08-02 13:28:12,415 - details - INFO - Write bigg outfile to ./ATC24-4G57750/ATC24-4G57750_simple_coverage.bed
+2022-08-02 13:28:12,439 - details - INFO - ATC24-4G58290
+2022-08-02 13:28:13,124 - details - INFO - Write bigg outfile to ./ATC24-4G58290/ATC24-4G58290_simple_coverage.bed
+2022-08-02 13:28:13,143 - details - INFO - ATC24-4G58790
+2022-08-02 13:28:13,773 - details - INFO - Write bigg outfile to ./ATC24-4G58790/ATC24-4G58790_simple_coverage.bed
+2022-08-02 13:28:13,791 - details - INFO - ATC24-5G68120
+2022-08-02 13:28:14,465 - details - INFO - Write bigg outfile to ./ATC24-5G68120/ATC24-5G68120_simple_coverage.bed
+2022-08-02 13:28:14,483 - details - INFO - ATC24-4G59850
+2022-08-02 13:28:15,153 - details - INFO - Write bigg outfile to ./ATC24-4G59850/ATC24-4G59850_simple_coverage.bed
+2022-08-02 13:28:15,171 - details - INFO - ATC24-4G60410
+2022-08-02 13:28:16,028 - details - INFO - Write bigg outfile to ./ATC24-4G60410/ATC24-4G60410_simple_coverage.bed
+2022-08-02 13:28:16,045 - details - INFO - ATC24-4G61000
+2022-08-02 13:28:16,711 - details - INFO - Write bigg outfile to ./ATC24-4G61000/ATC24-4G61000_simple_coverage.bed
+2022-08-02 13:28:16,729 - details - INFO - ATC24-4G61470
+2022-08-02 13:28:16,959 - details - INFO - Error in cluster level:'06d18662-48e8-455e-a6df-3ddf3bb12398'
+2022-08-02 13:28:16,978 - details - INFO - ATC24-4G61710
+2022-08-02 13:28:17,694 - details - INFO - Write bigg outfile to ./ATC24-4G61710/ATC24-4G61710_simple_coverage.bed
+2022-08-02 13:28:17,711 - details - INFO - ATC24-4G62110
+2022-08-02 13:28:18,370 - details - INFO - Write bigg outfile to ./ATC24-4G62110/ATC24-4G62110_simple_coverage.bed
+2022-08-02 13:28:18,388 - details - INFO - ATC24-4G62800
+2022-08-02 13:28:18,598 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr4'
+2022-08-02 13:28:18,614 - details - INFO - ATC24-4G63130
+2022-08-02 13:28:19,329 - details - INFO - Write bigg outfile to ./ATC24-4G63130/ATC24-4G63130_simple_coverage.bed
+2022-08-02 13:28:19,352 - details - INFO - ATC24-4G63630
+2022-08-02 13:28:19,659 - details - INFO - Error in cluster level:Error tokenizing data. C error: Expected 8 fields in line 2002, saw 12
+
+2022-08-02 13:28:19,678 - details - INFO - ATC24-4G63800
+2022-08-02 13:28:20,397 - details - INFO - Write bigg outfile to ./ATC24-4G63800/ATC24-4G63800_simple_coverage.bed
+2022-08-02 13:28:20,415 - details - INFO - ATC24-4G64110
+2022-08-02 13:28:21,067 - details - INFO - Write bigg outfile to ./ATC24-4G64110/ATC24-4G64110_simple_coverage.bed
+2022-08-02 13:28:21,085 - details - INFO - ATC24-5G26210
+2022-08-02 13:28:21,283 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '7c735649-9b79-4809-8dd9-7b848e41a790'
+2022-08-02 13:28:21,302 - details - INFO - ATC24-4G64960
+2022-08-02 13:28:22,075 - details - INFO - Write bigg outfile to ./ATC24-4G64960/ATC24-4G64960_simple_coverage.bed
+2022-08-02 13:28:22,094 - details - INFO - ATC24-4G65610
+2022-08-02 13:28:22,833 - details - INFO - Write bigg outfile to ./ATC24-4G65610/ATC24-4G65610_simple_coverage.bed
+2022-08-02 13:28:22,855 - details - INFO - ATC24-4G66380
+2022-08-02 13:28:23,028 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'c6cf7c9b-7b69-4943-a923-1bca1ba67080'
+2022-08-02 13:28:23,049 - details - INFO - ATC24-4G66250
+2022-08-02 13:28:23,737 - details - INFO - Write bigg outfile to ./ATC24-4G66250/ATC24-4G66250_simple_coverage.bed
+2022-08-02 13:28:23,756 - details - INFO - ATC24-4G66760
+2022-08-02 13:28:24,413 - details - INFO - Write bigg outfile to ./ATC24-4G66760/ATC24-4G66760_simple_coverage.bed
+2022-08-02 13:28:24,431 - details - INFO - ATC24-5G82440
+2022-08-02 13:28:25,250 - details - INFO - Write bigg outfile to ./ATC24-5G82440/ATC24-5G82440_simple_coverage.bed
+2022-08-02 13:28:25,268 - details - INFO - ATC24-4G68040
+2022-08-02 13:28:25,957 - details - INFO - Write bigg outfile to ./ATC24-4G68040/ATC24-4G68040_simple_coverage.bed
+2022-08-02 13:28:25,977 - details - INFO - ATC24-4G68530
+2022-08-02 13:28:26,632 - details - INFO - Write bigg outfile to ./ATC24-4G68530/ATC24-4G68530_simple_coverage.bed
+2022-08-02 13:28:26,651 - details - INFO - ATC24-4G68950
+2022-08-02 13:28:27,300 - details - INFO - Write bigg outfile to ./ATC24-4G68950/ATC24-4G68950_simple_coverage.bed
+2022-08-02 13:28:27,319 - details - INFO - ATC24-4G69370
+2022-08-02 13:28:27,635 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/cde85a78_cde85a78.bed'
+2022-08-02 13:28:27,656 - details - INFO - ATC24-4G69700
+2022-08-02 13:28:28,332 - details - INFO - Write bigg outfile to ./ATC24-4G69700/ATC24-4G69700_simple_coverage.bed
+2022-08-02 13:28:28,351 - details - INFO - ATC24-4G70140
+2022-08-02 13:28:29,011 - details - INFO - Write bigg outfile to ./ATC24-4G70140/ATC24-4G70140_simple_coverage.bed
+2022-08-02 13:28:29,029 - details - INFO - ATC24-4G70720
+2022-08-02 13:28:29,684 - details - INFO - Write bigg outfile to ./ATC24-4G70720/ATC24-4G70720_simple_coverage.bed
+2022-08-02 13:28:29,704 - details - INFO - ATC24-4G71230
+2022-08-02 13:28:30,357 - details - INFO - Write bigg outfile to ./ATC24-4G71230/ATC24-4G71230_simple_coverage.bed
+2022-08-02 13:28:30,375 - details - INFO - ATC24-4G71510
+2022-08-02 13:28:30,881 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '48620ab7-aadb-4f5b-8c38-76b2b5be960d'
+2022-08-02 13:28:30,902 - details - INFO - ATC24-5G28820
+2022-08-02 13:28:31,722 - details - INFO - Write bigg outfile to ./ATC24-5G28820/ATC24-5G28820_simple_coverage.bed
+2022-08-02 13:28:31,742 - details - INFO - ATC24-5G10450
+2022-08-02 13:28:32,097 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr5'
+2022-08-02 13:28:32,116 - details - INFO - ATC24-5G10800
+2022-08-02 13:28:32,465 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/0e2e82eb_0e2e82eb.bed'
+2022-08-02 13:28:32,492 - details - INFO - ATC24-5G10830
+2022-08-02 13:28:33,291 - details - INFO - Write bigg outfile to ./ATC24-5G10830/ATC24-5G10830_simple_coverage.bed
+2022-08-02 13:28:33,315 - details - INFO - ATC24-5G11470
+2022-08-02 13:28:33,524 - details - INFO - Error in cluster level:Integer column has NA values in column 2
+2022-08-02 13:28:33,544 - details - INFO - ATC24-5G11700
+2022-08-02 13:28:33,721 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:28:33,743 - details - INFO - ATC24-5G12100
+2022-08-02 13:28:33,945 - details - INFO - Error in cluster level:'2e353379-dd79-4e25-8282-ece8ba742ef2'
+2022-08-02 13:28:33,964 - details - INFO - ATC24-5G11910
+2022-08-02 13:28:34,626 - details - INFO - Write bigg outfile to ./ATC24-5G11910/ATC24-5G11910_simple_coverage.bed
+2022-08-02 13:28:34,645 - details - INFO - ATC24-5G19320
+2022-08-02 13:28:35,360 - details - INFO - Write bigg outfile to ./ATC24-5G19320/ATC24-5G19320_simple_coverage.bed
+2022-08-02 13:28:35,378 - details - INFO - ATC24-5G66850
+2022-08-02 13:28:36,054 - details - INFO - Write bigg outfile to ./ATC24-5G66850/ATC24-5G66850_simple_coverage.bed
+2022-08-02 13:28:36,076 - details - INFO - ATC24-5G13840
+2022-08-02 13:28:36,829 - details - INFO - Write bigg outfile to ./ATC24-5G13840/ATC24-5G13840_simple_coverage.bed
+2022-08-02 13:28:36,851 - details - INFO - ATC24-5G14500
+2022-08-02 13:28:37,516 - details - INFO - Write bigg outfile to ./ATC24-5G14500/ATC24-5G14500_simple_coverage.bed
+2022-08-02 13:28:37,536 - details - INFO - ATC24-5G15160
+2022-08-02 13:28:37,718 - details - INFO - Error in cluster level:invalid literal for int() with base 10: '411061ba-8e0b-4d4a-843d-cd2563a1b093'
+2022-08-02 13:28:37,738 - details - INFO - ATC24-5G15140
+2022-08-02 13:28:38,409 - details - INFO - Write bigg outfile to ./ATC24-5G15140/ATC24-5G15140_simple_coverage.bed
+2022-08-02 13:28:38,428 - details - INFO - ATC24-5G15720
+2022-08-02 13:28:39,096 - details - INFO - Write bigg outfile to ./ATC24-5G15720/ATC24-5G15720_simple_coverage.bed
+2022-08-02 13:28:39,115 - details - INFO - ATC24-5G16140
+2022-08-02 13:28:39,828 - details - INFO - Write bigg outfile to ./ATC24-5G16140/ATC24-5G16140_simple_coverage.bed
+2022-08-02 13:28:39,848 - details - INFO - ATC24-5G16770
+2022-08-02 13:28:40,504 - details - INFO - Write bigg outfile to ./ATC24-5G16770/ATC24-5G16770_simple_coverage.bed
+2022-08-02 13:28:40,526 - details - INFO - ATC24-5G17350
+2022-08-02 13:28:40,722 - details - INFO - Error in cluster level:'ATC24-5G17460.1'
+2022-08-02 13:28:40,746 - details - INFO - ATC24-5G17510
+2022-08-02 13:28:41,427 - details - INFO - Write bigg outfile to ./ATC24-5G17510/ATC24-5G17510_simple_coverage.bed
+2022-08-02 13:28:41,447 - details - INFO - ATC24-5G17970
+2022-08-02 13:28:42,116 - details - INFO - Write bigg outfile to ./ATC24-5G17970/ATC24-5G17970_simple_coverage.bed
+2022-08-02 13:28:42,138 - details - INFO - ATC24-5G18450
+2022-08-02 13:28:42,799 - details - INFO - Write bigg outfile to ./ATC24-5G18450/ATC24-5G18450_simple_coverage.bed
+2022-08-02 13:28:42,871 - details - INFO - ATC24-5G18920
+2022-08-02 13:28:43,554 - details - INFO - Write bigg outfile to ./ATC24-5G18920/ATC24-5G18920_simple_coverage.bed
+2022-08-02 13:28:43,578 - details - INFO - ATC24-5G19700
+2022-08-02 13:28:44,236 - details - INFO - Write bigg outfile to ./ATC24-5G19700/ATC24-5G19700_simple_coverage.bed
+2022-08-02 13:28:44,256 - details - INFO - ATC24-5G20230
+2022-08-02 13:28:44,973 - details - INFO - Write bigg outfile to ./ATC24-5G20230/ATC24-5G20230_simple_coverage.bed
+2022-08-02 13:28:44,993 - details - INFO - ATC24-5G20840
+2022-08-02 13:28:45,682 - details - INFO - Write bigg outfile to ./ATC24-5G20840/ATC24-5G20840_simple_coverage.bed
+2022-08-02 13:28:45,701 - details - INFO - ATC24-5G21410
+2022-08-02 13:28:46,373 - details - INFO - Write bigg outfile to ./ATC24-5G21410/ATC24-5G21410_simple_coverage.bed
+2022-08-02 13:28:46,392 - details - INFO - ATC24-5G22060
+2022-08-02 13:28:47,121 - details - INFO - Write bigg outfile to ./ATC24-5G22060/ATC24-5G22060_simple_coverage.bed
+2022-08-02 13:28:47,140 - details - INFO - ATC24-5G22720
+2022-08-02 13:28:47,804 - details - INFO - Write bigg outfile to ./ATC24-5G22720/ATC24-5G22720_simple_coverage.bed
+2022-08-02 13:28:47,856 - details - INFO - ATC24-5G23340
+2022-08-02 13:28:48,523 - details - INFO - Write bigg outfile to ./ATC24-5G23340/ATC24-5G23340_simple_coverage.bed
+2022-08-02 13:28:48,541 - details - INFO - ATC24-5G23640
+2022-08-02 13:28:49,233 - details - INFO - Write bigg outfile to ./ATC24-5G23640/ATC24-5G23640_simple_coverage.bed
+2022-08-02 13:28:49,254 - details - INFO - ATC24-5G24370
+2022-08-02 13:28:49,901 - details - INFO - Write bigg outfile to ./ATC24-5G24370/ATC24-5G24370_simple_coverage.bed
+2022-08-02 13:28:49,920 - details - INFO - ATC24-5G25150
+2022-08-02 13:28:50,107 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr5'
+2022-08-02 13:28:50,128 - details - INFO - ATC24-5G25350
+2022-08-02 13:28:50,825 - details - INFO - Write bigg outfile to ./ATC24-5G25350/ATC24-5G25350_simple_coverage.bed
+2022-08-02 13:28:50,849 - details - INFO - ATC24-5G58900
+2022-08-02 13:28:51,543 - details - INFO - Write bigg outfile to ./ATC24-5G58900/ATC24-5G58900_simple_coverage.bed
+2022-08-02 13:28:51,574 - details - INFO - ATC24-5G26510
+2022-08-02 13:28:52,319 - details - INFO - Write bigg outfile to ./ATC24-5G26510/ATC24-5G26510_simple_coverage.bed
+2022-08-02 13:28:52,341 - details - INFO - ATC24-5G27000
+2022-08-02 13:28:53,359 - details - INFO - Write bigg outfile to ./ATC24-5G27000/ATC24-5G27000_simple_coverage.bed
+2022-08-02 13:28:53,378 - details - INFO - ATC24-5G27720
+2022-08-02 13:28:54,066 - details - INFO - Write bigg outfile to ./ATC24-5G27720/ATC24-5G27720_simple_coverage.bed
+2022-08-02 13:28:54,085 - details - INFO - ATC24-5G28380
+2022-08-02 13:28:54,761 - details - INFO - Write bigg outfile to ./ATC24-5G28380/ATC24-5G28380_simple_coverage.bed
+2022-08-02 13:28:54,782 - details - INFO - ATC24-5G29020
+2022-08-02 13:28:55,464 - details - INFO - Write bigg outfile to ./ATC24-5G29020/ATC24-5G29020_simple_coverage.bed
+2022-08-02 13:28:55,484 - details - INFO - ATC24-5G29520
+2022-08-02 13:28:56,168 - details - INFO - Write bigg outfile to ./ATC24-5G29520/ATC24-5G29520_simple_coverage.bed
+2022-08-02 13:28:56,186 - details - INFO - ATC24-5G30020
+2022-08-02 13:28:56,883 - details - INFO - Write bigg outfile to ./ATC24-5G30020/ATC24-5G30020_simple_coverage.bed
+2022-08-02 13:28:56,902 - details - INFO - ATC24-5G30530
+2022-08-02 13:28:57,568 - details - INFO - Write bigg outfile to ./ATC24-5G30530/ATC24-5G30530_simple_coverage.bed
+2022-08-02 13:28:57,586 - details - INFO - ATC24-5G31100
+2022-08-02 13:28:58,114 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/ATC24_ATC24.bed'
+2022-08-02 13:28:58,139 - details - INFO - ATC24-5G31580
+2022-08-02 13:28:58,788 - details - INFO - Write bigg outfile to ./ATC24-5G31580/ATC24-5G31580_simple_coverage.bed
+2022-08-02 13:28:58,807 - details - INFO - ATC24-5G31990
+2022-08-02 13:28:59,456 - details - INFO - Write bigg outfile to ./ATC24-5G31990/ATC24-5G31990_simple_coverage.bed
+2022-08-02 13:28:59,479 - details - INFO - ATC24-5G32540
+2022-08-02 13:29:00,209 - details - INFO - Write bigg outfile to ./ATC24-5G32540/ATC24-5G32540_simple_coverage.bed
+2022-08-02 13:29:00,227 - details - INFO - ATC24-5G33050
+2022-08-02 13:29:00,873 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:29:00,898 - details - INFO - ATC24-5G33400
+2022-08-02 13:29:01,592 - details - INFO - Write bigg outfile to ./ATC24-5G33400/ATC24-5G33400_simple_coverage.bed
+2022-08-02 13:29:01,611 - details - INFO - ATC24-5G34070
+2022-08-02 13:29:02,269 - details - INFO - Write bigg outfile to ./ATC24-5G34070/ATC24-5G34070_simple_coverage.bed
+2022-08-02 13:29:02,289 - details - INFO - ATC24-5G34670
+2022-08-02 13:29:02,949 - details - INFO - Write bigg outfile to ./ATC24-5G34670/ATC24-5G34670_simple_coverage.bed
+2022-08-02 13:29:02,970 - details - INFO - ATC24-5G35240
+2022-08-02 13:29:03,671 - details - INFO - Write bigg outfile to ./ATC24-5G35240/ATC24-5G35240_simple_coverage.bed
+2022-08-02 13:29:03,691 - details - INFO - ATC24-5G35660
+2022-08-02 13:29:04,395 - details - INFO - Write bigg outfile to ./ATC24-5G35660/ATC24-5G35660_simple_coverage.bed
+2022-08-02 13:29:04,417 - details - INFO - ATC24-5G36580
+2022-08-02 13:29:05,103 - details - INFO - Write bigg outfile to ./ATC24-5G36580/ATC24-5G36580_simple_coverage.bed
+2022-08-02 13:29:05,125 - details - INFO - ATC24-5G87890
+2022-08-02 13:29:06,000 - details - INFO - Write bigg outfile to ./ATC24-5G87890/ATC24-5G87890_simple_coverage.bed
+2022-08-02 13:29:06,019 - details - INFO - ATC24-5G38200
+2022-08-02 13:29:06,685 - details - INFO - Write bigg outfile to ./ATC24-5G38200/ATC24-5G38200_simple_coverage.bed
+2022-08-02 13:29:06,708 - details - INFO - ATC24-5G39930
+2022-08-02 13:29:07,383 - details - INFO - Write bigg outfile to ./ATC24-5G39930/ATC24-5G39930_simple_coverage.bed
+2022-08-02 13:29:07,405 - details - INFO - ATC24-5G50600
+2022-08-02 13:29:08,142 - details - INFO - Write bigg outfile to ./ATC24-5G50600/ATC24-5G50600_simple_coverage.bed
+2022-08-02 13:29:08,164 - details - INFO - ATC24-5G52240
+2022-08-02 13:29:09,259 - details - INFO - Write bigg outfile to ./ATC24-5G52240/ATC24-5G52240_simple_coverage.bed
+2022-08-02 13:29:09,277 - details - INFO - ATC24-5G53600
+2022-08-02 13:29:10,054 - details - INFO - Write bigg outfile to ./ATC24-5G53600/ATC24-5G53600_simple_coverage.bed
+2022-08-02 13:29:10,076 - details - INFO - ATC24-5G68330
+2022-08-02 13:29:10,816 - details - INFO - Write bigg outfile to ./ATC24-5G68330/ATC24-5G68330_simple_coverage.bed
+2022-08-02 13:29:10,837 - details - INFO - ATC24-5G55550
+2022-08-02 13:29:11,520 - details - INFO - Write bigg outfile to ./ATC24-5G55550/ATC24-5G55550_simple_coverage.bed
+2022-08-02 13:29:11,541 - details - INFO - ATC24-5G56590
+2022-08-02 13:29:12,217 - details - INFO - Write bigg outfile to ./ATC24-5G56590/ATC24-5G56590_simple_coverage.bed
+2022-08-02 13:29:12,238 - details - INFO - ATC24-5G57240
+2022-08-02 13:29:12,978 - details - INFO - Write bigg outfile to ./ATC24-5G57240/ATC24-5G57240_simple_coverage.bed
+2022-08-02 13:29:12,998 - details - INFO - ATC24-5G57860
+2022-08-02 13:29:13,666 - details - INFO - Write bigg outfile to ./ATC24-5G57860/ATC24-5G57860_simple_coverage.bed
+2022-08-02 13:29:13,686 - details - INFO - ATC24-5G58500
+2022-08-02 13:29:14,485 - details - INFO - Write bigg outfile to ./ATC24-5G58500/ATC24-5G58500_simple_coverage.bed
+2022-08-02 13:29:14,503 - details - INFO - ATC24-5G59170
+2022-08-02 13:29:15,169 - details - INFO - Write bigg outfile to ./ATC24-5G59170/ATC24-5G59170_simple_coverage.bed
+2022-08-02 13:29:15,189 - details - INFO - ATC24-5G59730
+2022-08-02 13:29:15,891 - details - INFO - Error in cluster level:Integer column has NA values in column 1
+2022-08-02 13:29:15,914 - details - INFO - ATC24-5G60510
+2022-08-02 13:29:16,114 - details - INFO - Error in cluster level:'2303cd99-93d5-4bbe-a4ba-a005c69f82a9'
+2022-08-02 13:29:16,135 - details - INFO - ATC24-5G60940
+2022-08-02 13:29:16,808 - details - INFO - Write bigg outfile to ./ATC24-5G60940/ATC24-5G60940_simple_coverage.bed
+2022-08-02 13:29:16,829 - details - INFO - ATC24-5G61410
+2022-08-02 13:29:17,528 - details - INFO - Write bigg outfile to ./ATC24-5G61410/ATC24-5G61410_simple_coverage.bed
+2022-08-02 13:29:17,548 - details - INFO - ATC24-5G61940
+2022-08-02 13:29:18,235 - details - INFO - Write bigg outfile to ./ATC24-5G61940/ATC24-5G61940_simple_coverage.bed
+2022-08-02 13:29:18,259 - details - INFO - ATC24-5G62400
+2022-08-02 13:29:18,439 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/3375a84f_3375a84f.bed'
+2022-08-02 13:29:18,461 - details - INFO - ATC24-5G62720
+2022-08-02 13:29:19,143 - details - INFO - Write bigg outfile to ./ATC24-5G62720/ATC24-5G62720_simple_coverage.bed
+2022-08-02 13:29:19,166 - details - INFO - ATC24-5G63180
+2022-08-02 13:29:19,348 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr5'
+2022-08-02 13:29:19,370 - details - INFO - ATC24-5G63500
+2022-08-02 13:29:20,073 - details - INFO - Write bigg outfile to ./ATC24-5G63500/ATC24-5G63500_simple_coverage.bed
+2022-08-02 13:29:20,092 - details - INFO - ATC24-5G64100
+2022-08-02 13:29:20,752 - details - INFO - Write bigg outfile to ./ATC24-5G64100/ATC24-5G64100_simple_coverage.bed
+2022-08-02 13:29:20,773 - details - INFO - ATC24-5G64590
+2022-08-02 13:29:21,485 - details - INFO - Write bigg outfile to ./ATC24-5G64590/ATC24-5G64590_simple_coverage.bed
+2022-08-02 13:29:21,506 - details - INFO - ATC24-5G65270
+2022-08-02 13:29:22,252 - details - INFO - Write bigg outfile to ./ATC24-5G65270/ATC24-5G65270_simple_coverage.bed
+2022-08-02 13:29:22,272 - details - INFO - ATC24-5G65950
+2022-08-02 13:29:23,094 - details - INFO - Write bigg outfile to ./ATC24-5G65950/ATC24-5G65950_simple_coverage.bed
+2022-08-02 13:29:23,116 - details - INFO - ATC24-5G66510
+2022-08-02 13:29:23,803 - details - INFO - Write bigg outfile to ./ATC24-5G66510/ATC24-5G66510_simple_coverage.bed
+2022-08-02 13:29:23,835 - details - INFO - ATC24-5G67100
+2022-08-02 13:29:24,539 - details - INFO - Write bigg outfile to ./ATC24-5G67100/ATC24-5G67100_simple_coverage.bed
+2022-08-02 13:29:24,559 - details - INFO - ATC24-5G67810
+2022-08-02 13:29:25,240 - details - INFO - Write bigg outfile to ./ATC24-5G67810/ATC24-5G67810_simple_coverage.bed
+2022-08-02 13:29:25,260 - details - INFO - ATC24-5G68320
+2022-08-02 13:29:25,919 - details - INFO - Write bigg outfile to ./ATC24-5G68320/ATC24-5G68320_simple_coverage.bed
+2022-08-02 13:29:25,942 - details - INFO - ATC24-5G68730
+2022-08-02 13:29:26,657 - details - INFO - Write bigg outfile to ./ATC24-5G68730/ATC24-5G68730_simple_coverage.bed
+2022-08-02 13:29:26,679 - details - INFO - ATC24-5G69790
+2022-08-02 13:29:26,875 - details - INFO - Error in cluster level:Error tokenizing data. C error: Expected 5 fields in line 2, saw 8
+
+2022-08-02 13:29:26,899 - details - INFO - ATC24-5G69600
+2022-08-02 13:29:27,573 - details - INFO - Write bigg outfile to ./ATC24-5G69600/ATC24-5G69600_simple_coverage.bed
+2022-08-02 13:29:27,593 - details - INFO - ATC24-5G70290
+2022-08-02 13:29:28,261 - details - INFO - Write bigg outfile to ./ATC24-5G70290/ATC24-5G70290_simple_coverage.bed
+2022-08-02 13:29:28,281 - details - INFO - ATC24-5G71050
+2022-08-02 13:29:29,016 - details - INFO - Write bigg outfile to ./ATC24-5G71050/ATC24-5G71050_simple_coverage.bed
+2022-08-02 13:29:29,042 - details - INFO - ATC24-5G71710
+2022-08-02 13:29:29,728 - details - INFO - Write bigg outfile to ./ATC24-5G71710/ATC24-5G71710_simple_coverage.bed
+2022-08-02 13:29:29,749 - details - INFO - ATC24-5G72470
+2022-08-02 13:29:30,470 - details - INFO - Write bigg outfile to ./ATC24-5G72470/ATC24-5G72470_simple_coverage.bed
+2022-08-02 13:29:30,490 - details - INFO - ATC24-5G73320
+2022-08-02 13:29:31,181 - details - INFO - Write bigg outfile to ./ATC24-5G73320/ATC24-5G73320_simple_coverage.bed
+2022-08-02 13:29:31,202 - details - INFO - ATC24-5G73840
+2022-08-02 13:29:31,544 - details - INFO - Error in cluster level:[Errno 2] No such file or directory: '/run/user/1000/379bad66_379bad66.bed'
+2022-08-02 13:29:31,569 - details - INFO - ATC24-5G74140
+2022-08-02 13:29:32,255 - details - INFO - Write bigg outfile to ./ATC24-5G74140/ATC24-5G74140_simple_coverage.bed
+2022-08-02 13:29:32,278 - details - INFO - ATC24-5G74800
+2022-08-02 13:29:32,918 - details - INFO - Write bigg outfile to ./ATC24-5G74800/ATC24-5G74800_simple_coverage.bed
+2022-08-02 13:29:32,938 - details - INFO - ATC24-5G75340
+2022-08-02 13:29:33,673 - details - INFO - Write bigg outfile to ./ATC24-5G75340/ATC24-5G75340_simple_coverage.bed
+2022-08-02 13:29:33,694 - details - INFO - ATC24-5G76140
+2022-08-02 13:29:34,427 - details - INFO - Write bigg outfile to ./ATC24-5G76140/ATC24-5G76140_simple_coverage.bed
+2022-08-02 13:29:34,448 - details - INFO - ATC24-5G76670
+2022-08-02 13:29:35,166 - details - INFO - Write bigg outfile to ./ATC24-5G76670/ATC24-5G76670_simple_coverage.bed
+2022-08-02 13:29:35,187 - details - INFO - ATC24-5G77290
+2022-08-02 13:29:35,542 - details - INFO - Error in cluster level:No columns to parse from file
+2022-08-02 13:29:35,566 - details - INFO - ATC24-5G77560
+2022-08-02 13:29:36,379 - details - INFO - Write bigg outfile to ./ATC24-5G77560/ATC24-5G77560_simple_coverage.bed
+2022-08-02 13:29:36,399 - details - INFO - ATC24-5G78210
+2022-08-02 13:29:37,064 - details - INFO - Write bigg outfile to ./ATC24-5G78210/ATC24-5G78210_simple_coverage.bed
+2022-08-02 13:29:37,085 - details - INFO - ATC24-5G78910
+2022-08-02 13:29:37,783 - details - INFO - Write bigg outfile to ./ATC24-5G78910/ATC24-5G78910_simple_coverage.bed
+2022-08-02 13:29:37,804 - details - INFO - ATC24-5G79450
+2022-08-02 13:29:38,574 - details - INFO - Write bigg outfile to ./ATC24-5G79450/ATC24-5G79450_simple_coverage.bed
+2022-08-02 13:29:38,600 - details - INFO - ATC24-5G80160
+2022-08-02 13:29:39,283 - details - INFO - Write bigg outfile to ./ATC24-5G80160/ATC24-5G80160_simple_coverage.bed
+2022-08-02 13:29:39,304 - details - INFO - ATC24-5G80760
+2022-08-02 13:29:39,982 - details - INFO - Write bigg outfile to ./ATC24-5G80760/ATC24-5G80760_simple_coverage.bed
+2022-08-02 13:29:40,008 - details - INFO - ATC24-5G81270
+2022-08-02 13:29:40,721 - details - INFO - Write bigg outfile to ./ATC24-5G81270/ATC24-5G81270_simple_coverage.bed
+2022-08-02 13:29:40,743 - details - INFO - ATC24-5G82220
+2022-08-02 13:29:41,451 - details - INFO - Write bigg outfile to ./ATC24-5G82220/ATC24-5G82220_simple_coverage.bed
+2022-08-02 13:29:41,472 - details - INFO - ATC24-5G82890
+2022-08-02 13:29:42,183 - details - INFO - Write bigg outfile to ./ATC24-5G82890/ATC24-5G82890_simple_coverage.bed
+2022-08-02 13:29:42,205 - details - INFO - ATC24-5G83580
+2022-08-02 13:29:42,903 - details - INFO - Write bigg outfile to ./ATC24-5G83580/ATC24-5G83580_simple_coverage.bed
+2022-08-02 13:29:42,925 - details - INFO - ATC24-5G84430
+2022-08-02 13:29:43,116 - details - INFO - Error in cluster level:invalid literal for int() with base 10: 'chr5'
+2022-08-02 13:29:43,138 - details - INFO - ATC24-5G84610
+2022-08-02 13:29:43,837 - details - INFO - Write bigg outfile to ./ATC24-5G84610/ATC24-5G84610_simple_coverage.bed
+2022-08-02 13:29:43,859 - details - INFO - ATC24-5G85170
+2022-08-02 13:29:44,532 - details - INFO - Write bigg outfile to ./ATC24-5G85170/ATC24-5G85170_simple_coverage.bed
+2022-08-02 13:29:44,555 - details - INFO - ATC24-5G85610
+2022-08-02 13:29:45,231 - details - INFO - Write bigg outfile to ./ATC24-5G85610/ATC24-5G85610_simple_coverage.bed
+2022-08-02 13:29:45,252 - details - INFO - ATC24-5G86090
+2022-08-02 13:29:45,913 - details - INFO - Write bigg outfile to ./ATC24-5G86090/ATC24-5G86090_simple_coverage.bed
+2022-08-02 13:29:45,935 - details - INFO - ATC24-5G86700
+2022-08-02 13:29:46,699 - details - INFO - Write bigg outfile to ./ATC24-5G86700/ATC24-5G86700_simple_coverage.bed
+2022-08-02 13:29:46,723 - details - INFO - ATC24-5G87260
+2022-08-02 13:29:47,389 - details - INFO - Write bigg outfile to ./ATC24-5G87260/ATC24-5G87260_simple_coverage.bed
+2022-08-02 13:29:47,409 - details - INFO - ATC24-5G87740
+2022-08-02 13:29:48,158 - details - INFO - Write bigg outfile to ./ATC24-5G87740/ATC24-5G87740_simple_coverage.bed
+2022-08-02 13:29:48,179 - details - INFO - ATC24-UG14990
+2022-08-02 13:29:48,854 - details - INFO - Write bigg outfile to ./ATC24-UG14990/ATC24-UG14990_simple_coverage.bed
