@@ -31,7 +31,7 @@ logger.addHandler(ch)
 
 
 def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
-                 cutoff1=0.05, cutoff2=0.001, intronweight=0.5, scorecutoff=11):
+                 cutoff1=0.05, cutoff2=0.01, intronweight=0.5, scorecutoff=11):
 
     bigg_nano.sort(key=operator.attrgetter("chromStart"))
     bigg_nano = junction_pre(bigg_nano, bigg_gff)
@@ -42,9 +42,6 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
     else:
         by1=by
         by2=by
-
-    gene=bigg_gff[0].geneName
-    l_str=[bigg_gff[0].chrom, ":", str(bigg_gff[0].chromStart), "-" ,str(bigg_gff[0].chromEnd)]
 
     bigg_list=add_subread_bigg(bigg_gff+bigg_nano)
 
@@ -61,7 +58,10 @@ def flow_cluster(bigg_nano, bigg_gff, by="ratio_all",
     #missed_2=get_readall_bigg(bigg_list_by1)-get_readall_bigg(bigg_l2)
     #missed_3=get_readall_bigg(bigg_list_by2)-get_readall_bigg(bigg_l3)
 
-    logger.info(("flow cluster",gene,"".join(l_str), len(bigg_list),  len(bigg_l2), len(bigg_l3)) )
+    # logger for debug
+    #gene=bigg_gff[0].geneName
+    #l_str=[bigg_gff[0].chrom, ":", str(bigg_gff[0].chromStart), "-" ,str(bigg_gff[0].chromEnd)]
+    #logger.info(("flow cluster",gene,"".join(l_str), len(bigg_list),  len(bigg_l2), len(bigg_l3)) )
 
     return D_remain, bigg_l3
 
@@ -138,7 +138,7 @@ def prefilter_smallexon(bigg_list,bigg_list_gff, cutoff=50):
     return bigg_list_new
 
 
-def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
+def cal_distance(bigg_list, intronweight=0.5, by="ratio", tmpdir=None):
     """
     :param bigg_list:
     :param intronweight: if 0, do not cal the intron to save time
@@ -162,7 +162,7 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     pos_dic=get_pos_dic(bigg_list)
 
     # flow begin
-    file_exon, file_intron = bigglist_to_bedfile(bigg_list)
+    file_exon, file_intron = bigglist_to_bedfile(bigg_list, dir=tmpdir)
 
     ## exon part
     ## exon no intersection can be leave as 1
@@ -191,13 +191,13 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio"):
     # for single intron file, the position is 1 nucl start
     # intron_i will not contain all the lines reads, the no intersection line will be empty, the no intron line will be empty
     # the intersection should be ignored and the weight should be 0
+    # so need to iter all positions in ijlist
 
     name2 = list(permutations(bigg_name, 2))
     for k in name2:
         name1, name2=k
         i = pos_dic[name1]
         j = pos_dic[name2]
-
         try:
             intersection=intron_i[(name1, name2)]
         except KeyError:

@@ -192,7 +192,7 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
     # use a list for store [(geneName, name, coverage, group1, group2...),()...]
     expression_list = []  # store
 
-    for bigg in bigg_isoform:
+    for bigg in tqdm(bigg_isoform):
         bigg.get_coverage_from_str()
         bigg.get_subread_from_str()
 
@@ -200,8 +200,9 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
         line_prefix=[bigg.geneName, bigg.name, coverage]
         line_count=[0]*len(groups)
 
+
         for read in bigg.subread:
-            if is_a_read(read):
+            if is_a_read(read,refname_set):
                 try:
                     group = name2group[read]
                     pos=groupvalue2pos[group]
@@ -220,8 +221,10 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
         expression_list.append(line_one)
 
     out=prefix+"_exp.csv"
-
+    line_head = ["gene", "isoform", "coverageall"] + groups
     with open(out, "w") as fw:
+        fw.write(",".join(line_head))
+        fw.write("\n")
         for line in expression_list:
             line = [str(x) for x in line]
             fw.write(",".join(list(line)))

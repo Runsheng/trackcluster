@@ -21,7 +21,7 @@ from tqdm import tqdm
 from trackcluster.tracklist import read_bigg, write_bigg
 from trackcluster.utils import is_bin_in, is_package_installed, get_file_prefix
 from trackcluster import __version__
-from trackcluster.flow import flow_clusterj_all_gene_novel
+from trackcluster.flow import flow_clusterj_all_gene_novel, flow_cluster_all_gene_novel, flow_count
 
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
@@ -62,66 +62,61 @@ version {version}
 
 
 
-
-    def __pre(self):
-        """
-        prepare the data folder used for the
-        :return:
-        """
-        parser=argparse.ArgumentParser(
-            description="prepare the run dir for each genes"
-        )
-        parser.add_argument("-d", "--wkdir", default=os.getcwd(),
-                            help="the working dir, default is the current dir")
-        parser.add_argument("-t", "--tmp", default=None,
-                            help="the working dir, default is the current dir")
-
-        parser.add_argument("-s", "--sample", help="the bigg format of the read track, with the key of GeneName")
-        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
-        args = parser.parse_args(sys.argv[2:])
-
-        #### main flow
-        logger.info("Start file reading")
-        anno_bigg=read_bigg(args.reference)
-        gene_anno=self.group_bigg_by_gene(anno_bigg)
-        nano_bigg=read_bigg(args.sample)
-        gene_nano = self.group_bigg_by_gene(nano_bigg)
-        logger.info("End of file reading")
-
-        ### change dir
-        os_origin=os.getcwd()
-        os.chdir(args.wkdir)
-
-        logger.info("Start of dir making")
-        for gene, nano_bigg in gene_nano.items():
-            anno_bigg = gene_anno[gene]
-            try:
-                os.mkdir(gene)
-            except OSError:
-                pass
-
-            anno_out = "./{gene}/{gene}_gff.bed".format(gene=gene)
-            nano_out = "./{gene}/{gene}_nano.bed".format(gene=gene)
-
-            write_bigg(anno_bigg, anno_out)
-            write_bigg(nano_bigg, nano_out)
-
-        os.chdir(os_origin)
-        logging.info("END of dir making")
-
-    def __cluster(self):
+    def cluster(self):
         parser=argparse.ArgumentParser(
             description="Original cluster, using intersection of intron and exon as matrix"
         )
         parser.add_argument("-d", "--folder", default=os.getcwd(),
                             help="the folder contains all the seperated tracks in different locus/genes, default is the current dir")
-        parser.add_argument("-t", "--tmp", default=None,
-                            help="the tmp dir, default is the current dir/tmp")
+
         parser.add_argument("-s", "--sample", help="the bigg format of the read track, with the key of GeneName")
         parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
+        parser.add_argument("-t", "--thread", default=32, type=int,
+                            help="the max thread used to run some of the process")
+        parser.add_argument("-f1", "--intersect1", default=0.01, type=float,
+                            help="the min intersection in read track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-f2", "--intersect2", default=0.05, type=float,
+                            help="the min intersection in isoform track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-c", "--count", default=5, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+        parser.add_argument("-p", "--prefix", default=None, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+        parser.add_argument("-b", "--batchsize", default=2000, type=int,
+                            help="the max reads can be processed in one batch")
 
-        args = parser.parse_args(sys.argv[2:])
-        #print(args.fasta)
+        ###cluster specific para
+        parser.add_argument("--tmp", default=None,
+                            help="the tmp dir, default is the current dir/tmp")
+        parser.add_argument("-c1", "--cutoff1", default=0.05, type=float,
+                            help="the dissimilarity cutoff to merge reads in round1 (equal) merge")
+        parser.add_argument("-c2", "--cutoff2", default=0.05, type=float,
+                            help="the dissimilarity cutoff to merge reads in round2 (within) merge")
+        parser.add_argument("-w", "--intronweight", default=0.5, type=float,
+                            help="the weight for the intron in read cluster")
+
+        arg_use = sys.argv[2:]
+        if len(arg_use) >= 4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.sample,sep=".")
+
+        #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
+
+        flow_cluster_all_gene_novel(wkdir=args.folder,
+                                     prefix=args.prefix,
+                                     nano_bed=args.sample,
+                                     gff_bed=args.reference,
+                                     core=args.thread,
+                                     f1=args.intersect1,
+                                     f2=args.intersect2,
+                                     count_cutoff=args.count,
+                                     batchsize=args.batchsize,
+                                    intronweight=args.intronweight,
+                                    cutoff1=args.cutoff1,
+                                    cutoff2=args.cutoff2)
 
 
     def clusterj(self):
@@ -142,10 +137,15 @@ version {version}
                             help="the min cutoff for a novel isoform be retained in counting")
         parser.add_argument("-p", "--prefix", default=None, type=int,
                             help="the min cutoff for a novel isoform be retained in counting")
-        parser.add_argument("-b", "--batchsize", default=1000, type=int,
+        parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
         #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
-        args = parser.parse_args(sys.argv[2:] if sys.argv[2:] is not None else ["--help"])
+        arg_use=sys.argv[2:]
+        if len(arg_use)>=4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
 
         if args.prefix is None:
             args.prefix=get_file_prefix(args.sample,sep=".")
@@ -160,8 +160,35 @@ version {version}
                                      count_cutoff=args.count,
                                      batchsize=args.batchsize)
 
-    def desc(self):
-        pass
+    def count(self):
+        parser = argparse.ArgumentParser(
+            description="Counting the cluster result isoform file to get the expression csv"
+        )
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all files, default is the current dir")
+        parser.add_argument("-s", "--sample",
+                            help="the bigg format of the read track, with group information in GeneName2")
+        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
+        parser.add_argument("-i", "--isoform",
+                            help="the isoform bed file from clustering")
+        parser.add_argument("-p", "--prefix", default=None, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+
+        arg_use=sys.argv[2:]
+        if len(arg_use)>=4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
+
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.sample,sep=".")
+
+        flow_count(wkdir=args.folder,
+                   prefix=args.prefix,
+                   nano_bed=args.sample,
+                   isoform_bed=args.isoform,
+                   gff_bed=args.reference)
 
 
     def test(self):
