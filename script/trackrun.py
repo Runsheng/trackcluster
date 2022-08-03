@@ -36,17 +36,18 @@ class CMD(object):
 -------
 The command contains:
 pre: prepare the run folder by separating the tracks from the same locus
-cluster:run the trackcluster main function to get the isoforms and the counting
+clusterj:run the trackcluster in junction mode to get the isoforms and the counting
+cluster:run the trackcluster eon/intron intersection to get the isoforms and the counting
 desc: compare the novel isoforms with the existing annotations to give an description for the min edit distance between a novel isoform with its nearest reference annotation
-
-test: run the test code for some gene models in the test folder
+test: run test for installation 
 ------
 A example for running annotation command:
 trackrun.py pre --reference ref.bed --tracks in.bed --out trackall
-trackrun.py cluster --folder trackall
-trackrun.py clusterj --folder trackall # run in junction mod
+trackrun.py clusterj -s reads.bed -r refs.bed -t 40 # run in junction mode
+trackrun.py cluster -s reads.bed -r refs.bed -t 40 # run in exon/intron intersection mode， slower
 trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
 
+# test if all dependencies are installed
 trackrun.py test --install
 
 version {version}
@@ -190,6 +191,29 @@ version {version}
                    isoform_bed=args.isoform,
                    gff_bed=args.reference)
 
+    def desc(self):
+        parser = argparse.ArgumentParser(
+            description="Counting the cluster result isoform file to get the expression csv"
+        )
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all files, default is the current dir")
+        parser.add_argument("-s", "--sample",
+                            help="the bigg format of the read track, with group information in GeneName2")
+        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
+        parser.add_argument("-i", "--isoform",
+                            help="the isoform bed file from clustering")
+        parser.add_argument("-p", "--prefix", default=None, type=int,
+                            help="the min cutoff for a novel isoform be retained in counting")
+
+        arg_use=sys.argv[2:]
+        if len(arg_use)>=4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
+
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.sample,sep=".")
 
     def test(self):
         """
