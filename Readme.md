@@ -15,16 +15,15 @@ Hint: the new feather including can be found in the dev branch
 ## <a name="overview"></a>Overview
 A pipeline for reference-based identification of isoform calling using Nanopore direct-RNA long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
 
-It is recommended to combine all samples together to generate an new transcriptome reference. After this process, the expression of isoforms in each sample can be fetched by providing an "name:sample" table. 
+It is recommended to combine all samples together to generate a new transcriptome reference. After this process, the expression of isoforms in each sample can be fetched by providing an "name:sample" table. 
 
-The output format for this pipeline is ["bigGenePred"](https://github.com/Runsheng/trackcluster/blob/master/script/bigGenePred.as). 
+The output format for this pipeline is ["bigGenePred"](https://github.com/Runsheng/trackcluster/blob/master/test/bigGenePred.as). 
 
 ## <a name="requirements"></a>Requirements
 
-1. python 2.7.10+ (developed under python 2.7.12)
-2. python modules: pysam, pandas, numpy, biopython
-3. samtools V2.0+ , bedtools V2.24+
-4. [minimap2](https://github.com/lh3/minimap2)
+1. python 3.9 (or 2.7.10+)
+2. python modules: pysam, pandas, numpy, biopython, tqdm
+3. samtools V2.0+ , bedtools V2.24+  and minimap2 V2.24+ in your $PATH
 
 ## Recommendations
 1. UCSC Kent source tree (for generating binary track)
