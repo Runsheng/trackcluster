@@ -8,6 +8,9 @@ from trackcluster.batch import process_one_junction_corrected_try, process_one_s
 from trackcluster.tracklist import read_bigg, write_bigg, cat_bed, bigg_count_write_native, is_a_read
 
 from trackcluster.pre import wrapper_bedtools_intersect2_select, tracklist_add_gene,get_gendic_bedinter,group_bigg_by_gene, wrapper_bedtools_merge, mergedbed2bigg, wrapper_bedtools_subtract
+from trackcluster.post import flow_desc, flow_class4
+
+
 
 #std lib
 import logging
@@ -234,7 +237,7 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
 
 
 ########################################################################################################
-###################### flow functions for clusterj， which is similar but has difference in wrapper
+###################### flow functions for clusterj
 def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000):
     """
     run clusterj in all prepared folders, folder name from the genename_file
@@ -328,7 +331,7 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
 
 
 ########################################################################################################
-###################### flow functions for clusterj， which is similar but has difference in wrapper
+###################### flow functions for cluster， which is similar but has difference in wrapper
 
 def flow_key_cluster(wkdir, genename_file, core=30, batchsize=2000, intronweight=0.5,
                      cutoff1=0.05, cutoff2=0.005, scorecutoff=11):
@@ -424,7 +427,8 @@ def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01
 
     return 1
 
+########################################################################################################
+########################################################################################################
 
-
-def flow_prepare_clusterj_count(wkdir, prefix, nano_bed, gff_bed, core=30):
+def flow_annotation(wkdir, ):
     pass
