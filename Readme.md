@@ -22,17 +22,42 @@ The output format for this pipeline is ["bigGenePred"](https://github.com/Runshe
 ## <a name="requirements"></a>Requirements
 
 1. python 3.9 (or 2.7.10+)
-2. python modules: pysam, pandas, numpy, biopython, tqdm
-3. samtools V2.0+ , bedtools V2.24+  and minimap2 V2.24+ in your $PATH
+2. samtools V2.0+ , bedtools V2.24+  and minimap2 V2.24+ in your $PATH
+
+## Installation
+```bash
+# use pip from pypi
+pip install trackcluster
+# or pip from source code for the latest version
+git clone https://github.com/Runsheng/trackcluster.git
+pip install ./trackcluster
+```
 
 ## Recommendations
-1. UCSC Kent source tree (for generating binary track)
+1. UCSC Kent source tree (for generating binary track), used only in bigg2b.py
 
 ## <a name="walkthrough"></a>Walkthrough
+```bash
+# test if all dependencies are installed
+trackrun.py test --install
 
-An walkthrough example can be found in the [ipython notebook file](https://github.com/Runsheng/trackcluster/blob/master/trackcluster_run_example.ipynb). 
+# generate the read track from minimap2 bam file
+bam2bigg.py -b group1.bam -o group1.bed
+bam2bigg.py -b group2.bam -o group2.bed
 
-The new junction mod to run trackcluster can be found in 
+# merge the bed file and sort
+cat group1.bed group2.bed > read.bed
+bedtools sort -i read.bed > reads.bed
+
+# Examples for running commands:
+trackrun.py clusterj -s reads.bed -r refs.bed -t 40 # run in junction mode, generate the isoform.bed
+trackrun.py count -s reads.bed -r refs.bed -i isoform.bed # generate the csv file for isoform expression
+trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed  # generate the description for each novel isoform
+
+# alternative for cluster
+trackrun.py cluster -s reads.bed -r refs.bed -t 40 # run in exon/intron intersection mode， slower
+```
+
 
 ## Citation
 Please kindly cite our paper in Genome Research if you use trackcluster in your work.
