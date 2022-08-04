@@ -41,8 +41,7 @@ cluster:run the trackcluster eon/intron intersection to get the isoforms and the
 desc: compare the novel isoforms with the existing annotations to give an description for the min edit distance between a novel isoform with its nearest reference annotation
 test: run test for installation 
 ------
-A example for running annotation command:
-trackrun.py pre --reference ref.bed --tracks in.bed --out trackall
+Examples for running command:
 trackrun.py clusterj -s reads.bed -r refs.bed -t 40 # run in junction mode
 trackrun.py cluster -s reads.bed -r refs.bed -t 40 # run in exon/intron intersection mode， slower
 trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
