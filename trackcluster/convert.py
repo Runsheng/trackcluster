@@ -117,7 +117,7 @@ def cigar_count(cigar_tuple):
 
 #### another function
 
-def gff_to_bigGenePred(gff):
+def gff_to_bigGenePred(gff, indicator="ID"):
     """
     Note gff is 1 start and bigGenePred is 0
     :param gff: a GFF class with only one gene inside
@@ -127,11 +127,15 @@ def gff_to_bigGenePred(gff):
     bigg_list=[]
 
     if gff.transcript_d is None:
-        gff.transcript_format()
+        gff.transcript_format(indicator=indicator)
+    #print(list(gff.transcript_d.keys()))
 
     for key in list(gff.transcript_d.keys()):
         bigg = bigGenePred()
-        gene=gff.transcript_to_gene[key]
+        try:
+            gene=gff.transcript_to_gene[key]
+        except KeyError:
+            print("KeyERROR", key)
 
         for n, record in enumerate(gff.transcript_d[key]):
             #use the first line to get basic infor

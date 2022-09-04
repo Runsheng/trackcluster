@@ -36,6 +36,29 @@ class GffConvertTest(unittest.TestCase):
 
         print((cigar_count(cigar_tuple)))
 
+    def test_ensembl(self):
+        ensembl_file = "/data/reference/mouse/Mus_musculus.GRCm39.107.chr.gff3"
+        gff=GFF(ensembl_file)
+        bigglist=gff_to_bigGenePred(gff)
+        print(len(bigglist))
+
+    def test_tair(self):
+        # 52059 mRNA
+        gff_file = "/data/reference/tair/GCF_000001735.4_TAIR10.1_genomic.gff"
+        gff=GFF(gff_file)
+        bigglist=gff_to_bigGenePred(gff)
+        print(len(bigglist))
+
+    def test_wormbase(self):
+        gff_file = "/data/reference/cel/ws266.gff"
+        gff=GFF(gff_file)
+        gff.transcript_format("ID")
+        #print(gff.transcript_to_gene["T"])
+        bigglist=gff_to_bigGenePred(gff)
+        print(len(bigglist))
+
+
+
 
     def tearDown(self):
         self.bigg = None
