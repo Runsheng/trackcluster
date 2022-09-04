@@ -7,7 +7,9 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir)
 
-from trackcluster import convert
+from trackcluster.convert import gff_to_bigGenePred
+from trackcluster.gff import GFF
+from trackcluster.tracklist import write_bigg
 
 parser=argparse.ArgumentParser()
 parser.add_argument("-i", "--gff",
@@ -15,20 +17,16 @@ parser.add_argument("-i", "--gff",
 parser.add_argument("-o", "--out", default="bigg.bed",
                     help="the output bigGenePred file name")
 
-parser.add_argument("-k", "--key", default="Name",
-                    help="The key used as gene name in gff line, like Name=let-1")
+parser.add_argument("-k", "--key", default="ID",
+                    help="The key used as gene name in gff line attr column, default is ID, which is used in most Ensembl gff."
+                         "like ID=gene:ENSMUSG00000064842;Name=let-1")
 
 args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
 # make a file using the functions
 
-fw=open(args.out, "w")
+gff = GFF(args.gff)
+bigg_list = gff_to_bigGenePred(gff, indicator=args.key)
 
-gff = convert.GFF(args.gff, args.key)
-bigg_list = convert.gff_to_bigGenePred(gff)
+write_bigg(bigg_list, args.out)
 
-for bigg in bigg_list:
-    fw.write(bigg.to_str())
-    fw.write("\n")
-
-fw.close()

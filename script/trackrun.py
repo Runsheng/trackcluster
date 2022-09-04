@@ -106,17 +106,17 @@ version {version}
         #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
 
         flow_cluster_all_gene_novel(wkdir=args.folder,
-                                     prefix=args.prefix,
-                                     nano_bed=args.sample,
-                                     gff_bed=args.reference,
-                                     core=args.thread,
-                                     f1=args.intersect1,
-                                     f2=args.intersect2,
-                                     count_cutoff=args.count,
-                                     batchsize=args.batchsize,
-                                    intronweight=args.intronweight,
-                                    cutoff1=args.cutoff1,
-                                    cutoff2=args.cutoff2)
+                                 prefix=args.prefix,
+                                 nano_bed=args.sample,
+                                 gff_bed=args.reference,
+                                 core=args.thread,
+                                 f1=args.intersect1,
+                                 f2=args.intersect2,
+                                 count_cutoff=args.count,
+                                 batchsize=args.batchsize,
+                                 intronweight=args.intronweight,
+                                 cutoff1=args.cutoff1,
+                                 cutoff2=args.cutoff2)
 
 
     def clusterj(self):

@@ -36,6 +36,9 @@ class myUtilsTest(unittest.TestCase):
 
         myexe("/bin/bash -i -c minimap2")
 
+    def test_is_package_installed(self):
+        print(is_package_installed("Bio"))
+
     def test_summary(self):
         logger = log_summary()
         logger.info("This is just a test, print number 100 as float" + "," + str(float(1) * 100))

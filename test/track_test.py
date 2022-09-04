@@ -13,7 +13,7 @@ from trackcluster.utils import fasta2dic
 class Test(unittest.TestCase):
     def setUp(self):
         genes=["unc52", "AT1G06860", "AT2G02100", "AT2G43410"]
-        gene=genes[-1]
+        gene=genes[0]
 
         bigg_nano=[]
         with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
@@ -131,7 +131,7 @@ class Test(unittest.TestCase):
     def test_bindseq_forward(self):
         #ref_dict = fasta2dic("/home/li/reference/tair/tair10.fa")
         mrna_dict = fasta2dic("./genes/AT2G02100/AT2G02100.fasta")
-        pass
+
 
     def test_mrna_pos_to_chro(self):
         sample = self.bigg[0]
@@ -143,11 +143,12 @@ class Test(unittest.TestCase):
         ### check if the nucl of the same pos is indentical
         ### chro is 0 based and mRNA is 1 based
 
-    def __test_orfs(self):
+    def test_orfs(self):
         """
         can only run with ce10 ref
         """
-        ref_dict=fasta2dic("/home/zhaolab1/reference/ce10_ucsc.fa")
+        # ref_dic is a large external file
+        ref_dict=fasta2dic("/data/reference/ce10_ucsc.fa")
         bigg_one=self.bigg[30]
         bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
         print((bigg_one.seq_chro))

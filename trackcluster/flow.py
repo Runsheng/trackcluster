@@ -432,3 +432,24 @@ def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01
 
 def flow_annotation(wkdir, ):
     pass
+
+
+############
+def flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
+    """
+    The overall full run pipeline for impatient people
+    :param wkdir:
+    :param prefix:
+    :param ref_fasta:
+    :param fastq_l:
+    :param nano_bed:
+    :param gff_bed:
+    :param core:
+    :param f1:
+    :param f2:
+    :param count_cutoff:
+    :param batchsize:
+    :return:
+    """
+    pass

@@ -404,7 +404,6 @@ class bigGenePred(object):
             return None
         else:
             from Bio.Seq import Seq
-            from Bio.Alphabet import generic_dna
             seq=Seq(self.seq_chro)
 
             seq0=seq.translate(table=1)

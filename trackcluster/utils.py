@@ -252,6 +252,7 @@ def get_file_location(filepath):
 
 def list2file(ll, genename_file):
     """
+    IO function
     write a list to a file
     :param ll:
     :param genename_file:
@@ -265,6 +266,7 @@ def list2file(ll, genename_file):
 
 def file2list(genename_file):
     """
+    IO function
     reverse of file2list
     :param genename_file:
     :return:
@@ -274,3 +276,10 @@ def file2list(genename_file):
         for line in f.readlines():
             gene_l.append(line.strip())
     return gene_l
+
+def print_dic(dic, n=100):
+    """
+    test code, print the first 100 line of dic
+    """
+    for k in list(dic.keys())[:n]:
+        print(k, dic[k])
