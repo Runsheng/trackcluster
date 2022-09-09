@@ -80,7 +80,7 @@ version {version}
         parser.add_argument("-c", "--count", default=5, type=int,
                             help="the min cutoff for a novel isoform be retained in counting")
         parser.add_argument("-p", "--prefix", default=None, type=int,
-                            help="the min cutoff for a novel isoform be retained in counting")
+                            help="prefix of output file, default is the prefix from --sample")
         parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
 
@@ -202,7 +202,7 @@ version {version}
         parser.add_argument("-i", "--isoform",
                             help="the isoform bed file from clustering")
         parser.add_argument("-p", "--prefix", default=None, type=int,
-                            help="the min cutoff for a novel isoform be retained in counting")
+                            help="prefix of output file, default is the prefix from --sample")
 
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
