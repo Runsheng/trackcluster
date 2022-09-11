@@ -23,6 +23,14 @@ class flowtest(unittest.TestCase):
         out=prefix+".bed"
         self.biggnano=flow_bamconvert(wkdir, bamfile, out=out, prefix=prefix, score=30)
 
+    def test_flow_addgene(self):
+        wkdir="/t1/shoudong_488/test/"
+        prefix="488_aba_1"
+        gff_bed="gene.bed_s"
+        nano_bed="488_aba_1_s.bed"
+        flow_add_gene(wkdir, prefix, gff_bed,nano_bed)
+
+
     def test_prepare_dir(self):
         wkdir="/t1/shoudong_488/test/trackall"
         prefix="488_aba_1"
@@ -154,6 +162,16 @@ class flowtest(unittest.TestCase):
         nano_bed = "../488_aba_1_s.bed"
         os.chdir(wkdir)
         flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed)
+
+    def test_annotation(self):
+        wkdir = "/t1/shoudong_488/test/tracktest"
+        prefix = "488_aba_1"
+        isoform_bed="488_aba_1_isoform.bed"
+        gff_bed = "../gene.bed_s"
+        nano_bed = "../488_aba_1_s.bed"
+        os.chdir(wkdir)
+        flow_desc_annotation(wkdir, isoform_bed, gff_bed, offset=10, prefix=prefix)
+
 
 
     def tearDown(self) -> None:

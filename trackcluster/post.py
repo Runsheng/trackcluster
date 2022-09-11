@@ -6,7 +6,7 @@
 
 from collections import OrderedDict
 
-from utils import group_site
+from utils import group_site, name2file, file2name
 
 
 def is_junction_equal(bigg0, bigg1, offset=10):
@@ -88,8 +88,15 @@ def has_new_junction(bigg0, list_ref, offset=10):
 
 
 def class_4(bigg0, list_ref, offset=10):
-
-    #class_name=None
+    """
+    give only 4 class in general
+    new junction, all matched (> or <) are something easy to exclude
+    the new combination would be traditional alternative splicing
+    :param bigg0:
+    :param list_ref:
+    :param offset:
+    :return:
+    """
 
     is_new_junction = has_new_junction(bigg0, list_ref, offset)
 
@@ -155,9 +162,11 @@ def compare_ei_by_boudary(bigg0, bigg_ref, offset=10):
 
 
 def find_nearest_ref(bigg0, list_ref, offset=10):
+    """
     # find the nearest ref by junction description
     # nearest is: with least extra; if extra equal, least missed
     # first the regions, then the numbers of the each site
+    """
 
     missed_s, extra_s=compare_ei_by_boudary(bigg0, list_ref[0], offset)
     group_miss_s= group_site(missed_s)
@@ -299,6 +308,9 @@ def flow_desc(bigg0, list_ref, offset=10):
 def flow_class4(bigg0, list_ref, offset=10):
     class4 = class_4(bigg0, list_ref, offset)
     return [bigg0.name, class4]
+
+
+
 
 
 
