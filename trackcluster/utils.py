@@ -246,11 +246,10 @@ def __group_nearby_site(site_list, interval=5):
 def get_file_prefix(filepath, sep="_"):
     return filepath.split("/")[-1].split(sep)[0]
 
-
 def get_file_location(filepath):
     return "/".join(filepath.split("/")[0:-1])
 
-def list2file(ll, genename_file):
+def name2file(ll, genename_file):
     """
     IO function
     write a list to a file
@@ -264,7 +263,7 @@ def list2file(ll, genename_file):
            fw.write("\n")
     return genename_file
 
-def file2list(genename_file):
+def file2name(genename_file):
     """
     IO function
     reverse of file2list
@@ -276,6 +275,21 @@ def file2list(genename_file):
         for line in f.readlines():
             gene_l.append(line.strip())
     return gene_l
+
+def list2file(ll, filename, sep="\t"):
+    with open(filename, "w") as fw:
+        for line in ll:
+            fw.write(sep.join(line))
+            fw.write("\n")
+
+def file2list(filename, sep="\t"):
+    ll=[]
+    with open(filename, "r") as f:
+        for line in f.readlines():
+            line_l=line.strip().split(sep)
+            ll.append(line_l)
+    return ll
+
 
 def print_dic(dic, n=100):
     """

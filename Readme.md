@@ -7,23 +7,22 @@ Trackcluster is an isoform calling and quantification pipeline for Nanopore dire
 
 - [Overview](#overview)
 - [Requirements](#requirements)
+- [Scripts](#scripts)
 - [Walkthrough](#walkthrough)
 
 ####
-Hint: the new feather including can be found in the dev branch
-- the compatibility with py3
-- quick junction mode for long reads with high accuracy. 
+Hint: the ongoing development can be found in the ["dev"](https://github.com/Runsheng/trackcluster/tree/dev) branch.
 
 ## <a name="overview"></a>Overview
 A pipeline for reference-based identification of isoform calling using Nanopore direct-RNA long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
 
 It is recommended to combine all samples together to generate a new transcriptome reference. After this process, the expression of isoforms in each sample can be fetched by providing an "name:sample" table. 
 
-The output format for this pipeline is ["bigGenePred"](https://github.com/Runsheng/trackcluster/blob/master/test/bigGenePred.as). 
+The major input/output for this pipeline is "bigg"--["bigGenePred"](https://github.com/Runsheng/trackcluster/blob/master/test/bigGenePred.as) format. 
 
 ## <a name="requirements"></a>Requirements
 
-1. python 3.9 (or 2.7.10+)
+1. developed on python 3.9, tested on python 3.6 and above (or 2.7.10+), should work with most of the py3 versions
 2. samtools V2.0+ , bedtools V2.24+  and minimap2 V2.24+ in your $PATH
 
 ## Installation
@@ -37,6 +36,14 @@ pip install ./trackcluster
 
 ## Recommendations
 1. UCSC Kent source tree (for generating binary track), used only in bigg2b.py
+
+## Scripts
+All scripts can be run directly from shell after pip installation.
+- **trackrun.py**: the main script for trackcluser run
+- **bam2bigg.py**: convert the mapped read from the bam file, to bigg track format
+- **gff2bigg.py**: convert the isoform annotation in gff3 to bigg format 
+- bigg2b.py: convert the bigg track into binary format for better loading in IGV/UCSC
+- biggmutant.py: change the value of one column in a bigglist
 
 ## <a name="walkthrough"></a>Walkthrough
 ```bash
@@ -67,9 +74,10 @@ trackrun.py count -s reads.bed -r refs.bed -i isoform.bed # generate the csv fil
 trackrun.py cluster -s reads.bed -r refs.bed -t 40 # run in exon/intron intersection mode， slower, will generate the isoform.bed
 
 # the post analysis could include the classification of novel isoforms
-trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed  # generate the description for each novel isoform
+trackrun.py desc --isoform isoform.bed --reference ref.bed # generate the description for each novel isoform
 # this part can be run directly on reads, to count the frequency of splicing events in reads, like intron_retention
-trackrun.py desc --isoform reads.bed --reference ref.bed > reads_desc.bed 
+trackrun.py addgene -r ref.bed -s reads.bed # will generate reads_gene.bed
+trackrun.py desc --isoform reads_gene.bed --reference ref.bed # will generated reads_desc.txt and reads_class12.txt 
 
 ```
 

@@ -21,7 +21,8 @@ from tqdm import tqdm
 from trackcluster.tracklist import read_bigg, write_bigg
 from trackcluster.utils import is_bin_in, is_package_installed, get_file_prefix
 from trackcluster import __version__
-from trackcluster.flow import flow_clusterj_all_gene_novel, flow_cluster_all_gene_novel, flow_count
+from trackcluster.flow import flow_clusterj_all_gene_novel, flow_cluster_all_gene_novel, \
+    flow_count, flow_desc_annotation, flow_add_gene
 
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
@@ -44,7 +45,7 @@ test: run test for installation
 Examples for running command:
 trackrun.py clusterj -s reads.bed -r refs.bed -t 40 # run in junction mode
 trackrun.py cluster -s reads.bed -r refs.bed -t 40 # run in exon/intron intersection mode， slower
-trackrun.py desc --isoform isoform.bed --reference ref.bed > desc.bed 
+trackrun.py desc --isoform isoform.bed --reference ref.bed 
 
 # test if all dependencies are installed
 trackrun.py test --install
@@ -61,6 +62,43 @@ version {version}
         getattr(self, args.command)()
 
 
+    def addgene(self):
+        parser = argparse.ArgumentParser(
+            description="Used to add gene annotation for read bigg tracks, useful in some analysis, "
+                        "the process is included in cluster runs. the new bigg file will be prefix_gene.bed"
+        )
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all the seperated tracks in different locus/genes, default is the current dir")
+
+        parser.add_argument("-s", "--sample", help="the bigg format of the read track, with the key of GeneName")
+        parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
+        parser.add_argument("-f1", "--intersect1", default=0.01, type=float,
+                            help="the min intersection in read track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-f2", "--intersect2", default=0.05, type=float,
+                            help="the min intersection in isoform track, used to assign gene name to a read using bedtools")
+        parser.add_argument("-p", "--prefix", default=None,
+                            help="prefix of output file, default is the prefix from --sample")
+
+
+        arg_use = sys.argv[2:]
+        if len(arg_use) >= 4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.sample,sep=".")
+
+        os.chdir(args.folder)
+        bigg_new=flow_add_gene(wkdir=args.folder,
+                               prefix=args.prefix,
+                               bigg_gff_file=args.reference,
+                               bigg_nano_file=args.sample,
+                               f1=args.intersect1,
+                               f2=args.intersect2
+                               )
+        out=args.prefix+"_gene.bed"
+        write_bigg(bigg_new, out)
 
     def cluster(self):
         parser=argparse.ArgumentParser(
@@ -79,7 +117,7 @@ version {version}
                             help="the min intersection in isoform track, used to assign gene name to a read using bedtools")
         parser.add_argument("-c", "--count", default=5, type=int,
                             help="the min cutoff for a novel isoform be retained in counting")
-        parser.add_argument("-p", "--prefix", default=None, type=int,
+        parser.add_argument("-p", "--prefix", default=None,
                             help="prefix of output file, default is the prefix from --sample")
         parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
@@ -135,7 +173,7 @@ version {version}
                             help="the min intersection in isoform track, used to assign gene name to a read using bedtools")
         parser.add_argument("-c", "--count", default=5, type=int,
                             help="the min cutoff for a novel isoform be retained in counting")
-        parser.add_argument("-p", "--prefix", default=None, type=int,
+        parser.add_argument("-p", "--prefix", default=None,
                             help="prefix of output file, default is the prefix from --sample")
         parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
@@ -171,7 +209,7 @@ version {version}
         parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
         parser.add_argument("-i", "--isoform",
                             help="the isoform bed file from clustering")
-        parser.add_argument("-p", "--prefix", default=None, type=int,
+        parser.add_argument("-p", "--prefix", default=None,
                             help="prefix, default is the prefix from --sample")
 
         arg_use=sys.argv[2:]
@@ -192,17 +230,19 @@ version {version}
 
     def desc(self):
         parser = argparse.ArgumentParser(
-            description="Counting the cluster result isoform file to get the expression csv"
+            description="write the description files for the read track using the reference, will write four files with prefix"
+                        "desc.txt; class12.txt; fusion.txt; class4.txt"
         )
         parser.add_argument("-d", "--folder", default=os.getcwd(),
                             help="the folder contains all files, default is the current dir")
-        parser.add_argument("-s", "--sample",
-                            help="the bigg format of the read track, with group information in GeneName2")
         parser.add_argument("-r", "--reference", help="the bigg format of the reference annotation track")
         parser.add_argument("-i", "--isoform",
-                            help="the isoform bed file from clustering")
-        parser.add_argument("-p", "--prefix", default=None, type=int,
-                            help="prefix of output file, default is the prefix from --sample")
+                            help="the bed file containing the biggs to be annotated, already have geneName")
+        parser.add_argument("-o", "--offset", default=10, type=int,
+                            help="offset used to align bigg junections, the junctions shifted with length <=offset will "
+                                 "be treated as the same.")
+        parser.add_argument("-p", "--prefix", default=None,
+                            help="prefix of output file, default is the prefix from --isoform")
 
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
@@ -212,7 +252,13 @@ version {version}
             sys.exit(1)
 
         if args.prefix is None:
-            args.prefix=get_file_prefix(args.sample,sep=".")
+            args.prefix=get_file_prefix(args.isoform,sep=".")
+
+        flow_desc_annotation(wkdir=args.folder,
+                             isoform_bed=args.isoform,
+                             gff_bed=args.reference,
+                             offset=args.offset,
+                             prefix=args.prefix)
 
     def test(self):
         """
