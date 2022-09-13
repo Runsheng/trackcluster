@@ -565,26 +565,7 @@ def flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=N
             fw.write(bigg.name + "\t" + str(bigg.exonlen) + "\t" + bigg.geneName + "\n")
 
     ####### fusion part
-    fusion_d = {}
-    used = set()
 
-    for bigg in read:
-        try:
-            fusion_d[bigg.name].append(bigg.geneName)
-        except KeyError:
-            fusion_d[bigg.name] = []
-            fusion_d[bigg.name].append(bigg.geneName)
-
-    fusion_d_real = {}
-    for k, v in fusion_d.items():
-        v_s = list(set(v))
-        if len(v_s) > 1:
-            fusion_d_real[k] = v
-
-    with open(prefix+"_fusion.txt", "w") as fw:
-        for k, v in fusion_d_real.items():
-            v_str = ";".join(v)
-            fw.write(k + "\t" + v_str + "\n")
 
 ############
 def flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
