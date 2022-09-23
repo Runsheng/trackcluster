@@ -237,8 +237,8 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
             line_count=[x/gsum*coverage for x in line_count]
         # the mutiple name part
         genename_l=bigg.geneName.split("||")
-        line_prefix=deque([bigg.name, coverage])
         for genename in genename_l:
+            line_prefix = deque([bigg.name, coverage])
             line_prefix.appendleft(genename)
             line_prefix.extend(line_count)
             expression_list.append(line_prefix)
@@ -303,6 +303,8 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
     bigg_isoform_file=prefix+"_isoform.bed"
     bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
 
+    bigg_isoform_novelgene_file=prefix+"_isoform_novel.bed"
+
     os.chdir(wkdir)
 
     # step1
@@ -344,6 +346,12 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
     # the substract will change the original novel file
     flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
     flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
+
+    # glue the novel part and write the file down
+    bigg_nisoform=cat_bed("NOVEL*/*_simple_coveragej.bed") # use ** for all file in the wkdir
+    write_bigg(bigg_nisoform,bigg_isoform_novelgene_file)
+
+
 
     return 1
 ########################################################################################################
