@@ -257,7 +257,8 @@ version {version}
                    prefix=args.prefix,
                    nano_bed=args.sample,
                    isoform_bed=args.isoform,
-                   gff_bed=args.reference)
+                   gff_bed=args.reference,
+                   )
 
     def desc(self):
         parser = argparse.ArgumentParser(
@@ -274,6 +275,8 @@ version {version}
                                  "be treated as the same.")
         parser.add_argument("-p", "--prefix", default=None,
                             help="prefix of output file, default is the prefix from --isoform")
+        parser.add_argument("-t", "--thread", default=10, type=int,
+                            help="the max thread used to run some of the process")
 
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
@@ -289,7 +292,8 @@ version {version}
                              isoform_bed=args.isoform,
                              gff_bed=args.reference,
                              offset=args.offset,
-                             prefix=args.prefix)
+                             prefix=args.prefix,
+                             core=args.thread)
 
     def test(self):
         """

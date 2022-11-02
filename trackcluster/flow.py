@@ -36,12 +36,12 @@ def flow_mapping(wkdir,ref_file,fastq_file,prefix, core=16):
 
     os.chdir(wkdir)
 
-    cmd_map="minimap2 -ax splice -k14 -uf -t {core} {ref} {fastq_file} | samtools view -bS -F260 -q 30 > {prefix}.bam".format(
+    cmd_map="minimap2 -ax splice -k14 -uf -t {core} {ref} {fastq_file} | samtools view -bS -F260 -F2048 -q 30 > {prefix}.bam".format(
     prefix = prefix, core = core, fastq_file = fastq_file, ref = ref_file)
     print(cmd_map)
     myexe(cmd_map)
 
-    cmd_sam2="samtools sort -/@{core} {prefix}.bam >{prefix}_s.bam".format(prefix=prefix, core=core)
+    cmd_sam2="samtools sort -@{core} {prefix}.bam >{prefix}_s.bam".format(prefix=prefix, core=core)
     print(cmd_sam2)
     myexe(cmd_sam2)
 
@@ -458,7 +458,7 @@ def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01
 ########################################################################################################
 ########################################################################################################
 
-def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None):
+def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None, core=10):
     """
     generate all files needed to draw the desc figure for isoform classcification
     :param wkdir:
@@ -483,19 +483,35 @@ def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None):
     # class4: [bigg0.name, class4]
     class4 = []
     desc = []
-    for k in gene2isoform.keys():
-        #print(k)
+
+    # add muti core processing for this part
+    keys=list(gene2isoform.keys())
+
+    def process_class4(k):
         nanos = gene2isoform[k]
         refs = gene2ref[k]
-
         for bigg in nanos:
             try:
                 out_class4 = flow_class4(bigg, refs, offset=offset)
-                class4.append(out_class4)
-                out_desc = flow_desc(bigg, refs, offset=offset)
-                desc.append(out_desc)
+                return out_class4
             except IndexError:
-                pass
+                return None
+    def process_desc(k):
+        nanos = gene2isoform[k]
+        refs = gene2ref[k]
+        for bigg in nanos:
+            try:
+                out_desc = flow_desc(bigg, refs, offset=offset)
+                return out_desc
+            except IndexError:
+                return None
+    print("Running class4")
+    class4=parmap(process_class4, tqdm(keys), nprocs=core)
+    class4=[x for x in class4 if x is not None]
+    print("Running desc")
+    desc=parmap(process_desc, tqdm(keys), nprocs=core)
+    desc=[x for x in desc if x is not None]
+
     # IO part
     list2file(desc, filename=prefix+"_desc.txt", sep="\t")
     list2file(class4, filename=prefix+"_class4.txt", sep="\t")
