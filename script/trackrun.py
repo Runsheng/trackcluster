@@ -22,7 +22,7 @@ from trackcluster.tracklist import read_bigg, write_bigg
 from trackcluster.utils import is_bin_in, is_package_installed, get_file_prefix
 from trackcluster import __version__
 from trackcluster.flow import flow_clusterj_all_gene_novel, flow_cluster_all_gene_novel, \
-    flow_count, flow_desc_annotation, flow_add_gene
+    flow_count, flow_desc_annotation, flow_add_gene, flow_mapping
 
 logger = logging.getLogger('summary')
 logger.setLevel(logging.INFO)
@@ -60,6 +60,37 @@ version {version}
             parser.print_help()
             exit(1)
         getattr(self, args.command)()
+
+    def map(self):
+        parser = argparse.ArgumentParser(
+            description="minimap2 mapping/samtools process wrapper, will generate prefix_s.bam"
+                        "trackrun.py -t 32 -g gemone.fa -f sample.fastq"
+        )
+        parser.add_argument("-d", "--folder", default=os.getcwd(),
+                            help="the folder contains all the seperated tracks in different locus/genes, default is the current dir")
+
+        parser.add_argument("-f", "--fastq", help="the fastq file ")
+        parser.add_argument("-g", "--genome", help="reference genome file")
+        parser.add_argument("-t", "--thread", default=32, type=int,
+                            help="the max thread used to run some of the process")
+        parser.add_argument("-p", "--prefix", default=None,
+                            help="prefix of output file, default is the prefix from --fastq")
+
+
+        arg_use = sys.argv[2:]
+        if len(arg_use) >= 4:
+            args = parser.parse_args(arg_use)
+        else:
+            parser.print_help()
+            sys.exit(1)
+        if args.prefix is None:
+            args.prefix=get_file_prefix(args.fastq,sep=".")
+
+        flow_mapping(wkdir=args.folder,
+                     ref_file=args.genome,
+                     fastq_file=args.fastq,
+                     prefix=args.prefix,
+                     core=args.thread)
 
 
     def addgene(self):
@@ -226,7 +257,8 @@ version {version}
                    prefix=args.prefix,
                    nano_bed=args.sample,
                    isoform_bed=args.isoform,
-                   gff_bed=args.reference)
+                   gff_bed=args.reference,
+                   )
 
     def desc(self):
         parser = argparse.ArgumentParser(
@@ -243,6 +275,8 @@ version {version}
                                  "be treated as the same.")
         parser.add_argument("-p", "--prefix", default=None,
                             help="prefix of output file, default is the prefix from --isoform")
+        parser.add_argument("-t", "--thread", default=10, type=int,
+                            help="the max thread used to run some of the process")
 
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
@@ -258,7 +292,8 @@ version {version}
                              isoform_bed=args.isoform,
                              gff_bed=args.reference,
                              offset=args.offset,
-                             prefix=args.prefix)
+                             prefix=args.prefix,
+                             core=args.thread)
 
     def test(self):
         """

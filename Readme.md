@@ -1,7 +1,7 @@
 # TrackCluster
 ![PyPI](https://img.shields.io/pypi/v/trackcluster?color=green)
 
-Trackcluster is an isoform calling and quantification pipeline for Nanopore direct-RNA long reads.
+Trackcluster is an isoform calling and quantification pipeline for long RNA/cDNA reads.
 
 ## Table of Contents
 
@@ -14,9 +14,7 @@ Trackcluster is an isoform calling and quantification pipeline for Nanopore dire
 Hint: the ongoing development can be found in the ["dev"](https://github.com/Runsheng/trackcluster/tree/dev) branch.
 
 ## <a name="overview"></a>Overview
-A pipeline for reference-based identification of isoform calling using Nanopore direct-RNA long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
-
-It is recommended to combine all samples together to generate a new transcriptome reference. After this process, the expression of isoforms in each sample can be fetched by providing an "name:sample" table. 
+A pipeline for reference-based isoform identification and quantification using long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
 
 The major input/output for this pipeline is "bigg"--["bigGenePred"](https://github.com/Runsheng/trackcluster/blob/master/test/bigGenePred.as) format. 
 
@@ -24,6 +22,12 @@ The major input/output for this pipeline is "bigg"--["bigGenePred"](https://gith
 
 1. developed on python 3.9, tested on python 3.6 and above (or 2.7.10+), should work with most of the py3 versions
 2. samtools V2.0+ , bedtools V2.24+  and minimap2 V2.24+ in your $PATH
+```bash
+# install the external bins with conda
+conda install -c bioconda samtools
+conda install -c bioconda bedtools
+conda install -c bioconda minimap2
+```
 
 ## Installation
 ```bash
@@ -83,6 +87,6 @@ trackrun.py desc --isoform reads_gene.bed --reference ref.bed # will generated r
 
 
 ## Citation
-Please kindly cite our paper in Genome Research if you use trackcluster in your work.
+Please kindly cite our paper for using trackcluster in your work.
 
 Li, R., Ren, X., Ding, Q., Bi, Y., Xie, D. and Zhao, Z., 2020. Direct full-length RNA sequencing reveals unexpected transcriptome complexity during *Caenorhabditis elegans* development. **Genome research**, 30(2), pp.287-298.

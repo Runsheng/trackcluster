@@ -61,7 +61,9 @@ def wrapper_bedtools_merge(bigg_file, out):
     """
 
     # merge with strandness, report to col5
-    cmd="bedtools merge -nonamecheck -s  -c 4 -o count -i {biggfile} > {out}".format(
+    # bedtools 2.26, can use -s -c 4 -o count
+    # bedtools 2.30, must use -s c 6 -o distinct,count
+    cmd="bedtools merge -nonamecheck -s  -c 6 -o distinct,count -i {biggfile} > {out}".format(
         biggfile=bigg_file, out=out
     )
     _=myexe(cmd)
@@ -118,7 +120,11 @@ def mergedbed2bigg(merge_bedfile, count_cutoff=5):
     with open(merge_bedfile, "r") as f:
         for line in f.readlines():
             line_l=line.strip().split("\t")
-            chro, start, end, strand, count=line_l
+            # to deal with the bedtools merge version unmatch bug
+            # before 2.26, result for -s -c 6 -o distinct, count return 6 col chro, start, end, strand, strand, count
+            # after 2.30, return 5 col, chro, start, end, strand, count
+            chro, start, end, strand =line_l[0:4]
+            count=line_l[-1]
 
             if int(count)>=count_cutoff:
                 # generate a chro_start_end string for name

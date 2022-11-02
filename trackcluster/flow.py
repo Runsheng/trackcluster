@@ -36,12 +36,12 @@ def flow_mapping(wkdir,ref_file,fastq_file,prefix, core=16):
 
     os.chdir(wkdir)
 
-    cmd_map="minimap2 -ax splice -k14 -uf -t {core} {ref} {fastq_file} | samtools view -bS -F260 -q 30 > {prefix}.bam".format(
+    cmd_map="minimap2 -ax splice -k14 -uf -t {core} {ref} {fastq_file} | samtools view -bS -F260 -F2048 -q 30 > {prefix}.bam".format(
     prefix = prefix, core = core, fastq_file = fastq_file, ref = ref_file)
     print(cmd_map)
     myexe(cmd_map)
 
-    cmd_sam2="samtools sort -/@{core} {prefix}.bam >{prefix}_s.bam".format(prefix=prefix, core=core)
+    cmd_sam2="samtools sort -@{core} {prefix}.bam >{prefix}_s.bam".format(prefix=prefix, core=core)
     print(cmd_sam2)
     myexe(cmd_sam2)
 
@@ -237,8 +237,8 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
             line_count=[x/gsum*coverage for x in line_count]
         # the mutiple name part
         genename_l=bigg.geneName.split("||")
-        line_prefix=deque([bigg.name, coverage])
         for genename in genename_l:
+            line_prefix = deque([bigg.name, coverage])
             line_prefix.appendleft(genename)
             line_prefix.extend(line_count)
             expression_list.append(line_prefix)
@@ -303,6 +303,8 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
     bigg_isoform_file=prefix+"_isoform.bed"
     bigg_isoform_cov5_file=prefix+"_cov{}_isoform.bed".format(count_cutoff)
 
+    bigg_isoform_novelgene_file=prefix+"_isoform_novel.bed"
+
     os.chdir(wkdir)
 
     # step1
@@ -344,6 +346,12 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
     # the substract will change the original novel file
     flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
     flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
+
+    # glue the novel part and write the file down
+    bigg_nisoform=cat_bed("NOVEL*/*_simple_coveragej.bed") # use ** for all file in the wkdir
+    write_bigg(bigg_nisoform,bigg_isoform_novelgene_file)
+
+
 
     return 1
 ########################################################################################################
@@ -450,7 +458,7 @@ def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01
 ########################################################################################################
 ########################################################################################################
 
-def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None):
+def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None, core=10):
     """
     generate all files needed to draw the desc figure for isoform classcification
     :param wkdir:
@@ -475,19 +483,35 @@ def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None):
     # class4: [bigg0.name, class4]
     class4 = []
     desc = []
-    for k in gene2isoform.keys():
-        #print(k)
+
+    # add muti core processing for this part
+    keys=list(gene2isoform.keys())
+
+    def process_class4(k):
         nanos = gene2isoform[k]
         refs = gene2ref[k]
-
         for bigg in nanos:
             try:
                 out_class4 = flow_class4(bigg, refs, offset=offset)
-                class4.append(out_class4)
-                out_desc = flow_desc(bigg, refs, offset=offset)
-                desc.append(out_desc)
+                return out_class4
             except IndexError:
-                pass
+                return None
+    def process_desc(k):
+        nanos = gene2isoform[k]
+        refs = gene2ref[k]
+        for bigg in nanos:
+            try:
+                out_desc = flow_desc(bigg, refs, offset=offset)
+                return out_desc
+            except IndexError:
+                return None
+    print("Running class4")
+    class4=parmap(process_class4, tqdm(keys), nprocs=core)
+    class4=[x for x in class4 if x is not None]
+    print("Running desc")
+    desc=parmap(process_desc, tqdm(keys), nprocs=core)
+    desc=[x for x in desc if x is not None]
+
     # IO part
     list2file(desc, filename=prefix+"_desc.txt", sep="\t")
     list2file(class4, filename=prefix+"_class4.txt", sep="\t")
@@ -565,26 +589,7 @@ def flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=N
             fw.write(bigg.name + "\t" + str(bigg.exonlen) + "\t" + bigg.geneName + "\n")
 
     ####### fusion part
-    fusion_d = {}
-    used = set()
 
-    for bigg in read:
-        try:
-            fusion_d[bigg.name].append(bigg.geneName)
-        except KeyError:
-            fusion_d[bigg.name] = []
-            fusion_d[bigg.name].append(bigg.geneName)
-
-    fusion_d_real = {}
-    for k, v in fusion_d.items():
-        v_s = list(set(v))
-        if len(v_s) > 1:
-            fusion_d_real[k] = v
-
-    with open(prefix+"_fusion.txt", "w") as fw:
-        for k, v in fusion_d_real.items():
-            v_str = ";".join(v)
-            fw.write(k + "\t" + v_str + "\n")
 
 ############
 def flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
