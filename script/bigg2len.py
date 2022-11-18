@@ -24,6 +24,6 @@ bigg_l=read_bigg(args.biggfile)
 with open (outfile, "w") as fw:
     for bigg in bigg_l:
         bigg.get_exon()
-        fw.write(bigg.name+"\t"+str(bigg.exonlen)+"\t"+bigg.geneName+"\n")
+        fw.write(bigg.name+"\t"+str(bigg.exonlen)+"\t"+bigg.geneName+"\t"+bigg.ttype+"\n")
 
 
