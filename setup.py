@@ -22,6 +22,7 @@ setup(
              'script/bam2bigg.py',
              'script/bigg2b.py',
              'script/gff2bigg.py',
-             'script/biggmutant.py'],
+             'script/biggmutant.py',
+             'script/bigg2len.py'],
 
 )
