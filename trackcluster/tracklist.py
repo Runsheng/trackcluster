@@ -87,11 +87,31 @@ def write_bigg(bigg_list, out="bigg_new.bed"):
 
 
 def list_to_dic(bigg_list):
+    """
+    remove the duplicated mapping in bigg_list
+    if minimap2 do not force one mapping region for one read, there could be multiple mapping region for each reads
+    which could make the too many fusion isoforms
+
+    the non-dup bigg_list can be get with list(bigg_dic.values())
+    used in flow_addgene
+
+    :param bigg_list:
+    :return:
+    """
 
     bigg_dic=OrderedDict()
 
-    for i in bigg_list:
-        bigg_dic[i.name]=i
+    for bigg in bigg_list:
+        bigg.get_exon()
+        try:
+            bigg_previous=bigg_dic[bigg.name]
+            if bigg_previous.exonlen>=bigg.exonlen:
+                pass
+            else:
+                bigg_dic[bigg.name]=bigg
+        except KeyError:
+            bigg_dic[bigg.name] = bigg
+
     return bigg_dic
 
 

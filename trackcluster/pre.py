@@ -207,6 +207,9 @@ def tracklist_add_gene(bigg_nano, read_gene):
     :param bigg_nano: read track to bed added
     :param read_gene:
     :return: bigg_nano with genName has mutiple gene1||gene2||gene3
+
+    The gene name is used to define the "fusion" gene，so need to make sure one read only have one track
+
     """
     bigg_new=[]
     for bigg in bigg_nano:
