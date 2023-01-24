@@ -63,10 +63,10 @@ def wrapper_bedtools_merge(bigg_file, out):
     # merge with strandness, report to col5
     # bedtools 2.26, can use -s -c 4 -o count
     # bedtools 2.30, must use -s c 6 -o distinct,count
-    cmd="bedtools merge -nonamecheck -s  -c 6 -o distinct,count -i {biggfile} > {out}".format(
+    cmd="bedtools sort -i {biggfile} > {biggfile}_s && bedtools merge -nonamecheck -s  -c 6 -o distinct,count -i {biggfile}_s > {out}".format(
         biggfile=bigg_file, out=out
     )
-    _=myexe(cmd)
+    myexe(cmd)
 
     return out
 

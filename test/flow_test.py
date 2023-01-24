@@ -117,7 +117,7 @@ class flowtest(unittest.TestCase):
         :return:
         """
         # parameters
-        wkdir="/t1/shoudong_488/test/tracktest"
+        wkdir="/t1/shoudong_488/test/trackall"
         prefix="488_aba_1"
         gff_bed="../gene.bed_s"
         nano_bed="../488_aba_1_s.bed"
