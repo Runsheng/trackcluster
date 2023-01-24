@@ -102,13 +102,20 @@ def is_bin_in(cmd_name):
         return False
 
 
-def is_package_installed(package_name):
-    try:
-        import package_name
-    except ImportError:
-        return False
-    return True
+def is_package_installed(name):
+    import importlib.util
+    import sys
 
+    if name in sys.modules:
+        return True
+    elif (spec := importlib.util.find_spec(name)) is not None:
+        # If you choose to perform the actual import ...
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+        return True
+    else:
+        return False
 
 def set_tmp(wkdir=None):
     """
