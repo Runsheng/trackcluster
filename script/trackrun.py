@@ -315,7 +315,7 @@ version {version}
 
         if args.install: ## test installed packages, samtools, bedtools
             if is_bin_in("samtools") and is_bin_in("bedtools") and is_bin_in("minimap2"):
-                logger.info("Pass")
+                logger.info("samtools, bedtools, minimap2, Pass")
             else:
                 logger.info("Check if samtools, bedtools and minimap2 are in $PATH")
 

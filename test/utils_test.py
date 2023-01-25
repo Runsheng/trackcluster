@@ -38,6 +38,7 @@ class myUtilsTest(unittest.TestCase):
 
     def test_is_package_installed(self):
         print(is_package_installed("Bio"))
+        print(is_package_installed("os"))
 
     def test_summary(self):
         logger = log_summary()

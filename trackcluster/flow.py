@@ -5,7 +5,7 @@ The main flow file to process one fastq file with
 from trackcluster.utils import myexe, is_bin_in, get_file_prefix,del_files,parmap, name2file, file2name, list2file, file2list
 from trackcluster.convert import sam_to_bigGenePred
 from trackcluster.batch import process_one_junction_corrected_try, process_one_subsample_try
-from trackcluster.tracklist import read_bigg, write_bigg, cat_bed, bigg_count_write_native, is_a_read
+from trackcluster.tracklist import read_bigg, write_bigg, cat_bed, bigg_count_write_native, is_a_read, list_to_dic
 
 from trackcluster.pre import wrapper_bedtools_intersect2_select, tracklist_add_gene,get_gendic_bedinter,group_bigg_by_gene, wrapper_bedtools_merge, mergedbed2bigg, wrapper_bedtools_subtract
 from trackcluster.post import flow_desc, flow_class4
@@ -83,17 +83,25 @@ def flow_bamconvert(wkdir,bamfile,out,prefix,score=30):
 def flow_add_gene(wkdir, prefix, bigg_gff_file, bigg_nano_file, f1=0.01, f2=0.05):
     os.chdir(wkdir)
 
-    ### get two parts, the gene part and the novel part
+
+    # make sure one read one track
+    bigg_raw=read_bigg(bigg_nano_file)
+    bigg_dedup=list(list_to_dic(bigg_raw).values())
+    print("raw bigg number: {}; after dedup:{}".format(len(bigg_raw), len(bigg_dedup)))
+    outbed=prefix+"_dedup.bed"
+    write_bigg(bigg_dedup, outbed)
+
+    ### get two parts, the gene part and the novel part,
+
     # the gene part
     outfile = prefix + "inter.bed"
     # write the outfile to disk
-    wrapper_bedtools_intersect2_select(bigg_nano_file, bigg_gff_file, outfile=outfile,
+    wrapper_bedtools_intersect2_select(outbed, bigg_gff_file, outfile=outfile,
                                        fraction_bed1=f1, fraction_bed2=f2)
     read_gene = get_gendic_bedinter(outfile)
     print("read number in genes:", len(read_gene))
 
-    bigg_nano = read_bigg(bigg_nano_file)
-    bigg_new = tracklist_add_gene(bigg_nano, read_gene)
+    bigg_new = tracklist_add_gene(bigg_dedup, read_gene)
 
     # cleanup
     del_files([outfile])
