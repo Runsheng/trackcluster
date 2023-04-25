@@ -38,7 +38,7 @@ class CMD(object):
 The command contains:
 pre: prepare the run folder by separating the tracks from the same locus
 clusterj:run the trackcluster in junction mode to get the isoforms and the counting
-cluster:run the trackcluster eon/intron intersection to get the isoforms and the counting
+cluster:run the trackcluster exon/intron intersection to get the isoforms and the counting
 desc: compare the novel isoforms with the existing annotations to give an description for the min edit distance between a novel isoform with its nearest reference annotation
 test: run test for installation 
 ------
@@ -63,7 +63,7 @@ version {version}
 
     def map(self):
         parser = argparse.ArgumentParser(
-            description="minimap2 mapping/samtools process wrapper, will generate prefix_s.bam"
+            description="minimap2 mapping/samtools process wrapper, will generate prefix_s.bam\n"
                         "trackrun.py -t 32 -g gemone.fa -f sample.fastq"
         )
         parser.add_argument("-d", "--folder", default=os.getcwd(),
