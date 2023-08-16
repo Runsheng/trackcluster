@@ -157,6 +157,39 @@ def bigglist_to_bedfile(bigg_list,prefix=None, dir=None):
     return (out_exon, out_intron)
 
 
+def bigglist_to_plotbed(bigglist, out):
+    """
+    generate a bigglist which is ready for plotting from the bigglist
+    example as csv or tsv:
+        "","chrom","start","end","strand","isoform_name","tracknum","type"
+        "1","chrII",14647324,14647857,"-","ZC101.2g.1",1,"exon"
+        "2","chrII",14647919,14648142,"-","ZC101.2g.1",1,"exon"
+        "3","chrII",14648551,14648827,"-","ZC101.2g.1",1,"exon"
+        "4","chrII",14648885,14649435,"-","ZC101.2g.1",1,"exon"
+        "5","chrII",14649494,14649607,"-","ZC101.2g.1",1,"exon"
+        "6","chrII",14649650,14649798,"-","ZC101.2g.1",1,"exon"
+        "7","chrII",14649843,14650013,"-","ZC101.2g.1",1,"exon"
+        "8","chrII",14650060,14650279,"-","ZC101.2g.1",1,"exon"
+        "9","chrII",14650325,14650538,"-","ZC101.2g.1",1,"exon"
+        "10","chrII",14650593,14650898,"-","ZC101.2g.1",1,"exon"
+        "11","chrII",14651002,14651037,"-","ZC101.2g.1",1,"exon"
+        "12","chrII",14647858,14647918,"-","ZC101.2g.1",1,"intron"
+        "13","chrII",14648143,14648550,"-","ZC101.2g.1",1,"intron"
+        "14","chrII",14648828,14648884,"-","ZC101.2g.1",1,"intron"
+        "15","chrII",14649436,14649493,"-","ZC101.2g.1",1,"intron"
+        "16","chrII",14649608,14649649,"-","ZC101.2g.1",1,"intron"
+        "17","chrII",14649799,14649842,"-","ZC101.2g.1",1,"intron"
+        "18","chrII",14650014,14650059,"-","ZC101.2g.1",1,"intron"
+        "19","chrII",14650280,14650324,"-","ZC101.2g.1",1,"intron"
+        "20","chrII",14650539,14650592,"-","ZC101.2g.1",1,"intron"
+        "21","chrII",14650899,14651001,"-","ZC101.2g.1",1,"intron"
+        "22","chrII",14647324,14647857,"-","ZC101.2e.1",2,"exon"
+    :param bigglist:
+    :param out:
+    :return:
+    """
+
+
 def wrapper_bedtools_intersect2(bedfile1,bedfile2,outfile=None):
     """
     Using two bedfile to get the intsersection of pairs

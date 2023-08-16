@@ -21,7 +21,6 @@ from trackcluster.clustercj import flow_junction_correct
 
 # bar for run
 
-
 #random.seed(1234)
 
 

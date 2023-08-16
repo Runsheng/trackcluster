@@ -8,6 +8,8 @@ Generating similarity matrix using differ between gene models
 make dendrogram for further plotting
 The input is a list of
 """
+import os
+
 # self import
 #from trackcluster.track import bigGenePred
 from trackcluster.utils import del_files
@@ -145,6 +147,8 @@ def cal_distance(bigg_list, intronweight=0.5, by="ratio", tmpdir=None):
     :param by: used to cal the distance between two bigg object, can be "ratio", "ratio_short", "length", "length_short"
     :return: D: distance matrix
     """
+    if tmpdir is None:
+        tmpdir=os.getcwd()
     bigg_list.sort(key=operator.attrgetter("chromStart"))
 
     for i in bigg_list:
