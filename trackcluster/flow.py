@@ -285,7 +285,8 @@ def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000):
 
 
 def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
-                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000,
+                                 find_novelgene=False):
     """
     wkdir and prefix will be passed from external bash wrappers
     :param wkdir:
@@ -339,30 +340,29 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
             bigg_isoform_cov5.append(bigg)
     write_bigg(bigg_isoform_cov5,bigg_isoform_cov5_file)
 
-    # step 3, prepare and run the novel bed
-    print("Step3, Running novel gene finding and clustering")
-    wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
-    bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
-    write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
+    # step 3, prepare and run the novel bed, optional
+    if find_novelgene:
+        print("Step3, Running novel gene finding and clustering")
+        wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
+        bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
+        write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
 
-    # 421 for the new genes,
-    # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
-    # only two left, need to adjust again
-    # try to use the count >5 isoforms to avoid long intron isoform impact
-    wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
+        # 421 for the new genes,
+        # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
+        # only two left, need to adjust again
+        # try to use the count >5 isoforms to avoid long intron isoform impact
+        wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
 
-    # the substract will change the original novel file
-    flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
-    flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
+        # the substract will change the original novel file
+        flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
+        flow_key_clusterj(wkdir, novelname_file, core=core, batchsize=batchsize)
 
-    # glue the novel part and write the file down
-    bigg_nisoform=cat_bed("NOVEL*/*_simple_coveragej.bed") # use ** for all file in the wkdir
-    write_bigg(bigg_nisoform,bigg_isoform_novelgene_file)
-
-
+        # glue the novel part and write the file down
+        bigg_nisoform=cat_bed("NOVEL*/*_simple_coveragej.bed") # use ** for all file in the wkdir
+        write_bigg(bigg_nisoform,bigg_isoform_novelgene_file)
 
     return 1
-########################################################################################################
+    ########################################################################################################
 
 
 
@@ -392,7 +392,8 @@ def flow_key_cluster(wkdir, genename_file, core=30, batchsize=2000, intronweight
 
 
 def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01, f2=0.05, count_cutoff=5,
-                                batchsize=2000, intronweight=0.5,cutoff1=0.05, cutoff2=0.005, scorecutoff=11):
+                                batchsize=2000, intronweight=0.5,cutoff1=0.05, cutoff2=0.005, scorecutoff=11,
+                                find_novelgene=False):
     """
     wkdir and prefix will be passed from external bash wrappers
     the original intersection function will be used
@@ -446,20 +447,20 @@ def flow_cluster_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,f1=0.01
     write_bigg(bigg_isoform_cov5,bigg_isoform_cov5_file)
 
     # step 3, prepare and run the novel bed
-    print("Step3, Running novel gene finding and clustering")
-    wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
-    bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
-    write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
+    if find_novelgene:
+        print("Step3, Running novel gene finding and clustering")
+        wrapper_bedtools_merge(novel_bed, mergefile)  # write mergefile
+        bigg_l = mergedbed2bigg(mergefile, count_cutoff=count_cutoff)
+        write_bigg(bigg_l, bigg_regionmark)  # write bigg_regionmark
 
-    # 421 for the new genes,
-    # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
-    # only two left, need to adjust again
-    # try to use the count >5 isoforms to avoid long intron isoform impact
-    wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
+        # novel should be subtract from the newly annotated isoforms to avoid the 3' short novel isoforms
+        # only two left, need to adjust again
+        # try to use the count >5 isoforms to avoid long intron isoform impact
+        wrapper_bedtools_subtract(bigg_regionmark, bigg_isoform_cov5_file, bigg_regionmark_f, f1=f1, f2=f2)  # write bigg_regionmark_f
 
-    # the substract will change the original novel file
-    flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
-    flow_key_cluster_use(wkdir, novelname_file)
+        # the substract will change the original novel file
+        flow_preparedir(wkdir, prefix, bigg_regionmark_f, novel_bed, genename_file=novelname_file)  # write genename_file
+        flow_key_cluster_use(wkdir, novelname_file)
 
     return 1
 
