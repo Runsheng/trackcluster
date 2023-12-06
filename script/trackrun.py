@@ -152,6 +152,8 @@ version {version}
                             help="prefix of output file, default is the prefix from --sample")
         parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
+        parser.add_argument("--find_novelgene", default="no", type=str,
+                            help="run the novel gene finder or not, default is no, can change to yes if needed")
 
         ###cluster specific para
         parser.add_argument("--tmp", default=None,
@@ -185,7 +187,8 @@ version {version}
                                  batchsize=args.batchsize,
                                  intronweight=args.intronweight,
                                  cutoff1=args.cutoff1,
-                                 cutoff2=args.cutoff2)
+                                 cutoff2=args.cutoff2,
+                                 find_novelgene=args.find_novelgene)
 
 
     def clusterj(self):
@@ -208,6 +211,8 @@ version {version}
                             help="prefix of output file, default is the prefix from --sample")
         parser.add_argument("-b", "--batchsize", default=2000, type=int,
                             help="the max reads can be processed in one batch")
+        parser.add_argument("--find_novelgene", default="no", type=str,
+                            help="run the novel gene finder or not, default is no, can change to yes if needed")
         #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
@@ -227,7 +232,8 @@ version {version}
                                      f1=args.intersect1,
                                      f2=args.intersect2,
                                      count_cutoff=args.count,
-                                     batchsize=args.batchsize)
+                                     batchsize=args.batchsize,
+                                     find_novelgene=args.find_novelgene)
 
     def count(self):
         parser = argparse.ArgumentParser(
