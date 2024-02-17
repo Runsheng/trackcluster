@@ -15,7 +15,7 @@ import logging
 from collections import OrderedDict
 
 # third part import
-from Bio import SeqIO,Seq
+from Bio import SeqIO,Seq,Data
 import gzip
 
 
@@ -67,8 +67,53 @@ def chr_select(record_dict, chro, start,end):
     seq=str(record_dict[chro][start:end].seq)
     return name,seq
 
+def find_longest_orf(sequence, table_id=1, min_protein_length=0):
+    """
+    Find the longest ORF in a given sequence using BioPython.
 
-def myexe(cmd, timeout=10):
+    Args:
+    - sequence (str): The DNA sequence to search within.
+    - table_id (int): The NCBI translation table ID to use.
+    - min_protein_length (int): Minimum length of protein to consider as valid ORF.
+
+    Returns:
+    - Tuple of (start, end, orf_sequence) indicating the longest ORF found.
+    """
+    seq = Seq.Seq(sequence)
+    standard_table = Data.CodonTable.unambiguous_dna_by_id[table_id]
+
+    longest_orf = ""
+    longest_orf_start = None
+    longest_orf_end = None
+
+    for strand, nuc in [(+1, seq), (-1, seq.reverse_complement())]:
+        for frame in range(3):
+            trans = str(nuc[frame:].translate(table_id))
+            trans_len = len(trans)
+            aa_start = 0
+            aa_end = 0
+            while aa_start < trans_len:
+                aa_end = trans.find("*", aa_start)
+                if aa_end == -1:
+                    aa_end = trans_len
+                if aa_end - aa_start >= min_protein_length:
+                    if strand == 1:
+                        start = frame + aa_start * 3
+                        end = frame + aa_end * 3 + 3
+                    else:
+                        start = len(sequence) - (frame + aa_end * 3 + 3)
+                        end = len(sequence) - (frame + aa_start * 3)
+                    orf_seq = sequence[start:end]
+                    if len(orf_seq) > len(longest_orf):
+                        longest_orf = orf_seq
+                        longest_orf_start = start
+                        longest_orf_end = end
+                aa_start = aa_end + 1
+
+    return longest_orf_start, longest_orf_end, longest_orf
+
+
+def myexe(cmd, timeout=100):
     """
     a simple wrap of the shell
     mainly used to run the bwa mem mapping and samtool orders
@@ -83,8 +128,12 @@ def myexe(cmd, timeout=10):
     proc=subprocess.Popen(cmd, shell=True, preexec_fn=setupAlarm,
                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,cwd=os.getcwd())
     #print("Running:  ",  cmd)
-    out, err=proc.communicate()
-    #print("stderr out:  ",err, "\n","return code:  ",proc.returncode)
+    try:
+        out, err=proc.communicate(timeout=timeout)
+        # print("stderr out:  ",err, "\n","return code:  ",proc.returncode)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        out, err = proc.communicate()
     return out
 
 
@@ -119,7 +168,7 @@ def is_package_installed(name):
 
 def set_tmp(wkdir=None):
     """
-    set the the tmp dir to the mem
+    set the tmp dir to the mem
     """
     if wkdir is None:
         aa=os.popen("echo $XDG_RUNTIME_DIR")

@@ -5,7 +5,7 @@
 # @File    : track.py
 
 # third part import
-from trackcluster.utils import chr_select, reverse_complement
+from trackcluster.utils import chr_select, reverse_complement, find_longest_orf
 import os
 
 
@@ -325,7 +325,6 @@ class bigGenePred(object):
             self.get_exon()
         block_sum=self.get_cumsum(self.blockSizes)
 
-
         ### sanity check
         if 0<=mrna_pos<=block_sum[-1]:
             pass
@@ -346,7 +345,7 @@ class bigGenePred(object):
 
         chro_pos=self.chromStart+self.chromStarts[exon_num]+exon_offset
 
-        return self.chrom, chro_pos
+        return chro_pos
 
     def bind_chroseq(self, refdic, gap=0, intron=False):
         """
@@ -375,51 +374,38 @@ class bigGenePred(object):
                 _, seq_intron=chr_select(refdic, chro, start_i, end_i)
                 seq_l.append(seq_intron.lower()) # lower case for intron
         seq_raw="".join(seq_l)
+
         if self.strand=="+":
             seq_out=seq_raw
         else:
             seq_out=reverse_complement(seq_raw)
-
         self.seq_chro="".join(seq_out)
 
-    def orf_find(self, refdic):
+    def get_exon_seq(self, refdic):
+        """
+        get the exon sequence from the reference genome
+        is a specific case for bind_chroseq
+        :param refdic:
+        :return: write seq_mrna to self.seq_mrna
+        """
+        self.bind_chroseq(refdic, gap=0, intron=False)
+        self.seq_mrna= self.seq_chro
+
+    def orf_find(self, refdic, tans_table=1, min_protein_length=0):
         """
         :param: refdic: the reference genome
         """
-        # need self.seq_chro
-        if self.seq_chro is None:
-            return None
-        else:
-            pass
+        # need self.seq_mrna
+        if self.seq_mrna is None:
+            self.get_exon_seq(refdic)
+        start, end, orf_seq=find_longest_orf(self.seq_mrna, tans_table, min_protein_length)
 
-    def find_orfs_with_trans(self, trans_table=1, min_protein_length=10):
-        """
-        compare the three orfs, use the longest one as new protein
-        min size may need to be defined as 30aa?,so cds need to >90
-        :param trans_table:
-        :param min_protein_length:
-        :return:
-        """
-        if self.seq_chro is None:
-            return None
-        else:
-            from Bio.Seq import Seq
-            seq=Seq(self.seq_chro)
+        self.thickStart=self.mrna_pos_to_chro(start)
+        self.thickEnd=self.mrna_pos_to_chro(end)
 
-            seq0=seq.translate(table=1)
-            seq1=seq[1:].translate(table=1)
-            seq2=seq[2:].translate(table=1)
-
-            print((str(seq0)))
-            print("======================================")
-            print((str(seq1)))
-            print("======================================")
-            print((str(seq2)))
-
-            answer=[seq0, seq1, seq2]
-
-
-        return answer
+        # todo, need to add self.cdsStartStat and self.cdsEndStat
+        # need to be  (none, unknown, incomplete, or complete)
+        # with ATG and stop codon should be complete
 
     def is_nmd(self):
         """
