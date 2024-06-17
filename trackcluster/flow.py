@@ -577,7 +577,7 @@ def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None, cor
             fw.write("\n")
 
 
-def flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=None):
+def _flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=None):
     """
     output all files used for further plotting
     :param bigg_read_file:
@@ -601,7 +601,7 @@ def flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=N
 
 
 ############
-def flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
+def _flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
                                  f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
     """
     The overall full run pipeline for impatient people

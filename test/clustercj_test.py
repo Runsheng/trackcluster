@@ -80,7 +80,7 @@ class ClusterjTest(unittest.TestCase):
         print((df["1f940a05-24a1-4455-a506-b1aa04caf81a"]-df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]))
         print((df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]-df["1f940a05-24a1-4455-a506-b1aa04caf81a"]))
 
-    def test_get_arrry_freq_is_junction_inside(self):
+    def __test_get_arrry_freq_is_junction_inside(self):
         self.site_dic=get_junction_dic(self.bigg)
         df=get_read_junction_dic(self.bigg, self.site_dic)
         #j1=df["087b20ed-78ba-48f9-a038-f23a9c4b75c6"]

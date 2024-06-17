@@ -11,7 +11,10 @@ Trackcluster is an isoform calling and quantification pipeline for long RNA/cDNA
 - [Walkthrough](#walkthrough)
 
 ####
-Hint: the ongoing development can be found in the ["dev"](https://github.com/Runsheng/trackcluster/tree/dev) branch.
+The ongoing development can be found in the ["dev"](https://github.com/Runsheng/trackcluster/tree/dev) branch.
+#### TODO: 
+1. fix "fusion" classification. 2. speed for clusterj. 3. splicing leader/5' indicator finding using pyssw. 
+4.add function to get the CDS start (maybe ATG) and CDS end.   
 
 ## <a name="overview"></a>Overview
 A pipeline for reference-based isoform identification and quantification using long reads. This pipeline was designed to use **only** long and nosisy reads to make a valid transcriptome. An indicator for the intact 5' could be very helpful to the pipeline, i.e, the splicing leader in the mRNA of nematodes. 
