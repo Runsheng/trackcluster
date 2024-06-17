@@ -85,6 +85,9 @@ class bigGenePred(object):
         self.seq=None
         self.subread=set() # use to store the reads contained inside the
         self.coverage=0
+        self.seq_mrna=None
+        self.seq_chro=None
+        self.seq_cds=None
 
         self.junction=[]
 
@@ -391,7 +394,7 @@ class bigGenePred(object):
         self.bind_chroseq(refdic, gap=0, intron=False)
         self.seq_mrna= self.seq_chro
 
-    def orf_find(self, refdic, tans_table=1, min_protein_length=0):
+    def get_cds(self, refdic, tans_table=1, min_protein_length=0):
         """
         :param: refdic: the reference genome
         """
@@ -402,6 +405,7 @@ class bigGenePred(object):
 
         self.thickStart=self.mrna_pos_to_chro(start)
         self.thickEnd=self.mrna_pos_to_chro(end)
+        self.seq_cds=orf_seq
 
         # todo, need to add self.cdsStartStat and self.cdsEndStat
         # need to be  (none, unknown, incomplete, or complete)

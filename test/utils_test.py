@@ -50,6 +50,10 @@ class myUtilsTest(unittest.TestCase):
         logger.debug("This is just a test, print number 100 as float" + "," + str(float(1) * 100))
         logger.debug("In total %d line, %s" % (2, "just a test number"))
 
+    def test_find_longest_orf(self):
+        seq="AAATGAACTTGACGAGTAATGAG"
+        print(find_longest_orf(seq))
+
     def tearDown(self):
         self.fafile=None
 

@@ -148,14 +148,16 @@ class Test(unittest.TestCase):
         can only run with ce10 ref
         """
         # ref_dic is a large external file
-        ref_dict=fasta2dic("/data/reference/ce10_ucsc.fa")
+        ref_dict=fasta2dic("/data/reference/ce11.fa")
         bigg_one=self.bigg[30]
+        print(bigg_one)
         bigg_one.bind_chroseq(ref_dict, gap=0, intron=False)
         print((bigg_one.seq_chro))
-        ans=bigg_one.find_orfs_with_trans()
+        bigg_one.orf_find(refdic=ref_dict)
+        print((bigg_one.seq_mrna))
 
-        print(ans)
-        print(bigg_one)
+        print()
+        print(bigg_one.thickStart, bigg_one.thickEnd)
 
     def test_orf(self):
         pass
