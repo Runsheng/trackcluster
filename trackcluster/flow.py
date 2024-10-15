@@ -499,21 +499,27 @@ def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None, cor
     def process_class4(k):
         nanos = gene2isoform[k]
         refs = gene2ref[k]
+        out_class4_s = []
         for bigg in nanos:
             try:
                 out_class4 = flow_class4(bigg, refs, offset=offset)
-                return out_class4
             except IndexError:
-                return None
+                continue
+            out_class4_s.append(out_class4)
+        return out_class4_s
+
     def process_desc(k):
         nanos = gene2isoform[k]
         refs = gene2ref[k]
+        out_descs = []
         for bigg in nanos:
             try:
                 out_desc = flow_desc(bigg, refs, offset=offset)
-                return out_desc
             except IndexError:
-                return None
+                continue
+            out_descs.append(out_desc)
+        return out_descs
+
     print("Running class4")
     class4=parmap(process_class4, tqdm(keys), nprocs=core)
     class4=[x for x in class4 if x is not None]
@@ -601,21 +607,3 @@ def _flow_files_output(bigg_read_file, bigg_isoform_file, bigg_ref_file, prefix=
 
 
 ############
-def _flow_map_convert_clusterj_count(wkdir, prefix, ref_fasta, fastq_l, nano_bed, gff_bed, core=30,
-                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000):
-    """
-    The overall full run pipeline for impatient people
-    :param wkdir:
-    :param prefix:
-    :param ref_fasta:
-    :param fastq_l:
-    :param nano_bed:
-    :param gff_bed:
-    :param core:
-    :param f1:
-    :param f2:
-    :param count_cutoff:
-    :param batchsize:
-    :return:
-    """
-    pass
