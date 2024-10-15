@@ -51,7 +51,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=500):
     if bigg_nano_raw is None:
         return 0
 
-    ### add the bactsize part
+    ### add the batch size part
     n_count = 100
     n = 0
     bigg_nano = junction_pre(bigg_nano_raw, bigg_gff)
