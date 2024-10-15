@@ -174,6 +174,8 @@ version {version}
         if args.prefix is None:
             args.prefix=get_file_prefix(args.sample,sep=".")
 
+        find_novelgene=False if args.find_novelgene=="no" else True
+
         #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
 
         flow_cluster_all_gene_novel(wkdir=args.folder,
@@ -188,7 +190,7 @@ version {version}
                                  intronweight=args.intronweight,
                                  cutoff1=args.cutoff1,
                                  cutoff2=args.cutoff2,
-                                 find_novelgene=args.find_novelgene)
+                                 find_novelgene=find_novelgene)
 
 
     def clusterj(self):
@@ -224,6 +226,8 @@ version {version}
         if args.prefix is None:
             args.prefix=get_file_prefix(args.sample,sep=".")
 
+        find_novelgene=False if args.find_novelgene=="no" else True
+
         flow_clusterj_all_gene_novel(wkdir=args.folder,
                                      prefix=args.prefix,
                                      nano_bed=args.sample,
@@ -233,7 +237,7 @@ version {version}
                                      f2=args.intersect2,
                                      count_cutoff=args.count,
                                      batchsize=args.batchsize,
-                                     find_novelgene=args.find_novelgene)
+                                     find_novelgene=find_novelgene)
 
     def count(self):
         parser = argparse.ArgumentParser(

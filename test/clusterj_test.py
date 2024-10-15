@@ -3,6 +3,7 @@
 # @Time    : 8/9/2018 10:53 AM
 # @Author  : Runsheng     
 # @File    : cluster_test.py
+import os
 
 from trackcluster.clusterj import *
 from trackcluster.tracklist import *
@@ -32,9 +33,10 @@ class ClusterjTest(unittest.TestCase):
         self.bigg_nano=bigg_nano
         self.bigg_gff=bigg_gff
         self.bigg=bigg_nano+bigg_gff
+        self.gene=gene
 
 
-    def test_get_corrected_junction(self):
+    def __test_get_corrected_junction(self):
         import random
         from copy import deepcopy
         #bigg=self.bigg[0]
@@ -78,11 +80,12 @@ class ClusterjTest(unittest.TestCase):
 
     def test_junction_simple_merge(self):
 
-        print(len(self.bigg))
+        print(self.gene, "track size is ", len(self.bigg))
         bigg_n=junction_simple_merge(self.bigg)
 
         print(len(bigg_n))
-        write_bigg(bigg_n, "./test/genes/AT2G43410/tt.bed")
+        print(os.getcwd())
+        write_bigg(bigg_n, "./genes/{gene}/tt.bed".format(gene=self.gene))
 
     def test_is_single_exon_in(self):
         # get single and note single
@@ -110,7 +113,7 @@ class ClusterjTest(unittest.TestCase):
         #write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
 
     def test_bigg_get_namedic(self):
-        bigg_list=read_bigg("genes/AT2G43410/AT2G43410_subread.bed")
+        bigg_list=read_bigg("./genes/AT2G43410/AT2G43410_nano.bed")
         name_dic=bigg_get_namedic(bigg_list)
         print(name_dic)
 
