@@ -215,6 +215,10 @@ version {version}
                             help="the max reads can be processed in one batch")
         parser.add_argument("--find_novelgene", default="no", type=str,
                             help="run the novel gene finder or not, default is no, can change to yes if needed")
+        parser.add_argument("--score", default=11, type=int,
+                            help="The score used to indicate if the 5' is a full length transcript, default is 11, which "
+                                 "means the SW alignment score to identify the 5' leader sequence is 11,"
+                                 "the score can be added by biggmutant.py")
         #args = parser.parse_args(args=None if sys.argv[2:] else ['--help'])
         arg_use=sys.argv[2:]
         if len(arg_use)>=4:
@@ -237,7 +241,9 @@ version {version}
                                      f2=args.intersect2,
                                      count_cutoff=args.count,
                                      batchsize=args.batchsize,
-                                     find_novelgene=find_novelgene)
+                                     find_novelgene=find_novelgene,
+                                     sw_score=args.score)
+
 
     def count(self):
         parser = argparse.ArgumentParser(

@@ -25,7 +25,7 @@ from trackcluster.clustercj import flow_junction_correct
 
 
 # run the clustering for each gene
-def process_one_junction_corrected_try(key, full=False, batchsize=500):
+def process_one_junction_corrected_try(key, full=False, batchsize=500, sw_score=11):
 
     gff_file = "./" + key + "/" + key + "_gff.bed"
     nano_file = "./" + key + "/" + key + "_nano.bed"
@@ -72,7 +72,7 @@ def process_one_junction_corrected_try(key, full=False, batchsize=500):
             n += 1
 
         # less than batchsize and the last collect
-        bigg_new = junction_simple_merge(bigg_nano)
+        bigg_new = junction_simple_merge(bigg_nano, sw_score=sw_score)
 
         logger.info([key, "isoform called:",len(bigg_new),
                                ";read with rare junction:",len(bigg_rare)])

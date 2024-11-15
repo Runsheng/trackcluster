@@ -8,7 +8,6 @@
 This script is used to write the exon information from the bigg file
 can be used to output the
 transcript sequence, CDS sequence and ensemble like EXON(uppercase)+intron(lowercase or N) sequence.
-
 """
 import argparse
 import os,sys,inspect

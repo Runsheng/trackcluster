@@ -144,7 +144,7 @@ def is_single_exon_in(bigg1, bigg2):
                 return True
 
 
-def junction_simple_merge(bigg_list):
+def __junction_simple_merge(bigg_list):
     """
     merge the bigg with same junction to ref list
     merge the bigg with the 5' missing junction to ref list
@@ -202,6 +202,112 @@ def junction_simple_merge(bigg_list):
     bigg_list_new = select_list(bigg_list, keepl)
 
     return bigg_list_new
+
+
+def junction_simple_merge(bigg_list, sw_score=11):
+    """
+    Merge transcripts based on junction information and SL score.
+
+    Transcripts with lower SL scores (indicating potential truncation)
+    and shorter lengths are merged into longer transcripts with higher SL scores.
+
+    Parameters:
+    - bigg_list: List of bigGenePred objects to merge.
+    - sw_score: SL score cutoff (default: 11).
+
+    Returns:
+    - bigg_list_new: Merged list of bigGenePred objects.
+    """
+
+    # Function to decide which transcript to drop based on length and SL score
+    def merge_decision(bigg1, bigg2):
+        """
+        Decide whether to merge bigg1 into bigg2 or vice versa.
+        Returns 'drop_i' to drop bigg1, 'drop_j' to drop bigg2, or None.
+        """
+        if bigg1.exonlen < bigg2.exonlen and bigg1.score < sw_score:
+            return 'drop_i'
+        elif bigg1.exonlen == bigg2.exonlen:
+            if bigg1.score < bigg2.score:
+                return 'drop_i'
+            else:
+                return 'drop_j'
+        elif bigg1.exonlen > bigg2.exonlen and bigg2.score < sw_score:
+            return 'drop_j'
+        else:
+            return None
+
+    fullset = set(range(len(bigg_list)))
+    drop = set()
+
+    # Iterate over pairs of transcripts
+    for i in range(len(bigg_list)):
+        bigg1 = bigg_list[i]
+        bigg1.get_junction()
+        for j in range(i + 1, len(bigg_list)):
+            bigg2 = bigg_list[j]
+            bigg2.get_junction()
+
+            # Check if bigg1 is inside bigg2 based on junctions
+            if is_junction_inside(bigg1, bigg2):
+                decision = merge_decision(bigg1, bigg2)
+                if decision == 'drop_i':
+                    drop.add(i)
+                    bigg2.subread.add(bigg1.name)
+                    bigg2.subread.update(bigg1.subread)
+                elif decision == 'drop_j':
+                    drop.add(j)
+                    bigg1.subread.add(bigg2.name)
+                    bigg1.subread.update(bigg2.subread)
+            # Check if bigg2 is inside bigg1
+            elif is_junction_inside(bigg2, bigg1):
+                decision = merge_decision(bigg2, bigg1)
+                if decision == 'drop_i':
+                    drop.add(j)
+                    bigg1.subread.add(bigg2.name)
+                    bigg1.subread.update(bigg2.subread)
+                elif decision == 'drop_j':
+                    drop.add(i)
+                    bigg2.subread.add(bigg1.name)
+                    bigg2.subread.update(bigg1.subread)
+            # Handle single exon transcripts
+            elif len(bigg1.junction) == 0 or len(bigg2.junction) == 0:
+                if len(bigg1.junction) == 0 and is_single_exon_in(bigg1, bigg2):
+                    decision = merge_decision(bigg1, bigg2)
+                    if decision == 'drop_i':
+                        drop.add(i)
+                        bigg2.subread.add(bigg1.name)
+                        bigg2.subread.update(bigg1.subread)
+                    elif decision == 'drop_j':
+                        drop.add(j)
+                        bigg1.subread.add(bigg2.name)
+                        bigg1.subread.update(bigg2.subread)
+                elif len(bigg2.junction) == 0 and is_single_exon_in(bigg2, bigg1):
+                    decision = merge_decision(bigg2, bigg1)
+                    if decision == 'drop_i':
+                        drop.add(j)
+                        bigg1.subread.add(bigg2.name)
+                        bigg1.subread.update(bigg2.subread)
+                    elif decision == 'drop_j':
+                        drop.add(i)
+                        bigg2.subread.add(bigg1.name)
+                        bigg2.subread.update(bigg1.subread)
+
+    # Keep transcripts not marked for dropping
+    keep = fullset - drop
+    # Always keep annotated isoforms
+    for n, bigg in enumerate(bigg_list):
+        if bigg.ttype == "isoform_anno":
+            keep.add(n)
+
+    keepl = sorted(list(keep))
+    # Update subread information
+    for bigg in bigg_list:
+        bigg.write_subread()
+
+    bigg_list_new = select_list(bigg_list, keepl)
+    return bigg_list_new
+
 
 
 def flow_junction_cluster(bigg_list, bigg_ref):
