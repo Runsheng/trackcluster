@@ -266,7 +266,7 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
 
 ########################################################################################################
 ###################### flow functions for clusterj
-def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000):
+def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000, sw_score=11):
     """
     run clusterj in all prepared folders, folder name from the genename_file
     can be used in both gene and landmark novel gene runs
@@ -278,14 +278,14 @@ def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000):
     os.chdir(wkdir)
 
     gene_l=file2name(genename_file)
-    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize)
+    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize, sw_score=sw_score)
 
     print("###### Run junction cluster ######")
     parmap(process_one, tqdm(gene_l), core)
 
 
 def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
-                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000,
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000,sw_score=11,
                                  find_novelgene=False):
     """
     wkdir and prefix will be passed from external bash wrappers
@@ -327,7 +327,7 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
 
     # step2 use genename to run gene cluster
     print("Step2, Running cluster junction")
-    flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize)
+    flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize, sw_score=sw_score)
 
     # combine the bed file and write the new isoforms out
     bigg_isoform=cat_bed("**/*_simple_coveragej.bed") # use ** for all file in the wkdir
