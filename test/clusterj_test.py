@@ -14,7 +14,7 @@ import unittest
 class ClusterjTest(unittest.TestCase):
     def setUp(self):
         genes=["unc52", "AT1G06860", "AT2G02100", "AT2G43410"]
-        gene=genes[0]
+        gene=genes[2]
 
         bigg_nano=[]
         with open("./genes/{gene}/{gene}_nano.bed".format(gene=gene)) as f:
@@ -107,8 +107,10 @@ class ClusterjTest(unittest.TestCase):
 
     def test_flow_junction_cluster(self):
         bigg_subread=flow_junction_cluster(self.bigg_nano, self.bigg_gff)
-        for i in bigg_subread:
-            print(i)
+
+        print("number of final isoform number:" , len(bigg_subread) )
+        #for i in bigg_subread:
+        #    print(i)
 
         #write_bigg(bigg_subread, "./test/genes/AT2G43410/AT2G43410_subread.bed")
 

@@ -208,8 +208,9 @@ def junction_simple_merge(bigg_list, sw_score=11):
     """
     Merge transcripts based on junction information and SL score.
 
-    Transcripts with lower SL scores (indicating potential truncation)
-    and shorter lengths are merged into longer transcripts with higher SL scores.
+    When one transcript is shorter and inside another based on junctions:
+    - If the shorter read has a score higher than sw_score, keep it.
+    - Else, merge the shorter read into the longer read.
 
     Parameters:
     - bigg_list: List of bigGenePred objects to merge.
@@ -219,79 +220,69 @@ def junction_simple_merge(bigg_list, sw_score=11):
     - bigg_list_new: Merged list of bigGenePred objects.
     """
 
-    # Function to decide which transcript to drop based on length and SL score
-    def merge_decision(bigg1, bigg2):
-        """
-        Decide whether to merge bigg1 into bigg2 or vice versa.
-        Returns 'drop_i' to drop bigg1, 'drop_j' to drop bigg2, or None.
-        """
-        if bigg1.exonlen < bigg2.exonlen and bigg1.score < sw_score:
-            return 'drop_i'
-        elif bigg1.exonlen == bigg2.exonlen:
-            if bigg1.score < bigg2.score:
-                return 'drop_i'
-            else:
-                return 'drop_j'
-        elif bigg1.exonlen > bigg2.exonlen and bigg2.score < sw_score:
-            return 'drop_j'
-        else:
-            return None
-
     fullset = set(range(len(bigg_list)))
     drop = set()
 
+    # Function to decide whether to merge based on the short read's score
+    def should_merge(short_read, long_read, sw_score):
+        """
+        Decide whether to merge the short_read into the long_read.
+        Returns True if the short_read should be merged (dropped), False otherwise.
+        """
+        if short_read.score > sw_score:
+            # Keep the short read
+            return False
+        else:
+            # Merge the short read into the long read
+            return True
+
     # Iterate over pairs of transcripts
     for i in range(len(bigg_list)):
+        if i in drop:
+            continue  # Skip reads already marked for dropping
         bigg1 = bigg_list[i]
         bigg1.get_junction()
-        for j in range(i + 1, len(bigg_list)):
+        for j in range(len(bigg_list)):
+            if j in drop or i == j:
+                continue  # Skip reads already marked for dropping or self-comparison
             bigg2 = bigg_list[j]
             bigg2.get_junction()
 
             # Check if bigg1 is inside bigg2 based on junctions
             if is_junction_inside(bigg1, bigg2):
-                decision = merge_decision(bigg1, bigg2)
-                if decision == 'drop_i':
-                    drop.add(i)
-                    bigg2.subread.add(bigg1.name)
-                    bigg2.subread.update(bigg1.subread)
-                elif decision == 'drop_j':
-                    drop.add(j)
-                    bigg1.subread.add(bigg2.name)
-                    bigg1.subread.update(bigg2.subread)
-            # Check if bigg2 is inside bigg1
-            elif is_junction_inside(bigg2, bigg1):
-                decision = merge_decision(bigg2, bigg1)
-                if decision == 'drop_i':
-                    drop.add(j)
-                    bigg1.subread.add(bigg2.name)
-                    bigg1.subread.update(bigg2.subread)
-                elif decision == 'drop_j':
-                    drop.add(i)
-                    bigg2.subread.add(bigg1.name)
-                    bigg2.subread.update(bigg1.subread)
+                # Determine which is the shorter read
+                if bigg1.exonlen < bigg2.exonlen:
+                    short_read = bigg1
+                    long_read = bigg2
+                    short_index = i
+                    long_index = j
+                else:
+                    short_read = bigg2
+                    long_read = bigg1
+                    short_index = j
+                    long_index = i
+
+                # Decide whether to merge the short read
+                if should_merge(short_read, long_read, sw_score):
+                    drop.add(short_index)
+                    long_read.subread.add(short_read.name)
+                    long_read.subread.update(short_read.subread)
+                    break  # No need to compare the short_read with other transcripts
             # Handle single exon transcripts
-            elif len(bigg1.junction) == 0 or len(bigg2.junction) == 0:
-                if len(bigg1.junction) == 0 and is_single_exon_in(bigg1, bigg2):
-                    decision = merge_decision(bigg1, bigg2)
-                    if decision == 'drop_i':
-                        drop.add(i)
-                        bigg2.subread.add(bigg1.name)
-                        bigg2.subread.update(bigg1.subread)
-                    elif decision == 'drop_j':
-                        drop.add(j)
-                        bigg1.subread.add(bigg2.name)
-                        bigg1.subread.update(bigg2.subread)
-                elif len(bigg2.junction) == 0 and is_single_exon_in(bigg2, bigg1):
-                    decision = merge_decision(bigg2, bigg1)
-                    if decision == 'drop_i':
-                        drop.add(j)
-                        bigg1.subread.add(bigg2.name)
-                        bigg1.subread.update(bigg2.subread)
-                    elif decision == 'drop_j':
-                        drop.add(i)
-                        bigg2.subread.add(bigg1.name)
-                        bigg2.subread.update(bigg1.subread)
+            elif len(bigg1.junction) == 0 and is_single_exon_in(bigg1, bigg2):
+                # bigg1 is single exon inside bigg2
+                # bigg1 is the short read
+                short_read = bigg1
+                long_read = bigg2
+                short_index = i
+                long_index = j
+
+                # Decide whether to merge the short read
+                if should_merge(short_read, long_read, sw_score):
+                    drop.add(short_index)
+                    long_read.subread.add(short_read.name)
+                    long_read.subread.update(short_read.subread)
+                    break  # No need to compare the short_read with other transcripts
 
     # Keep transcripts not marked for dropping
     keep = fullset - drop
