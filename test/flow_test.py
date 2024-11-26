@@ -117,7 +117,7 @@ class flowtest(unittest.TestCase):
         :return:
         """
         # parameters
-        wkdir="/t1/shoudong_488/test/trackall"
+        wkdir="/t1/shoudong_488/test/tracktest"
         prefix="488_aba_1"
         gff_bed="../gene.bed_s"
         nano_bed="../488_aba_1_s.bed"
@@ -127,7 +127,7 @@ class flowtest(unittest.TestCase):
         os.chdir(wkdir)
 
         flow_clusterj_all_gene_novel(nano_bed=nano_bed, gff_bed=gff_bed, prefix=prefix,wkdir=wkdir,
-                                     core=core, f1=f1, f2=f2)
+                                     core=core, f1=f1, f2=f2,batchsize=2000,sw_score=-1,find_novelgene=True )
 
 
     def test_prepare_run_gene_novel_cluster_original(self):
@@ -170,8 +170,7 @@ class flowtest(unittest.TestCase):
         gff_bed = "../gene.bed_s"
         nano_bed = "../488_aba_1_s.bed"
         os.chdir(wkdir)
-        flow_desc_annotation(wkdir, isoform_bed, gff_bed, offset=10, prefix=prefix)
-
+        flow_desc_annotation(wkdir, isoform_bed, gff_bed, offset=5, prefix=prefix)
 
 
     def tearDown(self) -> None:

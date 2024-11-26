@@ -1,5 +1,5 @@
 """
-The main flow file to process one fastq file with
+The main flow file to process mapping, cluster, count and annotation.
 """
 
 from trackcluster.utils import myexe, is_bin_in, get_file_prefix,del_files,parmap, name2file, file2name, list2file, file2list
@@ -285,8 +285,8 @@ def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000, sw_score=11
 
 
 def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
-                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000,sw_score=11,
-                                 find_novelgene=False):
+                                 f1=0.01, f2=0.01, count_cutoff=5, batchsize=2000,sw_score=-1,
+                                 find_novelgene=True):
     """
     wkdir and prefix will be passed from external bash wrappers
     :param wkdir:
@@ -520,16 +520,26 @@ def flow_desc_annotation(wkdir,isoform_bed, gff_bed, offset=10, prefix=None, cor
             out_descs.append(out_desc)
         return out_descs
 
+    def flat_list_one_layer(desc_list):
+        new_l=[]
+        for line in desc_list:
+            if len(line)>0:
+                for line_2 in line:
+                    new_l.append(line_2)
+        return new_l
+
     print("Running class4")
-    class4=parmap(process_class4, tqdm(keys), nprocs=core)
-    class4=[x for x in class4 if x is not None]
+    class4_result=parmap(process_class4, tqdm(keys), nprocs=core)
+    class4=flat_list_one_layer(class4_result)
     print("Running desc")
     desc=parmap(process_desc, tqdm(keys), nprocs=core)
-    desc=[x for x in desc if x is not None]
+    desc_result=[x for x in desc if x is not None]
+    desc=flat_list_one_layer(desc_result)
 
     # IO part
     list2file(desc, filename=prefix+"_desc.txt", sep="\t")
     list2file(class4, filename=prefix+"_class4.txt", sep="\t")
+
 
     # use class4 to make 3 class (the remained all belog to desc)
     fullmatch_more = set([x[0] for x in class4 if "all_matched>" in x[1]])

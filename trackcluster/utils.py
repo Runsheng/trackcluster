@@ -335,8 +335,12 @@ def file2name(genename_file):
 def list2file(ll, filename, sep="\t"):
     with open(filename, "w") as fw:
         for line in ll:
-            fw.write(sep.join(line))
-            fw.write("\n")
+            try:
+                fw.write(sep.join(line))
+                fw.write("\n")
+            except Exception as e:
+                print(e)
+                print("line is",line)
 
 def file2list(filename, sep="\t"):
     ll=[]
