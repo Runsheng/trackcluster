@@ -16,4 +16,9 @@ time complexity is O(n^c), which is not acceptable for genes with expression hig
 With the new RNA002 kit and new basecall models, the read quality is improved to 92% for most samples. And 8% (instead of >15%) 
 of error rate would allow for the junction self-correction before clustering. So we also included the junction self-correction
 methods, and also the clustering methods using junctions (trackclusterj method). The time complexity for trackclusterj is roughly O(nlogn) for most 
-of the cases, which is acceptable for the high expressed genes.
+of the cases, which is acceptable for the high expressed genes. The RNA004 kit is even better, with the read quality improved to 96% for most samples. The error rate is around 4-5%, 
+which is much lower than the previous kits. And the junction mod can work pretty well for these two kits. 
+
+The junction self-correction method is not designed for the original RNA001 kit, as the error rate is too high. 
+The junction self-correction method works well for RNA002/004 kits, and it is not recommended to use for RNA001 data or RNA002 
+data using old versions of Guppy (before 3.3), or even ablacore with read accuracy around 83%. 

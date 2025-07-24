@@ -66,13 +66,15 @@ def read_bigg(bigg_file):
     :param bigg_file:
     :return: bigg_list
     """
-    bigg_list=[]
+    bigg_list = []
+    bgp = bigGenePred
+    append = bigg_list.append
     with open(bigg_file, "r") as f:
-        for line in f.readlines():
-            bigg_one=bigGenePred()
-            bigg_one.from_string(line.strip())
-            bigg_list.append(bigg_one)
-
+        for line in f:
+            line = line.rstrip("\n")
+            obj = bgp()
+            obj.from_string(line)
+            append(obj)
     return bigg_list
 
 

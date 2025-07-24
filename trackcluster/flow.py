@@ -17,6 +17,8 @@ import logging
 import os
 import functools
 from collections import deque
+import gc
+from multiprocessing import Pool
 
 #third party lib
 from pysam import AlignmentFile
@@ -268,20 +270,45 @@ def flow_count(wkdir, prefix, nano_bed, isoform_bed, gff_bed):
 ###################### flow functions for clusterj
 def flow_key_clusterj(wkdir, genename_file, core=30, batchsize=2000, sw_score=11):
     """
-    run clusterj in all prepared folders, folder name from the genename_file
-    can be used in both gene and landmark novel gene runs
-    :param wkdir:
-    :param genename_file:the namelist key file for the folders
-    :param core:
-    :return:
+    Run clusterj in all prepared folders, folder name from the genename_file.
+    Optimized for high read numbers with better memory management and load balancing.
+    
+    :param wkdir: Working directory
+    :param genename_file: The namelist key file for the folders
+    :param core: Number of CPU cores to use
+    :param batchsize: Size of batches for read processing
+    :param sw_score: Score threshold for Smith-Waterman alignment
+    :return: None
     """
     os.chdir(wkdir)
 
-    gene_l=file2name(genename_file)
-    process_one=functools.partial(process_one_junction_corrected_try, batchsize=batchsize, sw_score=sw_score)
+    gene_l = file2name(genename_file)
+    process_one = functools.partial(process_one_junction_corrected_try, 
+                                  batchsize=batchsize, 
+                                  sw_score=sw_score)
 
     print("###### Run junction cluster ######")
-    parmap(process_one, tqdm(gene_l), core)
+
+    # Calculate optimal chunk size based on number of genes and cores
+    # Using a larger chunk size reduces overhead from task distribution
+    total_genes = len(gene_l)
+    optimal_chunk_size = max(10, total_genes // (core * 2))
+
+    # Process genes in chunks to manage memory better
+    genes_per_chunk = 1000  # Process 1000 genes at a time
+    for i in range(0, total_genes, genes_per_chunk):
+        chunk_genes = gene_l[i:i + genes_per_chunk]
+        
+        with Pool(processes=core, maxtasksperchild=100) as pool:
+            # Use imap_unordered for better load balancing
+            for _ in tqdm(pool.imap_unordered(process_one, chunk_genes, 
+                                            chunksize=optimal_chunk_size),
+                         total=len(chunk_genes),
+                         desc=f"Processing chunk {i//genes_per_chunk + 1}"):
+                pass
+        
+        # Force garbage collection between chunks
+        gc.collect()
 
 
 def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
@@ -324,12 +351,15 @@ def flow_clusterj_all_gene_novel(wkdir, prefix,nano_bed, gff_bed, core=30,
                              genename_file=genename_file,
                              f1=f1, f2=f2)
     print("Gene name format example: ", gene_l[0])
+    del(gene_l)
+    gc.collect()
 
     # step2 use genename to run gene cluster
     print("Step2, Running cluster junction")
     flow_key_clusterj(wkdir, genename_file, core=core, batchsize=batchsize, sw_score=sw_score)
 
     # combine the bed file and write the new isoforms out
+    print("clusterj finished, read and write the isoform files")
     bigg_isoform=cat_bed("**/*_simple_coveragej.bed") # use ** for all file in the wkdir
     write_bigg(bigg_isoform,bigg_isoform_file)
 

@@ -29,5 +29,8 @@ The artificial sequence could be used to indicate full length read. For example,
 decapping the 5' G cap and adding the 5' artificial sequence. Some old fashion ways like 5'RACE will also give the users
 some 5' sequences to indicate the start of a transcript.
 
+We have developed a seperated tool called SLRanger to detect possible SL sequences in C. elegans. The pipeline can be modified 
+to be used in the detection of any 5' indicator.
+
 
 

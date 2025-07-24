@@ -129,6 +129,28 @@ class flowtest(unittest.TestCase):
         flow_clusterj_all_gene_novel(nano_bed=nano_bed, gff_bed=gff_bed, prefix=prefix,wkdir=wkdir,
                                      core=core, f1=f1, f2=f2,batchsize=2000,sw_score=-1,find_novelgene=True )
 
+    def test_prepare_run_gene_novel_large_ram(self):
+        """
+        batch test for full gene and novel run
+        :return:
+        """
+        # parameters
+        wkdir = "/t1/wangli/tracktest"
+        prefix = "mouse"
+        gff_bed = "../Mus_sorted.bed"
+        nano_bed = "../reads_sorted.bed"
+        f1 = 0.01
+        f2 = 0.05
+        core = 10
+        os.chdir(wkdir)
+
+        # only the first time
+        #flow_clusterj_all_gene_novel(nano_bed=nano_bed, gff_bed=gff_bed, prefix=prefix, wkdir=wkdir,
+        #                             core=core, f1=f1, f2=f2, batchsize=2000, sw_score=-1, find_novelgene=True)
+
+        #the second run
+        flow_key_clusterj(wkdir, genename_file, core=core, batchsize=2000, sw_score=11)
+
 
     def test_prepare_run_gene_novel_cluster_original(self):
         """
